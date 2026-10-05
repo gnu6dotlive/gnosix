@@ -1,0 +1,10 @@
+# Pinned to the toolchain the full qualification matrix was validated on.
+#
+# The rule is "known passing toolchain -> pin", not "latest -> hope". This is
+# the release the Phase 4 matrix passed on, recorded rather than upgraded to.
+# 1.97.1 and nightly are also installed on the development host; neither is
+# qualified, so neither is pinned.
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]
+profile = "minimal"

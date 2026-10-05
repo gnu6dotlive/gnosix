@@ -1,0 +1,17 @@
+[package]
+name = "in-gnu-os-settings-read-model"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Read-only effective settings projection over Gnosix R11 output identity and R12 desktop profiles"
+
+[dependencies]
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }
+in-gnu-os-desktop-profiles = { path = "../in-gnu-os-desktop-profiles" }
+in-gnu-os-output-identity = { path = "../in-gnu-os-output-identity" }
+in-gnu-os-output-identity-projection = { path = "../in-gnu-os-output-identity-projection" }
+sha2 = "0.10.9"
+
+[dev-dependencies]
+serde_json = "1"

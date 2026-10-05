@@ -1,0 +1,21 @@
+[Unit]
+Description=GNOSIX in.gnu.os activation authority
+Documentation=man:systemd.special(7)
+After=graphical-session.target
+PartOf=graphical-session.target
+StartLimitIntervalSec=60s
+StartLimitBurst=5
+
+[Service]
+Type=notify
+NotifyAccess=main
+ExecStart=/usr/libexec/gnosix/in-gnu-os-activationd
+Restart=on-failure
+RestartSec=5s
+# The process can remain STARTING until the compositor/session is available.
+TimeoutStartSec=infinity
+TimeoutStopSec=3s
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=graphical-session.target

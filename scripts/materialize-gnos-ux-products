@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+cd "$repo_root"
+
+CARGO_TARGET_DIR=target/gnosix cargo build --release -p gnos-ux-gpui --bin gnos-ux-bar --bin gnos-ux-dock
+mkdir -p target/gnosix/bin
+cp target/gnosix/release/gnos-ux-bar target/gnosix/bin/gnos.ux.bar
+cp target/gnosix/release/gnos-ux-dock target/gnosix/bin/gnos.ux.dock
+
+file target/gnosix/bin/gnos.ux.bar target/gnosix/bin/gnos.ux.dock
+sha256sum target/gnosix/bin/gnos.ux.bar target/gnosix/bin/gnos.ux.dock
+printf '%s\n' "target/gnosix/bin/gnos.ux.bar" "target/gnosix/bin/gnos.ux.dock"

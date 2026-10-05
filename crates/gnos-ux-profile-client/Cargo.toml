@@ -1,0 +1,12 @@
+[package]
+name = "gnos-ux-profile-client"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+[dependencies]
+in-gnu-os-caller-auth = { path = "../in-gnu-os-caller-auth" }
+libc = "0.2"
+in-gnu-os-desktop-profiles = { path = "../in-gnu-os-desktop-profiles" }
+zbus = "5.19.0"
+serde_json = "1"

@@ -1,0 +1,8 @@
+[package]
+name = "gnosix-desktop-model"
+version = "0.1.0"
+edition = "2021"
+description = "Deterministic semantic and value types for gnosix-desktop"
+license.workspace = true
+[dependencies]
+thiserror = "1.0"

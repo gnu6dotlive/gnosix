@@ -1,0 +1,36 @@
+[package]
+name = "gnosix-hyprland"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[features]
+default = []
+r13-live-qualification = ["in-gnu-os-activation/r13-live-qualification"]
+r14-production-host = []
+r13-production-dbus = ["r14-production-host", "in-gnu-os-activation/r13-production-issuer", "dep:gnosix-activation-protocol", "dep:zbus", "dep:in-gnu-os-caller-auth"]
+
+[[bin]]
+name = "in-gnu-os-activationd"
+path = "src/bin/in-gnu-os-activationd.rs"
+required-features = ["r14-production-host"]
+
+[dependencies]
+gnos-ux-surface = { path = "../gnos-ux-surface" }
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }
+gnosix-activation-protocol = { path = "../gnosix-activation-protocol", optional = true }
+in-gnu-os-activation = { path = "../in-gnu-os-activation" }
+serde_json = "1"
+sha2 = "0.10.9"
+uuid = { version = "1.26.1", features = ["v4", "v5"] }
+signal-hook = "0.3.18"
+zbus = { version = "5.19.0", optional = true }
+libc = "0.2"
+
+[dev-dependencies]
+serde_json = "1"
+
+[dependencies.in-gnu-os-caller-auth]
+path = "../in-gnu-os-caller-auth"
+optional = true

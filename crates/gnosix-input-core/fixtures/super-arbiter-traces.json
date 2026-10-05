@@ -1,0 +1,108 @@
+[
+  {
+    "name": "isolated-super-tap",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": [{"device":1,"side":"Left"}]
+  },
+  {
+    "name": "super-w-key-chord",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"KeyDown":{"device":1,"code":25,"repeat":false}},
+      {"KeyUp":{"device":1,"code":25}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-shift-s-screenshot-chord",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"KeyDown":{"device":1,"code":42,"repeat":false}},
+      {"KeyDown":{"device":1,"code":31,"repeat":false}},
+      {"KeyUp":{"device":1,"code":31}},
+      {"KeyUp":{"device":1,"code":42}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-pointer-drag",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"PointerDown":{"device":1,"button":272}},
+      "PointerDrag",
+      {"PointerUp":{"device":1,"button":272}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-pointer-resize",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"PointerDown":{"device":1,"button":273}},
+      "PointerDrag",
+      {"PointerUp":{"device":1,"button":273}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "repeat-only-super-does-not-tap",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":true}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "left-and-right-super-are-distinct",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Left"}},
+      {"SuperDown":{"device":1,"side":"Right","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Right"}}
+    ],
+    "expected_taps": [
+      {"device":1,"side":"Left"},
+      {"device":1,"side":"Right"}
+    ]
+  },
+  {
+    "name": "reload-cancels-pending-gesture",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"Cancel":"Reload"},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "lost-release-cannot-become-later-tap",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"Cancel":"LostRelease"},
+      {"SuperUp":{"device":1,"side":"Left"}},
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "rapid-isolated-taps-remain-individual",
+    "events": [
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Left"}},
+      {"SuperDown":{"device":1,"side":"Left","repeat":false}},
+      {"SuperUp":{"device":1,"side":"Left"}}
+    ],
+    "expected_taps": [
+      {"device":1,"side":"Left"},
+      {"device":1,"side":"Left"}
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+[package]
+name = "in-gnu-os-activation"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Typed, freshness-fenced activation authority contract for in.gnu.os"
+license.workspace = true
+[features]
+default = []
+r13-live-qualification = []
+r13-production-issuer = []
+
+[dependencies]
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }

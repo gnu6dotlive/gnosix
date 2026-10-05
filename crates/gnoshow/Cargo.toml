@@ -1,0 +1,24 @@
+[package]
+name = "gnoshow"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[features]
+hyp-focus = ["dep:gnos-ux-surface"]
+
+[dependencies]
+anyhow = "1.0"
+bytemuck = { version = "1.24", features = ["derive"] }
+gnos-ux-surface = { path = "../gnos-ux-surface", optional = true }
+pollster = "0.4"
+raw-window-handle = "0.6"
+smithay-client-toolkit = "0.20"
+wayland-client = { version = "0.31.15", features = ["system"] }
+wgpu = { version = "30.0.1", default-features = false, features = ["std", "vulkan", "wgsl"] }
+
+[[bin]]
+name = "gnoshow-hyp-focus"
+path = "src/bin/gnoshow-hyp-focus.rs"
+required-features = ["hyp-focus"]

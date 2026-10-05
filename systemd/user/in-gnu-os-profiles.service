@@ -1,0 +1,13 @@
+[Unit]
+Description=GNOSIX bounded R12-B Bar preference authority
+After=dbus.socket
+
+[Service]
+Type=dbus
+BusName=in.gnu.os.DesktopProfiles1
+# Deployment-only configuration. No implicit store creation or recovery.
+EnvironmentFile=%h/.config/gnosix/profile-authority.env
+ExecStart=/usr/libexec/gnosix/in-gnu-os-profiled --profile-directory ${GNOSIX_PROFILE_DIRECTORY} --identity-directory ${GNOSIX_IDENTITY_DIRECTORY} --profile-id ${GNOSIX_SELECTED_PROFILE_ID}
+Restart=no
+TimeoutStopSec=3s
+KillSignal=SIGTERM

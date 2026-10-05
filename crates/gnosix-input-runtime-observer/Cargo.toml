@@ -1,0 +1,15 @@
+[package]
+name = "gnosix-input-runtime-observer"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Receipt-only runtime observer for bounded Gnosix compositor input projections"
+
+[dependencies]
+gnosix-input-observation = { path = "../gnosix-input-observation" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[lints.rust]
+unsafe_code = "forbid"

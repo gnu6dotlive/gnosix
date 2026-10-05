@@ -1,0 +1,17 @@
+[package]
+name = "gnosix-input-core"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Pure semantic input arbitration, resolution and forbidden-apply planning"
+
+[dependencies]
+in-gnu-os-settings-core = { path = "../in-gnu-os-settings-core" }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1"
+
+[lints.rust]
+unsafe_code = "forbid"

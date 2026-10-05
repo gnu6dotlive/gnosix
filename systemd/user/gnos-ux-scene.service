@@ -1,0 +1,18 @@
+[Unit]
+Description=GNOSIX GNOS.UX product scene
+Documentation=man:systemd.special(7)
+After=graphical-session.target
+PartOf=graphical-session.target
+StartLimitIntervalSec=60s
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/usr/libexec/gnosix/gnos-ux-scene --sdk8-topology-reconcile --product-scene
+Restart=on-failure
+RestartSec=2s
+TimeoutStopSec=3s
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=graphical-session.target

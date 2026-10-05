@@ -1,0 +1,7 @@
+[package]
+name = "gnosix-activation-protocol"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Passive wire vocabulary for Gnosix activation IPC"

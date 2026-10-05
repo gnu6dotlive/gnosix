@@ -1,0 +1,10 @@
+[package]
+name = "gnosix-application-catalog"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[dependencies]
+in-gnu-os-settings-core = { path = "../in-gnu-os-settings-core" }
+sha2 = "0.10.9"

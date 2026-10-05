@@ -1,0 +1,13 @@
+[package]
+name = "gnos-ux-activation-client"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "GNOS.UX local authenticated activation transport client"
+
+[dependencies]
+gnos-ux-product-intent = { path = "../gnos-ux-product-intent" }
+gnosix-activation-protocol = { path = "../gnosix-activation-protocol" }
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }
+zbus = "5.19.0"

@@ -1,0 +1,20 @@
+[package]
+name = "xtask"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Canonical local-first verification, provenance and CI entry point for GNOSIX"
+
+[dependencies]
+# Already a workspace dependency elsewhere. Reusing it keeps Phase 5 from
+# adding supply chain for a JSON writer, which is the main reason a tooling
+# crate reaches for a dependency in the first place.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+gnosix-input-core = { path = "../crates/gnosix-input-core" }
+gnosix-application-catalog = { path = "../crates/gnosix-application-catalog" }
+gnosix-application-launch = { path = "../crates/gnosix-application-launch" }
+
+[lints.rust]
+unsafe_code = "forbid"

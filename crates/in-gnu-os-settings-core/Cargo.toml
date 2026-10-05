@@ -1,0 +1,9 @@
+[package]
+name = "in-gnu-os-settings-core"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+description = "Pure contracts for Gnosix settings catalog, defaults, apply semantics, and authorization request lifecycle"
+
+[dependencies]
+in-gnu-os-desktop-profiles = { path = "../in-gnu-os-desktop-profiles" }

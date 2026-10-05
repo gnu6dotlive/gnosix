@@ -1,0 +1,14 @@
+[package]
+name = "gnosix-application-launch"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[features]
+# Opt-in only for controlled local harnesses; never production AppStack.
+controlled-direct = []
+
+[dependencies]
+gnosix-application-catalog = { path = "../gnosix-application-catalog" }
+zbus = "5.19.0"

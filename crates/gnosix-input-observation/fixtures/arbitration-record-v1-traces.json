@@ -1,0 +1,836 @@
+[
+  {
+    "name": "isolated-super-tap",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": [
+      {
+        "device": 1,
+        "side": "Left"
+      }
+    ]
+  },
+  {
+    "name": "super-w-key-chord",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 25,
+            "pressed": true,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 25,
+            "pressed": false,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-shift-s-screenshot-chord",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 42,
+            "pressed": true,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 31,
+            "pressed": true,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 31,
+            "pressed": false,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "key_participation",
+          "data": {
+            "code": 42,
+            "pressed": false,
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 7,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-pointer-drag",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_participation",
+          "data": {
+            "button": 272,
+            "pressed": true
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_gesture_claimed",
+          "data": {
+            "phase": "started",
+            "operation": "move_window"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_participation",
+          "data": {
+            "button": 272,
+            "pressed": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "super-pointer-resize",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_participation",
+          "data": {
+            "button": 273,
+            "pressed": true
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_gesture_claimed",
+          "data": {
+            "phase": "started",
+            "operation": "resize_window"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "pointer_participation",
+          "data": {
+            "button": 273,
+            "pressed": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "repeat-only-super-does-not-tap",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": true
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "left-and-right-super-are-distinct",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "right",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "right"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": [
+      {
+        "device": 1,
+        "side": "Left"
+      },
+      {
+        "device": 1,
+        "side": "Right"
+      }
+    ]
+  },
+  {
+    "name": "reload-cancels-pending-gesture",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "sequence_cancelled",
+          "data": {
+            "reason": "config_reload"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "lost-release-cannot-become-later-tap",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "sequence_cancelled",
+          "data": {
+            "reason": "lost_release"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 7,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": []
+  },
+  {
+    "name": "rapid-isolated-taps-remain-individual",
+    "boundary": {
+      "schema": "gnosix.compositor.arbitration.v1",
+      "compositor_instance": 77,
+      "first_event_sequence": 1,
+      "state_generation": 1,
+      "input_state": "all_released"
+    },
+    "records": [
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 1,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 2,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 3,
+        "gesture_sequence": 1,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 4,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_pressed",
+          "data": {
+            "side": "left",
+            "repeat": false
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 5,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "modifier_released",
+          "data": {
+            "side": "left"
+          }
+        }
+      },
+      {
+        "schema": "gnosix.compositor.arbitration.v1",
+        "compositor_instance": 77,
+        "event_sequence": 6,
+        "gesture_sequence": 2,
+        "device": 1,
+        "event": {
+          "kind": "gesture_ended"
+        }
+      }
+    ],
+    "expected_taps": [
+      {
+        "device": 1,
+        "side": "Left"
+      },
+      {
+        "device": 1,
+        "side": "Left"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1354 @@
+{
+  "file_count": 267,
+  "files": [
+    {
+      "bytes": 281,
+      "path": ".cargo/config.toml",
+      "sha256": "359ac138ea65994d351884e95e446eda3501f1bfdb9aba0c63a37d325403aa42"
+    },
+    {
+      "bytes": 66667,
+      "path": ".github/assets/gnosix-architecture.png",
+      "sha256": "b889d634856e095c24821bd8053402081447f1eb7c6c4f6dc97d52695758dd32"
+    },
+    {
+      "bytes": 81130,
+      "path": ".github/assets/gnosix-evidence.png",
+      "sha256": "753a20c67395f2df0d400c98f9e0c9935aa6e77a8561b6261707b4352d0ac879"
+    },
+    {
+      "bytes": 120775,
+      "path": ".github/assets/gnosix-hero.png",
+      "sha256": "5e35bb8e9e1ff7626d1dd9a1050edb2f009cddc2b1b082aba6771a6a88ad2ef2"
+    },
+    {
+      "bytes": 158136,
+      "path": ".github/assets/gnosix-social-preview.png",
+      "sha256": "1214d56df60a2c7d9e341315c86684deb990639f4be9043c5b159a914882eda9"
+    },
+    {
+      "bytes": 6930,
+      "path": ".github/workflows/ci.yml",
+      "sha256": "680194d6f3fe9d267e74e8950bde323cc107f30288b2a8a4b36719d7c763c016"
+    },
+    {
+      "bytes": 35,
+      "path": ".gitignore",
+      "sha256": "7a5cdc2d06218216df66d2d8eeca3858a8213d58132a742c90aac8481a31cfd3"
+    },
+    {
+      "bytes": 2894,
+      "path": "AGENTS.md",
+      "sha256": "f42206e86582150c0d017da0054587e580b77d81c05f34f3b0444152275cdc7e"
+    },
+    {
+      "bytes": 4364,
+      "path": "ARCHITECTURE.md",
+      "sha256": "9d0a5ef864441c2c7070e4d3de219bf452b869f1072f6d9f03b68ac2253dc828"
+    },
+    {
+      "bytes": 3053,
+      "path": "AUTHORITY.md",
+      "sha256": "710aa3a43c183e8915c10341c1b01e69cfda75314f09187a76a8f1bdab423088"
+    },
+    {
+      "bytes": 2146,
+      "path": "CONTRIBUTING.md",
+      "sha256": "dd331c533f1f4f98bd94f0d2ac20923c8cda3f8559139e440ee55dbe08162ecc"
+    },
+    {
+      "bytes": 187459,
+      "path": "Cargo.lock",
+      "sha256": "202c008c34cfb80e972355192a9c1b6d6181666dece2dad2aedf62798f484946"
+    },
+    {
+      "bytes": 1239,
+      "path": "Cargo.toml",
+      "sha256": "dfd4d315db7e73167d65cb2d6b5f419e1d6a8d198f0d0cced008f95536bc886b"
+    },
+    {
+      "bytes": 35149,
+      "path": "LICENSE",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "bytes": 1575,
+      "path": "NAMING.md",
+      "sha256": "156e001cd6df7af04e148661b9906a23c14e8660589e53b0c3c728269da1fad5"
+    },
+    {
+      "bytes": 3701,
+      "path": "README.md",
+      "sha256": "83f8eb9a255268b9719204e122b33aa3831d660b24cd5726ff1337ac0dc2d6f8"
+    },
+    {
+      "bytes": 1549,
+      "path": "SECURITY.md",
+      "sha256": "fdab625cfa5ad2c0f6cc86543ea604fa41a4b8dbb296317f9f8ec40547b0a036"
+    },
+    {
+      "bytes": 1003,
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "166236a9c05b0ac101eca9a786ae24b7c0a73c58f8452672e7d29b22c00cd0a6"
+    },
+    {
+      "bytes": 421,
+      "path": "crates/gnos-ux-activation-client/Cargo.toml",
+      "sha256": "b6b2071e495507a0e4bf0ccc50dcd08cd1532d37d15d25ca7c975d368fbb2ea4"
+    },
+    {
+      "bytes": 6860,
+      "path": "crates/gnos-ux-activation-client/src/lib.rs",
+      "sha256": "618dae30ed3c70e94382bd08eec8a8ff0457c4a4e16b5785aebc087bf5421f80"
+    },
+    {
+      "bytes": 2588,
+      "path": "crates/gnos-ux-gpui/Cargo.toml",
+      "sha256": "50244f0e3562f52f5cb616a1e96d6fbe24ca15633995263034a78057c9905c6d"
+    },
+    {
+      "bytes": 19086,
+      "path": "crates/gnos-ux-gpui/src/bar_placement_lab.rs",
+      "sha256": "e9d072e091f7dd60d891def5963e605ee6c54b5fa877a95ee53b111523f00eed"
+    },
+    {
+      "bytes": 22841,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-bar-envelope-qualify.rs",
+      "sha256": "1f15f4e357cb4241336e055303e72c65755b7c9990d5d2ea33a586bced936ec2"
+    },
+    {
+      "bytes": 3976,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-bar-placement-lab.rs",
+      "sha256": "3ce2292342cfbd0469f8f92ba2096ec80209746d791b78e46db6551dc06d25a0"
+    },
+    {
+      "bytes": 474,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-bar.rs",
+      "sha256": "bfea95399532cebfe096be1dafa73a4cad5e11fc58432480a96bd5051bab48ab"
+    },
+    {
+      "bytes": 18470,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-dock-envelope-qualify.rs",
+      "sha256": "8cae478df7955da345ca826b44b73b376892fa5ef4ab46bd2397d26adda3b812"
+    },
+    {
+      "bytes": 476,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-dock.rs",
+      "sha256": "f76403c95169718c6946b8fb73db336751bc1e50461f564d60c462af5cb14aaf"
+    },
+    {
+      "bytes": 17874,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-envelope-cli.rs",
+      "sha256": "8a2fe087ca3f6133aea6899823e970d6bcdf10d0dbd0b206b9ec6dc82cd23ded"
+    },
+    {
+      "bytes": 200158,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-envelope-qualify.rs",
+      "sha256": "509d85259851641a377cf58fc1708e7e9d99afc21a32cc3fb4ccecaa1f3c0c5b"
+    },
+    {
+      "bytes": 50262,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-lab.rs",
+      "sha256": "fc1e528b416d0a7c33b69d7838ec53b8f3e6f108d956d75e22095390b89e58b6"
+    },
+    {
+      "bytes": 235,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-scene.rs",
+      "sha256": "277ab631971cd663676285b448e4d926b5e27ed16c001afd6e6d62b9daea6fce"
+    },
+    {
+      "bytes": 1712,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-topology-lab.rs",
+      "sha256": "d84ec06e67b0cec32cc2aa71e949a05d668eda5221d243d8e912e15ec27eed72"
+    },
+    {
+      "bytes": 8659,
+      "path": "crates/gnos-ux-gpui/src/geometry_lab.rs",
+      "sha256": "9b95623debe4014d76ae71a54064b3719002bdb22405251585cf75d97b5f9282"
+    },
+    {
+      "bytes": 7811,
+      "path": "crates/gnos-ux-gpui/src/hyprland_live.rs",
+      "sha256": "e3b3d4beb4eaba129a473a29471e210bb701b7867ba2d44f6a2b19ea174f6ca6"
+    },
+    {
+      "bytes": 16571,
+      "path": "crates/gnos-ux-gpui/src/lab_appstack_surface.rs",
+      "sha256": "86bbda91945a48478bae7f2ee2912fbe97ebf0e78f12c14edf055ca75aebdcbd"
+    },
+    {
+      "bytes": 32419,
+      "path": "crates/gnos-ux-gpui/src/lab_topology_compare.rs",
+      "sha256": "e8f36edcc89b385f616499f196320e4847dff33553418a56d0cf37a4e58c80b0"
+    },
+    {
+      "bytes": 46084,
+      "path": "crates/gnos-ux-gpui/src/lab_topology_view.rs",
+      "sha256": "6fb5fc7994b6733ef837bc3d85a3e924202ce41160dea7bb199387c4a76a8329"
+    },
+    {
+      "bytes": 6481,
+      "path": "crates/gnos-ux-gpui/src/lib.rs",
+      "sha256": "3c3e9130feb58fc3d11d4808ce61de287987d2b256985144169d40a5bcea7f19"
+    },
+    {
+      "bytes": 12464,
+      "path": "crates/gnos-ux-gpui/src/lifecycle.rs",
+      "sha256": "29aa4ccf0e134b03135643e4ce9c45ce250c5d53bf0c94dcfd8f46eaa31e5370"
+    },
+    {
+      "bytes": 4045,
+      "path": "crates/gnos-ux-gpui/src/motion_preference.rs",
+      "sha256": "e5595fd53df5216db7650e3e3fa6e0f56b4cf440421cb30bbf72ddfe6da8f2db"
+    },
+    {
+      "bytes": 6652,
+      "path": "crates/gnos-ux-gpui/src/product_appstack.rs",
+      "sha256": "e4e2f7b5ac86c52f0aff8c1a7b2ff8095df94a51d283dc1d520e18fe2a3a6fbe"
+    },
+    {
+      "bytes": 15688,
+      "path": "crates/gnos-ux-gpui/src/product_appstack/tests.rs",
+      "sha256": "850cbadef50bb93bf0e391c1804167f40892475afabcc13838f6284e832f8644"
+    },
+    {
+      "bytes": 672,
+      "path": "crates/gnos-ux-gpui/src/product_appstack_view.rs",
+      "sha256": "bf5c557aa3adb53c6621dbc4a7bcd1a29d3eb61691de9a404d36956c9471655a"
+    },
+    {
+      "bytes": 14964,
+      "path": "crates/gnos-ux-gpui/src/product_bar.rs",
+      "sha256": "71dd694b0046cca4b59226afbd939eadd72637feeb35fd426afeecd0c0994c96"
+    },
+    {
+      "bytes": 15200,
+      "path": "crates/gnos-ux-gpui/src/product_bar_interaction.rs",
+      "sha256": "af5cd2f11665ce4469f894df116f49876c63947ffe6d5f4fdcbcd96081dfac98"
+    },
+    {
+      "bytes": 25612,
+      "path": "crates/gnos-ux-gpui/src/product_bar_settings.rs",
+      "sha256": "d2bb19745834d2a154c89ddbb874928c3c32349f696ffe6636eaef8a19341f94"
+    },
+    {
+      "bytes": 18646,
+      "path": "crates/gnos-ux-gpui/src/product_controller.rs",
+      "sha256": "347c7bc6e047bcb2f3434c18558f4f24daf8ca6660c28539a05283b5d8a27c25"
+    },
+    {
+      "bytes": 29644,
+      "path": "crates/gnos-ux-gpui/src/product_design.rs",
+      "sha256": "e450a9844c65c5f3c4a20262dcc39dd72a1ed6fc2ae02b7502c976ec73d789d2"
+    },
+    {
+      "bytes": 12040,
+      "path": "crates/gnos-ux-gpui/src/product_diagnostics.rs",
+      "sha256": "981e0713f4548aa2b2978c7325e7af861874deaae5468d96a5317b7b32808d62"
+    },
+    {
+      "bytes": 30645,
+      "path": "crates/gnos-ux-gpui/src/product_focus.rs",
+      "sha256": "6ca1ac04b9dce571ecce80fd209e4aabfa002b7a76896b1c53c4f7aa42a4aa01"
+    },
+    {
+      "bytes": 11621,
+      "path": "crates/gnos-ux-gpui/src/product_focus_coordinator.rs",
+      "sha256": "f31379e2c57099f0b18f65cd503c48d2511c794d091277c893dd570f0424993f"
+    },
+    {
+      "bytes": 5717,
+      "path": "crates/gnos-ux-gpui/src/product_hull.rs",
+      "sha256": "2c2bd05d73769a5a04de365af0f739fbedbbfc9fa1b3f342f9bf2b3e384ccbe3"
+    },
+    {
+      "bytes": 5152,
+      "path": "crates/gnos-ux-gpui/src/product_keyboard.rs",
+      "sha256": "91325ba090e0cf1f97b3857ca990aed9f30345ac7bc827e4bba716945796d710"
+    },
+    {
+      "bytes": 34109,
+      "path": "crates/gnos-ux-gpui/src/product_lab.rs",
+      "sha256": "718062747821ff3431a90c097773385bc273b238277f4fde7405215e94f7973e"
+    },
+    {
+      "bytes": 6153,
+      "path": "crates/gnos-ux-gpui/src/product_launch.rs",
+      "sha256": "684f7052596ab1542af693b2526d0203da19667ed34d41055c63bc3fbcdb7df2"
+    },
+    {
+      "bytes": 7602,
+      "path": "crates/gnos-ux-gpui/src/product_launch/tests.rs",
+      "sha256": "6416043b9466248af611b5225babb957ef37a764eb728335b75e1cfda440ea16"
+    },
+    {
+      "bytes": 7844,
+      "path": "crates/gnos-ux-gpui/src/product_preferences.rs",
+      "sha256": "086f26af454fb68728cb029930624d7d1fd4fcc7bcd65decbe713e4e706f826f"
+    },
+    {
+      "bytes": 12855,
+      "path": "crates/gnos-ux-gpui/src/product_profile.rs",
+      "sha256": "28b5a6753a6dab112dfeb97d2c253c49f6ae02304514aa6e01130c65bce39592"
+    },
+    {
+      "bytes": 17720,
+      "path": "crates/gnos-ux-gpui/src/product_runtime.rs",
+      "sha256": "a5e169ff661715d00e796e3b71dc71d65415dec7179aa0ff4487d39bdbb441ef"
+    },
+    {
+      "bytes": 128084,
+      "path": "crates/gnos-ux-gpui/src/product_scene.rs",
+      "sha256": "3b75b08ddbb18b8759fe1b5d26de8630dee0e2732ad3af63704f3855cbe0e9f9"
+    },
+    {
+      "bytes": 17396,
+      "path": "crates/gnos-ux-gpui/src/product_shared_envelope.rs",
+      "sha256": "fc96e51621de4e5887d443ec84502c4967a871bfa6d3b62e4acc74eb1e8912ca"
+    },
+    {
+      "bytes": 7414,
+      "path": "crates/gnos-ux-gpui/src/product_typography.rs",
+      "sha256": "6651f00d0a342e7042e9f75b2368862bc7845f33490ccb161776246aa1649706"
+    },
+    {
+      "bytes": 5823,
+      "path": "crates/gnos-ux-gpui/src/product_workspace_presentation.rs",
+      "sha256": "7c04833232b076fdc0a28291215d9f272227b40de15618a948033ec84aa7f7d8"
+    },
+    {
+      "bytes": 260647,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime.rs",
+      "sha256": "84ad1e68d77c4ab38b7641aee32feae196b4519c3240812b1ea8c27bf682d5c0"
+    },
+    {
+      "bytes": 6861,
+      "path": "crates/gnos-ux-gpui/src/topology_wake.rs",
+      "sha256": "4ac0d9947db8c32fbbd1a3bf2adf8130ed949bfdd68d943fa491c5986204d9fb"
+    },
+    {
+      "bytes": 256,
+      "path": "crates/gnos-ux-product-intent/Cargo.toml",
+      "sha256": "f0fdc1d4d5886e565283f55976bd52e0e8696a4ae861f2bbf29a642ebc58cc54"
+    },
+    {
+      "bytes": 2304,
+      "path": "crates/gnos-ux-product-intent/README.md",
+      "sha256": "31e6687e97a49dc6cfb8fd8253f85802bfaf0d3f46b668c753a4c7363f5a73f5"
+    },
+    {
+      "bytes": 3768,
+      "path": "crates/gnos-ux-product-intent/src/lib.rs",
+      "sha256": "6a2fe3e1fb3e248baeb22a33eb89fd52ca2dcff2975d6ec1e307027229427edc"
+    },
+    {
+      "bytes": 313,
+      "path": "crates/gnos-ux-profile-client/Cargo.toml",
+      "sha256": "b1eda04513cf1e2fd93c5438dec69651f51368152b2c9493f81e3b2282f853b3"
+    },
+    {
+      "bytes": 19458,
+      "path": "crates/gnos-ux-profile-client/src/lib.rs",
+      "sha256": "deab51f60b2e9d7d3ea6af1646ee69310c06a23895e56a489c50a2dc7696bfc0"
+    },
+    {
+      "bytes": 279,
+      "path": "crates/gnos-ux-sdk/Cargo.toml",
+      "sha256": "dd6b5c6df9ad1f8febf77b790a29d584214c89342eda1335c6d47dd06900b0f8"
+    },
+    {
+      "bytes": 11090,
+      "path": "crates/gnos-ux-sdk/README.md",
+      "sha256": "9082484f54053462e2aa68fb0b4f0eafb925f22dd05d4237e2a5600b942ba042"
+    },
+    {
+      "bytes": 12460,
+      "path": "crates/gnos-ux-sdk/src/bin/gnos-ux-lab.rs",
+      "sha256": "ed8fa0de73605be27fab8576527064b6a28b1b29459f36587cd7defaea3ca1f7"
+    },
+    {
+      "bytes": 11204,
+      "path": "crates/gnos-ux-sdk/src/grammar.rs",
+      "sha256": "3d85b264396f09b837c10cb43930d7856a6bf9819533373b38e58c7464ec418d"
+    },
+    {
+      "bytes": 20358,
+      "path": "crates/gnos-ux-sdk/src/lab.rs",
+      "sha256": "92463d7b7626168b0ada5f083f51623bd6f970296513752e6bb781573981f71d"
+    },
+    {
+      "bytes": 1952,
+      "path": "crates/gnos-ux-sdk/src/lib.rs",
+      "sha256": "dffe1b5f96ed1f86be9db7d141cbc8dca24c0e686ab96b54c68e0d60427e8472"
+    },
+    {
+      "bytes": 3177,
+      "path": "crates/gnos-ux-sdk/src/surface.rs",
+      "sha256": "15e19b3ae61848e36cf32f037dc45bb92f138e507dfed43368df49bb40f85e36"
+    },
+    {
+      "bytes": 238,
+      "path": "crates/gnos-ux-surface/Cargo.toml",
+      "sha256": "fa46b8ed7d5dd65eea0cd6ba9accf6bbd569ad9117765b79da801ab9a9ccbf41"
+    },
+    {
+      "bytes": 5117,
+      "path": "crates/gnos-ux-surface/examples/hull_golden.rs",
+      "sha256": "5683daa13d452fcfe030b1f6867e5df0c818a33f59e7179dd7dc35413770c458"
+    },
+    {
+      "bytes": 35716,
+      "path": "crates/gnos-ux-surface/src/bin/gnos-ux-e11-native-baseline.rs",
+      "sha256": "b4282a7bcedb99fee9f58541b0c850350a2b88f703c38b97086154f11d467205"
+    },
+    {
+      "bytes": 1604,
+      "path": "crates/gnos-ux-surface/src/bin/gnos-ux-probe.rs",
+      "sha256": "47a14885231d305a155a0531e641443fd23a7f73933ed2e5458e347ee848c634"
+    },
+    {
+      "bytes": 5439,
+      "path": "crates/gnos-ux-surface/src/compositor.rs",
+      "sha256": "bcb9cd347f9d29886541ae390235ab724243b8e24089a01be3957280d660c59c"
+    },
+    {
+      "bytes": 24482,
+      "path": "crates/gnos-ux-surface/src/envelope.rs",
+      "sha256": "19d3cfb0440b0826ed4debc575cf41ba419d9c97833ca41f121f89226f99f789"
+    },
+    {
+      "bytes": 15036,
+      "path": "crates/gnos-ux-surface/src/grammar/atoms.rs",
+      "sha256": "2519cffbfcb9f9dddae68e11552b6cba3c1b97427b6f55865df8645890661a47"
+    },
+    {
+      "bytes": 67460,
+      "path": "crates/gnos-ux-surface/src/grammar/connective_hull.rs",
+      "sha256": "51562662945c51fc4e5f9a1dde3bf1543463baeb18629fed60c037d0014393c9"
+    },
+    {
+      "bytes": 5162,
+      "path": "crates/gnos-ux-surface/src/grammar/connectors.rs",
+      "sha256": "d935f5b789d6a555711123ed962772d4cb2baa4ded5a58523c8cfda0fd27c523"
+    },
+    {
+      "bytes": 16402,
+      "path": "crates/gnos-ux-surface/src/grammar/curves.rs",
+      "sha256": "6b77fcfef17b81a313a38ea49b5b3156bafea38affd84799340d9754cd691fd7"
+    },
+    {
+      "bytes": 16632,
+      "path": "crates/gnos-ux-surface/src/grammar/dynamics.rs",
+      "sha256": "6d5290ae208167b20b42cb67c1fd3caef304ac739c72ef186bf3edaf4297ce84"
+    },
+    {
+      "bytes": 4445,
+      "path": "crates/gnos-ux-surface/src/grammar/frames.rs",
+      "sha256": "8a2765e6f1b1cee074fcaf99550fb34c923a9bc8eee9cef3f40932dae5bf6c8a"
+    },
+    {
+      "bytes": 8745,
+      "path": "crates/gnos-ux-surface/src/grammar/influences.rs",
+      "sha256": "61d46681ce5458cc74188175c0bc0d32f8c20cc038a85e18a239d7e5629f32ff"
+    },
+    {
+      "bytes": 2021,
+      "path": "crates/gnos-ux-surface/src/grammar/mod.rs",
+      "sha256": "a05f7ffb416e36d31af5aa8fdaa228fb22b0d7b7ca730ca5359ec50055053aab"
+    },
+    {
+      "bytes": 3992,
+      "path": "crates/gnos-ux-surface/src/grammar/molecules.rs",
+      "sha256": "1ebd6db3f8bcb2edb7fcbee8abff96a7e0d31e8bfcde04de721a25684ee8e41e"
+    },
+    {
+      "bytes": 8158,
+      "path": "crates/gnos-ux-surface/src/grammar/placement.rs",
+      "sha256": "9e17e66aaad15bf673c9091d71401a05c86c31fb7f3518bc1dff0c7bbd2fbb54"
+    },
+    {
+      "bytes": 38918,
+      "path": "crates/gnos-ux-surface/src/grammar/placement_transition.rs",
+      "sha256": "ea13e3dabbbd864f79b7f11a4dba3cf6e67cd028d25762b55e58e6ff44d32a3b"
+    },
+    {
+      "bytes": 137745,
+      "path": "crates/gnos-ux-surface/src/grammar/reactive_envelope.rs",
+      "sha256": "4b24d6050620eaefdc8130268b5a94d0d6a179a73cdf88f7b228464e90dffb92"
+    },
+    {
+      "bytes": 12296,
+      "path": "crates/gnos-ux-surface/src/grammar/recipes.rs",
+      "sha256": "177e7675a865b5112f867832ddd25df0c85ec78b3a11fd1a69af686db43487c9"
+    },
+    {
+      "bytes": 11137,
+      "path": "crates/gnos-ux-surface/src/grammar/shared_envelope.rs",
+      "sha256": "bf8d675a65c94e160c4ac6b25a112ab85db5b48749e7410e6ad49dc7ecce06f7"
+    },
+    {
+      "bytes": 390,
+      "path": "crates/gnos-ux-surface/src/grammar/transposition.rs",
+      "sha256": "1bf852591ae373fecad94150a87d6cd11f4978f12ff10fd62dc5346a6bcd223c"
+    },
+    {
+      "bytes": 12334,
+      "path": "crates/gnos-ux-surface/src/lib.rs",
+      "sha256": "183f336a226c3c684eb2e1dda65b6808c842bc13f7616ef6c4185ea8ba968fed"
+    },
+    {
+      "bytes": 15745,
+      "path": "crates/gnos-ux-surface/src/pointer_regions.rs",
+      "sha256": "cd197ddd36b055f2a1743d15555dcc873728a570f2696554ea4d3959f6a3e1d1"
+    },
+    {
+      "bytes": 26386,
+      "path": "crates/gnos-ux-surface/src/scene.rs",
+      "sha256": "2bc39d72c88e0bb29c7692f019631c7449eea79e11a6c21f761dc906cf10fccb"
+    },
+    {
+      "bytes": 9530,
+      "path": "crates/gnos-ux-surface/tests/bar_placement.rs",
+      "sha256": "655c1523e30d2c74af6312c0e3bfb7766596c5ffd97578fa030c4361c004696e"
+    },
+    {
+      "bytes": 4618,
+      "path": "crates/gnos-ux-surface/tests/cardinal_growth.rs",
+      "sha256": "e1451f73b0c71cbd2d9ee64131803a6c414f231703a26be533180fc8a81488f8"
+    },
+    {
+      "bytes": 645,
+      "path": "crates/gnoshow/Cargo.toml",
+      "sha256": "27f0b96e4d49f7a3459356c76fa93a3a01b7a47280cf8a2af78b2581aea73308"
+    },
+    {
+      "bytes": 143,
+      "path": "crates/gnoshow/src/bin/gnoshow-hyp-focus.rs",
+      "sha256": "d205021a88fa75577c713fcf812dd90f4685ee0b9fb7990ee1eca0d80ab8ddda"
+    },
+    {
+      "bytes": 1576,
+      "path": "crates/gnoshow/src/bin/gnoshow-probe.rs",
+      "sha256": "7d91315f4c8b994cf2ab531efea29c2fa17aacbf89d0fbf5be7dd280f5c5d9e0"
+    },
+    {
+      "bytes": 8959,
+      "path": "crates/gnoshow/src/gpu.rs",
+      "sha256": "bea908f47a3c7c1cbe2af95c85496e4390627299401255c9411b13ca8cb80d91"
+    },
+    {
+      "bytes": 12778,
+      "path": "crates/gnoshow/src/lib.rs",
+      "sha256": "9c8401e9074a89b2c26171d923fd85a95df9976d81069ccbe2af6607819377a3"
+    },
+    {
+      "bytes": 1216,
+      "path": "crates/gnoshow/src/rear_plane.wgsl",
+      "sha256": "b19c0dd7b13f1492a63d752257802eec4f88ef21f63893ad360209002ab2719c"
+    },
+    {
+      "bytes": 2219,
+      "path": "crates/gnoshow/src/source.rs",
+      "sha256": "1fb78d41adc822bb48e905d3491fc3dabcd6d34f265f2859a60df894007eb193"
+    },
+    {
+      "bytes": 188,
+      "path": "crates/gnosix-activation-protocol/Cargo.toml",
+      "sha256": "c968c3e63577f6b9c71c024411351f041337e9089f9d7c2d88a27f0cd3d192d4"
+    },
+    {
+      "bytes": 2238,
+      "path": "crates/gnosix-activation-protocol/src/lib.rs",
+      "sha256": "bd6f7c654feca5c4a185a4196be5a6a0e07b1d3706bb053fb682eea1d4f03884"
+    },
+    {
+      "bytes": 220,
+      "path": "crates/gnosix-application-catalog/Cargo.toml",
+      "sha256": "d3eacdb1c944ce9fd7967def4c9b6ba0a21f10cbdd89bfa27960d9d3b11ebd36"
+    },
+    {
+      "bytes": 28779,
+      "path": "crates/gnosix-application-catalog/src/lib.rs",
+      "sha256": "253b33539b5c08fc682ee7d767118318ac850d354fa91cacce4cbebb502d5623"
+    },
+    {
+      "bytes": 333,
+      "path": "crates/gnosix-application-launch/Cargo.toml",
+      "sha256": "7eabc7cf34483e507e12dfd8dd9b9af7fb5baf3c9d364f705567980b39db8c52"
+    },
+    {
+      "bytes": 1790,
+      "path": "crates/gnosix-application-launch/examples/lifetime_probe.rs",
+      "sha256": "550d4d475bc03dc47b1412e9ce2ddc94a1efb4a3c2b1c84ffba48b469ec1700b"
+    },
+    {
+      "bytes": 1172,
+      "path": "crates/gnosix-application-launch/src/direct.rs",
+      "sha256": "ab1d36050d4ad1ad56972eabdcbee14a710c0362e0c642b11022e843754e90f1"
+    },
+    {
+      "bytes": 13931,
+      "path": "crates/gnosix-application-launch/src/execution.rs",
+      "sha256": "6a92777023f8072fe77f392b2cb16112a5982c748f14232104f06303f2827f36"
+    },
+    {
+      "bytes": 25179,
+      "path": "crates/gnosix-application-launch/src/lib.rs",
+      "sha256": "f10fc2adb494b381fe8509ebb56138d38c5074c9ada314efae0732c5014e02b7"
+    },
+    {
+      "bytes": 25451,
+      "path": "crates/gnosix-application-launch/src/tests.rs",
+      "sha256": "6c4624a27b985c36236aa27a370f7aa5d7353eb4fdb77a55373a39ab5192841e"
+    },
+    {
+      "bytes": 207,
+      "path": "crates/gnosix-desktop-model/Cargo.toml",
+      "sha256": "cc136d57f903a2f102cce7e972ac1be13f7e33b7cede4453fd64c542335727df"
+    },
+    {
+      "bytes": 2413,
+      "path": "crates/gnosix-desktop-model/src/context.rs",
+      "sha256": "b854942cd3ba32972b291c88cb78f0c77f4964a48a0334d2983041ecd271ea38"
+    },
+    {
+      "bytes": 671,
+      "path": "crates/gnosix-desktop-model/src/generation.rs",
+      "sha256": "f93186a0010c13ca1d99b6ee7f5dbb2c1b88c290b3ae0e37c41e59046b5d00e3"
+    },
+    {
+      "bytes": 1310,
+      "path": "crates/gnosix-desktop-model/src/lib.rs",
+      "sha256": "a0622840086fb42b53f2a4e1cc2531bb8d907e8f90d8f1c4331b77ac5b6fb020"
+    },
+    {
+      "bytes": 6897,
+      "path": "crates/gnosix-desktop-model/src/output.rs",
+      "sha256": "443a88d67ba9c681c5fe8106bdbaf3e2283968e405671ccd0199b6c0ea38346a"
+    },
+    {
+      "bytes": 2808,
+      "path": "crates/gnosix-desktop-model/src/projection.rs",
+      "sha256": "86b999ac5454d846399388f7b89dc011eeab012fdde20917670b97217a1d8860"
+    },
+    {
+      "bytes": 863,
+      "path": "crates/gnosix-desktop-model/src/scale.rs",
+      "sha256": "fbcb8a5d381fe32164ac7148d6fcb23fdca3415cc75adaa89a9b3bad743dfb0c"
+    },
+    {
+      "bytes": 1880,
+      "path": "crates/gnosix-desktop-model/src/spatial.rs",
+      "sha256": "cd9f148ea6fb95626ab552d4e4cd03c5124addf10fd3ac2fada6a8eb9bb44316"
+    },
+    {
+      "bytes": 5358,
+      "path": "crates/gnosix-desktop-model/src/surface.rs",
+      "sha256": "f0385274e00d87ab0b8c2ff2a8dcf00a328431b6fe6a165c0d7d6e0d34d08547"
+    },
+    {
+      "bytes": 2552,
+      "path": "crates/gnosix-desktop-model/src/transition.rs",
+      "sha256": "ba34126408f501a08d5b295391d54abb8b75529159a0dbf05f70051732296092"
+    },
+    {
+      "bytes": 5083,
+      "path": "crates/gnosix-desktop-model/src/workspace.rs",
+      "sha256": "bcccd357221de8369dd5ed7b2c4548df9dde3e75980a705eaa1f0849818d04bb"
+    },
+    {
+      "bytes": 5233,
+      "path": "crates/gnosix-desktop-model/tests/collection_tests.rs",
+      "sha256": "72510ddb8595463eec463c8e7108588a0fc2bd6633de1daa98897e9bde60d412"
+    },
+    {
+      "bytes": 4039,
+      "path": "crates/gnosix-desktop-model/tests/composite_state_tests.rs",
+      "sha256": "984179ebf9aff0772e5e714fbddc9217d02d7b9f26034ae73819434f1ee1639c"
+    },
+    {
+      "bytes": 3507,
+      "path": "crates/gnosix-desktop-model/tests/context_tests.rs",
+      "sha256": "2aa214061a7f947184c9b325b8aaec47fd9b795bfc78399b6087c27b2eb7ce92"
+    },
+    {
+      "bytes": 3980,
+      "path": "crates/gnosix-desktop-model/tests/elementary_semantics_tests.rs",
+      "sha256": "6331bc6b357cfd8b127fa444e01661d6d59a6975793804e869f207fd945ac75d"
+    },
+    {
+      "bytes": 3550,
+      "path": "crates/gnosix-desktop-model/tests/opaque_identity_tests.rs",
+      "sha256": "5cc8a122d69e2ff92530bae4f6873384d7dda57593d768bcf99c14a8c2173be5"
+    },
+    {
+      "bytes": 6003,
+      "path": "crates/gnosix-desktop-model/tests/projection_tests.rs",
+      "sha256": "44dada9d20d25a35e92d82b39add4402c4cf06ec425fdfbd60d0518bc08f0179"
+    },
+    {
+      "bytes": 2302,
+      "path": "crates/gnosix-desktop-model/tests/spatial_tests.rs",
+      "sha256": "7666396a85b75b62f63f6b5a0ded5810cbb4bd71be4d17826dd1e165515c2add"
+    },
+    {
+      "bytes": 11405,
+      "path": "crates/gnosix-desktop-model/tests/topology_tests.rs",
+      "sha256": "2dcab11402ce98a7a10e605997ab592af8e238cf0c17abdefc5284033b4ef4e3"
+    },
+    {
+      "bytes": 10739,
+      "path": "crates/gnosix-desktop-model/tests/transition_tests.rs",
+      "sha256": "a7097304aba41a48ff088f558acb64ec966beece07f768b20bf8540d718ef4b2"
+    },
+    {
+      "bytes": 1098,
+      "path": "crates/gnosix-hyprland/Cargo.toml",
+      "sha256": "2254d378e67eacc9e25c3e9536002db28458de0760328504f0527e47abf13233"
+    },
+    {
+      "bytes": 11556,
+      "path": "crates/gnosix-hyprland/src/activation_execution.rs",
+      "sha256": "671797b8bcad24d6f302acde5cba84e79b1990a0e177477613e9f89d7aff7612"
+    },
+    {
+      "bytes": 14676,
+      "path": "crates/gnosix-hyprland/src/activation_execution/live_qualification.rs",
+      "sha256": "d24fd7ad95ee3bf4aa3da2e65e26daaffe096a6db80433482198d1f8bacfc06d"
+    },
+    {
+      "bytes": 84,
+      "path": "crates/gnosix-hyprland/src/bin/in-gnu-os-activationd.rs",
+      "sha256": "2d8db48495c90a95ed70ab6adcc1daf8d1171ddf923353ab8c9fb703f79243cb"
+    },
+    {
+      "bytes": 114,
+      "path": "crates/gnosix-hyprland/src/caller_auth.rs",
+      "sha256": "1a57ae8665a3dea143a59aabd3f5c254afbddc384e7bac42f0826f279f5721aa"
+    },
+    {
+      "bytes": 27712,
+      "path": "crates/gnosix-hyprland/src/lib.rs",
+      "sha256": "1047fcbd1c346643729284175fdd50dd263ace85828277e665736b347618d6a3"
+    },
+    {
+      "bytes": 10179,
+      "path": "crates/gnosix-hyprland/src/observation_transport.rs",
+      "sha256": "710b9ca602d460d982c23975a78fd59b39436f3f5f9a21bf5e8f1125ca648a32"
+    },
+    {
+      "bytes": 30305,
+      "path": "crates/gnosix-hyprland/src/production_dbus.rs",
+      "sha256": "936406d09be2caae164a199a54cfd5733349c6148c06a79e418c5885fe4faed4"
+    },
+    {
+      "bytes": 7853,
+      "path": "crates/gnosix-hyprland/src/production_host.rs",
+      "sha256": "408514fe595aa0a1662dd6e58239e0081c16c8f8a1082991a17d1fea0860aa14"
+    },
+    {
+      "bytes": 66308,
+      "path": "crates/gnosix-hyprland/src/semantic.rs",
+      "sha256": "dc5039c6347b2f5b041758f67799afcafc5a611bd462a7b97b1c2a0f7ff2f843"
+    },
+    {
+      "bytes": 35688,
+      "path": "crates/gnosix-hyprland/src/topology.rs",
+      "sha256": "762b744b5effe0fd4484e06ff5b8c539b2c5a917a3343824a3395e40e3e3c548"
+    },
+    {
+      "bytes": 407,
+      "path": "crates/gnosix-input-core/Cargo.toml",
+      "sha256": "a61c5e0040167c3c95a860c7c492ff9eec64862eef9c941159bc06b36fa6cdc7"
+    },
+    {
+      "bytes": 3155,
+      "path": "crates/gnosix-input-core/fixtures/super-arbiter-traces.json",
+      "sha256": "c6b46b1fddd0b81f3d4885f5643f61f2e2a18941ab787feb53026f9c9d88ad7b"
+    },
+    {
+      "bytes": 10670,
+      "path": "crates/gnosix-input-core/src/arbiter.rs",
+      "sha256": "c465b40a7ce1f535c9dc481365fd1afc210092332cab10f976d5a5d8560bcfee"
+    },
+    {
+      "bytes": 148,
+      "path": "crates/gnosix-input-core/src/lib.rs",
+      "sha256": "bf629a01dae9e1044fdd130dd3cf048aea193e49dd2d33c086610a107b50ed82"
+    },
+    {
+      "bytes": 11131,
+      "path": "crates/gnosix-input-core/src/model.rs",
+      "sha256": "d40401e1801a993791f1863dfc3252d0651b36546588fc5212b0a426c41371cb"
+    },
+    {
+      "bytes": 13191,
+      "path": "crates/gnosix-input-core/src/planner.rs",
+      "sha256": "f4230ea18b9ebf58bf1520aac5e434137b2da4bedac9c8c13a982f70a4a1f23d"
+    },
+    {
+      "bytes": 15583,
+      "path": "crates/gnosix-input-core/src/resolution.rs",
+      "sha256": "9123c0abeabc3da19ecd066c03071b1a07ead29537cbda9d99f8b944d201c6a4"
+    },
+    {
+      "bytes": 874,
+      "path": "crates/gnosix-input-core/tests/super_arbiter_replay.rs",
+      "sha256": "ab000e422578e24667ad6f49f9d43b16de06a8471d259dc3d1a8a9319333c829"
+    },
+    {
+      "bytes": 390,
+      "path": "crates/gnosix-input-observation/Cargo.toml",
+      "sha256": "d05c01523147819ff2f0a4bf4a0175f108e368d0686584e88d9a69d597bd8785"
+    },
+    {
+      "bytes": 20146,
+      "path": "crates/gnosix-input-observation/fixtures/arbitration-record-v1-traces.json",
+      "sha256": "1a24bc318b9d7b675e8a1e5ce3e4e2c56694fffd831a55b0ceb5a94898608d7f"
+    },
+    {
+      "bytes": 98435,
+      "path": "crates/gnosix-input-observation/fixtures/complete-producer-spike.jsonl",
+      "sha256": "413cb5a249dfcc79f3e4272a5c4f56e35399a7a8b131adb3c0ae3e86540235b2"
+    },
+    {
+      "bytes": 580,
+      "path": "crates/gnosix-input-observation/fixtures/resume-inventory-spike.jsonl",
+      "sha256": "d1b2a88eb3982adce02e25007e37cb8bb1c2d2e9476fd76722aaf6d08549bd2f"
+    },
+    {
+      "bytes": 22519,
+      "path": "crates/gnosix-input-observation/src/lib.rs",
+      "sha256": "3fd1d2097262f39f35f1de1c865d2878b617f73c8d07b03eb7cdb9d1869da08e"
+    },
+    {
+      "bytes": 3299,
+      "path": "crates/gnosix-input-observation/src/producer_stream.rs",
+      "sha256": "3e46acde47f56a5568cfbdc991ed8f1bb757166152e8eeeb6324f9b77dd0822b"
+    },
+    {
+      "bytes": 7026,
+      "path": "crates/gnosix-input-observation/src/resync_snapshot.rs",
+      "sha256": "18248b1fb891b96ad43dfea3d065f4edce295e5816dbd00e0691636364adb9bb"
+    },
+    {
+      "bytes": 4466,
+      "path": "crates/gnosix-input-observation/tests/complete_producer.rs",
+      "sha256": "8b3d89f9391e121dcb444cc4ef045a00bd5bb9cec7fb922134e1115f08337754"
+    },
+    {
+      "bytes": 1961,
+      "path": "crates/gnosix-input-observation/tests/producer_claims.rs",
+      "sha256": "9d90cbadcd0fa73b8ab5b08dd6604f6e523b3537352128b0e0f3af815aff6415"
+    },
+    {
+      "bytes": 5509,
+      "path": "crates/gnosix-input-observation/tests/producer_generation.rs",
+      "sha256": "d5cb3e07654abbbc0fdbd2c73172181e539c21da977a94417bc3fc9a9bb4b19d"
+    },
+    {
+      "bytes": 10143,
+      "path": "crates/gnosix-input-observation/tests/record_v1_replay.rs",
+      "sha256": "24d1ce7bfa6f3cd3919604eb4defbd3d4528fa2c63479c5b8d5db86e9861ba6b"
+    },
+    {
+      "bytes": 5329,
+      "path": "crates/gnosix-input-observation/tests/resync_adapter.rs",
+      "sha256": "83efc0849c045c414d3133113e8df28859bcd7b3c27e822f705db71764f16310"
+    },
+    {
+      "bytes": 406,
+      "path": "crates/gnosix-input-runtime-observer/Cargo.toml",
+      "sha256": "0978afa4953d2e4e779eabb79928da00d102a999c8795d75e1ac0d0b0c258599"
+    },
+    {
+      "bytes": 4728,
+      "path": "crates/gnosix-input-runtime-observer/src/lib.rs",
+      "sha256": "04cd5dff1bd026a25ea518633d41ee03d5ad2d95b80af2e766be45f1a7812485"
+    },
+    {
+      "bytes": 1586,
+      "path": "crates/gnosix-input-runtime-observer/src/main.rs",
+      "sha256": "fbd55f2a7856522317d22c3bacdaad3534e2b1eff8b8268475cbfb9dcf14c8b4"
+    },
+    {
+      "bytes": 4824,
+      "path": "crates/gnosix-input-runtime-observer/tests/transport.rs",
+      "sha256": "5b59da8cbd24ab689629552cb5a1a327fad93f108d748f990e4cf22d2d0ae35c"
+    },
+    {
+      "bytes": 355,
+      "path": "crates/in-gnu-os-activation/Cargo.toml",
+      "sha256": "8719c8533499685153de85d9d9fdc89397d1cb557396a9d0330bfd5fe4a7b54c"
+    },
+    {
+      "bytes": 13584,
+      "path": "crates/in-gnu-os-activation/README.md",
+      "sha256": "6334d81df03485708bd54bfeb911f63bf5aabfa06c53dc3639775a277334f3f8"
+    },
+    {
+      "bytes": 20014,
+      "path": "crates/in-gnu-os-activation/src/execution.rs",
+      "sha256": "ac500a46865f308e955d8649661946f2c69076e0e727502bb8b4f5bc3a5aa4eb"
+    },
+    {
+      "bytes": 54166,
+      "path": "crates/in-gnu-os-activation/src/lib.rs",
+      "sha256": "3c92c92dfd336b2ce1ead289808b14c08be59804a18bf2be177c3a4d5e28df68"
+    },
+    {
+      "bytes": 161,
+      "path": "crates/in-gnu-os-caller-auth/Cargo.toml",
+      "sha256": "cc8dd51bcbecc715847580dfe4138d59903996363050b18d448ceec97e8a1629"
+    },
+    {
+      "bytes": 8373,
+      "path": "crates/in-gnu-os-caller-auth/src/lib.rs",
+      "sha256": "a508767cc9cec7b5a5da8cf26f3ea4f3b8ee85c8ebefc4e1a1b4e9b07f9d69d5"
+    },
+    {
+      "bytes": 669,
+      "path": "crates/in-gnu-os-desktop-profiles/Cargo.toml",
+      "sha256": "3e95c23afcd10501bec08542fe8e841c054b899758eaefdb4c1d46a3f0ee1566"
+    },
+    {
+      "bytes": 8230,
+      "path": "crates/in-gnu-os-desktop-profiles/README.md",
+      "sha256": "0ae8d3e4006ac55d9eccae8c6c63211c21cfc5fb4bc6d6418224fd2d8568271b"
+    },
+    {
+      "bytes": 22767,
+      "path": "crates/in-gnu-os-desktop-profiles/src/authority.rs",
+      "sha256": "638078fe9c037c24f6bf84020b10f4d92010377d70ad35987a965052c02dbe0f"
+    },
+    {
+      "bytes": 30427,
+      "path": "crates/in-gnu-os-desktop-profiles/src/authority_tests.rs",
+      "sha256": "bbf5b1d3500d3242397ee07bfadff598449d1e52a867d6a3065611d55da1d0b6"
+    },
+    {
+      "bytes": 2389,
+      "path": "crates/in-gnu-os-desktop-profiles/src/bar_write_contract.rs",
+      "sha256": "bc4e3aeaea45ab94cd7396c5055114bd07eca0ddc5eb22f0f1389c0f7ef7f52c"
+    },
+    {
+      "bytes": 6933,
+      "path": "crates/in-gnu-os-desktop-profiles/src/bar_writer.rs",
+      "sha256": "8388ff5fd267a7897e0351bc63d52a333950a7e68c34bb4b6c9c363d2099549c"
+    },
+    {
+      "bytes": 24714,
+      "path": "crates/in-gnu-os-desktop-profiles/src/lib.rs",
+      "sha256": "e436f0d1415494ef0a75864ed4c22bb26b8f0594164e116892fc98f79410fe9f"
+    },
+    {
+      "bytes": 39953,
+      "path": "crates/in-gnu-os-desktop-profiles/src/store.rs",
+      "sha256": "fc928b26e3442b9137e2f9a7e348c4d20239a969b5eab5621822366a402af6ca"
+    },
+    {
+      "bytes": 27879,
+      "path": "crates/in-gnu-os-desktop-profiles/src/store_tests.rs",
+      "sha256": "d44fa3b9833bee1c616f7be421670459435e9f87d05f11d93af1db63cde3ec22"
+    },
+    {
+      "bytes": 408,
+      "path": "crates/in-gnu-os-output-identity-projection/Cargo.toml",
+      "sha256": "69014a183b7ef6f14cb976b18318c73c60c61520ee96e4247c7c0a13f3073dba"
+    },
+    {
+      "bytes": 1354,
+      "path": "crates/in-gnu-os-output-identity-projection/README.md",
+      "sha256": "efab22d81b75cbf751a8633f76ef10e4e5bb99d3eb5bdea0844c2f3cbe247f59"
+    },
+    {
+      "bytes": 6834,
+      "path": "crates/in-gnu-os-output-identity-projection/src/lib.rs",
+      "sha256": "68fdf84f22d1a291098e47a4bdb1f75b459807961d31381d5a4e9a1aef5dd380"
+    },
+    {
+      "bytes": 7512,
+      "path": "crates/in-gnu-os-output-identity-projection/tests/session_association.rs",
+      "sha256": "86c65c74643f1d2f997d126f2daec6ca1cca0c5a5aa9789ab5ba3ce6478469c4"
+    },
+    {
+      "bytes": 371,
+      "path": "crates/in-gnu-os-output-identity/Cargo.toml",
+      "sha256": "b79cd9d13226b531a6b23a5850631eee2017a4102ee3e7cb4e3d83c873755f05"
+    },
+    {
+      "bytes": 8455,
+      "path": "crates/in-gnu-os-output-identity/README.md",
+      "sha256": "26875b1b46f9afa206b1f85aa4d55fc1b71489b74be0a748db5e7ad99b20794c"
+    },
+    {
+      "bytes": 28302,
+      "path": "crates/in-gnu-os-output-identity/src/authority.rs",
+      "sha256": "76ebbaeffe5d45959d919a5225e2c42b77f6c9c4fedefc5f60740884b271a141"
+    },
+    {
+      "bytes": 34727,
+      "path": "crates/in-gnu-os-output-identity/src/lib.rs",
+      "sha256": "4de2f78311053e66fc7943495bc45856a7f84c8b5145f5beca6c090ae896a2d1"
+    },
+    {
+      "bytes": 16163,
+      "path": "crates/in-gnu-os-output-identity/src/registry_tests.rs",
+      "sha256": "17890fc5ec23a7dbafd41310bfd82b6c33c2ac5c32972407211a63749888b00d"
+    },
+    {
+      "bytes": 34279,
+      "path": "crates/in-gnu-os-output-identity/src/store.rs",
+      "sha256": "5a900709e52717920ed2947312ee42bf5f371f26e07a65eeb3ec18ae95a47bce"
+    },
+    {
+      "bytes": 15559,
+      "path": "crates/in-gnu-os-output-identity/src/store_tests.rs",
+      "sha256": "cff7c6bcdf1e623969936cff7ebcaf35ca9afcd623995e5039b87f01ec0f4640"
+    },
+    {
+      "bytes": 2053,
+      "path": "crates/in-gnu-os-output-identity/tests/authority_surface.rs",
+      "sha256": "a0e962c69b0f7f82d0d78dac153d2899644ec632372eeba6963c19d24544b555"
+    },
+    {
+      "bytes": 540,
+      "path": "crates/in-gnu-os-profile-service/Cargo.toml",
+      "sha256": "d2884c0e363a97dbfca437764801fa21ea71f916fcd3dfdce82cb2004e47d519"
+    },
+    {
+      "bytes": 8124,
+      "path": "crates/in-gnu-os-profile-service/src/lib.rs",
+      "sha256": "ca46bb09a4930561856e80382341fb14798629538cde947c967aff11873a13fa"
+    },
+    {
+      "bytes": 3441,
+      "path": "crates/in-gnu-os-profile-service/src/main.rs",
+      "sha256": "c6b074e43dafba845b301f38f131382e6fc593a0de53e37f6d76b662d9e015a3"
+    },
+    {
+      "bytes": 314,
+      "path": "crates/in-gnu-os-settings-core/Cargo.toml",
+      "sha256": "f3823620ca7e60b6aa31a4cc7abbebe1609b460c037a4f270ed6e22f896fef88"
+    },
+    {
+      "bytes": 614,
+      "path": "crates/in-gnu-os-settings-core/README.md",
+      "sha256": "ed0fc140549a24d1092d66a5169991267d2d91e438ad79bee2be652f39e3486d"
+    },
+    {
+      "bytes": 16288,
+      "path": "crates/in-gnu-os-settings-core/src/lib.rs",
+      "sha256": "a26bd863f65a3e230fce7f33ed9bedd8a825b8fdb13d6df1ae79f461f213da6d"
+    },
+    {
+      "bytes": 601,
+      "path": "crates/in-gnu-os-settings-read-model/Cargo.toml",
+      "sha256": "a78a981764a2c205f5dbf73c58936813c96b10562b732be183dfdff7a40c10ec"
+    },
+    {
+      "bytes": 27866,
+      "path": "crates/in-gnu-os-settings-read-model/src/lib.rs",
+      "sha256": "77e6bd4fd4cd706aaee94459a7f1a886ab31ce7bda8a91911bf6a4643b5317a6"
+    },
+    {
+      "bytes": 103,
+      "path": "dbus-1/services/in.gnu.os.Activation1.service",
+      "sha256": "9e421ef104e2c08bee7e88d96f32393e0c447e507fbea5c5fae5633776538dd5"
+    },
+    {
+      "bytes": 5549,
+      "path": "docs/evidence/CURRENT.md",
+      "sha256": "b38cc09dc185d81028cb9b3687ded846936df5753e93edb16df24b6d13b23a01"
+    },
+    {
+      "bytes": 1943,
+      "path": "docs/evidence/README.md",
+      "sha256": "7c348189323f2271a28c03893624d20d83d058e5bd0e555a1014ccbe6f083c3e"
+    },
+    {
+      "bytes": 1669,
+      "path": "docs/status/ROADMAP.md",
+      "sha256": "e9afdeea901f8b3a998ec701c34075555e3a8ee9fbbc006e862b8fea709b63eb"
+    },
+    {
+      "bytes": 5164,
+      "path": "docs/status/STATUS.md",
+      "sha256": "3a98c46c7a418e7ade4852e655ef7486ad86d5d44ea9560aa25694585067fa81"
+    },
+    {
+      "bytes": 429,
+      "path": "rust-toolchain.toml",
+      "sha256": "5cba12b7fb8be12d66a2b35d1082cdb4266f56129ccb52b50ee3fd8bba1d1ca9"
+    },
+    {
+      "bytes": 601,
+      "path": "scripts/materialize-gnos-ux-products",
+      "sha256": "ca74c977b036ab1474206234a950c606c5e069a6feb511151b9907cfcb0e8593"
+    },
+    {
+      "bytes": 659,
+      "path": "share/gnosix/hyprland/uwsm_session.lua",
+      "sha256": "a5f67c3d7ace4a7d6cabd8bd1d0b4d8219192fa909a2e2e2525662d9b604b57d"
+    },
+    {
+      "bytes": 416,
+      "path": "systemd/user/gnos-ux-scene.service",
+      "sha256": "6a67f82b74c2de6097c698b346d2027356c32b34af57dbbeeb3651c43765373f"
+    },
+    {
+      "bytes": 511,
+      "path": "systemd/user/in-gnu-os-activation.service",
+      "sha256": "2841f3f4eb52cb304d9166f056f5cf6421c1cbe025c4a82f75095a26df22d246"
+    },
+    {
+      "bytes": 506,
+      "path": "systemd/user/in-gnu-os-profiles.service",
+      "sha256": "fb90021a9f08b20bfc6c89a7cdd8d1b74dd2f23b039ca215d50dd5c5daae662f"
+    },
+    {
+      "bytes": 6722,
+      "path": "tools/public_cut.py",
+      "sha256": "cd0e34e5aefe93d3dabade1b8bc676490412a967afc87fa7951cc03624bce6f3"
+    },
+    {
+      "bytes": 4742,
+      "path": "tools/publication_lint.py",
+      "sha256": "7def4e8136d3343910b32e997848c2901ba7a66251992bb1851ceaab20eba27a"
+    },
+    {
+      "bytes": 65,
+      "path": "tools/r13-authority.sha256",
+      "sha256": "f4cd6043c0d71fbb480a13fe562e6ce133c11790a63a0f17046b2a166b9d2284"
+    },
+    {
+      "bytes": 4596,
+      "path": "tools/stage-r13-production-caller.sh",
+      "sha256": "008a74aa09cddcb678be8d5bcdde28d6322f2f7986256a697d60bd0290880002"
+    },
+    {
+      "bytes": 6717,
+      "path": "tools/test_public_cut.py",
+      "sha256": "3ae238090ec7c141e0e4f369e421ce224723fa8f4ae2a3ac1d33ef03880534f6"
+    },
+    {
+      "bytes": 4525,
+      "path": "tools/test_publication_lint.py",
+      "sha256": "d74a0feea5f4f410c846cae7179a9c16f6f0b302f4e0e0ba21510758c6ebf728"
+    },
+    {
+      "bytes": 8037,
+      "path": "tools/test_stage_r13_production_caller.py",
+      "sha256": "4d43a77022e34055242c88755ec5ed308ab086d3b9110281336efc28d1b81b81"
+    },
+    {
+      "bytes": 7732,
+      "path": "vendor/gpui-pre-linux-0.3.5/Cargo.toml",
+      "sha256": "726196113683b32b255b2a6f5a5693f3e2cc80ccdf93985962bece0c96269648"
+    },
+    {
+      "bytes": 10768,
+      "path": "vendor/gpui-pre-linux-0.3.5/LICENSE-APACHE",
+      "sha256": "752daf2fb234ca4a1fa372c073fe127f44b7b90fd2529ae44273a64f9d53da7a"
+    },
+    {
+      "bytes": 102,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/gpui_linux.rs",
+      "sha256": "7a566f97cebfaa76feb3697969c4181b088034e0a5e941aeedab60c4bc1f906b"
+    },
+    {
+      "bytes": 1564,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux.rs",
+      "sha256": "f2f7e3261ceafd5cceb3478166aa8c07fa97f27cc2093a0d3b45c4e55ac08664"
+    },
+    {
+      "bytes": 11933,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/dispatcher.rs",
+      "sha256": "f3e4f5302bfd8a9316b4ad0d7a8ce89d35876f5c98feb0418b9f455850b5f8a3"
+    },
+    {
+      "bytes": 51,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/headless.rs",
+      "sha256": "41dc91b76f0c6888dca0f80ca5b96336bcd7649ac44d65c927a73201c9e3e60c"
+    },
+    {
+      "bytes": 4122,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/headless/client.rs",
+      "sha256": "187ea0b75970c911e2c0c1ebd3db78ffa516a4fff6876db652b537ff275e4abd"
+    },
+    {
+      "bytes": 8065,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/headless/window.rs",
+      "sha256": "39a8f5478dd0b0a53851edbbe2d490d9c000ffa761ed77cef127167c85e39794"
+    },
+    {
+      "bytes": 408,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/keyboard.rs",
+      "sha256": "9d25b21ec5530c3e66e40196a924f12aa89cfe6075b5a769feff65dfcfde0a88"
+    },
+    {
+      "bytes": 57545,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/platform.rs",
+      "sha256": "53716640ae3537282d704cf02bdf4930e0e0373f6bca1810ca4bb548e67d8d9c"
+    },
+    {
+      "bytes": 5869,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/system_notifications.rs",
+      "sha256": "49030ee41edb842c996d32870c4d9846f12bd8a50f4a6db0bea9dc658329f1b5"
+    },
+    {
+      "bytes": 44,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/text_system.rs",
+      "sha256": "afc6712696eed6749cc277b800cfb62690af9cbfe275961ad1df1c8d190d4028"
+    },
+    {
+      "bytes": 1518,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland.rs",
+      "sha256": "d8b52fcd37912d441ad1c9be3687422ccda2765e41ddc942b25400c89fd3cfe7"
+    },
+    {
+      "bytes": 125340,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/client.rs",
+      "sha256": "4c7e8c3848c4ad20c69aa2700e9b9fe012f2088528e44d3b3da4048b1bdf7d42"
+    },
+    {
+      "bytes": 8338,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/clipboard.rs",
+      "sha256": "c25034e76fa057354b77815c31ea71c37246c77be5f3a334d8aaedd96af19767"
+    },
+    {
+      "bytes": 4600,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/cursor.rs",
+      "sha256": "1645dc1e70fe9bb766ee65ab78fa6590538a7a52125de4d86dde18a26004c821"
+    },
+    {
+      "bytes": 943,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/display.rs",
+      "sha256": "094a2649ea3cdc0c439748e0fd3b0ce40617379058ee254d88b20d1e65de4bf7"
+    },
+    {
+      "bytes": 1080,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/layer_shell.rs",
+      "sha256": "d3b341e348e5f871e6ec0bdb03ea69601f9755a1843cadf46bc07426aee0f9cc"
+    },
+    {
+      "bytes": 1773,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/popup.rs",
+      "sha256": "d8afee747e08fb9166923d996597627a1d1fe3b502656f7dbd4453d7572f1011"
+    },
+    {
+      "bytes": 3642,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/serial.rs",
+      "sha256": "e45add908e937b0af6897e1a462357e0fc99dcc0c53c802d912c5659ffedc72c"
+    },
+    {
+      "bytes": 86448,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/window.rs",
+      "sha256": "03e34b5d95c2d84436b854a52931868e75e49c8fe0037144f275e57b89d48c8e"
+    },
+    {
+      "bytes": 216,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11.rs",
+      "sha256": "5cab073560b517b961b9ffea154a5a915303fdad11c8f57502e7e30c26fff031"
+    },
+    {
+      "bytes": 122377,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/client.rs",
+      "sha256": "3f6900ccbac0553b0c227a006d3a3e052c9fecea690a07451a653735cea54c93"
+    },
+    {
+      "bytes": 46162,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/clipboard.rs",
+      "sha256": "341e44d6373e3e75df3928d0d24d7afc4437afde15d049faeaace181f38c61f9"
+    },
+    {
+      "bytes": 1317,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/display.rs",
+      "sha256": "d3f88dd905b1b9601b52662ab8cf931f96d53e123d482ae75c7c06fa4fad6f63"
+    },
+    {
+      "bytes": 5485,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/event.rs",
+      "sha256": "6303b0fd823f7fd7bcdab70ec085b31705f1e82fc254c385a523df309462e5b5"
+    },
+    {
+      "bytes": 70205,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/window.rs",
+      "sha256": "86cbafed0411cd25c6c8574a9f5bf15bde7da90cbbddc0093f3225b29302fb40"
+    },
+    {
+      "bytes": 4125,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/x11/xim_handler.rs",
+      "sha256": "5a1f5b1a6a436a82c6bbbf9222a7470d537c5fac6b06da4e898aca497ee2adf2"
+    },
+    {
+      "bytes": 6323,
+      "path": "vendor/gpui-pre-linux-0.3.5/src/linux/xdg_desktop_portal.rs",
+      "sha256": "8ccb67d26c784af8d382c97413ea998f8e313fb685376ff8734cc7722986d422"
+    },
+    {
+      "bytes": 733,
+      "path": "xtask/Cargo.toml",
+      "sha256": "a3de4fe196aa60b7305cf9380af47fa1947e543d518661dfeb04525aa235c5b3"
+    },
+    {
+      "bytes": 11548,
+      "path": "xtask/src/checks.rs",
+      "sha256": "d0558375396895070274c8c6b63e4dbf2b67efb57ceb5ee5357dad4fa70957ea"
+    },
+    {
+      "bytes": 6306,
+      "path": "xtask/src/evidence.rs",
+      "sha256": "d72d708d4aafb31a9bd2c7404945bc3465f1d48af9556e9f1f592ffac9fead9a"
+    },
+    {
+      "bytes": 39698,
+      "path": "xtask/src/keybindings.rs",
+      "sha256": "498d474e7a7eacb396289e26bfde738adb82661b7f5e3c6e36a522cf274da9f1"
+    },
+    {
+      "bytes": 19304,
+      "path": "xtask/src/main.rs",
+      "sha256": "adbac5bfe5b730680ebc10e652b5b6c17bfdd36740ef36a2e4e82ab2730bc95d"
+    },
+    {
+      "bytes": 10622,
+      "path": "xtask/src/model.rs",
+      "sha256": "a5a7b59f970593d084db35efc9aad6a59c5caa2114a574d62fd8bfb356939ff1"
+    },
+    {
+      "bytes": 12937,
+      "path": "xtask/src/provenance.rs",
+      "sha256": "d1b400cabcd9a2082fb4202e4b3b0adf307b4a1608d2452d8b906dac4f8081a4"
+    },
+    {
+      "bytes": 19647,
+      "path": "xtask/src/runner.rs",
+      "sha256": "400ca859ee2356c60e851b14a3fbb29b7b8f22452921f4e23a882d11f5a6b018"
+    },
+    {
+      "bytes": 35090,
+      "path": "xtask/src/sourcegates.rs",
+      "sha256": "7297169881e29aacbdd265c9d7b9dfe3b971e0c1b9e4cdea9e222e8069340dfb"
+    },
+    {
+      "bytes": 48669,
+      "path": "xtask/src/tests.rs",
+      "sha256": "a46bec4714d2fb872e370426d4b97af8d375afe2210c52d90dbd80c370d565bb"
+    }
+  ],
+  "history_model": "fresh-public-root",
+  "license_present": true,
+  "private_paths_excluded": [
+    "crates/in-gnu-os-personal-profile-provision/"
+  ],
+  "publication_commit": "3f09e6263988e97bb285e8c8369694f051ae51c0",
+  "raw_evidence_included": false,
+  "schema": "gnosix-public-cut-v1",
+  "source_commit": "66e8237bb84dc7912e6f51cba65b215e4856b54a",
+  "third_party_notices_present": true,
+  "total_bytes": 4428899,
+  "workspace_members_removed": [
+    "crates/in-gnu-os-personal-profile-provision"
+  ]
+}

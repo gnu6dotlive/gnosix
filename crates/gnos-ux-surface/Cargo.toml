@@ -1,0 +1,11 @@
+[package]
+name = "gnos-ux-surface"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[dependencies]
+anyhow = "1.0"
+smithay-client-toolkit = "0.20"
+wayland-client = { version = "0.31.15", features = ["system"] }

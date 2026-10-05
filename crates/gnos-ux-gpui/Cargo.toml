@@ -1,0 +1,77 @@
+[package]
+name = "gnos-ux-gpui"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[features]
+default = []
+r12-production-client = ["dep:gnos-ux-profile-client"]
+component-lab = ["dep:serde_json"]
+qualification-surfaces = []
+r13-production-client = ["dep:gnos-ux-activation-client", "dep:gnosix-activation-protocol"]
+
+[dependencies]
+gnos-ux-profile-client = { path = "../gnos-ux-profile-client", optional = true }
+gnos-ux-surface = { path = "../gnos-ux-surface" }
+gnos-ux-product-intent = { path = "../gnos-ux-product-intent" }
+gnos-ux-activation-client = { path = "../gnos-ux-activation-client", optional = true }
+gnosix-activation-protocol = { path = "../gnosix-activation-protocol", optional = true }
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }
+gnosix-hyprland = { path = "../gnosix-hyprland" }
+gnosix-application-launch = { path = "../gnosix-application-launch" }
+gnosix-application-catalog = { path = "../gnosix-application-catalog" }
+in-gnu-os-settings-read-model = { path = "../in-gnu-os-settings-read-model" }
+in-gnu-os-settings-core = { path = "../in-gnu-os-settings-core" }
+gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false }
+gpui_platform = { package = "gpui-pre-platform", version = "=0.3.5", default-features = false, features = ["wayland"] }
+uuid = { version = "1.26.1", features = ["v4", "v5"] }
+signal-hook = "0.3.18"
+futures = "0.3.34"
+serde_json = { version = "1", optional = true }
+ashpd = { version = "=0.13.13", default-features = false, features = ["async-io", "settings"] }
+
+[dev-dependencies]
+gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false, features = ["test-support"] }
+
+[[bin]]
+name = "gnos-ux-bar"
+path = "src/bin/gnos-ux-bar.rs"
+required-features = ["qualification-surfaces"]
+
+[[bin]]
+name = "gnos-ux-dock"
+path = "src/bin/gnos-ux-dock.rs"
+required-features = ["qualification-surfaces"]
+
+[[bin]]
+name = "gnos-ux-scene"
+path = "src/bin/gnos-ux-scene.rs"
+
+[[bin]]
+name = "gnos-ux-lab"
+path = "src/bin/gnos-ux-lab.rs"
+required-features = ["component-lab"]
+
+[[bin]]
+name = "gnos-ux-topology-lab"
+path = "src/bin/gnos-ux-topology-lab.rs"
+required-features = ["component-lab"]
+
+[[bin]]
+name = "gnos-ux-envelope-qualify"
+path = "src/bin/gnos-ux-envelope-qualify.rs"
+
+[[bin]]
+name = "gnos-ux-bar-envelope-qualify"
+path = "src/bin/gnos-ux-bar-envelope-qualify.rs"
+
+[[bin]]
+name = "gnos-ux-envelope-cli"
+path = "src/bin/gnos-ux-envelope-cli.rs"
+
+[[bin]]
+name = "gnos-ux-bar-placement-lab"
+path = "src/bin/gnos-ux-bar-placement-lab.rs"
+required-features = ["component-lab"]

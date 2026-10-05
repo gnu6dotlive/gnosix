@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=in.gnu.os.Activation1
+Exec=/bin/false
+SystemdService=in-gnu-os-activation.service

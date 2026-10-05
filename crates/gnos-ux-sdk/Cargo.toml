@@ -1,0 +1,14 @@
+[package]
+name = "gnos-ux-sdk"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+
+[dependencies]
+gnos-ux-surface = { path = "../gnos-ux-surface" }
+gnos-ux-gpui = { path = "../gnos-ux-gpui" }
+
+[[bin]]
+name = "gnos-ux-lab"
+path = "src/bin/gnos-ux-lab.rs"

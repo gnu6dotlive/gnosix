@@ -1,0 +1,10 @@
+[package]
+name = "gnos-ux-product-intent"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Passive typed GNOS.UX product-intent contract"
+
+[dependencies]
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }

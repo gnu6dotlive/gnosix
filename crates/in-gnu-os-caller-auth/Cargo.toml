@@ -1,0 +1,9 @@
+[package]
+name = "in-gnu-os-caller-auth"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+[dependencies]
+zbus = "5.19.0"
+libc = "0.2"

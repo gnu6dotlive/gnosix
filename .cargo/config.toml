@@ -1,0 +1,7 @@
+# The canonical entry point.
+#
+# An alias rather than a wrapper script so that `cargo xtask` resolves through
+# cargo itself, works identically from any working directory, and is visible
+# to anyone reading the workspace manifest.
+[alias]
+xtask = "run --locked --package xtask --"

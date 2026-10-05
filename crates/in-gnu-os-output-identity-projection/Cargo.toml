@@ -1,0 +1,13 @@
+[package]
+name = "in-gnu-os-output-identity-projection"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Read-only durable identity association for current session output projections"
+license.workspace = true
+[dependencies]
+gnosix-desktop-model = { path = "../gnosix-desktop-model" }
+in-gnu-os-output-identity = { path = "../in-gnu-os-output-identity" }
+
+[dev-dependencies]
+serde_json = "1"

@@ -1,0 +1,9 @@
+{"case":"startup","generation":2,"readiness":"all_released"}
+{"case":"inactive","generation":3,"readiness":"state_unknown"}
+{"case":"resume_incomplete","generation":4,"readiness":"state_unknown"}
+{"case":"old_epoch","generation":4,"readiness":"state_unknown"}
+{"case":"held_super","generation":4,"readiness":"inputs_active"}
+{"case":"owned_drag","generation":4,"readiness":"inputs_active"}
+{"case":"dnd","generation":4,"readiness":"inputs_active"}
+{"case":"trackpad","generation":4,"readiness":"inputs_active"}
+{"case":"resumed_neutral","generation":4,"readiness":"all_released"}
