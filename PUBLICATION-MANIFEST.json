@@ -1,5 +1,5 @@
 {
-  "file_count": 267,
+  "file_count": 270,
   "files": [
     {
       "bytes": 281,
@@ -1077,6 +1077,21 @@
       "sha256": "3a98c46c7a418e7ade4852e655ef7486ad86d5d44ea9560aa25694585067fa81"
     },
     {
+      "bytes": 533,
+      "path": "evidence/fixtures/gnosix-r12-b2-profile-current-v1.json",
+      "sha256": "4fb7820933839463ab4264f730038344de14ba4d901e10a3e808231bf075b5fb"
+    },
+    {
+      "bytes": 352,
+      "path": "evidence/fixtures/gnosix-r12-b2-r11-identity-current-v1.json",
+      "sha256": "20e1da0b78e337376b5cf45aa0fa817895a2855f28d2948709475db48e399eb9"
+    },
+    {
+      "bytes": 51,
+      "path": "evidence/fixtures/gnosix-r12-b2-r11-issued-v1.json",
+      "sha256": "ace90d5b40c53151e402ee61725261a677c2d259ccfa157184e46711bc8b354c"
+    },
+    {
       "bytes": 429,
       "path": "rust-toolchain.toml",
       "sha256": "5cba12b7fb8be12d66a2b35d1082cdb4266f56129ccb52b50ee3fd8bba1d1ca9"
@@ -1107,9 +1122,9 @@
       "sha256": "fb90021a9f08b20bfc6c89a7cdd8d1b74dd2f23b039ca215d50dd5c5daae662f"
     },
     {
-      "bytes": 6722,
+      "bytes": 7910,
       "path": "tools/public_cut.py",
-      "sha256": "cd0e34e5aefe93d3dabade1b8bc676490412a967afc87fa7951cc03624bce6f3"
+      "sha256": "15340d5f3c88137c7d8942e0eeec9e33b707ca11e1b8d6bc9214b2fcd7df20b3"
     },
     {
       "bytes": 4742,
@@ -1127,9 +1142,9 @@
       "sha256": "008a74aa09cddcb678be8d5bcdde28d6322f2f7986256a697d60bd0290880002"
     },
     {
-      "bytes": 6717,
+      "bytes": 7598,
       "path": "tools/test_public_cut.py",
-      "sha256": "3ae238090ec7c141e0e4f369e421ce224723fa8f4ae2a3ac1d33ef03880534f6"
+      "sha256": "7df47ff65c1c38d7f2c4f7244ded890cac15e5f90cefab77dbfb6492ec7a05eb"
     },
     {
       "bytes": 4525,
@@ -1342,12 +1357,17 @@
   "private_paths_excluded": [
     "crates/in-gnu-os-personal-profile-provision/"
   ],
-  "publication_commit": "3f09e6263988e97bb285e8c8369694f051ae51c0",
+  "public_fixtures_included": [
+    "evidence/fixtures/gnosix-r12-b2-profile-current-v1.json",
+    "evidence/fixtures/gnosix-r12-b2-r11-identity-current-v1.json",
+    "evidence/fixtures/gnosix-r12-b2-r11-issued-v1.json"
+  ],
+  "publication_commit": "785028a87114b9f484fbcd67029afd0565f9a232",
   "raw_evidence_included": false,
   "schema": "gnosix-public-cut-v1",
   "source_commit": "66e8237bb84dc7912e6f51cba65b215e4856b54a",
   "third_party_notices_present": true,
-  "total_bytes": 4428899,
+  "total_bytes": 4431904,
   "workspace_members_removed": [
     "crates/in-gnu-os-personal-profile-provision"
   ]

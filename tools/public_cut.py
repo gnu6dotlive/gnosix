@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
@@ -62,6 +63,12 @@ PRIVATE_WORKSPACE_MEMBERS = (
     "crates/in-gnu-os-personal-profile-provision",
 )
 
+PUBLIC_FIXTURES = {
+    "evidence/fixtures/gnosix-r12-b2-r11-identity-current-v1.json",
+    "evidence/fixtures/gnosix-r12-b2-r11-issued-v1.json",
+    "evidence/fixtures/gnosix-r12-b2-profile-current-v1.json",
+}
+
 PUBLIC_TOOLS = {
     "tools/public_cut.py",
     "tools/test_public_cut.py",
@@ -83,7 +90,7 @@ def should_include(path: str) -> bool:
     rel = PurePosixPath(path).as_posix()
     if any(rel.startswith(prefix) for prefix in PRIVATE_PREFIXES):
         return False
-    if rel in ROOT_FILES or rel in PUBLIC_TOOLS:
+    if rel in ROOT_FILES or rel in PUBLIC_TOOLS or rel in PUBLIC_FIXTURES:
         return True
     return any(rel.startswith(prefix) for prefix in PUBLIC_PREFIXES)
 
@@ -110,6 +117,25 @@ def _scan_private_markers(path: Path) -> None:
             raise BuildError(
                 f"private marker {marker.decode(errors='replace')!r} in {path}"
             )
+
+
+def _validate_literal_compile_time_includes(root: Path) -> None:
+    pattern = re.compile(r'include_(?:str|bytes)!\(\s*"([^"]+)"\s*\)')
+    root = root.resolve()
+    for source in sorted(root.rglob("*.rs")):
+        text = source.read_text(encoding="utf-8")
+        for raw_target in pattern.findall(text):
+            target = (source.parent / raw_target).resolve()
+            try:
+                target.relative_to(root)
+            except ValueError as exc:
+                raise BuildError(
+                    f"compile-time include escapes public cut: {source.relative_to(root)} -> {raw_target}"
+                ) from exc
+            if not target.is_file():
+                raise BuildError(
+                    f"missing compile-time include: {source.relative_to(root)} -> {raw_target}"
+                )
 
 
 def _rewrite_public_cargo_manifest(path: Path) -> list[str]:
@@ -164,6 +190,7 @@ def build_cut(
                     "sha256": _sha256(target),
                 }
             )
+        _validate_literal_compile_time_includes(destination)
     except Exception:
         shutil.rmtree(destination, ignore_errors=True)
         raise
@@ -173,6 +200,7 @@ def build_cut(
         "publication_commit": publication_commit,
         "history_model": "fresh-public-root",
         "raw_evidence_included": False,
+        "public_fixtures_included": sorted(PUBLIC_FIXTURES),
         "private_paths_excluded": list(PRIVATE_PREFIXES),
         "workspace_members_removed": workspace_members_removed,
         "license_present": (destination / "LICENSE").is_file(),

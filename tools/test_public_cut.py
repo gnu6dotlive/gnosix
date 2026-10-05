@@ -25,6 +25,9 @@ class PublicCutPolicyTests(unittest.TestCase):
             "vendor/gpui-pre-linux-0.3.5/Cargo.toml",
             "docs/status/STATUS.md",
             "docs/evidence/CURRENT.md",
+            "evidence/fixtures/gnosix-r12-b2-r11-identity-current-v1.json",
+            "evidence/fixtures/gnosix-r12-b2-r11-issued-v1.json",
+            "evidence/fixtures/gnosix-r12-b2-profile-current-v1.json",
         )
         for path in admitted:
             with self.subTest(path=path):
@@ -33,6 +36,7 @@ class PublicCutPolicyTests(unittest.TestCase):
         rejected = (
             "GNOS_UX_1_0_PROGRAM_REGISTER.md",
             "evidence/runs/private.json",
+            "evidence/fixtures/not-public.json",
             "crates/in-gnu-os-personal-profile-provision/src/lib.rs",
             "docs/publication/PUBLICATION-01-RESULT.md",
             "target/debug/gnos-ux-scene",
@@ -121,6 +125,19 @@ class PublicCutBuildTests(unittest.TestCase):
                 (source / required).unlink()
                 with self.assertRaisesRegex(BuildError, f"required legal file missing: {required}"):
                     build_cut(source, base / "cut", tracked, "source-sha", "publication-sha")
+
+
+    def test_missing_literal_compile_time_include_aborts_cut(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            source, tracked = self.make_source(base)
+            source_file = source / "crates/demo/src/lib.rs"
+            source_file.write_text(
+                'const FIXTURE: &str = include_str!("../../../evidence/fixtures/demo.json");\n',
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(BuildError, "missing compile-time include"):
+                build_cut(source, base / "cut", tracked, "source-sha", "publication-sha")
 
     def test_private_workspace_member_is_removed_from_public_manifest(self):
         with tempfile.TemporaryDirectory() as tmp:

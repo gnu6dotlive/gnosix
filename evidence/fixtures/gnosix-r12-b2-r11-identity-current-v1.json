@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "revision": 1,
+  "next_record_id": 1,
+  "output_hubs": [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+  "bindings": [],
+  "audit": [
+    {
+      "kind": "hub_created",
+      "revision": 1,
+      "output_hub_id": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "authority_reference": "r12-b2-fixture"
+    }
+  ]
+}

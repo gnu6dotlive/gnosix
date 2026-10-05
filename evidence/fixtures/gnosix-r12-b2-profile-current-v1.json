@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "revision": 1,
+  "profiles": [
+    {
+      "id": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "name": "Everyday",
+      "preferences": {
+        "visual": {"color_scheme": "dark"},
+        "motion": {"reduced_motion": "follow_system"},
+        "accessibility": {"text_scale": 10000}
+      }
+    }
+  ],
+  "output_profile_selections": [
+    {
+      "output_hub_id": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "profile_id": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    }
+  ]
+}
