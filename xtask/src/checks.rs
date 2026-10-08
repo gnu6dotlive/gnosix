@@ -291,6 +291,17 @@ pub fn catalogue() -> Vec<Check> {
         ],
     ));
 
+    // Fail-closed compatibility gate for the byte-pinned legacy user daemon.
+    // This check has hermetic pass/refusal fixtures, no host-state assumptions.
+    checks.push(Check::spawn(
+        "test-legacy-in-gnu-os-guard",
+        CheckClass::RepositoryHermetic,
+        vec![
+            "python3".into(),
+            "tools/test_legacy_in_gnu_os_preflight.py".into(),
+        ],
+    ));
+
     // The lockfile is part of the qualified source state. `--locked`
     // throughout already enforces this for cargo commands; this check makes
     // the fact explicit and covers the non-cargo paths.
