@@ -1,5 +1,6 @@
 //! GFC-01: fail-closed, per-request protocol core for Gnosix FileChooser.
 //! This crate does NOT yet implement a graphical picker or install portal defaults.
+pub mod cabinet_fs;
 pub mod render_wire;
 use std::collections::HashMap;
 use std::path::PathBuf;

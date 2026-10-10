@@ -5,10 +5,10 @@ use gpui::{
     div, prelude::*, px, rgb, size, App, AppContext, Bounds, Context, FocusHandle, Render, Window,
     WindowBackgroundAppearance, WindowBounds, WindowOptions,
 };
+use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory, CabinetEntry};
 use in_gnu_os_filechooser_portal::render_wire::{RenderRequest, RenderResponse, MAX_WIRE_BYTES};
 use std::{
     collections::BTreeSet,
-    fs,
     io::{self, Read, Write},
     path::PathBuf,
     sync::{Arc, Mutex},
@@ -21,17 +21,14 @@ const TEXT: u32 = 0xecf1f5;
 const MUTED: u32 = 0xa5b2bf;
 const ORANGE: u32 = 0xff8733;
 
-#[derive(Debug, Clone)]
-struct Entry {
-    path: PathBuf,
-    label: String,
-    folder: bool,
-}
-
 struct PickerView {
     request: RenderRequest,
     folder: PathBuf,
-    entries: Vec<Entry>,
+    entries: Vec<CabinetEntry>,
+    scanning: bool,
+    truncated: bool,
+    scan_generation: u64,
+    current_index: Option<usize>,
     selected: BTreeSet<PathBuf>,
     error: Option<String>,
     focus: FocusHandle,
@@ -49,56 +46,85 @@ impl PickerView {
             request,
             folder,
             entries: Vec::new(),
+            scanning: false,
+            truncated: false,
+            scan_generation: 0,
+            current_index: None,
             selected: BTreeSet::new(),
             error: None,
             focus: cx.focus_handle(),
             outcome,
         };
-        view.reload();
+        view.start_scan(cx);
         view
     }
 
-    fn reload(&mut self) {
+    /// File metadata scanning is never performed on the GPUI UI thread.
+    /// Navigating again invalidates late results through an epoch check.
+    fn start_scan(&mut self, cx: &mut Context<Self>) {
         self.entries.clear();
         self.selected.clear();
+        self.current_index = None;
+        self.scanning = true;
+        self.truncated = false;
         self.error = None;
-        let dirs = match fs::read_dir(&self.folder) {
-            Ok(entries) => entries,
-            Err(error) => {
-                self.error = Some(format!("Directory unavailable: {error}"));
-                return;
-            }
-        };
-        for candidate in dirs.take(4097) {
-            let Ok(candidate) = candidate else { continue };
-            let path = candidate.path();
-            let Ok(info) = fs::metadata(&path) else {
-                continue;
-            };
-            if !info.is_file() && !info.is_dir() {
-                continue;
-            }
-            self.entries.push(Entry {
-                label: candidate.file_name().to_string_lossy().into_owned(),
-                path,
-                folder: info.is_dir(),
+        self.scan_generation = self.scan_generation.wrapping_add(1);
+        let scan_generation = self.scan_generation;
+        let folder = self.folder.clone();
+        let work = cx
+            .background_executor()
+            .spawn(async move { scan_directory(&folder) });
+        cx.spawn(async move |this, cx| {
+            let listing = work.await;
+            let _ = this.update(cx, |view, cx| {
+                if view.scan_generation != scan_generation {
+                    return;
+                }
+                view.scanning = false;
+                match listing {
+                    Ok(listing) => {
+                        view.entries = listing.entries;
+                        view.truncated = listing.truncated;
+                    }
+                    Err(error) => view.error = Some(format!("Directory unavailable: {error}")),
+                }
+                cx.notify();
             });
+        })
+        .detach();
+        cx.notify();
+    }
+
+    fn move_cursor(&mut self, down: bool, cx: &mut Context<Self>) {
+        if self.entries.is_empty() || self.scanning {
+            return;
         }
-        self.entries.sort_by(|a, b| {
-            b.folder
-                .cmp(&a.folder)
-                .then_with(|| a.label.to_lowercase().cmp(&b.label.to_lowercase()))
+        let last = self.entries.len() - 1;
+        self.current_index = Some(match (self.current_index, down) {
+            (None, _) => 0,
+            (Some(i), true) => (i + 1).min(last),
+            (Some(i), false) => i.saturating_sub(1),
         });
-        if self.entries.len() > 4096 {
-            self.entries.truncate(4096);
-            self.error = Some("Showing the first 4096 entries only".into());
+        cx.notify();
+    }
+
+    fn activate_cursor(&mut self, cx: &mut Context<Self>) {
+        let Some(index) = self.current_index else {
+            return;
+        };
+        if let Some(entry) = self.entries.get(index).cloned() {
+            if !entry.folder && !self.request.multiple && self.selected.contains(&entry.path) {
+                self.confirm(cx);
+            } else {
+                self.click_entry(&entry, cx);
+            }
         }
     }
 
-    fn click_entry(&mut self, entry: &Entry, cx: &mut Context<Self>) {
+    fn click_entry(&mut self, entry: &CabinetEntry, cx: &mut Context<Self>) {
         if entry.folder {
             self.folder = entry.path.clone();
-            self.reload();
+            self.start_scan(cx);
         } else if !self.request.directory {
             if self.request.multiple {
                 if !self.selected.insert(entry.path.clone()) {
@@ -115,8 +141,7 @@ impl PickerView {
     fn navigate_up(&mut self, cx: &mut Context<Self>) {
         if let Some(parent) = self.folder.parent() {
             self.folder = parent.to_path_buf();
-            self.reload();
-            cx.notify();
+            self.start_scan(cx);
         }
     }
 
@@ -153,30 +178,49 @@ impl Render for PickerView {
         let folder = self.folder.to_string_lossy().to_string();
         let chosen = self.selected.len();
         let directory = self.request.directory;
-        let mut list = div()
-            .id("gfc-files")
-            .flex_1()
-            .w_full()
-            .overflow_y_scroll()
-            .flex()
-            .flex_col()
-            .gap_1();
+        let scanning = self.scanning;
+        let truncated = self.truncated;
+        let current_index = self.current_index;
+        let mut list = div().id("gfc-file-rows").w_full().flex().flex_col().gap_1();
 
+        if scanning {
+            list = list.child(div().text_color(rgb(MUTED)).child("Loading directory…"));
+        } else if self.entries.is_empty() {
+            list = list.child(
+                div()
+                    .text_color(rgb(MUTED))
+                    .child("No files or folders found"),
+            );
+        }
         for (index, entry) in self.entries.iter().cloned().enumerate() {
             let label = entry.label.clone();
             let marker = if entry.folder { "▸" } else { "•" };
             let picked = self.selected.contains(&entry.path);
-            let bg = if picked { 0x25445a } else { PANEL };
+            let focused = current_index == Some(index);
+            let bg = if picked {
+                0x25445a
+            } else if focused {
+                0x283748
+            } else {
+                PANEL
+            };
             list = list.child(
                 div()
                     .id(format!("gfc-file-{index}"))
                     .w_full()
                     .p_2()
                     .rounded_sm()
+                    .role(gpui::Role::Button)
+                    .aria_label(if entry.folder {
+                        format!("Open folder {label}")
+                    } else {
+                        format!("Select file {label}")
+                    })
                     .bg(rgb(bg))
                     .text_color(rgb(if picked { ORANGE } else { TEXT }))
                     .child(format!("{marker}   {label}"))
                     .on_click(cx.listener(move |this, _, _, cx| {
+                        this.current_index = Some(index);
                         this.click_entry(&entry, cx);
                     })),
             );
@@ -188,8 +232,13 @@ impl Render for PickerView {
             .aria_label("Cabinet — Gnosix file selection")
             .track_focus(&self.focus)
             .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
-                if event.keystroke.key.eq_ignore_ascii_case("escape") {
-                    this.complete(RenderResponse::Cancelled, cx);
+                match event.keystroke.key.as_str() {
+                    "escape" => this.complete(RenderResponse::Cancelled, cx),
+                    "backspace" => this.navigate_up(cx),
+                    "up" => this.move_cursor(false, cx),
+                    "down" => this.move_cursor(true, cx),
+                    "enter" if this.current_index.is_some() => this.activate_cursor(cx),
+                    _ => {}
                 }
             }))
             .size_full()
@@ -238,8 +287,10 @@ impl Render for PickerView {
             )
             .child(
                 div()
+                    .id("gfc-files")
                     .flex_1()
                     .min_h_0()
+                    .overflow_y_scroll()
                     .p_2()
                     .border_1()
                     .border_color(rgb(BORDER))
@@ -257,6 +308,14 @@ impl Render for PickerView {
                         format!("{chosen} selected")
                     }),
             )
+            .when(truncated, |panel| {
+                panel.child(
+                    div()
+                        .text_color(rgb(ORANGE))
+                        .text_size(px(12.))
+                        .child("Only the first 4096 entries are listed"),
+                )
+            })
             .when_some(self.error.clone(), |panel, error| {
                 panel.child(div().text_color(rgb(ORANGE)).child(error))
             })
