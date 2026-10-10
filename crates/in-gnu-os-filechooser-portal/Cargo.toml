@@ -1,0 +1,14 @@
+[package]
+name = "in-gnu-os-filechooser-portal"
+version = "0.1.0"
+edition = "2021"
+license.workspace = true
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
+zbus = "5.19.0"
+url = "2.5.8"
+
+[[bin]]
+name = "gnosix-portal-filechooser"
+path = "src/main.rs"

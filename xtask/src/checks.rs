@@ -71,6 +71,10 @@ pub const CLIPPY_TARGETS: &[(&str, &[&str])] = &[
     // The qualification tool itself, at the same strictness. "It is only
     // tooling" is precisely the reasoning that lets a harness rot, and this
     // crate is now the thing every other gate is read through.
+    (
+        "clippy-filechooser-portal",
+        &["-p", "in-gnu-os-filechooser-portal"],
+    ),
     ("clippy-xtask", &["-p", "xtask"]),
 ];
 
@@ -140,6 +144,10 @@ pub const TEST_TARGETS: &[(&str, &[&str])] = &[
         "test-desktop-profiles",
         &["-p", "in-gnu-os-desktop-profiles", "--lib"],
     ),
+    (
+        "test-filechooser-portal",
+        &["-p", "in-gnu-os-filechooser-portal"],
+    ),
     ("test-xtask", &["-p", "xtask", "--bin", "xtask"]),
 ];
 
@@ -177,6 +185,15 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "component-lab",
             "--bin",
             "gnos-ux-lab",
+        ],
+    ),
+    (
+        "build-filechooser-portal",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--bin",
+            "gnosix-portal-filechooser",
         ],
     ),
 ];
