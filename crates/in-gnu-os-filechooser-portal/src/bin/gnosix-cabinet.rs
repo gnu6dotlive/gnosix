@@ -5,6 +5,7 @@ use gpui::{
     div, prelude::*, px, rgb, size, App, AppContext, Bounds, Context, FocusHandle, Render, Window,
     WindowBackgroundAppearance, WindowBounds, WindowOptions,
 };
+use in_gnu_os_filechooser_portal::cabinet_choices::CabinetChoice;
 use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory_filtered, CabinetEntry};
 use in_gnu_os_filechooser_portal::render_wire::{RenderRequest, RenderResponse, MAX_WIRE_BYTES};
 use in_gnu_os_filechooser_portal::PickerKind;
@@ -32,6 +33,7 @@ struct PickerView {
     scan_generation: u64,
     current_index: Option<usize>,
     selected_filter: Option<usize>,
+    choices: Vec<CabinetChoice>,
     selected: BTreeSet<PathBuf>,
     error: Option<String>,
     focus: FocusHandle,
@@ -48,6 +50,7 @@ impl PickerView {
         let mut view = Self {
             filename: request.filename.clone(),
             selected_filter: request.selected_filter,
+            choices: request.choices.clone(),
             request,
             folder,
             entries: Vec::new(),
@@ -113,6 +116,13 @@ impl PickerView {
             .map_or(0, |i| (i + 1) % self.request.filters.len());
         self.selected_filter = Some(next);
         self.start_scan(cx);
+    }
+
+    fn cycle_choice(&mut self, index: usize, cx: &mut Context<Self>) {
+        if let Some(choice) = self.choices.get_mut(index) {
+            choice.cycle();
+            cx.notify();
+        }
     }
 
     fn move_cursor(&mut self, down: bool, cx: &mut Context<Self>) {
@@ -194,12 +204,24 @@ impl PickerView {
             PickerKind::OpenFile => self.selected.iter().cloned().collect(),
         };
         if self.request.validate_selection(&paths) {
-            let response = match self.selected_filter {
-                Some(filter_index) => RenderResponse::SelectedWithFilter {
+            let response = if !self.choices.is_empty() {
+                RenderResponse::SelectedWithMetadata {
                     paths,
-                    filter_index,
-                },
-                None => RenderResponse::Selected(paths),
+                    filter_index: self.selected_filter,
+                    choices: self
+                        .choices
+                        .iter()
+                        .map(|item| (item.id.clone(), item.selected.clone()))
+                        .collect(),
+                }
+            } else {
+                match self.selected_filter {
+                    Some(filter_index) => RenderResponse::SelectedWithFilter {
+                        paths,
+                        filter_index,
+                    },
+                    None => RenderResponse::Selected(paths),
+                }
             };
             self.complete(response, cx);
         } else {
@@ -241,6 +263,32 @@ impl Render for PickerView {
             .selected_filter
             .and_then(|index| self.request.filters.get(index))
             .map(|filter| format!("Filter: {}  ·  click / F6 to switch", filter.name));
+        let mut choice_panel = div()
+            .id("cabinet-choices")
+            .w_full()
+            .flex()
+            .flex_col()
+            .gap_1();
+        for (index, item) in self.choices.iter().enumerate() {
+            let label = format!(
+                "{}: {}  ·  click to change",
+                item.label,
+                item.selection_label()
+            );
+            choice_panel = choice_panel.child(
+                div()
+                    .id(format!("cabinet-choice-{index}"))
+                    .p_2()
+                    .rounded_sm()
+                    .bg(rgb(PANEL))
+                    .text_color(rgb(ORANGE))
+                    .text_size(px(12.))
+                    .role(gpui::Role::Button)
+                    .aria_label(label.clone())
+                    .child(label)
+                    .on_click(cx.listener(move |this, _, _, cx| this.cycle_choice(index, cx))),
+            );
+        }
         let mut list = div().id("gfc-file-rows").w_full().flex().flex_col().gap_1();
 
         if scanning {
@@ -383,6 +431,7 @@ impl Render for PickerView {
                         .on_click(cx.listener(|this, _, _, cx| this.cycle_filter(cx))),
                 )
             })
+            .child(choice_panel)
             .child(
                 div()
                     .id("gfc-files")

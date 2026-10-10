@@ -11,7 +11,23 @@ title = request["title"]
 fixture = Path(os.environ["GFC02_FIXTURE"])
 if title == "slow":
     time.sleep(12)
-if request.get("filters"):
+if request.get("choices"):
+    selected = [(item["id"], item["selected"]) for item in request["choices"]]
+    if title == "choice_switch":
+        selected = [(key, "utf8" if key == "encoding" else "true") for key, _ in selected]
+    if title == "choice_invalid_value":
+        selected[0] = (selected[0][0], "not-offered")
+    if title == "choice_wrong_id":
+        selected[0] = ("forged-id", selected[0][1])
+    result = {
+        "outcome": "selected_with_metadata",
+        "paths": {
+            "paths": [str(fixture / "alpha.txt")],
+            "filter_index": request.get("selected_filter"),
+            "choices": selected
+        }
+    }
+elif request.get("filters"):
     selection = fixture / ("alpha.txt" if title == "filter_text" else "pixel.png")
     chosen = request.get("selected_filter") or 0
     if title == "filter_bad_index":

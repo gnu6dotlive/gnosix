@@ -1,5 +1,6 @@
 //! GFC-02 private stdio contract. Only the backend may launch its renderer.
 //! This is NOT a public IPC API or a portal permission grant.
+use crate::cabinet_choices::{parse_choices, validate_result, CabinetChoice};
 use crate::cabinet_filters::{parse_filters, CabinetFilter};
 use crate::{PickerInvocation, PickerKind, Resolution};
 use serde::{Deserialize, Serialize};
@@ -23,6 +24,7 @@ pub struct RenderRequest {
     pub accept_label: String,
     pub filters: Vec<CabinetFilter>,
     pub selected_filter: Option<usize>,
+    pub choices: Vec<CabinetChoice>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -32,6 +34,11 @@ pub enum RenderResponse {
     SelectedWithFilter {
         paths: Vec<PathBuf>,
         filter_index: usize,
+    },
+    SelectedWithMetadata {
+        paths: Vec<PathBuf>,
+        filter_index: Option<usize>,
+        choices: Vec<(String, String)>,
     },
     Cancelled,
 }
@@ -61,6 +68,7 @@ impl RenderRequest {
                 "accept_label",
                 "filters",
                 "current_filter",
+                "choices",
             ],
             PickerKind::SaveFile => &[
                 "current_name",
@@ -154,9 +162,12 @@ impl RenderRequest {
             request.options.get("current_filter"),
         )
         .map_err(|_| RenderError::InvalidOptions)?;
+        let choices = parse_choices(request.options.get("choices"))
+            .map_err(|_| RenderError::InvalidOptions)?;
         Ok(Self {
             filters,
             selected_filter,
+            choices,
             kind: request.kind,
             filename,
             requested_files,
@@ -263,7 +274,9 @@ impl RenderResponse {
             // A filtered request requires an explicit choice from the renderer,
             // rather than silently inventing a default filter in the backend.
             Self::Selected(paths)
-                if request.filters.is_empty() && request.validate_selection(&paths) =>
+                if request.choices.is_empty()
+                    && request.filters.is_empty()
+                    && request.validate_selection(&paths) =>
             {
                 match request.kind {
                     PickerKind::SaveFiles => Resolution::Selected(
@@ -279,13 +292,44 @@ impl RenderResponse {
             Self::SelectedWithFilter {
                 paths,
                 filter_index,
-            } if request.filters.get(filter_index).is_some()
+            } if request.choices.is_empty()
+                && request.filters.get(filter_index).is_some()
                 && request.validate_selection(&paths)
                 && request.kind != PickerKind::SaveFiles =>
             {
                 Resolution::SelectedWithFilter {
                     paths,
                     filter: request.filters[filter_index].clone(),
+                }
+            }
+            Self::SelectedWithMetadata {
+                paths,
+                filter_index,
+                choices,
+            } if request.validate_selection(&paths)
+                && validate_result(&request.choices, &choices)
+                && match filter_index {
+                    Some(index) => {
+                        request.kind != PickerKind::SaveFiles
+                            && request.filters.get(index).is_some()
+                    }
+                    None => request.filters.is_empty(),
+                } =>
+            {
+                let filter = filter_index.map(|index| request.filters[index].clone());
+                let paths = if request.kind == PickerKind::SaveFiles {
+                    request
+                        .requested_files
+                        .iter()
+                        .map(|name| paths[0].join(name))
+                        .collect()
+                } else {
+                    paths
+                };
+                Resolution::SelectedWithMetadata {
+                    paths,
+                    filter,
+                    choices,
                 }
             }
             _ => Resolution::Unavailable,
@@ -459,6 +503,82 @@ mod tests {
             Resolution::Unavailable
         );
         std::fs::remove_file(png).unwrap();
+    }
+
+    #[test]
+    fn choices_enforced_even_for_valid_local_path() {
+        use zbus::zvariant::{OwnedValue, Value};
+        let mut inv = invocation();
+        let items = vec![
+            (
+                "format".to_string(),
+                "Format".to_string(),
+                vec![
+                    ("png".to_string(), "PNG".to_string()),
+                    ("svg".to_string(), "SVG".to_string()),
+                ],
+                "svg".to_string(),
+            ),
+            (
+                "compress".to_string(),
+                "Compress".to_string(),
+                Vec::<(String, String)>::new(),
+                "false".to_string(),
+            ),
+        ];
+        inv.options.insert(
+            "choices".into(),
+            OwnedValue::try_from(Value::new(items)).unwrap(),
+        );
+        let req = RenderRequest::from_invocation(&inv).unwrap();
+        let file = std::env::temp_dir().join(format!("cabinet-choice-{}.txt", std::process::id()));
+        std::fs::write(&file, b"test").unwrap();
+        assert_eq!(
+            RenderResponse::Selected(vec![file.clone()]).into_resolution(&req),
+            Resolution::Unavailable
+        );
+        let choices = vec![
+            ("format".to_string(), "png".to_string()),
+            ("compress".to_string(), "true".to_string()),
+        ];
+        assert_eq!(
+            RenderResponse::SelectedWithMetadata {
+                paths: vec![file.clone()],
+                filter_index: None,
+                choices: choices.clone(),
+            }
+            .into_resolution(&req),
+            Resolution::SelectedWithMetadata {
+                paths: vec![file.clone()],
+                filter: None,
+                choices: choices.clone()
+            }
+        );
+        assert_eq!(
+            RenderResponse::SelectedWithMetadata {
+                paths: vec![file.clone()],
+                filter_index: None,
+                choices: vec![
+                    ("format".into(), "invalid".into()),
+                    ("compress".into(), "true".into())
+                ],
+            }
+            .into_resolution(&req),
+            Resolution::Unavailable
+        );
+        assert_eq!(
+            RenderResponse::SelectedWithMetadata {
+                paths: vec![file.clone()],
+                filter_index: None,
+                choices: vec![
+                    ("wrong".into(), "png".into()),
+                    ("compress".into(), "true".into())
+                ],
+            }
+            .into_resolution(&req),
+            Resolution::Unavailable
+        );
+        std::fs::remove_file(file).unwrap();
     }
 
     #[test]

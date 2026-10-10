@@ -1,5 +1,6 @@
 //! GFC-01: fail-closed, per-request protocol core for Gnosix FileChooser.
 //! This crate does NOT yet implement a graphical picker or install portal defaults.
+pub mod cabinet_choices;
 pub mod cabinet_filters;
 pub mod cabinet_fs;
 pub mod render_wire;
@@ -41,6 +42,11 @@ pub enum Resolution {
         paths: Vec<PathBuf>,
         filter: CabinetFilter,
     },
+    SelectedWithMetadata {
+        paths: Vec<PathBuf>,
+        filter: Option<CabinetFilter>,
+        choices: Vec<(String, String)>,
+    },
     Cancelled,
     Unavailable,
 }
@@ -51,6 +57,7 @@ pub struct PortalReply {
     pub code: u32,
     pub uris: Vec<String>,
     pub current_filter: Option<CabinetFilter>,
+    pub choices: Option<Vec<(String, String)>>,
 }
 
 impl PortalReply {
@@ -59,6 +66,7 @@ impl PortalReply {
             code: 1,
             uris: vec![],
             current_filter: None,
+            choices: None,
         }
     }
     fn unavailable() -> Self {
@@ -66,6 +74,7 @@ impl PortalReply {
             code: 2,
             uris: vec![],
             current_filter: None,
+            choices: None,
         }
     }
 }
@@ -224,11 +233,16 @@ impl Drop for Ticket {
 }
 
 fn resolution_to_reply(kind: PickerKind, multiple: bool, resolution: Resolution) -> PortalReply {
-    let (paths, current_filter) = match resolution {
+    let (paths, current_filter, choices) = match resolution {
         Resolution::Cancelled => return PortalReply::cancelled(),
         Resolution::Unavailable => return PortalReply::unavailable(),
-        Resolution::Selected(paths) => (paths, None),
-        Resolution::SelectedWithFilter { paths, filter } => (paths, Some(filter)),
+        Resolution::Selected(paths) => (paths, None, None),
+        Resolution::SelectedWithFilter { paths, filter } => (paths, Some(filter), None),
+        Resolution::SelectedWithMetadata {
+            paths,
+            filter,
+            choices,
+        } => (paths, filter, Some(choices)),
     };
     let count_valid = match kind {
         PickerKind::OpenFile => !paths.is_empty() && (multiple || paths.len() == 1),
@@ -252,6 +266,7 @@ fn resolution_to_reply(kind: PickerKind, multiple: bool, resolution: Resolution)
             code: 0,
             uris,
             current_filter,
+            choices,
         },
         None => PortalReply::unavailable(),
     }

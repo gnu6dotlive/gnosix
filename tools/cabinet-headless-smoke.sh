@@ -38,7 +38,13 @@ req = {
      {"name": "Text", "rules": [[0, "*.txt"]]},
      {"name": "Images", "rules": [[1, "image/png"]]}
   ],
-  "selected_filter": 0
+  "selected_filter": 0,
+  "choices": [
+    {"id":"encoding", "label":"Encoding",
+     "options":[["utf8","Unicode"], ["latin15","Western"]],
+     "selected":"latin15"},
+    {"id":"reencode","label":"Reencode","options":[],"selected":"false"}
+  ]
 }
 with open(sys.argv[1],"w") as f: json.dump(req,f)
 PY

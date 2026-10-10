@@ -165,6 +165,9 @@ impl FileChooser {
                     Value::new((filter.name, filter.rules)),
                 );
             }
+            if let Some(choices) = reply.choices {
+                results.insert("choices".into(), Value::new(choices));
+            }
         }
         Ok((reply.code, results))
     }
