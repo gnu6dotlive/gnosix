@@ -1,8 +1,9 @@
-//! GFC-01: fail-closed, per-request protocol core for Gnosix FileChooser.
-//! This crate does NOT yet implement a graphical picker or install portal defaults.
+//! Cabinet: Gnosix native file selection and the bounded XDG portal backend.
+//! GPUI UI is opt-in behind the native-gpui feature; host portal defaults are never installed.
 pub mod cabinet_choices;
 pub mod cabinet_filters;
 pub mod cabinet_fs;
+pub mod filename_text;
 pub mod render_wire;
 use crate::cabinet_filters::CabinetFilter;
 use serde::{Deserialize, Serialize};
@@ -31,7 +32,7 @@ pub struct PickerInvocation {
     pub parent_window: String,
     pub title: String,
     pub kind: PickerKind,
-    /// All portal options are forwarded unchanged to the future renderer.
+    /// Portal options are validated and translated to a bounded renderer contract.
     pub options: HashMap<String, OwnedValue>,
 }
 

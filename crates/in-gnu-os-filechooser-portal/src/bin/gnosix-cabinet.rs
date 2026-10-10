@@ -1,9 +1,12 @@
-//! GFC-02A native GPUI renderer; invoked ONLY by its parent via private pipes.
-//! The first opt-in slice implements local OpenFile/OpenDirectory without filters.
-//! There is intentionally no GTK, Qt, filesystem mutation, or D-Bus authority.
+//! Cabinet GFC-03C native GPUI picker, only launched by the private portal bridge.
+//! Open/Save, typed choices and filters, native GPUI input/IME hooks. No GTK, Qt
+//! or filesystem mutation. No host portal installation or public IPC authority.
+#[path = "../cabinet_ime.rs"]
+mod cabinet_ime;
+use cabinet_ime::FilenameInput;
 use gpui::{
-    div, prelude::*, px, rgb, size, App, AppContext, Bounds, Context, FocusHandle, Render, Window,
-    WindowBackgroundAppearance, WindowBounds, WindowOptions,
+    div, prelude::*, px, rgb, size, App, AppContext, Bounds, Context, Entity, FocusHandle, Render,
+    Window, WindowBackgroundAppearance, WindowBounds, WindowOptions,
 };
 use in_gnu_os_filechooser_portal::cabinet_choices::CabinetChoice;
 use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory_filtered, CabinetEntry};
@@ -26,7 +29,8 @@ const ORANGE: u32 = 0xff8733;
 struct PickerView {
     request: RenderRequest,
     folder: PathBuf,
-    filename: String,
+    filename_input: Entity<FilenameInput>,
+    _filename_observer: gpui::Subscription,
     entries: Vec<CabinetEntry>,
     scanning: bool,
     truncated: bool,
@@ -47,8 +51,11 @@ impl PickerView {
         cx: &mut Context<Self>,
     ) -> Self {
         let folder = request.initial_folder.clone();
+        let filename_input = cx.new(|cx| FilenameInput::new(request.filename.clone(), cx));
+        let filename_observer = cx.observe(&filename_input, |_view, _editor, cx| cx.notify());
         let mut view = Self {
-            filename: request.filename.clone(),
+            filename_input,
+            _filename_observer: filename_observer,
             selected_filter: request.selected_filter,
             choices: request.choices.clone(),
             request,
@@ -156,7 +163,8 @@ impl PickerView {
             self.folder = entry.path.clone();
             self.start_scan(cx);
         } else if self.request.kind == PickerKind::SaveFile {
-            self.filename = entry.label.clone();
+            self.filename_input
+                .update(cx, |editor, cx| editor.set_text(&entry.label, cx));
         } else if !self.request.directory {
             if self.request.multiple {
                 if !self.selected.insert(entry.path.clone()) {
@@ -187,7 +195,8 @@ impl PickerView {
     fn confirm(&mut self, cx: &mut Context<Self>) {
         let paths = match self.request.kind {
             PickerKind::SaveFile => {
-                let name = std::path::Path::new(&self.filename);
+                let current = self.filename_input.read(cx).text().to_owned();
+                let name = std::path::Path::new(&current);
                 if !matches!(
                     name.components().next(),
                     Some(std::path::Component::Normal(_))
@@ -245,7 +254,7 @@ impl Render for PickerView {
         let directory = self.request.directory;
         let save_file = self.request.kind == PickerKind::SaveFile;
         let save_files = self.request.kind == PickerKind::SaveFiles;
-        let filename = self.filename.clone();
+        let filename = self.filename_input.read(cx).text().to_owned();
         let files_count = self.request.requested_files.len();
         let accept_label = if !self.request.accept_label.is_empty() {
             self.request.accept_label.replace('_', "")
@@ -339,39 +348,28 @@ impl Render for PickerView {
             .role(gpui::Role::Application)
             .aria_label("Cabinet — Gnosix file selection")
             .track_focus(&self.focus)
-            .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
+            .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, window, cx| {
+                if this.request.kind == PickerKind::SaveFile
+                    && this.filename_input.read(cx).focus.is_focused(window)
+                {
+                    this.filename_input
+                        .update(cx, |editor, cx| editor.on_key(event, window, cx));
+                }
                 match event.keystroke.key.as_str() {
                     "f6" => this.cycle_filter(cx),
                     "escape" => this.complete(RenderResponse::Cancelled, cx),
-                    "backspace" if this.request.kind == PickerKind::SaveFile => {
-                        this.filename.pop();
-                        this.error = None;
-                        cx.notify();
+                    "backspace" if this.request.kind != PickerKind::SaveFile => {
+                        this.navigate_up(cx)
                     }
-                    "backspace" => this.navigate_up(cx),
-                    "up" => this.move_cursor(false, cx),
-                    "down" => this.move_cursor(true, cx),
+                    "up" if this.request.kind != PickerKind::SaveFile => {
+                        this.move_cursor(false, cx)
+                    }
+                    "down" if this.request.kind != PickerKind::SaveFile => {
+                        this.move_cursor(true, cx)
+                    }
                     "enter" if this.request.kind == PickerKind::SaveFile => this.confirm(cx),
                     "enter" if this.current_index.is_some() => this.activate_cursor(cx),
-                    _ if this.request.kind == PickerKind::SaveFile
-                        && !event.keystroke.modifiers.control
-                        && !event.keystroke.modifiers.alt
-                        && !event.keystroke.modifiers.platform =>
-                    {
-                        // Provisional keyboard path only; full text/IME composition
-                        // must be qualified before exposing to real applications.
-                        if let Some(value) = &event.keystroke.key_char {
-                            if !value.contains('/') && !value.contains(' ')
-                                && value.chars().all(|ch| !ch.is_control())
-                                && this.filename.len() + value.len() <= 240
-                            {
-                                this.filename.push_str(value);
-                                this.error = None;
-                                cx.notify();
-                            }
-                        }
-                    }
-                    _ => {}
+                    _ => {} // native filename text is handled only by the GPUI InputHandler
                 }
             }))
             .size_full()
@@ -445,14 +443,36 @@ impl Render for PickerView {
                     .rounded_md()
                     .child(list),
             )
+            .when(save_file, |panel| {
+                panel.child(
+                    div()
+                        .id("cabinet-filename-field")
+                        .w_full()
+                        .p_2()
+                        .border_1()
+                        .border_color(rgb(BORDER))
+                        .rounded_sm()
+                        .bg(rgb(PANEL))
+                        .text_size(px(16.))
+                        .text_color(rgb(TEXT))
+                        .track_focus(&self.filename_input.read(cx).focus)
+                        .on_click(cx.listener(|this, _, window, cx| {
+                            let handle = this.filename_input.read(cx).focus.clone();
+                            handle.focus(window, cx);
+                        }))
+                        .child(cabinet_ime::editor_canvas(self.filename_input.clone())),
+                )
+            })
             .child(
                 div()
                     .text_color(rgb(MUTED))
                     .text_size(px(12.))
                     .child(if save_file {
-                        format!("Save name: {filename}  (type to edit · Backspace to delete · Enter to confirm)")
+                        format!("Filename: {filename}  ·  native input / IME · Enter to confirm")
                     } else if save_files {
-                        format!("Choose folder for {files_count} file(s); existing names are rejected")
+                        format!(
+                            "Choose folder for {files_count} file(s); existing names are rejected"
+                        )
                     } else if directory {
                         "Choose this directory".to_string()
                     } else {
@@ -534,7 +554,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             },
             move |window, cx| {
                 let view = cx.new(|cx| PickerView::new(request, child_outcome, cx));
-                view.update(cx, |view, cx| view.focus.focus(window, cx));
+                view.update(cx, |view, cx| {
+                    if view.request.kind == PickerKind::SaveFile {
+                        let handle = view.filename_input.read(cx).focus.clone();
+                        handle.focus(window, cx);
+                    } else {
+                        view.focus.focus(window, cx);
+                    }
+                });
                 view
             },
         )

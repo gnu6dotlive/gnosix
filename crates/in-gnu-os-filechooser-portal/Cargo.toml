@@ -11,6 +11,7 @@ native-gpui = ["dep:gpui", "dep:gpui_platform"]
 [dependencies]
 glob = "0.3.4"
 mime_guess = "2.0.5"
+unicode-segmentation = "1.13.3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false, optional = true }

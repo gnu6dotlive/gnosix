@@ -24,6 +24,10 @@ printf 'demo\n' > "$out/fixture/readme.txt"
 printf 'image\n' > "$out/fixture/graphic.png"
 python3 - "$out/request.json" "$out/fixture" <<'PY'
 import json,sys
+import os
+mode = os.environ.get("CABINET_SMOKE_MODE", "open")
+if mode not in ("open", "save"):
+    raise ValueError("CABINET_SMOKE_MODE must be open or save")
 req = {
   "title": "Cabinet Filtered Wayland Qualifier",
   "app_id": "in.gnu.os.cabinet.qualify",
@@ -46,6 +50,13 @@ req = {
     {"id":"reencode","label":"Reencode","options":[],"selected":"false"}
   ]
 }
+if mode == "save":
+  req.update({
+     "title": "Cabinet Native Unicode / IME",
+     "kind": "save_file",
+     "directory": False,
+     "filename": "Été 🦀 – rapport.md",
+  })
 with open(sys.argv[1],"w") as f: json.dump(req,f)
 PY
 test -s "$out/request.json"

@@ -51,9 +51,9 @@ pub enum RenderError {
 }
 
 impl RenderRequest {
-    /// Fail closed on any semantics the GFC-02A renderer cannot honor.
-    /// Modal parenting, Save*, filters, choices and writable semantics are
-    /// explicitly unimplemented, not silently dropped.
+    /// Fail closed on any request semantics the current Cabinet renderer cannot honor.
+    /// Parent-window modality, writable and current_file remain unsupported;
+    /// Open/Save, filters and choices are validated and translated explicitly.
     pub fn from_invocation(request: &PickerInvocation) -> Result<Self, RenderError> {
         if !request.parent_window.is_empty() {
             return Err(RenderError::Unsupported);
@@ -116,7 +116,10 @@ impl RenderRequest {
                 let value =
                     String::try_from(value.try_clone().map_err(|_| RenderError::InvalidOptions)?)
                         .map_err(|_| RenderError::InvalidOptions)?;
-                if !value.is_empty() && !safe_name(Path::new(&value)) {
+                if value.len() > 240
+                    || value.chars().any(char::is_control)
+                    || (!value.is_empty() && !safe_name(Path::new(&value)))
+                {
                     return Err(RenderError::InvalidOptions);
                 }
                 value
@@ -407,6 +410,27 @@ mod tests {
         a.options.insert(
             "current_name".into(),
             OwnedValue::try_from(zbus::zvariant::Value::new("nested/evil.txt")).unwrap(),
+        );
+        assert_eq!(
+            RenderRequest::from_invocation(&a),
+            Err(RenderError::InvalidOptions)
+        );
+        a.options.insert(
+            "current_name".into(),
+            OwnedValue::try_from(zbus::zvariant::Value::new(
+                "line
+break.txt",
+            ))
+            .unwrap(),
+        );
+        assert_eq!(
+            RenderRequest::from_invocation(&a),
+            Err(RenderError::InvalidOptions)
+        );
+        let too_long = "a".repeat(241);
+        a.options.insert(
+            "current_name".into(),
+            OwnedValue::try_from(zbus::zvariant::Value::new(too_long.as_str())).unwrap(),
         );
         assert_eq!(
             RenderRequest::from_invocation(&a),
