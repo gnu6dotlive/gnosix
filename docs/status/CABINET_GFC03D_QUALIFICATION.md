@@ -90,3 +90,14 @@ behavior have not been independently tested.
 2. Run real input and accessibility oracles in a controlled compositor.
 3. Keep parent-window modality, genuine xdg-desktop-portal frontend/Flatpak
    Documents Portal, Chromium and external application interop as separate gates.
+
+## GFC-03D/04 amendment — real-input proof (2026-10-10)
+
+This appendix supersedes the earlier generic "live keyboard input OPEN" statement **only for the two exercised operations**. The official Weston X11 backend and a separate Xvfb display have now executed real XTest input through `wl_keyboard.key` into the GPUI Cabinet renderer:
+
+- Escape cancellation: **E2E PASS**, exact `{"outcome":"cancelled"}` response.
+- Ctrl+A, real ASCII typing and Return in SaveFile: **E2E PASS**, exact selected destination and explicit proof that the chooser did not create the file.
+
+The independently rerunnable proof sources are `tools/cabinet-gfc03d-x11-input-oracle.sh` and `tools/cabinet-gfc03d-x11-input-session.sh`. Evidence is in `/mnt/workbench/evidence/runs/cabinet-gfc03d-x11-oracle-cancel-v1-20261010/` and `/mnt/workbench/evidence/runs/cabinet-gfc03d-x11-oracle-save-v1-20261010/`.
+
+The dedicated qualification ledger is `docs/status/CABINET_GFC03D_X11_INPUT.md`. Real input-method composition, clipboard/paste, pointer and accessibility, frontend/Flatpak and external parent modality **remain OPEN**. GTK remains the active system FileChooser.
