@@ -4,11 +4,25 @@ version = "0.1.0"
 edition = "2021"
 license.workspace = true
 
+[features]
+default = []
+native-gpui = ["dep:gpui", "dep:gpui_platform"]
+
 [dependencies]
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false, optional = true }
+gpui_platform = { package = "gpui-pre-platform", version = "=0.3.5", default-features = false, features = ["wayland"], optional = true }
+
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "process", "io-util", "time"] }
 zbus = "5.19.0"
 url = "2.5.8"
 
 [[bin]]
 name = "gnosix-portal-filechooser"
 path = "src/main.rs"
+
+[[bin]]
+name = "gnosix-filechooser-gpui"
+path = "src/bin/gnosix-filechooser-gpui.rs"
+required-features = ["native-gpui"]

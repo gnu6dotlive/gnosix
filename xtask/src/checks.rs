@@ -75,6 +75,15 @@ pub const CLIPPY_TARGETS: &[(&str, &[&str])] = &[
         "clippy-filechooser-portal",
         &["-p", "in-gnu-os-filechooser-portal"],
     ),
+    (
+        "clippy-filechooser-gpui",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--features",
+            "native-gpui",
+        ],
+    ),
     ("clippy-xtask", &["-p", "xtask"]),
 ];
 
@@ -185,6 +194,17 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "component-lab",
             "--bin",
             "gnos-ux-lab",
+        ],
+    ),
+    (
+        "build-filechooser-gpui",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--features",
+            "native-gpui",
+            "--bin",
+            "gnosix-filechooser-gpui",
         ],
     ),
     (

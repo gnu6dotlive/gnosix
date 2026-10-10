@@ -1,9 +1,10 @@
 //! GFC-01: fail-closed, per-request protocol core for Gnosix FileChooser.
 //! This crate does NOT yet implement a graphical picker or install portal defaults.
+pub mod render_wire;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use tokio::sync::oneshot;
+use tokio::sync::{oneshot, watch};
 use zbus::zvariant::OwnedValue;
 
 pub const BUS_NAME: &str = "org.freedesktop.impl.portal.desktop.gnosix";
@@ -69,6 +70,7 @@ struct Pending {
     kind: PickerKind,
     multiple: bool,
     reply: oneshot::Sender<PortalReply>,
+    cancel: watch::Sender<bool>,
 }
 
 #[derive(Default)]
@@ -117,6 +119,7 @@ impl Registry {
             return Err(AdmitError::Capacity);
         }
         let (sender, receiver) = oneshot::channel();
+        let (cancel_sender, cancel_receiver) = watch::channel(false);
         inner.next_epoch = inner.next_epoch.wrapping_add(1);
         let epoch = inner.next_epoch;
         inner.requests.insert(
@@ -126,6 +129,7 @@ impl Registry {
                 kind: invocation.kind,
                 multiple,
                 reply: sender,
+                cancel: cancel_sender,
             },
         );
         Ok(Ticket {
@@ -133,6 +137,7 @@ impl Registry {
             epoch,
             registry: self.clone(),
             receiver,
+            cancelled: cancel_receiver,
         })
     }
 
@@ -147,6 +152,19 @@ impl Registry {
             return false;
         };
         let result = resolution_to_reply(pending.kind, pending.multiple, resolution);
+        pending.cancel.send_replace(true);
+        let _ = pending.reply.send(result);
+        true
+    }
+
+    pub fn complete_if_epoch(&self, handle: &str, epoch: u64, resolution: Resolution) -> bool {
+        let mut inner = self.inner.lock().expect("registry poisoned");
+        if inner.requests.get(handle).map(|p| p.epoch) != Some(epoch) {
+            return false;
+        }
+        let pending = inner.requests.remove(handle).expect("checked pending");
+        let result = resolution_to_reply(pending.kind, pending.multiple, resolution);
+        pending.cancel.send_replace(true);
         let _ = pending.reply.send(result);
         true
     }
@@ -157,6 +175,7 @@ impl Registry {
             return false;
         }
         let pending = inner.requests.remove(handle).expect("checked pending");
+        pending.cancel.send_replace(true);
         let _ = pending.reply.send(PortalReply::cancelled());
         true
     }
@@ -167,11 +186,16 @@ pub struct Ticket {
     epoch: u64,
     registry: Registry,
     receiver: oneshot::Receiver<PortalReply>,
+    cancelled: watch::Receiver<bool>,
 }
 
 impl Ticket {
     pub fn epoch(&self) -> u64 {
         self.epoch
+    }
+
+    pub fn cancellation(&self) -> watch::Receiver<bool> {
+        self.cancelled.clone()
     }
     pub async fn wait(&mut self) -> PortalReply {
         (&mut self.receiver)
@@ -331,6 +355,26 @@ mod tests {
             registry.admit(&invalid),
             Err(AdmitError::InvalidOptions)
         ));
+    }
+
+    #[tokio::test]
+    async fn cancelled_worker_cannot_complete_reused_request() {
+        let registry = Registry::new(2);
+        let first = registry
+            .admit(&call("/request/1", PickerKind::OpenFile))
+            .unwrap();
+        let epoch = first.epoch();
+        let cancelled = first.cancellation();
+        assert!(!*cancelled.borrow());
+        assert!(registry.cancel_if_epoch("/request/1", epoch));
+        assert!(*cancelled.borrow());
+        drop(first);
+        let mut second = registry
+            .admit(&call("/request/1", PickerKind::OpenFile))
+            .unwrap();
+        assert!(!registry.complete_if_epoch("/request/1", epoch, Resolution::Unavailable));
+        assert!(registry.complete_if_epoch("/request/1", second.epoch(), Resolution::Cancelled));
+        assert_eq!(second.wait().await.code, 1);
     }
 
     #[tokio::test]
