@@ -1,6 +1,6 @@
 # Third-party notices
 
-Unless a file or directory states otherwise, first-party Gnosix code and repository documentation are licensed under **GPL-3.0-or-later**. See [`LICENSE`](LICENSE).
+Unless a file or directory states otherwise, first-party Gnosix code and repository documentation are licensed under the **MIT License**. See [`LICENSE`](LICENSE). This supersedes the prior first-party GPL policy for contributions and distributions from the MIT-licensed source revision onward; it does not revoke rights previously granted under GPL.
 
 Bundled third-party material retains its upstream copyright, attribution, and license terms. It is **not** relicensed as first-party Gnosix source.
 

@@ -24,7 +24,7 @@ members = ["crates/gnos-ux-surface","crates/gnos-ux-gpui","crates/gnos-ux-sdk","
 ]
 
 [workspace.package]
-license = "GPL-3.0-or-later"
+license = "MIT"
 
 [patch.crates-io]
 # gpui-pre-linux 0.3.5 rewrites compositor-selected layer-shell size (0) to the
