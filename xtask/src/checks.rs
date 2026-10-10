@@ -369,6 +369,13 @@ pub fn catalogue() -> Vec<Check> {
         CheckClass::HostLive,
         InProcess::InstalledAuthority,
     ));
+    // Real D-Bus introspection uses a private session bus and the locally
+    // built backend. It must NOT be labelled repository-hermetic.
+    checks.push(Check::spawn(
+        "host-cabinet-backend-abi",
+        CheckClass::HostLive,
+        vec!["bash".into(), "tools/cabinet-gfc03d-abi-oracle.sh".into()],
+    ));
 
     checks.extend(source_invariant_checks());
 

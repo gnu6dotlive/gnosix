@@ -108,7 +108,7 @@ impl EntityInputHandler for FilenameInput {
     ) -> Option<UTF16Selection> {
         Some(UTF16Selection {
             range: self.buffer.selected_utf16(),
-            reversed: false,
+            reversed: self.buffer.selection_reversed(),
         })
     }
 

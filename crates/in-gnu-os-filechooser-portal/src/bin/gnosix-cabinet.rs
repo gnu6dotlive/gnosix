@@ -287,6 +287,8 @@ impl Render for PickerView {
             choice_panel = choice_panel.child(
                 div()
                     .id(format!("cabinet-choice-{index}"))
+                    .focusable()
+                    .tab_stop(true)
                     .p_2()
                     .rounded_sm()
                     .bg(rgb(PANEL))
@@ -295,7 +297,13 @@ impl Render for PickerView {
                     .role(gpui::Role::Button)
                     .aria_label(label.clone())
                     .child(label)
-                    .on_click(cx.listener(move |this, _, _, cx| this.cycle_choice(index, cx))),
+                    .on_click(cx.listener(move |this, _, _, cx| this.cycle_choice(index, cx)))
+                    .on_key_down(cx.listener(move |this, event: &gpui::KeyDownEvent, _, cx| {
+                        if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                            this.cycle_choice(index, cx);
+                            cx.stop_propagation();
+                        }
+                    })),
             );
         }
         let mut list = div().id("gfc-file-rows").w_full().flex().flex_col().gap_1();
@@ -321,9 +329,12 @@ impl Render for PickerView {
             } else {
                 PANEL
             };
+            let keyboard_entry = entry.clone();
             list = list.child(
                 div()
                     .id(format!("gfc-file-{index}"))
+                    .focusable()
+                    .tab_stop(true)
                     .w_full()
                     .p_2()
                     .rounded_sm()
@@ -339,6 +350,13 @@ impl Render for PickerView {
                     .on_click(cx.listener(move |this, _, _, cx| {
                         this.current_index = Some(index);
                         this.click_entry(&entry, cx);
+                    }))
+                    .on_key_down(cx.listener(move |this, event: &gpui::KeyDownEvent, _, cx| {
+                        if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                            this.current_index = Some(index);
+                            this.click_entry(&keyboard_entry, cx);
+                            cx.stop_propagation();
+                        }
                     })),
             );
         }
@@ -400,12 +418,22 @@ impl Render for PickerView {
                     .child(
                         div()
                             .id("gfc-up")
+                            .focusable()
+                            .tab_stop(true)
+                            .role(gpui::Role::Button)
+                            .aria_label("Go to parent folder")
                             .px_3()
                             .py_2()
                             .bg(rgb(PANEL))
                             .rounded_sm()
                             .child("↑  Up")
-                            .on_click(cx.listener(|this, _, _, cx| this.navigate_up(cx))),
+                            .on_click(cx.listener(|this, _, _, cx| this.navigate_up(cx)))
+                            .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
+                                if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                                    this.navigate_up(cx);
+                                    cx.stop_propagation();
+                                }
+                            })),
                     )
                     .child(
                         div()
@@ -420,19 +448,31 @@ impl Render for PickerView {
                 panel.child(
                     div()
                         .id("gfc-filter-cycle")
+                        .focusable()
+                        .tab_stop(true)
+                        .role(gpui::Role::Button)
+                        .aria_label("Switch file type filter")
                         .px_3()
                         .py_2()
                         .bg(rgb(PANEL))
                         .text_color(rgb(ORANGE))
                         .text_size(px(12.))
                         .child(label)
-                        .on_click(cx.listener(|this, _, _, cx| this.cycle_filter(cx))),
+                        .on_click(cx.listener(|this, _, _, cx| this.cycle_filter(cx)))
+                        .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
+                            if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                                this.cycle_filter(cx);
+                                cx.stop_propagation();
+                            }
+                        })),
                 )
             })
             .child(choice_panel)
             .child(
                 div()
                     .id("gfc-files")
+                    .role(gpui::Role::Group)
+                    .aria_label("Available files and folders")
                     .flex_1()
                     .min_h_0()
                     .overflow_y_scroll()
@@ -447,6 +487,8 @@ impl Render for PickerView {
                 panel.child(
                     div()
                         .id("cabinet-filename-field")
+                        .role(gpui::Role::TextInput)
+                        .aria_label("File name")
                         .w_full()
                         .p_2()
                         .border_1()
@@ -498,6 +540,10 @@ impl Render for PickerView {
                     .child(
                         div()
                             .id("gfc-cancel")
+                            .focusable()
+                            .tab_stop(true)
+                            .role(gpui::Role::Button)
+                            .aria_label("Cancel file selection")
                             .px_4()
                             .py_2()
                             .bg(rgb(PANEL))
@@ -507,18 +553,34 @@ impl Render for PickerView {
                             .child("Cancel")
                             .on_click(cx.listener(|this, _, _, cx| {
                                 this.complete(RenderResponse::Cancelled, cx);
+                            }))
+                            .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
+                                if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                                    this.complete(RenderResponse::Cancelled, cx);
+                                    cx.stop_propagation();
+                                }
                             })),
                     )
                     .child(
                         div()
                             .id("gfc-confirm")
+                            .focusable()
+                            .tab_stop(true)
+                            .role(gpui::Role::Button)
+                            .aria_label("Confirm file selection")
                             .px_4()
                             .py_2()
                             .rounded_sm()
                             .bg(rgb(ORANGE))
                             .text_color(rgb(BG))
                             .child(accept_label)
-                            .on_click(cx.listener(|this, _, _, cx| this.confirm(cx))),
+                            .on_click(cx.listener(|this, _, _, cx| this.confirm(cx)))
+                            .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
+                                if matches!(event.keystroke.key.as_str(), "enter" | "space" | " ") {
+                                    this.confirm(cx);
+                                    cx.stop_propagation();
+                                }
+                            })),
                     ),
             )
     }

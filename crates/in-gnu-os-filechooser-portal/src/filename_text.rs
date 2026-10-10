@@ -7,7 +7,9 @@ const MAX_FILENAME_BYTES: usize = 240;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FilenameBuffer {
     text: String,
-    selection: Range<usize>, // byte offsets, always UTF-8 char boundaries
+    selection: Range<usize>, // normalized byte range
+    anchor: usize,           // stationary end of a directional selection
+    head: usize,             // moving caret, may be before anchor
     marked: Option<Range<usize>>,
 }
 
@@ -18,6 +20,8 @@ impl FilenameBuffer {
         Self {
             text,
             selection: len..len,
+            anchor: len,
+            head: len,
             marked: None,
         }
     }
@@ -27,6 +31,16 @@ impl FilenameBuffer {
     pub fn selection(&self) -> Range<usize> {
         self.selection.clone()
     }
+    pub fn selection_reversed(&self) -> bool {
+        self.head < self.anchor
+    }
+    fn move_head(&mut self, head: usize, extend: bool) {
+        let anchor = if extend { self.anchor } else { head };
+        self.anchor = anchor;
+        self.head = head;
+        self.selection = anchor.min(head)..anchor.max(head);
+    }
+
     pub fn mark(&self) -> Option<Range<usize>> {
         self.marked.clone()
     }
@@ -55,6 +69,8 @@ impl FilenameBuffer {
     pub fn set_selection_utf16(&mut self, range: Range<usize>) {
         let a = self.byte_at_utf16(range.start);
         let b = self.byte_at_utf16(range.end);
+        self.anchor = a;
+        self.head = b;
         self.selection = a.min(b)..a.max(b);
     }
     pub fn range_from_utf16(&self, range: Range<usize>) -> Range<usize> {
@@ -82,7 +98,7 @@ impl FilenameBuffer {
         }
         self.text.replace_range(range.clone(), replacement);
         let end = range.start + replacement.len();
-        self.selection = end..end;
+        self.move_head(end, false);
         self.marked = if marking && !replacement.is_empty() {
             Some(range.start..end)
         } else {
@@ -94,51 +110,48 @@ impl FilenameBuffer {
         if let Some(marked) = &self.marked {
             let a = self.byte_at_utf16(self.utf16_at(marked.start).saturating_add(range.start));
             let b = self.byte_at_utf16(self.utf16_at(marked.start).saturating_add(range.end));
+            self.anchor = a;
+            self.head = b;
             self.selection = a.min(b)..a.max(b);
         }
     }
     pub fn select_all(&mut self) {
+        self.anchor = 0;
+        self.head = self.text.len();
         self.selection = 0..self.text.len();
     }
     pub fn home(&mut self) {
-        self.selection = 0..0;
+        self.move_head(0, false);
     }
     pub fn end(&mut self) {
-        let n = self.text.len();
-        self.selection = n..n;
+        self.move_head(self.text.len(), false);
     }
     pub fn left(&mut self, extend: bool) {
-        let pos = if !extend && !self.selection.is_empty() {
+        // Selection direction is necessary: Shift+Left then Shift+Right must
+        // retract rather than extend from the wrong normalized endpoint.
+        let position = if !extend && !self.selection.is_empty() {
             self.selection.start
         } else {
             self.text
                 .grapheme_indices(true)
-                .map(|(i, _)| i)
-                .take_while(|i| *i < self.selection.end)
+                .map(|(index, _)| index)
+                .take_while(|index| *index < self.head)
                 .last()
                 .unwrap_or(0)
         };
-        if extend {
-            self.selection = self.selection.start.min(pos)..self.selection.end.max(pos);
-        } else {
-            self.selection = pos..pos;
-        }
+        self.move_head(position, extend);
     }
     pub fn right(&mut self, extend: bool) {
-        let pos = if !extend && !self.selection.is_empty() {
+        let position = if !extend && !self.selection.is_empty() {
             self.selection.end
         } else {
             self.text
                 .grapheme_indices(true)
-                .map(|(i, _)| i)
-                .find(|i| *i > self.selection.end)
+                .map(|(index, _)| index)
+                .find(|index| *index > self.head)
                 .unwrap_or(self.text.len())
         };
-        if extend {
-            self.selection = self.selection.start.min(pos)..self.selection.end.max(pos);
-        } else {
-            self.selection = pos..pos;
-        }
+        self.move_head(position, extend);
     }
     pub fn backspace(&mut self) -> bool {
         if self.selection.is_empty() {
@@ -149,6 +162,8 @@ impl FilenameBuffer {
                 .take_while(|i| *i < self.selection.start)
                 .last()
                 .unwrap_or(0);
+            self.anchor = prev;
+            self.head = self.selection.start;
             self.selection = prev..self.selection.start;
         }
         self.replace(None, "", false)
@@ -161,6 +176,8 @@ impl FilenameBuffer {
                 .map(|(i, _)| i)
                 .find(|i| *i > self.selection.end)
                 .unwrap_or(self.text.len());
+            self.anchor = self.selection.end;
+            self.head = next;
             self.selection = self.selection.end..next;
         }
         self.replace(None, "", false)
@@ -238,6 +255,39 @@ mod tests {
         assert!(a.delete_forward());
         assert_eq!(a.text(), "raft.md");
     }
+    #[test]
+    fn directional_selection_retracts_at_unicode_grapheme_boundaries() {
+        let mut text = FilenameBuffer::new("a🦀e\u{301}z");
+        text.left(true);
+        assert_eq!(&text.text()[text.selection()], "z");
+        assert!(text.selection_reversed());
+        text.left(true);
+        assert_eq!(&text.text()[text.selection()], "e\u{301}z");
+        text.right(true);
+        assert_eq!(&text.text()[text.selection()], "z");
+        text.right(true);
+        assert!(text.selection().is_empty());
+        assert!(!text.selection_reversed());
+        text.left(true);
+        text.left(false);
+        assert!(text.selection().is_empty());
+        assert_eq!(text.text(), "a🦀e\u{301}z");
+    }
+
+    #[test]
+    fn reversed_utf16_selection_keeps_direction_and_replacement_is_atomic() {
+        let mut text = FilenameBuffer::new("a🦀bc");
+        let selection_end = text.len_utf16();
+        text.set_selection_utf16(selection_end..1);
+        assert!(text.selection_reversed());
+        assert_eq!(text.selected_utf16(), 1..5);
+        assert_eq!(&text.text()[text.selection()], "🦀bc");
+        assert!(text.replace(None, "é", false));
+        assert_eq!(text.text(), "aé");
+        assert!(!text.selection_reversed());
+        assert_eq!(text.selected_utf16(), 2..2);
+    }
+
     #[test]
     fn length_cap_and_choice_of_unicode_boundary() {
         let mut a = FilenameBuffer::new("");
