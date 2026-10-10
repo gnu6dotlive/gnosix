@@ -19,9 +19,27 @@ weston --debug --backend=headless --fake-seat --renderer=gl --no-config --idle-t
 wpid=$!
 for i in $(seq 1 80); do test -S "$XDG_RUNTIME_DIR/$socket" && break; sleep .1; done
 if ! test -S "$XDG_RUNTIME_DIR/$socket"; then echo "WESTON_SOCKET_FAILURE"; tail -30 "$out/weston.log"; exit 12; fi
-python3 - "$out/request.json" <<'PY'
+mkdir -p "$out/fixture/folder"
+printf 'demo\n' > "$out/fixture/readme.txt"
+printf 'image\n' > "$out/fixture/graphic.png"
+python3 - "$out/request.json" "$out/fixture" <<'PY'
 import json,sys
-req = {"title":"Cabinet Wayland Qualifier", "app_id":"in.gnu.os.cabinet.qualify", "initial_folder":"/tmp", "multiple":False, "directory":False, "kind":"open_file", "filename":"", "requested_files":[], "accept_label":""}
+req = {
+  "title": "Cabinet Filtered Wayland Qualifier",
+  "app_id": "in.gnu.os.cabinet.qualify",
+  "initial_folder": sys.argv[2],
+  "multiple": False,
+  "directory": False,
+  "kind": "open_file",
+  "filename": "",
+  "requested_files": [],
+  "accept_label": "",
+  "filters": [
+     {"name": "Text", "rules": [[0, "*.txt"]]},
+     {"name": "Images", "rules": [[1, "image/png"]]}
+  ],
+  "selected_filter": 0
+}
 with open(sys.argv[1],"w") as f: json.dump(req,f)
 PY
 test -s "$out/request.json"

@@ -5,7 +5,7 @@ use gpui::{
     div, prelude::*, px, rgb, size, App, AppContext, Bounds, Context, FocusHandle, Render, Window,
     WindowBackgroundAppearance, WindowBounds, WindowOptions,
 };
-use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory, CabinetEntry};
+use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory_filtered, CabinetEntry};
 use in_gnu_os_filechooser_portal::render_wire::{RenderRequest, RenderResponse, MAX_WIRE_BYTES};
 use in_gnu_os_filechooser_portal::PickerKind;
 use std::{
@@ -31,6 +31,7 @@ struct PickerView {
     truncated: bool,
     scan_generation: u64,
     current_index: Option<usize>,
+    selected_filter: Option<usize>,
     selected: BTreeSet<PathBuf>,
     error: Option<String>,
     focus: FocusHandle,
@@ -46,6 +47,7 @@ impl PickerView {
         let folder = request.initial_folder.clone();
         let mut view = Self {
             filename: request.filename.clone(),
+            selected_filter: request.selected_filter,
             request,
             folder,
             entries: Vec::new(),
@@ -74,9 +76,13 @@ impl PickerView {
         self.scan_generation = self.scan_generation.wrapping_add(1);
         let scan_generation = self.scan_generation;
         let folder = self.folder.clone();
+        let filter = self
+            .selected_filter
+            .and_then(|index| self.request.filters.get(index))
+            .cloned();
         let work = cx
             .background_executor()
-            .spawn(async move { scan_directory(&folder) });
+            .spawn(async move { scan_directory_filtered(&folder, filter.as_ref()) });
         cx.spawn(async move |this, cx| {
             let listing = work.await;
             let _ = this.update(cx, |view, cx| {
@@ -96,6 +102,17 @@ impl PickerView {
         })
         .detach();
         cx.notify();
+    }
+
+    fn cycle_filter(&mut self, cx: &mut Context<Self>) {
+        if self.request.filters.is_empty() {
+            return;
+        }
+        let next = self
+            .selected_filter
+            .map_or(0, |i| (i + 1) % self.request.filters.len());
+        self.selected_filter = Some(next);
+        self.start_scan(cx);
     }
 
     fn move_cursor(&mut self, down: bool, cx: &mut Context<Self>) {
@@ -177,7 +194,14 @@ impl PickerView {
             PickerKind::OpenFile => self.selected.iter().cloned().collect(),
         };
         if self.request.validate_selection(&paths) {
-            self.complete(RenderResponse::Selected(paths), cx);
+            let response = match self.selected_filter {
+                Some(filter_index) => RenderResponse::SelectedWithFilter {
+                    paths,
+                    filter_index,
+                },
+                None => RenderResponse::Selected(paths),
+            };
+            self.complete(response, cx);
         } else {
             self.error =
                 Some("Invalid selection or existing destination; overwrite not supported".into());
@@ -213,6 +237,10 @@ impl Render for PickerView {
         let scanning = self.scanning;
         let truncated = self.truncated;
         let current_index = self.current_index;
+        let filter_text = self
+            .selected_filter
+            .and_then(|index| self.request.filters.get(index))
+            .map(|filter| format!("Filter: {}  ·  click / F6 to switch", filter.name));
         let mut list = div().id("gfc-file-rows").w_full().flex().flex_col().gap_1();
 
         if scanning {
@@ -265,6 +293,7 @@ impl Render for PickerView {
             .track_focus(&self.focus)
             .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
                 match event.keystroke.key.as_str() {
+                    "f6" => this.cycle_filter(cx),
                     "escape" => this.complete(RenderResponse::Cancelled, cx),
                     "backspace" if this.request.kind == PickerKind::SaveFile => {
                         this.filename.pop();
@@ -341,6 +370,19 @@ impl Render for PickerView {
                             .child(folder),
                     ),
             )
+            .when_some(filter_text, |panel, label| {
+                panel.child(
+                    div()
+                        .id("gfc-filter-cycle")
+                        .px_3()
+                        .py_2()
+                        .bg(rgb(PANEL))
+                        .text_color(rgb(ORANGE))
+                        .text_size(px(12.))
+                        .child(label)
+                        .on_click(cx.listener(|this, _, _, cx| this.cycle_filter(cx))),
+                )
+            })
             .child(
                 div()
                     .id("gfc-files")

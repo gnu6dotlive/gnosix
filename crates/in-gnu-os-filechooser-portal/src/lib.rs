@@ -1,7 +1,9 @@
 //! GFC-01: fail-closed, per-request protocol core for Gnosix FileChooser.
 //! This crate does NOT yet implement a graphical picker or install portal defaults.
+pub mod cabinet_filters;
 pub mod cabinet_fs;
 pub mod render_wire;
+use crate::cabinet_filters::CabinetFilter;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -35,6 +37,10 @@ pub struct PickerInvocation {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Resolution {
     Selected(Vec<PathBuf>),
+    SelectedWithFilter {
+        paths: Vec<PathBuf>,
+        filter: CabinetFilter,
+    },
     Cancelled,
     Unavailable,
 }
@@ -44,6 +50,7 @@ pub struct PortalReply {
     /// 0 = success; 1 = cancelled; 2 = backend error.
     pub code: u32,
     pub uris: Vec<String>,
+    pub current_filter: Option<CabinetFilter>,
 }
 
 impl PortalReply {
@@ -51,12 +58,14 @@ impl PortalReply {
         Self {
             code: 1,
             uris: vec![],
+            current_filter: None,
         }
     }
     fn unavailable() -> Self {
         Self {
             code: 2,
             uris: vec![],
+            current_filter: None,
         }
     }
 }
@@ -215,32 +224,36 @@ impl Drop for Ticket {
 }
 
 fn resolution_to_reply(kind: PickerKind, multiple: bool, resolution: Resolution) -> PortalReply {
-    match resolution {
-        Resolution::Cancelled => PortalReply::cancelled(),
-        Resolution::Unavailable => PortalReply::unavailable(),
-        Resolution::Selected(paths) => {
-            let count_valid = match kind {
-                PickerKind::OpenFile => !paths.is_empty() && (multiple || paths.len() == 1),
-                PickerKind::SaveFile => paths.len() == 1,
-                PickerKind::SaveFiles => !paths.is_empty(),
-            };
-            if !count_valid {
-                return PortalReply::unavailable();
+    let (paths, current_filter) = match resolution {
+        Resolution::Cancelled => return PortalReply::cancelled(),
+        Resolution::Unavailable => return PortalReply::unavailable(),
+        Resolution::Selected(paths) => (paths, None),
+        Resolution::SelectedWithFilter { paths, filter } => (paths, Some(filter)),
+    };
+    let count_valid = match kind {
+        PickerKind::OpenFile => !paths.is_empty() && (multiple || paths.len() == 1),
+        PickerKind::SaveFile => paths.len() == 1,
+        PickerKind::SaveFiles => !paths.is_empty() && current_filter.is_none(),
+    };
+    if !count_valid {
+        return PortalReply::unavailable();
+    }
+    let uris: Option<Vec<String>> = paths
+        .into_iter()
+        .map(|path| {
+            if !path.is_absolute() {
+                return None;
             }
-            let uris: Option<Vec<String>> = paths
-                .into_iter()
-                .map(|path| {
-                    if !path.is_absolute() {
-                        return None;
-                    }
-                    url::Url::from_file_path(path).ok().map(Into::into)
-                })
-                .collect();
-            match uris {
-                Some(uris) => PortalReply { code: 0, uris },
-                None => PortalReply::unavailable(),
-            }
-        }
+            url::Url::from_file_path(path).ok().map(Into::into)
+        })
+        .collect();
+    match uris {
+        Some(uris) => PortalReply {
+            code: 0,
+            uris,
+            current_filter,
+        },
+        None => PortalReply::unavailable(),
     }
 }
 

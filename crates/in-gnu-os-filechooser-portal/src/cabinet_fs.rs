@@ -1,5 +1,6 @@
 //! Filesystem browsing projection for Cabinet. No mutation or authority escalation.
 //! Enumerations run off the GPUI UI thread and are bounded.
+use crate::cabinet_filters::CabinetFilter;
 use std::{
     fs, io,
     path::{Path, PathBuf},
@@ -23,6 +24,13 @@ pub struct DirectoryListing {
 /// Read at most MAX_DIRECTORY_ENTRIES+1 qualifying entries. The truncation
 /// marker is explicit; a caller must never present the partial list as complete.
 pub fn scan_directory(folder: &Path) -> io::Result<DirectoryListing> {
+    scan_directory_filtered(folder, None)
+}
+
+pub fn scan_directory_filtered(
+    folder: &Path,
+    filter: Option<&CabinetFilter>,
+) -> io::Result<DirectoryListing> {
     let mut entries = Vec::new();
     let mut truncated = false;
     for candidate in fs::read_dir(folder)? {
@@ -34,6 +42,9 @@ pub fn scan_directory(folder: &Path) -> io::Result<DirectoryListing> {
             continue;
         };
         if !metadata.is_dir() && !metadata.is_file() {
+            continue;
+        }
+        if metadata.is_file() && filter.is_some_and(|rule| !rule.matches_path(&path)) {
             continue;
         }
         if entries.len() == MAX_DIRECTORY_ENTRIES {
@@ -108,6 +119,25 @@ mod tests {
     fn missing_folder_fails_without_fabricating_entries() {
         let f = Fixture::new();
         assert!(scan_directory(&f.path.join("not-here")).is_err());
+    }
+
+    #[test]
+    fn matching_filter_keeps_all_directories_but_only_matching_files() {
+        let f = Fixture::new();
+        fs::create_dir(f.path.join("assets")).unwrap();
+        fs::write(f.path.join("demo.PNG"), b"png").unwrap();
+        fs::write(f.path.join("secret.txt"), b"txt").unwrap();
+        let filter = CabinetFilter {
+            name: "PNG".into(),
+            rules: vec![(0, "*.[pP][nN][gG]".into())],
+        };
+        let found = scan_directory_filtered(&f.path, Some(&filter)).unwrap();
+        let names: Vec<_> = found
+            .entries
+            .iter()
+            .map(|item| item.label.as_str())
+            .collect();
+        assert_eq!(names, ["assets", "demo.PNG"]);
     }
 
     #[test]

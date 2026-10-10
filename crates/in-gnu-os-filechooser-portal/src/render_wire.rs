@@ -1,5 +1,6 @@
 //! GFC-02 private stdio contract. Only the backend may launch its renderer.
 //! This is NOT a public IPC API or a portal permission grant.
+use crate::cabinet_filters::{parse_filters, CabinetFilter};
 use crate::{PickerInvocation, PickerKind, Resolution};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
@@ -20,12 +21,18 @@ pub struct RenderRequest {
     pub filename: String,
     pub requested_files: Vec<PathBuf>,
     pub accept_label: String,
+    pub filters: Vec<CabinetFilter>,
+    pub selected_filter: Option<usize>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "outcome", content = "paths", rename_all = "snake_case")]
 pub enum RenderResponse {
     Selected(Vec<PathBuf>),
+    SelectedWithFilter {
+        paths: Vec<PathBuf>,
+        filter_index: usize,
+    },
     Cancelled,
 }
 
@@ -52,8 +59,17 @@ impl RenderRequest {
                 "current_folder",
                 "modal",
                 "accept_label",
+                "filters",
+                "current_filter",
             ],
-            PickerKind::SaveFile => &["current_name", "current_folder", "modal", "accept_label"],
+            PickerKind::SaveFile => &[
+                "current_name",
+                "current_folder",
+                "modal",
+                "accept_label",
+                "filters",
+                "current_filter",
+            ],
             PickerKind::SaveFiles => &["files", "current_folder", "modal", "accept_label"],
         };
         for option in request.options.keys() {
@@ -133,7 +149,14 @@ impl RenderRequest {
         if accept_label.chars().any(|ch| ch.is_control()) || accept_label.len() > 80 {
             return Err(RenderError::InvalidOptions);
         }
+        let (filters, selected_filter) = parse_filters(
+            request.options.get("filters"),
+            request.options.get("current_filter"),
+        )
+        .map_err(|_| RenderError::InvalidOptions)?;
         Ok(Self {
+            filters,
+            selected_filter,
             kind: request.kind,
             filename,
             requested_files,
@@ -237,17 +260,35 @@ impl RenderResponse {
     pub fn into_resolution(self, request: &RenderRequest) -> Resolution {
         match self {
             Self::Cancelled => Resolution::Cancelled,
-            Self::Selected(paths) if request.validate_selection(&paths) => match request.kind {
-                PickerKind::SaveFiles => Resolution::Selected(
-                    request
-                        .requested_files
-                        .iter()
-                        .map(|name| paths[0].join(name))
-                        .collect(),
-                ),
-                _ => Resolution::Selected(paths),
-            },
-            Self::Selected(_) => Resolution::Unavailable,
+            // A filtered request requires an explicit choice from the renderer,
+            // rather than silently inventing a default filter in the backend.
+            Self::Selected(paths)
+                if request.filters.is_empty() && request.validate_selection(&paths) =>
+            {
+                match request.kind {
+                    PickerKind::SaveFiles => Resolution::Selected(
+                        request
+                            .requested_files
+                            .iter()
+                            .map(|name| paths[0].join(name))
+                            .collect(),
+                    ),
+                    _ => Resolution::Selected(paths),
+                }
+            }
+            Self::SelectedWithFilter {
+                paths,
+                filter_index,
+            } if request.filters.get(filter_index).is_some()
+                && request.validate_selection(&paths)
+                && request.kind != PickerKind::SaveFiles =>
+            {
+                Resolution::SelectedWithFilter {
+                    paths,
+                    filter: request.filters[filter_index].clone(),
+                }
+            }
+            _ => Resolution::Unavailable,
         }
     }
 }
@@ -284,7 +325,7 @@ mod tests {
         a.options.insert("filters".into(), OwnedValue::from(1u32));
         assert_eq!(
             RenderRequest::from_invocation(&a),
-            Err(RenderError::Unsupported)
+            Err(RenderError::InvalidOptions)
         );
         a = invocation();
         a.options.insert("modal".into(), OwnedValue::from(true));
@@ -361,6 +402,63 @@ mod tests {
             RenderRequest::from_invocation(&a),
             Err(RenderError::InvalidOptions)
         );
+    }
+
+    #[test]
+    fn selection_must_provide_actual_filter_index_for_filtered_requests() {
+        use zbus::zvariant::{OwnedValue, Value};
+        let mut req = invocation();
+        let filters = vec![
+            ("Text".to_string(), vec![(0u32, "*.txt".to_string())]),
+            ("Images".to_string(), vec![(1u32, "image/*".to_string())]),
+        ];
+        req.options.insert(
+            "filters".into(),
+            OwnedValue::try_from(Value::new(filters)).unwrap(),
+        );
+        let wire = RenderRequest::from_invocation(&req).unwrap();
+        assert_eq!(wire.selected_filter, Some(0));
+        let encoded = serde_json::to_vec(&RenderResponse::SelectedWithFilter {
+            paths: vec!["/tmp/file.png".into()],
+            filter_index: 1,
+        })
+        .unwrap();
+        let decoded: RenderResponse = serde_json::from_slice(&encoded).unwrap();
+        assert_eq!(
+            decoded,
+            RenderResponse::SelectedWithFilter {
+                paths: vec!["/tmp/file.png".into()],
+                filter_index: 1,
+            }
+        );
+        let fixture = std::env::temp_dir();
+        // Files must exist to be selectable. Readable fixture path is not trusted.
+        let png = fixture.join(format!("gfc03b-{}.png", std::process::id()));
+        std::fs::write(&png, b"not an image").unwrap();
+        assert_eq!(
+            RenderResponse::Selected(vec![png.clone()]).into_resolution(&wire),
+            Resolution::Unavailable
+        );
+        assert_eq!(
+            RenderResponse::SelectedWithFilter {
+                paths: vec![png.clone()],
+                filter_index: 1
+            }
+            .into_resolution(&wire),
+            Resolution::SelectedWithFilter {
+                paths: vec![png.clone()],
+                filter: wire.filters[1].clone()
+            }
+        );
+        assert_eq!(
+            RenderResponse::SelectedWithFilter {
+                paths: vec![png.clone()],
+                filter_index: 17
+            }
+            .into_resolution(&wire),
+            Resolution::Unavailable
+        );
+        std::fs::remove_file(png).unwrap();
     }
 
     #[test]

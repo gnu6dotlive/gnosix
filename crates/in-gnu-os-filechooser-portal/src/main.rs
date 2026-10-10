@@ -159,6 +159,12 @@ impl FileChooser {
         let mut results = HashMap::new();
         if reply.code == 0 {
             results.insert("uris".into(), Value::new(Array::from(reply.uris)));
+            if let Some(filter) = reply.current_filter {
+                results.insert(
+                    "current_filter".into(),
+                    Value::new((filter.name, filter.rules)),
+                );
+            }
         }
         Ok((reply.code, results))
     }

@@ -11,7 +11,16 @@ title = request["title"]
 fixture = Path(os.environ["GFC02_FIXTURE"])
 if title == "slow":
     time.sleep(12)
-if title == "cancel":
+if request.get("filters"):
+    selection = fixture / ("alpha.txt" if title == "filter_text" else "pixel.png")
+    chosen = request.get("selected_filter") or 0
+    if title == "filter_bad_index":
+        chosen = 100
+    result = {
+        "outcome": "selected_with_filter",
+        "paths": {"paths": [str(selection)], "filter_index": chosen}
+    }
+elif title == "cancel":
     result = {"outcome": "cancelled"}
 elif title == "relative":
     result = {"outcome": "selected", "paths": ["relative-path.txt"]}
