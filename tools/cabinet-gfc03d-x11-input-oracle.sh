@@ -5,8 +5,8 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 mode="${1:-}"
 case "$mode" in
-  cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab) ;;
-  *) echo "Usage: CABINET_EVIDENCE_DIR=/mnt/workbench/evidence/runs/unique $0 {cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab}" >&2; exit 64;;
+  cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab|ux-history|ux-search|ux-hidden) ;;
+  *) echo "Usage: CABINET_EVIDENCE_DIR=/mnt/workbench/evidence/runs/unique $0 {cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab|ux-history|ux-search|ux-hidden}" >&2; exit 64;;
 esac
 ev="${CABINET_EVIDENCE_DIR:?Set a new unique evidence directory}"
 case "$ev" in /mnt/workbench/evidence/runs/*) ;; *) echo "Evidence must reside under workbench evidence/runs" >&2; exit 64;; esac

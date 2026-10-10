@@ -3,6 +3,7 @@
 pub mod cabinet_choices;
 pub mod cabinet_filters;
 pub mod cabinet_fs;
+pub mod cabinet_navigation;
 pub mod filename_text;
 pub mod render_wire;
 use crate::cabinet_filters::CabinetFilter;

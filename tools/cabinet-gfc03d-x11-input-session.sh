@@ -3,7 +3,7 @@ set -euo pipefail
 export PATH=/usr/bin:/bin
 umask 077
 mode="$CABINET_INPUT_MODE"
-case "$mode" in save|cancel|open-keyboard|open-pointer|open-tab|open-shift-tab) ;; *) echo "unsupported input oracle mode" >&2; exit 64;; esac
+case "$mode" in save|cancel|open-keyboard|open-pointer|open-tab|open-shift-tab|ux-history|ux-search|ux-hidden) ;; *) echo "unsupported input oracle mode" >&2; exit 64;; esac
 ev="$CABINET_EVIDENCE_DIR"
 binary="$CABINET_BINARY"
 test -x "$binary"
@@ -51,7 +51,7 @@ for i in $(seq 1 80); do
 done
 xprop -root >/dev/null
 echo "XVFB_PRIVATE_SCREEN_PASS"
-setsid weston --backend=x11 --no-config --idle-time=0 --renderer=pixman --width=980 --height=720 --socket="$WAYLAND_DISPLAY" --log="$ev/weston.log" >"$ev/weston.stdout" 2>&1 &
+setsid weston --backend=x11 --no-config --idle-time=0 --renderer=pixman --width=1100 --height=820 --socket="$WAYLAND_DISPLAY" --log="$ev/weston.log" >"$ev/weston.stdout" 2>&1 &
 wpid=$!
 for i in $(seq 1 80); do
   test -S "/run/user/1000/$WAYLAND_DISPLAY" && break
@@ -76,9 +76,22 @@ echo "WESTON_X11_INPUT_SEAT_PREFLIGHT_PASS"
 
 mkdir -p "$ev/fixture"
 printf 'sample\n' > "$ev/fixture/alpha.txt"
+if [ "$mode" = ux-history ]; then
+  mkdir -p "$ev/fixture/nested"
+  printf 'inner
+' > "$ev/fixture/nested/target.txt"
+fi
+if [ "$mode" = ux-search ]; then
+  printf 'beta
+' > "$ev/fixture/beta.txt"
+fi
+if [ "$mode" = ux-hidden ]; then
+  printf 'hidden
+' > "$ev/fixture/.secret"
+fi
 python3 - "$ev/request.json" "$ev/fixture" <<'PY'
 import json,sys,os
-open_mode = os.environ["CABINET_INPUT_MODE"].startswith("open-")
+open_mode = os.environ["CABINET_INPUT_MODE"].startswith(("open-","ux-"))
 request={
   "title":"Cabinet GFC-03D Real Input Oracle",
   "app_id":"in.gnu.os.cabinet.qualify",
@@ -139,7 +152,8 @@ case "$mode" in
     if [ "$committed" -lt 3 ]; then echo "OPEN_LIST_FRAME_NOT_OBSERVED"; exit 35; fi
     # Tab-focus Up, then the file row, Enter to select,
     # Tab-focus Cancel then Open, Enter to submit.
-    xdotool key --clearmodifiers --delay 110 Tab Tab Return Tab Tab Return
+    # F3 places GPUI focus on the list, then Tab reaches its first visible file.
+    xdotool key --clearmodifiers --delay 110 F3 Tab Return Tab Tab Return
     ;;
   open-shift-tab)
     for i in $(seq 1 80); do
@@ -152,11 +166,55 @@ case "$mode" in
     # then file selection and normal Tab navigation to Confirm.
     xdotool key --clearmodifiers --delay 110 shift+Tab shift+Tab shift+Tab Return Tab Tab Return
     ;;
+  ux-history)
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    xdotool key --clearmodifiers --delay 90 Down Return
+    xdotool key --clearmodifiers --delay 90 alt+Left alt+Right
+    xdotool key --clearmodifiers --delay 90 Down Return Return
+    ;;
+  ux-hidden)
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    xdotool key --clearmodifiers F7
+    xdotool key --clearmodifiers --delay 90 Down Return Return
+    ;;
+  ux-search)
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    xdotool key --clearmodifiers ctrl+f
+    xdotool type --clearmodifiers --delay 50 "beta"
+    import -window "$window_id" -silent "$ev/filtered-search.png"
+    test -s "$ev/filtered-search.png"
+    xdotool mousemove --window "$window_id" 340 305
+    for i in $(seq 1 80); do
+      grep -qE 'wl_pointer#[0-9]+\.enter\(' "$ev/renderer.stderr" && break
+      sleep .05
+    done
+    xdotool click --clearmodifiers --delay 100 1
+    for i in $(seq 1 80); do
+      click_count=$(grep -cE 'wl_pointer#[0-9]+\.button\(' "$ev/renderer.stderr" || true)
+      [ "$click_count" -ge 2 ] && break
+      sleep .05
+    done
+    [ "$click_count" -ge 2 ] || { echo "SEARCH_ROW_POINTER_CLICK_MISSING"; exit 39; }
+    import -window "$window_id" -silent "$ev/selected-search.png"
+    xdotool key --clearmodifiers --delay 90 Return
+    ;;
   open-pointer)
     # Capture the actual compositor window and inspect where the file row lies.
     import -window "$window_id" -silent "$ev/before-pointer.png"
     test -s "$ev/before-pointer.png"
-    xdotool mousemove --window "$window_id" 200 325
+    xdotool mousemove --window "$window_id" 345 305
     # Wait for the actual enter/motion delivery before the first click.
     for i in $(seq 1 80); do
       grep -qE 'wl_pointer#[0-9]+\.enter\(' "$ev/renderer.stderr" && break
@@ -175,7 +233,7 @@ case "$mode" in
     import -window "$window_id" -silent "$ev/selected-pointer.png"
     test -s "$ev/selected-pointer.png"
     previous_motion_count=$(grep -cE 'wl_pointer#[0-9]+\.motion\(' "$ev/renderer.stderr" || true)
-    xdotool mousemove --window "$window_id" 910 680
+    xdotool mousemove --window "$window_id" 980 757
     for i in $(seq 1 80); do
       current_motion_count=$(grep -cE 'wl_pointer#[0-9]+\.motion\(' "$ev/renderer.stderr" || true)
       [ "$current_motion_count" -gt "$previous_motion_count" ] && break
@@ -218,7 +276,8 @@ elif mode=="save":
     assert not destination.exists(),"Cabinet may select, but must not create the file"
     print("GFC03D_REAL_WAYLAND_SAVEFILE_TEXT_PASS")
 else:
-    expected={"outcome":"selected","paths":[str(Path(sys.argv[2])/"alpha.txt")]}
+    target={"ux-history":"nested/target.txt","ux-search":"beta.txt","ux-hidden":".secret"}.get(mode,"alpha.txt")
+    expected={"outcome":"selected","paths":[str(Path(sys.argv[2])/target)]}
     assert response==expected,(response,expected)
     print(f"GFC03D_REAL_WAYLAND_{mode.upper().replace('-','_')}_PASS")
 PY

@@ -14,15 +14,20 @@ const ORANGE: u32 = 0xff8733;
 pub struct FilenameInput {
     pub focus: FocusHandle,
     buffer: FilenameBuffer,
+    placeholder: String,
     last_line: Option<ShapedLine>,
     last_bounds: Option<Bounds<Pixels>>,
 }
 
 impl FilenameInput {
     pub fn new(filename: String, cx: &mut Context<Self>) -> Self {
+        Self::with_placeholder(filename, "Enter filename…".into(), cx)
+    }
+    pub fn with_placeholder(filename: String, placeholder: String, cx: &mut Context<Self>) -> Self {
         Self {
             focus: cx.focus_handle(),
             buffer: FilenameBuffer::new(filename),
+            placeholder,
             last_line: None,
             last_bounds: None,
         }
@@ -210,7 +215,7 @@ pub fn editor_canvas(input: Entity<FilenameInput>) -> impl IntoElement {
             let text = editor.text();
             let placeholder = text.is_empty();
             let display: SharedString = if placeholder {
-                "Enter filename…".into()
+                editor.placeholder.clone().into()
             } else {
                 text.to_string().into()
             };
