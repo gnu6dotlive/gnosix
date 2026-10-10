@@ -2,6 +2,7 @@
 //! This crate does NOT yet implement a graphical picker or install portal defaults.
 pub mod cabinet_fs;
 pub mod render_wire;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -12,7 +13,8 @@ pub const BUS_NAME: &str = "org.freedesktop.impl.portal.desktop.gnosix";
 pub const OBJECT_PATH: &str = "/org/freedesktop/portal/desktop";
 pub const MAX_REQUESTS: usize = 64;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum PickerKind {
     OpenFile,
     SaveFile,

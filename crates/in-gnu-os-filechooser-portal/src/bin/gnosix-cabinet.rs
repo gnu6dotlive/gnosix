@@ -7,6 +7,7 @@ use gpui::{
 };
 use in_gnu_os_filechooser_portal::cabinet_fs::{scan_directory, CabinetEntry};
 use in_gnu_os_filechooser_portal::render_wire::{RenderRequest, RenderResponse, MAX_WIRE_BYTES};
+use in_gnu_os_filechooser_portal::PickerKind;
 use std::{
     collections::BTreeSet,
     io::{self, Read, Write},
@@ -24,6 +25,7 @@ const ORANGE: u32 = 0xff8733;
 struct PickerView {
     request: RenderRequest,
     folder: PathBuf,
+    filename: String,
     entries: Vec<CabinetEntry>,
     scanning: bool,
     truncated: bool,
@@ -43,6 +45,7 @@ impl PickerView {
     ) -> Self {
         let folder = request.initial_folder.clone();
         let mut view = Self {
+            filename: request.filename.clone(),
             request,
             folder,
             entries: Vec::new(),
@@ -125,6 +128,8 @@ impl PickerView {
         if entry.folder {
             self.folder = entry.path.clone();
             self.start_scan(cx);
+        } else if self.request.kind == PickerKind::SaveFile {
+            self.filename = entry.label.clone();
         } else if !self.request.directory {
             if self.request.multiple {
                 if !self.selected.insert(entry.path.clone()) {
@@ -153,15 +158,29 @@ impl PickerView {
     }
 
     fn confirm(&mut self, cx: &mut Context<Self>) {
-        let paths = if self.request.directory {
-            vec![self.folder.clone()]
-        } else {
-            self.selected.iter().cloned().collect()
+        let paths = match self.request.kind {
+            PickerKind::SaveFile => {
+                let name = std::path::Path::new(&self.filename);
+                if !matches!(
+                    name.components().next(),
+                    Some(std::path::Component::Normal(_))
+                ) || name.components().count() != 1
+                {
+                    self.error = Some("Enter a valid file name (no paths)".into());
+                    cx.notify();
+                    return;
+                }
+                vec![self.folder.join(name)]
+            }
+            PickerKind::SaveFiles => vec![self.folder.clone()],
+            PickerKind::OpenFile if self.request.directory => vec![self.folder.clone()],
+            PickerKind::OpenFile => self.selected.iter().cloned().collect(),
         };
         if self.request.validate_selection(&paths) {
             self.complete(RenderResponse::Selected(paths), cx);
         } else {
-            self.error = Some("Select a valid item first".into());
+            self.error =
+                Some("Invalid selection or existing destination; overwrite not supported".into());
             cx.notify();
         }
     }
@@ -178,6 +197,19 @@ impl Render for PickerView {
         let folder = self.folder.to_string_lossy().to_string();
         let chosen = self.selected.len();
         let directory = self.request.directory;
+        let save_file = self.request.kind == PickerKind::SaveFile;
+        let save_files = self.request.kind == PickerKind::SaveFiles;
+        let filename = self.filename.clone();
+        let files_count = self.request.requested_files.len();
+        let accept_label = if !self.request.accept_label.is_empty() {
+            self.request.accept_label.replace('_', "")
+        } else if save_file {
+            "Save".to_string()
+        } else if directory {
+            "Choose folder".to_string()
+        } else {
+            "Open".to_string()
+        };
         let scanning = self.scanning;
         let truncated = self.truncated;
         let current_index = self.current_index;
@@ -234,10 +266,34 @@ impl Render for PickerView {
             .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
                 match event.keystroke.key.as_str() {
                     "escape" => this.complete(RenderResponse::Cancelled, cx),
+                    "backspace" if this.request.kind == PickerKind::SaveFile => {
+                        this.filename.pop();
+                        this.error = None;
+                        cx.notify();
+                    }
                     "backspace" => this.navigate_up(cx),
                     "up" => this.move_cursor(false, cx),
                     "down" => this.move_cursor(true, cx),
+                    "enter" if this.request.kind == PickerKind::SaveFile => this.confirm(cx),
                     "enter" if this.current_index.is_some() => this.activate_cursor(cx),
+                    _ if this.request.kind == PickerKind::SaveFile
+                        && !event.keystroke.modifiers.control
+                        && !event.keystroke.modifiers.alt
+                        && !event.keystroke.modifiers.platform =>
+                    {
+                        // Provisional keyboard path only; full text/IME composition
+                        // must be qualified before exposing to real applications.
+                        if let Some(value) = &event.keystroke.key_char {
+                            if !value.contains('/') && !value.contains(' ')
+                                && value.chars().all(|ch| !ch.is_control())
+                                && this.filename.len() + value.len() <= 240
+                            {
+                                this.filename.push_str(value);
+                                this.error = None;
+                                cx.notify();
+                            }
+                        }
+                    }
                     _ => {}
                 }
             }))
@@ -302,7 +358,11 @@ impl Render for PickerView {
                 div()
                     .text_color(rgb(MUTED))
                     .text_size(px(12.))
-                    .child(if directory {
+                    .child(if save_file {
+                        format!("Save name: {filename}  (type to edit · Backspace to delete · Enter to confirm)")
+                    } else if save_files {
+                        format!("Choose folder for {files_count} file(s); existing names are rejected")
+                    } else if directory {
                         "Choose this directory".to_string()
                     } else {
                         format!("{chosen} selected")
@@ -346,7 +406,7 @@ impl Render for PickerView {
                             .rounded_sm()
                             .bg(rgb(ORANGE))
                             .text_color(rgb(BG))
-                            .child(if directory { "Choose folder" } else { "Open" })
+                            .child(accept_label)
                             .on_click(cx.listener(|this, _, _, cx| this.confirm(cx))),
                     ),
             )
