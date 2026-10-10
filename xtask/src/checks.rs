@@ -71,6 +71,19 @@ pub const CLIPPY_TARGETS: &[(&str, &[&str])] = &[
     // The qualification tool itself, at the same strictness. "It is only
     // tooling" is precisely the reasoning that lets a harness rot, and this
     // crate is now the thing every other gate is read through.
+    (
+        "clippy-filechooser-portal",
+        &["-p", "in-gnu-os-filechooser-portal"],
+    ),
+    (
+        "clippy-filechooser-gpui",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--features",
+            "native-gpui",
+        ],
+    ),
     ("clippy-xtask", &["-p", "xtask"]),
 ];
 
@@ -140,6 +153,10 @@ pub const TEST_TARGETS: &[(&str, &[&str])] = &[
         "test-desktop-profiles",
         &["-p", "in-gnu-os-desktop-profiles", "--lib"],
     ),
+    (
+        "test-filechooser-portal",
+        &["-p", "in-gnu-os-filechooser-portal"],
+    ),
     ("test-xtask", &["-p", "xtask", "--bin", "xtask"]),
 ];
 
@@ -177,6 +194,26 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "component-lab",
             "--bin",
             "gnos-ux-lab",
+        ],
+    ),
+    (
+        "build-filechooser-gpui",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--features",
+            "native-gpui",
+            "--bin",
+            "gnosix-cabinet",
+        ],
+    ),
+    (
+        "build-filechooser-portal",
+        &[
+            "-p",
+            "in-gnu-os-filechooser-portal",
+            "--bin",
+            "gnosix-portal-filechooser",
         ],
     ),
 ];
@@ -331,6 +368,13 @@ pub fn catalogue() -> Vec<Check> {
         "host-authority-digest",
         CheckClass::HostLive,
         InProcess::InstalledAuthority,
+    ));
+    // Real D-Bus introspection uses a private session bus and the locally
+    // built backend. It must NOT be labelled repository-hermetic.
+    checks.push(Check::spawn(
+        "host-cabinet-backend-abi",
+        CheckClass::HostLive,
+        vec!["bash".into(), "tools/cabinet-gfc03d-abi-oracle.sh".into()],
     ));
 
     checks.extend(source_invariant_checks());

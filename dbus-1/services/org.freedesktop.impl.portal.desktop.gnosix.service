@@ -1,0 +1,4 @@
+# GFC-01 staging template, NOT INSTALLED
+[D-BUS Service]
+Name=org.freedesktop.impl.portal.desktop.gnosix
+Exec=/usr/libexec/gnosix-portal-filechooser

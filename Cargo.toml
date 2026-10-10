@@ -20,6 +20,7 @@ members = ["crates/gnos-ux-surface","crates/gnos-ux-gpui","crates/gnos-ux-sdk","
     "crates/gnos-ux-profile-client",
     "crates/gnosix-input-observation",
     "crates/gnosix-input-runtime-observer",
+    "crates/in-gnu-os-filechooser-portal",
     "xtask",
 ]
 

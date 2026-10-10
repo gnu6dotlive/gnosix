@@ -7,6 +7,7 @@ Use these spellings in authored public copy:
 - `gnosix` — project/system identity.
 - `gnos.ux` — native product presentation and UX domain.
 - `in.gnu.os` — system-service/authority identity.
+- Cabinet — Gnosix native file picker identity; the freedesktop FileChooser names remain wire-level contracts.
 - `gnusnip` — capture/snip product identity.
 - `gnoshow` — rear-plane/wallpaper rendering component.
 - `gnu6.live` — public web/service surface where relevant.
