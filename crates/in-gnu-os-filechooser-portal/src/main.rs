@@ -242,7 +242,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let (ui, mut receiver) = mpsc::channel::<RenderJob>(MAX_REQUESTS);
     // Activation requires an explicit absolute renderer path. No renderer:
     // requests are rejected, and the user's installed portal stays untouched.
-    let configured = std::env::var_os("GNOSIX_GFC02_RENDERER")
+    let configured = std::env::var_os("GNOSIX_CABINET_RENDERER")
+        .or_else(|| std::env::var_os("GNOSIX_GFC02_RENDERER"))
         .map(PathBuf::from)
         .filter(|path| path.is_absolute() && path.is_file());
     if let Some(renderer) = configured {

@@ -204,7 +204,7 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "--features",
             "native-gpui",
             "--bin",
-            "gnosix-filechooser-gpui",
+            "gnosix-cabinet",
         ],
     ),
     (

@@ -185,7 +185,7 @@ impl Render for PickerView {
         div()
             .id("gnosix-filechooser")
             .role(gpui::Role::Application)
-            .aria_label("Gnosix native file chooser")
+            .aria_label("Cabinet — Gnosix file selection")
             .track_focus(&self.focus)
             .on_key_down(cx.listener(|this, event: &gpui::KeyDownEvent, _, cx| {
                 if event.keystroke.key.eq_ignore_ascii_case("escape") {
@@ -203,7 +203,7 @@ impl Render for PickerView {
                 div()
                     .text_size(px(14.))
                     .text_color(rgb(ORANGE))
-                    .child("GNOSIX  /  FILECHOOSER"),
+                    .child("CABINET  /  GNOSIX"),
             )
             .child(div().text_size(px(22.)).child(title))
             .child(
@@ -319,7 +319,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             WindowOptions {
                 window_bounds: Some(WindowBounds::Windowed(bounds)),
                 window_background: WindowBackgroundAppearance::Opaque,
-                app_id: Some("in.gnu.os.filechooser".into()),
+                app_id: Some("in.gnu.os.cabinet".into()),
                 ..Default::default()
             },
             move |window, cx| {

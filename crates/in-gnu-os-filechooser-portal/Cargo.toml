@@ -23,6 +23,6 @@ name = "gnosix-portal-filechooser"
 path = "src/main.rs"
 
 [[bin]]
-name = "gnosix-filechooser-gpui"
-path = "src/bin/gnosix-filechooser-gpui.rs"
+name = "gnosix-cabinet"
+path = "src/bin/gnosix-cabinet.rs"
 required-features = ["native-gpui"]

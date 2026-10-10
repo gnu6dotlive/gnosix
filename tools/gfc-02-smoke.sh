@@ -9,7 +9,7 @@ work="$(mktemp -d)"
 trap 'rm -rf -- "$work"' EXIT
 printf 'fixture A\n' > "$work/alpha.txt"
 printf 'fixture B\n' > "$work/beta.txt"
-GFC02_FIXTURE="$work" GNOSIX_GFC02_RENDERER="$root/tools/gfc-02-mock-renderer.py" \
+GFC02_FIXTURE="$work" GNOSIX_CABINET_RENDERER="$root/tools/gfc-02-mock-renderer.py" \
 GFC02_BINARY="$binary" dbus-run-session -- bash -euo pipefail -c '
   "$GFC02_BINARY" > "$GFC02_FIXTURE/backend.log" 2>&1 &
   backend=$!
