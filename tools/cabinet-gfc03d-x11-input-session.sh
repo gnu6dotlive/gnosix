@@ -3,7 +3,7 @@ set -euo pipefail
 export PATH=/usr/bin:/bin
 umask 077
 mode="$CABINET_INPUT_MODE"
-case "$mode" in save|cancel) ;; *) echo "unsupported input oracle mode" >&2; exit 64;; esac
+case "$mode" in save|cancel|open-keyboard|open-pointer|open-tab|open-shift-tab) ;; *) echo "unsupported input oracle mode" >&2; exit 64;; esac
 ev="$CABINET_EVIDENCE_DIR"
 binary="$CABINET_BINARY"
 test -x "$binary"
@@ -77,14 +77,15 @@ echo "WESTON_X11_INPUT_SEAT_PREFLIGHT_PASS"
 mkdir -p "$ev/fixture"
 printf 'sample\n' > "$ev/fixture/alpha.txt"
 python3 - "$ev/request.json" "$ev/fixture" <<'PY'
-import json,sys
+import json,sys,os
+open_mode = os.environ["CABINET_INPUT_MODE"].startswith("open-")
 request={
-  "title":"Cabinet GFC-03D Real Keyboard Oracle",
+  "title":"Cabinet GFC-03D Real Input Oracle",
   "app_id":"in.gnu.os.cabinet.qualify",
   "initial_folder":sys.argv[2],
-  "multiple":False, "directory":False,"kind":"save_file",
-  "filename":"initial.txt", "requested_files":[],
-  "accept_label":"Save", "filters":[],
+  "multiple":False, "directory":False,"kind":("open_file" if open_mode else "save_file"),
+  "filename":("" if open_mode else "initial.txt"), "requested_files":[],
+  "accept_label":("Open" if open_mode else "Save"), "filters":[],
   "selected_filter":None, "choices":[]
 }
 with open(sys.argv[1],"w") as f:json.dump(request,f)
@@ -107,25 +108,101 @@ echo "WAYLAND_KEYBOARD_ENTER_PASS"
 xdotool windowfocus --sync "$window_id"
 test "$(xdotool getwindowfocus)" = "$window_id" || { echo "FOCUS_NOT_IN_ISOLATED_WESTON"; exit 32; }
 sleep .25
-if [ "$mode" = cancel ]; then
-  xdotool key --clearmodifiers --delay 100 Escape
+case "$mode" in
+  cancel)
+    xdotool key --clearmodifiers --delay 100 Escape
+    ;;
+  save)
+    xdotool key --clearmodifiers --delay 80 ctrl+a
+    xdotool type --clearmodifiers --delay 50 "cabinet-e2e-save.txt"
+    xdotool key --clearmodifiers --delay 80 Return
+    ;;
+  open-keyboard)
+    # The root picker focus handles Up/Down and Enter on the list.
+    # Wait for the second compositor frame to ensure the async listing landed.
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    if [ "$committed" -lt 3 ]; then echo "OPEN_LIST_FRAME_NOT_OBSERVED"; exit 35; fi
+    xdotool key --clearmodifiers --delay 100 Down
+    xdotool key --clearmodifiers --delay 100 Return
+    xdotool key --clearmodifiers --delay 100 Return
+    ;;
+  open-tab)
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    if [ "$committed" -lt 3 ]; then echo "OPEN_LIST_FRAME_NOT_OBSERVED"; exit 35; fi
+    # Tab-focus Up, then the file row, Enter to select,
+    # Tab-focus Cancel then Open, Enter to submit.
+    xdotool key --clearmodifiers --delay 110 Tab Tab Return Tab Tab Return
+    ;;
+  open-shift-tab)
+    for i in $(seq 1 80); do
+      committed=$(grep -cE 'wl_surface#[0-9]+\.commit\(' "$ev/renderer.stderr" || true)
+      [ "$committed" -ge 3 ] && break
+      sleep .06
+    done
+    if [ "$committed" -lt 3 ]; then echo "OPEN_LIST_FRAME_NOT_OBSERVED"; exit 35; fi
+    # Root -> Confirm -> Cancel -> File via reverse navigation,
+    # then file selection and normal Tab navigation to Confirm.
+    xdotool key --clearmodifiers --delay 110 shift+Tab shift+Tab shift+Tab Return Tab Tab Return
+    ;;
+  open-pointer)
+    # Capture the actual compositor window and inspect where the file row lies.
+    import -window "$window_id" -silent "$ev/before-pointer.png"
+    test -s "$ev/before-pointer.png"
+    xdotool mousemove --window "$window_id" 200 325
+    # Wait for the actual enter/motion delivery before the first click.
+    for i in $(seq 1 80); do
+      grep -qE 'wl_pointer#[0-9]+\.enter\(' "$ev/renderer.stderr" && break
+      sleep .05
+    done
+    grep -qE 'wl_pointer#[0-9]+\.enter\(' "$ev/renderer.stderr" || {
+      echo "POINTER_ENTER_NOT_DELIVERED"; exit 36;
+    }
+    xdotool click --clearmodifiers --delay 100 1
+    for i in $(seq 1 80); do
+      first_count=$(grep -cE 'wl_pointer#[0-9]+\.button\(' "$ev/renderer.stderr" || true)
+      [ "$first_count" -ge 2 ] && break
+      sleep .05
+    done
+    [ "$first_count" -ge 2 ] || { echo "FIRST_CLICK_NOT_DELIVERED"; exit 37; }
+    import -window "$window_id" -silent "$ev/selected-pointer.png"
+    test -s "$ev/selected-pointer.png"
+    previous_motion_count=$(grep -cE 'wl_pointer#[0-9]+\.motion\(' "$ev/renderer.stderr" || true)
+    xdotool mousemove --window "$window_id" 910 680
+    for i in $(seq 1 80); do
+      current_motion_count=$(grep -cE 'wl_pointer#[0-9]+\.motion\(' "$ev/renderer.stderr" || true)
+      [ "$current_motion_count" -gt "$previous_motion_count" ] && break
+      sleep .05
+    done
+    [ "$current_motion_count" -gt "$previous_motion_count" ] || { echo "CONFIRM_POINTER_MOTION_MISSING"; exit 38; }
+    xdotool click --clearmodifiers --delay 100 1
+    ;;
+esac
+if [ "$mode" = open-pointer ]; then
+  count=$(grep -cE 'wl_pointer#[0-9]+\.button\(' "$ev/renderer.stderr" || true)
+  if [ "$count" -lt 4 ]; then echo "WAYLAND_POINTER_EVENTS_MISSING"; tail -25 "$ev/renderer.stderr"; exit 34; fi
+  echo "WAYLAND_XTEST_POINTER_BUTTON_EVENTS_PASS"
 else
-  xdotool key --clearmodifiers --delay 80 ctrl+a
-  xdotool type --clearmodifiers --delay 50 "cabinet-e2e-save.txt"
-  xdotool key --clearmodifiers --delay 80 Return
+  for i in $(seq 1 35); do
+    grep -qE 'wl_keyboard#[0-9]+\.key\(' "$ev/renderer.stderr" 2>/dev/null && break
+    sleep .06
+  done
+  if ! grep -qE 'wl_keyboard#[0-9]+\.key\(' "$ev/renderer.stderr"; then echo "NO_WAYLAND_KEY_FROM_XTEST"; tail -19 "$ev/renderer.stderr"; exit 34; fi
+  echo "WAYLAND_XTEST_KEY_EVENT_PASS"
 fi
-for i in $(seq 1 35); do
-  grep -qE 'wl_keyboard#[0-9]+\.key\(' "$ev/renderer.stderr" 2>/dev/null && break
-  sleep .06
-done
-if ! grep -qE 'wl_keyboard#[0-9]+\.key\(' "$ev/renderer.stderr"; then echo "NO_WAYLAND_KEY_FROM_XTEST"; tail -19 "$ev/renderer.stderr"; exit 34; fi
-echo "WAYLAND_XTEST_KEY_EVENT_PASS"
 for i in $(seq 1 100); do
   test -s "$ev/response.json" && break
   kill -0 "$cpid" 2>/dev/null || break
   sleep .08
 done
-test -s "$ev/response.json" || { echo "NO_RENDERER_RESPONSE_AFTER_KEY_INPUT"; tail -30 "$ev/renderer.stderr"; exit 33; }
+test -s "$ev/response.json" || { echo "NO_RENDERER_RESPONSE_AFTER_INPUT"; tail -30 "$ev/renderer.stderr"; exit 33; }
 python3 - "$ev/response.json" "$ev/fixture" "$mode" <<'PY'
 import json,sys
 from pathlib import Path
@@ -134,12 +211,16 @@ mode=sys.argv[3]
 if mode=="cancel":
     assert response=={"outcome":"cancelled"},response
     print("GFC03D_REAL_WAYLAND_ESCAPE_CANCEL_PASS")
-else:
+elif mode=="save":
     destination=Path(sys.argv[2])/"cabinet-e2e-save.txt"
     expected={"outcome":"selected","paths":[str(destination)]}
     assert response==expected,(response,expected)
     assert not destination.exists(),"Cabinet may select, but must not create the file"
     print("GFC03D_REAL_WAYLAND_SAVEFILE_TEXT_PASS")
+else:
+    expected={"outcome":"selected","paths":[str(Path(sys.argv[2])/"alpha.txt")]}
+    assert response==expected,(response,expected)
+    print(f"GFC03D_REAL_WAYLAND_{mode.upper().replace('-','_')}_PASS")
 PY
 git rev-parse HEAD >"$ev/source-head.txt"
 sha256sum "$binary" "$CABINET_XVFB_BIN" >"$ev/binary-sha256.txt"

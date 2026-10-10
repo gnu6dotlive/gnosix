@@ -374,6 +374,14 @@ impl Render for PickerView {
                         .update(cx, |editor, cx| editor.on_key(event, window, cx));
                 }
                 match event.keystroke.key.as_str() {
+                    "tab" => {
+                        if event.keystroke.modifiers.shift {
+                            window.focus_prev(cx);
+                        } else {
+                            window.focus_next(cx);
+                        }
+                        cx.stop_propagation();
+                    }
                     "f6" => this.cycle_filter(cx),
                     "escape" => this.complete(RenderResponse::Cancelled, cx),
                     "backspace" if this.request.kind != PickerKind::SaveFile => {

@@ -5,8 +5,8 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 mode="${1:-}"
 case "$mode" in
-  cancel|save) ;;
-  *) echo "Usage: CABINET_EVIDENCE_DIR=/mnt/workbench/evidence/runs/unique $0 {cancel|save}" >&2; exit 64;;
+  cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab) ;;
+  *) echo "Usage: CABINET_EVIDENCE_DIR=/mnt/workbench/evidence/runs/unique $0 {cancel|save|open-keyboard|open-pointer|open-tab|open-shift-tab}" >&2; exit 64;;
 esac
 ev="${CABINET_EVIDENCE_DIR:?Set a new unique evidence directory}"
 case "$ev" in /mnt/workbench/evidence/runs/*) ;; *) echo "Evidence must reside under workbench evidence/runs" >&2; exit 64;; esac
@@ -15,7 +15,7 @@ binary="${CABINET_BINARY:-/mnt/sandbox/builds/cargo/debug/gnosix-cabinet}"
 xvfb="${CABINET_XVFB_BIN:-/mnt/workbench/evidence/runs/cabinet-gfc03d-xvfb-dependency-20261010/root/usr/bin/Xvfb}"
 test -x "$binary" || { echo "Cabinet renderer binary missing: $binary" >&2; exit 66; }
 test -x "$xvfb" || { echo "Xvfb binary missing: $xvfb" >&2; exit 66; }
-for tool in gnu6-lab-run unshare weston xauth xprop xdotool; do
+for tool in gnu6-lab-run unshare weston xauth xprop xdotool import; do
   command -v "$tool" >/dev/null || { echo "Missing required tool: $tool" >&2; exit 66; }
 done
 export CABINET_INPUT_MODE="$mode" CABINET_EVIDENCE_DIR="$ev" CABINET_BINARY="$binary" CABINET_XVFB_BIN="$xvfb"
