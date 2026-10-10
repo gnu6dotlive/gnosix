@@ -56,4 +56,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [AGENTS
 
 ## License
 
-First-party Gnosix code and repository documentation are licensed under **GPL-3.0-or-later**. Bundled third-party material retains its upstream license; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+First-party Gnosix code and repository documentation are licensed under the **MIT License**. The license policy was updated on 2026-10-10; already distributed GPL-licensed versions retain their existing permissions. Bundled third-party material keeps its own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

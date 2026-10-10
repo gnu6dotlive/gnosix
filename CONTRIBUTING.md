@@ -33,4 +33,4 @@ AI-assisted changes are acceptable when their source, review boundary, tests, an
 
 ## Licensing
 
-First-party contributions are accepted under **GPL-3.0-or-later**. Do not remove or alter third-party license notices; update `THIRD_PARTY_NOTICES.md` when vendoring or copying external source.
+First-party contributions are submitted for inclusion under the **MIT License** (see [LICENSE](LICENSE)). Contributors must have the necessary rights to license their work under MIT; do not copy GPL-only third-party code into MIT-designated first-party files. Retain third-party notices and update `THIRD_PARTY_NOTICES.md` when importing third-party material.
