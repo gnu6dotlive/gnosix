@@ -1,0 +1,48 @@
+{
+  "schema": "g07b02j-prior-evidence-integrity-v1",
+  "status": "ARCHIVE_INTEGRITY_PASS_ONLY_NOT_LIVE_E2E",
+  "checks": {
+    "g07b02g2": {
+      "archive_bytes_verified": 5,
+      "files": [
+        "g07b02g2/traces/g2-output1-frame.tar.zst",
+        "g07b02g2/traces/g2-output1-timer.tar.zst",
+        "g07b02g2/traces/g2-output2-frame.tar.zst",
+        "g07b02g2/traces/g2-output2-timer.tar.zst",
+        "g07b02g2/traces/replay-compositor.log.zst"
+      ],
+      "receipt_sha256": "89ad2b69a345e5fd03342b40d1b690da548bbc89f52636e7973b5ec626a50471"
+    },
+    "g07b02h": {
+      "archive_bytes_verified": 8,
+      "files": [
+        "g07b02h/pointer_constraints_probe.c",
+        "g07b02h/build_pointer_probe.sh",
+        "g07b02h/constraint_runner.py",
+        "g07b02h/confine-one-motion.log",
+        "g07b02h/confine-two-motion.log",
+        "g07b02h/lock-one-motion.log",
+        "g07b02h/lock-two-motion.log",
+        "g07b02h/compositor.log.zst"
+      ],
+      "receipt_sha256": "d15ef85e9c690d6b33ba59f764341b0982180e3533e1215584d5122e5f3d1e27"
+    },
+    "g07b02i": {
+      "archive_bytes_verified": 6,
+      "files": [
+        "g07b02i/traces/dnd-cross.tar.zst",
+        "g07b02i/traces/dnd-reverse.tar.zst",
+        "g07b02i/traces/dnd-same.tar.zst",
+        "g07b02i/traces/dnd-same2.tar.zst",
+        "g07b02i/traces/nested-compositor.log.zst",
+        "g07b02i/traces/relative-lock.tar.zst"
+      ],
+      "receipt_sha256": "45a685c4ca4d014c18bf19af9366d8ee19b2558413225375b93860f80972a222"
+    }
+  },
+  "historical_scopes": {
+    "g07b02g2": "271/271 callbacks archived",
+    "g07b02h": "2/2 horizontal confinements archived",
+    "g07b02i": "2/2 same-output DnD, 0/2 cross-output archived"
+  }
+}

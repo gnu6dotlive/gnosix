@@ -1,0 +1,155 @@
+{
+  "schema": "g07b02j-causal-backend-lock-qualification-v1",
+  "date": "2026-10-12",
+  "base_main": "1481dd7ef44b5107bcce6ffb98f3e8232c7d726e",
+  "hyprland_source": "efb50993780079460b0cbed1363e2166a2de1d9f",
+  "aquamarine_source": "f31c47a1b9d300847d8fc3108ad959448103dfc1",
+  "hyprland_experimental_patch": "4feb578bcf5bf731c3cb250091f1e087c9cc8633",
+  "experimental_compositor_binary_sha256": "3b2c93852f2941d1ac609eca64c1b84a06fcccf09edf5a9635eb4cdb1679f637",
+  "primary_compositor_binary_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "input_source": "ydotool isolated socket, separate native Wayland clients, parent WAYLAND_DEBUG=client",
+  "primary_compositor_pid": 3123,
+  "evidence_sha256": {
+    "E4-REVIEW.md": "d3793e682a8da986ce0e169e4927fa98b01ae48d13fc54e5cd6f68c5118ef220",
+    "REPRO.md": "6da5b2ccf0afd3d710dc494a6446ebddcbc6dc499103e9c983d5f1c24b3ff348",
+    "RESULTS.md": "d3d4e03c0ec19b39aec57416f1fa4e5aad74a3dc0b7ae979244d6ef5348f7b25",
+    "audit.json": "8c1a08c0709f7eddbbc3ee3414b6c17bdfc84ddd839e40a9642a3d132b24dec2",
+    "independent_audit.py": "228c293f1159a9764c1bbc891ce468c190e0feb4d2b016ab4c5b8ff39dab1694",
+    "lock_repro.py": "3a6f81f0efdb5010e2c272a24de4578cc53e62268b85bcfcc25469f3790c8c4d",
+    "offline_regressions.json": "460289c7af3e3e7065701dc362f90a206f3f430fa81df6627079942ba1bcb747",
+    "offline_regressions.py": "229124dc30d6a50bf939ad4f40fc862e3c7e0e5333f055c331d87e77df8e0b6a"
+  },
+  "archive_sha256": {
+    "lock-matched-4cases.tar.zst": "ba8be517da2eb7dab1a1927b776915a3b88eac7b241623eef768bb21c31df2ba",
+    "parent-wayland-dnd-cross.tar.zst": "c68e2eeaf178702e573e3346cea71ea9e3a95502556ac7456ffe7c9b146d3c66",
+    "weston-15-wayland-dual-output.log.zst": "5fadbd5a11dbe5aa2d5a4759bfe2ede1e80dee1813217437559a3adc6664e083"
+  },
+  "gates": {
+    "J1_cross_output_dnd_root_cause": "PASS_NESTED_PARENT_IMPLICIT_GRAB",
+    "J2_weston_alternate_compositor_dual_output": "PASS_INFRA_ONLY",
+    "J2_weston_independent_dnd_E2E": "NOT_RUN",
+    "J2_direct_DRM_two_head": "NOT_RUN",
+    "J3_lock_short_and_long_AB": "4/4_PASS_BOUNDED",
+    "J3_historical_lock_failure_explained": "OPEN_NONDETERMINISTIC",
+    "J4_native_relative_motion": "NOT_QUALIFIED",
+    "J5_prior_archive_integrity": "19_FILES_PASS_NOT_LIVE_E2E",
+    "J6_human_perceptual_E4": "PENDING",
+    "G07B_production_promotion": "BLOCKED"
+  },
+  "matched_lock_control_results": [
+    {
+      "size": "short",
+      "recycle": false,
+      "locked_activation_events": 1,
+      "inner_before": [
+        206.0,
+        370.0
+      ],
+      "inner_after": [
+        206.0,
+        370.0
+      ],
+      "outer_x_delta": 60.0,
+      "observed_stable": true
+    },
+    {
+      "size": "short",
+      "recycle": true,
+      "locked_activation_events": 2,
+      "inner_before": [
+        204.0,
+        370.0
+      ],
+      "inner_after": [
+        204.0,
+        370.0
+      ],
+      "outer_x_delta": 64.0,
+      "observed_stable": true
+    },
+    {
+      "size": "long",
+      "recycle": false,
+      "locked_activation_events": 1,
+      "inner_before": [
+        207.0,
+        370.0
+      ],
+      "inner_after": [
+        207.0,
+        370.0
+      ],
+      "outer_x_delta": 1124.0,
+      "observed_stable": true
+    },
+    {
+      "size": "long",
+      "recycle": true,
+      "locked_activation_events": 2,
+      "inner_before": [
+        206.0,
+        370.0
+      ],
+      "inner_after": [
+        206.0,
+        370.0
+      ],
+      "outer_x_delta": 1124.0,
+      "observed_stable": true
+    }
+  ],
+  "historic_failure": {
+    "inner_before": [
+      271.0,
+      274.0
+    ],
+    "inner_after": [
+      1250.0,
+      621.0
+    ]
+  },
+  "nested_cross_drag": {
+    "press": {
+      "time": "13:02:52.532086",
+      "kind": "button",
+      "data": "98465, 162225710, 272, 1"
+    },
+    "release": {
+      "time": "13:02:53.804370",
+      "kind": "button",
+      "data": "98466, 162226982, 272, 0"
+    },
+    "original_parent_surface": "98464, wl_surface#10, 35.00000000, 380.00000000",
+    "movement_events_during_grab": 38,
+    "max_source_surface_local_x": 2438.75,
+    "parent_enter_leave_during_held_button": 0,
+    "post_release_leave": {
+      "time": "13:02:58.056009",
+      "kind": "leave",
+      "data": "98467, wl_surface#10"
+    },
+    "post_release_enter": {
+      "time": "13:02:58.056011",
+      "kind": "enter",
+      "data": "98468, wl_surface#16, 328.07031250, 411.98437500"
+    },
+    "aquamarine_warp_clamped_to_origin_output": true,
+    "client_target_offer_received": false,
+    "transport_gate": "FAIL_EXPLAINED_PARENT_IMPLICIT_GRAB"
+  },
+  "weston_two_head": {
+    "version": "15.0.1",
+    "two_wayland_outputs": true,
+    "drag_injection_and_transfer": "NOT_RUN"
+  },
+  "offline_legacy_integrity": {
+    "g07b02g2": 5,
+    "g07b02h": 8,
+    "g07b02i": 6
+  },
+  "production_runtime_changed": false,
+  "main_product_source_changed": false,
+  "published": false,
+  "pushed": false,
+  "merge_of_external_hyprland_patch": false
+}

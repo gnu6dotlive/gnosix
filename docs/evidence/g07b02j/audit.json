@@ -1,0 +1,119 @@
+{
+  "schema": "g07b02j-independent-causal-audit-v1",
+  "cross_dnd": {
+    "press": {
+      "time": "13:02:52.532086",
+      "kind": "button",
+      "data": "98465, 162225710, 272, 1"
+    },
+    "release": {
+      "time": "13:02:53.804370",
+      "kind": "button",
+      "data": "98466, 162226982, 272, 0"
+    },
+    "original_parent_surface": "98464, wl_surface#10, 35.00000000, 380.00000000",
+    "movement_events_during_grab": 38,
+    "max_source_surface_local_x": 2438.75,
+    "parent_enter_leave_during_held_button": 0,
+    "post_release_leave": {
+      "time": "13:02:58.056009",
+      "kind": "leave",
+      "data": "98467, wl_surface#10"
+    },
+    "post_release_enter": {
+      "time": "13:02:58.056011",
+      "kind": "enter",
+      "data": "98468, wl_surface#16, 328.07031250, 411.98437500"
+    },
+    "aquamarine_warp_clamped_to_origin_output": true,
+    "client_target_offer_received": false,
+    "transport_gate": "FAIL_EXPLAINED_PARENT_IMPLICIT_GRAB"
+  },
+  "lock_recycle": {
+    "new_matched_controls": [
+      {
+        "size": "short",
+        "recycle": false,
+        "locked_activation_events": 1,
+        "inner_before": [
+          206.0,
+          370.0
+        ],
+        "inner_after": [
+          206.0,
+          370.0
+        ],
+        "outer_x_delta": 60.0,
+        "observed_stable": true
+      },
+      {
+        "size": "short",
+        "recycle": true,
+        "locked_activation_events": 2,
+        "inner_before": [
+          204.0,
+          370.0
+        ],
+        "inner_after": [
+          204.0,
+          370.0
+        ],
+        "outer_x_delta": 64.0,
+        "observed_stable": true
+      },
+      {
+        "size": "long",
+        "recycle": false,
+        "locked_activation_events": 1,
+        "inner_before": [
+          207.0,
+          370.0
+        ],
+        "inner_after": [
+          207.0,
+          370.0
+        ],
+        "outer_x_delta": 1124.0,
+        "observed_stable": true
+      },
+      {
+        "size": "long",
+        "recycle": true,
+        "locked_activation_events": 2,
+        "inner_before": [
+          206.0,
+          370.0
+        ],
+        "inner_after": [
+          206.0,
+          370.0
+        ],
+        "outer_x_delta": 1124.0,
+        "observed_stable": true
+      }
+    ],
+    "historic_WAYLAND_1_failure": {
+      "inner_before": [
+        271.0,
+        274.0
+      ],
+      "inner_after": [
+        1250.0,
+        621.0
+      ]
+    },
+    "conclusion": "INTERMITTENT_OR_SEAT_STATE_DEPENDENT_NOT_REPRODUCED_IN_J"
+  },
+  "weston_independent_backend": {
+    "version": "15.0.1",
+    "two_wayland_outputs": true,
+    "drag_injection_and_transfer": "NOT_RUN"
+  },
+  "archive_sha256": {
+    "lock-matched-4cases.tar.zst": "ba8be517da2eb7dab1a1927b776915a3b88eac7b241623eef768bb21c31df2ba",
+    "parent-wayland-dnd-cross.tar.zst": "c68e2eeaf178702e573e3346cea71ea9e3a95502556ac7456ffe7c9b146d3c66",
+    "weston-15-wayland-dual-output.log.zst": "5fadbd5a11dbe5aa2d5a4759bfe2ede1e80dee1813217437559a3adc6664e083"
+  },
+  "G07B_production_promotion": "BLOCKED",
+  "E4_human_review": "PENDING"
+}
