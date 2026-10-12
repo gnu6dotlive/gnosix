@@ -1,0 +1,148 @@
+{
+  "schema": "g07b02g1-output-aware-warp-layer-region-causal-v1",
+  "scope": "One instrumented Hyprland v0.56.2 / two simultaneous nested Wayland outputs",
+  "prior_negative_receipt_commit": "f426d63",
+  "hyprland_upstream": "efb50993780079460b0cbed1363e2166a2de1d9f",
+  "aquamarine_v0_15_1_source": "f31c47a1b9d300847d8fc3108ad959448103dfc1",
+  "hyprland_patch_commit": "4feb578",
+  "hyprland_patch_file": "hyprland-output-local-abs-warp.patch.zst",
+  "hyprland_patch_sha256": "aefd5c20e88cf4bbed31e79fc90e8e73addfbcb2d217a13dc0a9cf6f26659f17",
+  "patched_experiment_sha256": "3b2c93852f2941d1ac609eca64c1b84a06fcccf09edf5a9635eb4cdb1679f637",
+  "primary_hyprland_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "fixture_commit": "1c150ac",
+  "fixture_sha256": "1ff336e128870bedfe09364a573a506ac5a5bbedd9eb50eabe6d26c2d51d376f",
+  "root_causes": [
+    "Aquamarine SWarpEvent.output is supplied for Wayland output-local absolute coordinates but CMouse previously discarded it, allowing PointerManager to map to entire multi-monitor bounding box",
+    "CLayerSurface m_geometry and m_position are compositor-global; G07B02B focus candidate double-subtracted PMONITOR m_position on nonzero-origin outputs"
+  ],
+  "baseline_simultaneous_twohead": {
+    "WAYLAND-1": "3/16",
+    "WAYLAND-2": "0/16"
+  },
+  "corrected_deterministic": [
+    {
+      "run": "fixed-v2-output1",
+      "pass": 16,
+      "total": 16,
+      "membership_transitions": 10,
+      "fixture_sha256": "1ff336e128870bedfe09364a573a506ac5a5bbedd9eb50eabe6d26c2d51d376f",
+      "nested_windows_simultaneous": true
+    },
+    {
+      "run": "fixed-v2-output2",
+      "pass": 16,
+      "total": 16,
+      "membership_transitions": 10,
+      "fixture_sha256": "1ff336e128870bedfe09364a573a506ac5a5bbedd9eb50eabe6d26c2d51d376f",
+      "nested_windows_simultaneous": true
+    }
+  ],
+  "corrected_motion": [
+    {
+      "run": "v2-motion-output1-frame",
+      "policy": "frame",
+      "frames": 244,
+      "target_count": 21,
+      "injected": 33,
+      "qualified": 32,
+      "correct": 32,
+      "applied_region_consistent": 32,
+      "region_crossing_during_press_release": 2
+    },
+    {
+      "run": "v2-motion-output1-timer",
+      "policy": "timer",
+      "frames": 582,
+      "target_count": 21,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "applied_region_consistent": 34,
+      "region_crossing_during_press_release": 1
+    },
+    {
+      "run": "v2-motion-output2-frame",
+      "policy": "frame",
+      "frames": 250,
+      "target_count": 21,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "applied_region_consistent": 34,
+      "region_crossing_during_press_release": 4
+    },
+    {
+      "run": "v2-motion-output2-timer",
+      "policy": "timer",
+      "frames": 588,
+      "target_count": 21,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "applied_region_consistent": 34,
+      "region_crossing_during_press_release": 2
+    }
+  ],
+  "motion_totals": {
+    "injections": 135,
+    "qualified": 134,
+    "qualified_correct": 134,
+    "not_fully_attributed": 1,
+    "cross_during_press_release": 9
+  },
+  "unattributed_event": [
+    {
+      "run": "v2-motion-output1-frame",
+      "index": 4,
+      "press": [
+        {
+          "ns": 1791794236385019994,
+          "state": 1,
+          "focus": 94651029392656
+        }
+      ],
+      "release": [
+        {
+          "ns": 1791794236420086875,
+          "state": 0,
+          "focus": 94651029392656
+        }
+      ],
+      "callback": [],
+      "focus_map": {
+        "94650953043040": "witness",
+        "94651029392656": "overlay"
+      }
+    }
+  ],
+  "audit_sha256": "78fd8235f9be11a000dd2d57284f355b5b997248b579bd1b97eaab18ea75c807",
+  "archive_sha256": {
+    "fixed-v2-output1.tar.zst": "03cb043a36d586ca9b7d862ccd023fc4d4c8af97c1270cbe89a8a752f58b369e",
+    "fixed-v2-output2.tar.zst": "381905102c2a433323da0bc8fd9d9af8eace00ec06ca39c1a5b3ad6e9d82792b",
+    "hyprland-v2-compositor.log.zst": "841d92e29136aa0f7d56ffd1cb62593662a494ff256ac87e289e1022ff878506",
+    "v2-motion-output1-frame.tar.zst": "0e18f39de841cce2a0426423246866864c3fcf910856f7e4c15b4b1dc4119eda",
+    "v2-motion-output1-timer.tar.zst": "0c084eaa72ed2b62423e1209ac23296643c5a748176e6368a4bb1f9c5ab9329f",
+    "v2-motion-output2-frame.tar.zst": "14b8e724d7301e1b241fa70efa87280b6deddaa23f8b431a2e5a44bc8e56e0ba",
+    "v2-motion-output2-timer.tar.zst": "4d53758c78e56dece16c17df80c036faa7285e9e2b8823eb31bd60491b32e85e"
+  },
+  "gates": {
+    "static_dualhead": "PASS",
+    "dynamic_animated_dualhead": "BOUNDED_PASS_WITH_ONE_UNATTRIBUTED_CALLBACK",
+    "two_head_per_output_absolute_warp": "PASS",
+    "two_head_layer_input_region_commit": "PASS",
+    "explicit_pointer_constraint": "NOT_RUN",
+    "cross_output_drag_and_drop": "NOT_RUN",
+    "E4_human_perceptual": "PENDING",
+    "primary_runtime_promotion": "BLOCKED"
+  },
+  "negative_assertions": [
+    "No compositor primary binary or persistent config replaced",
+    "One native GPUI click callback absent despite recorded compositor press/release and valid focused surface; not credited as success",
+    "Nested Wayland dual-head not equivalent to running patched Hyprland directly on two physical output devices",
+    "Original G07B scheduler matrix and pointer constraints not fully qualified"
+  ],
+  "git_push": false,
+  "git_merge": false,
+  "production_modified": false,
+  "hyprland_patch_archive_sha256": "0212d652bf91ebc807d61b8dc7c01a2b5cfff50aa98270f8929349b605861930"
+}

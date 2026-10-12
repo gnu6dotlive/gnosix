@@ -1,0 +1,63 @@
+diff --git a/src/desktop/view/LayerSurface.cpp b/src/desktop/view/LayerSurface.cpp
+index 2143d5a..6b54e3d 100644
+--- a/src/desktop/view/LayerSurface.cpp
++++ b/src/desktop/view/LayerSurface.cpp
+@@ -219,6 +219,13 @@ void CLayerSurface::onMap() {
+     Event::bus()->m_events.layer.opened.emit(m_self.lock());
+ 
+     updateSurfaceScaleTransformDetails();
++
++    // G07B02 probe: mapping can cover a stationary pointer.
++    m_lastCommittedInputRegion = m_layerSurface->m_surface->m_current.effectiveInputRegion();
++    m_hasCommittedInputRegion = true;
++    const auto POINTERLOCAL = g_pInputManager->getMouseCoordsInternal() - (m_position + PMONITOR->m_position);
++    if (m_lastCommittedInputRegion.containsPoint(POINTERLOCAL))
++        g_pInputManager->simulateMouseMovement();
+ }
+ 
+ void CLayerSurface::onUnmap() {
+@@ -255,6 +262,7 @@ void CLayerSurface::onUnmap() {
+     Desktop::fadingOutState()->add(CLayerFadeout::create(m_self.lock(), SNAPSHOT, SOURCEALPHA));
+ 
+     m_mapped = false;
++    m_hasCommittedInputRegion = false;
+     if (m_layerSurface && m_layerSurface->m_surface)
+         m_layerSurface->m_surface->unmap();
+ 
+@@ -411,6 +419,21 @@ void CLayerSurface::onCommit() {
+     g_pHyprRenderer->damageSurface(m_wlSurface->resource(), m_position.x, m_position.y);
+ 
+     updateSurfaceScaleTransformDetails();
++
++    // G07B02 probe: input changes under a stationary pointer must update
++    // compositor pointer focus even without a physical motion event.
++    // Restrict the synthetic recomputation to actual membership transitions:
++    // the GPUI client republishes the same region on many render frames.
++    if (m_layerSurface->m_surface->m_current.updated.bits.input) {
++        auto REGION = m_layerSurface->m_surface->m_current.effectiveInputRegion();
++        if (m_hasCommittedInputRegion) {
++            const auto POINTERLOCAL = g_pInputManager->getMouseCoordsInternal() - (m_position + PMONITOR->m_position);
++            if (m_lastCommittedInputRegion.containsPoint(POINTERLOCAL) != REGION.containsPoint(POINTERLOCAL))
++                g_pInputManager->simulateMouseMovement();
++        }
++        m_lastCommittedInputRegion = std::move(REGION);
++        m_hasCommittedInputRegion = true;
++    }
+ }
+ 
+ int CLayerSurface::popupsCount() {
+diff --git a/src/desktop/view/LayerSurface.hpp b/src/desktop/view/LayerSurface.hpp
+index ce5791c..80f80ee 100644
+--- a/src/desktop/view/LayerSurface.hpp
++++ b/src/desktop/view/LayerSurface.hpp
+@@ -62,6 +62,10 @@ namespace Desktop::View {
+         CLayerSurfaceAnimationController        m_animationController;
+ 
+         CBox                                    m_geometry = {0, 0, 0, 0};
++
++        // G07B02 probe: compare old/new pointer membership only when input changes.
++        CRegion                                 m_lastCommittedInputRegion;
++        bool                                    m_hasCommittedInputRegion = false;
+         Vector2D                                m_position;
+         std::string                             m_namespace = "";
+         SP<Desktop::View::CPopup>               m_popupHead;

@@ -1,0 +1,173 @@
+{
+  "schema": "g07b02f-two-physical-host-compositor-button-epochs-v1",
+  "experiment": "G07B-02F — Multi-Output & Boundary Race Qualification",
+  "date": "2026-10-12",
+  "origin": "G07B-02E commit 4f086c4",
+  "hyprland_upstream": "v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "compositor_instrument_branch": "probe/g07b02e-compositor-instrument-20261012",
+  "compositor_instrument_commit": "5a4b7e6",
+  "hyprland_instrumented_binary_sha256": "11eb1e6fda485aa857c15180a532bc9a8ded1b9b0d723b119090dcce8bbae15d",
+  "primary_host_compositor_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "fixture_binary_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+  "physical_host_monitors": [
+    {
+      "name": "HDMI-A-1",
+      "physical_geometry": [
+        -630,
+        590,
+        2560,
+        1440
+      ]
+    },
+    {
+      "name": "DP-2",
+      "physical_geometry": [
+        1930,
+        390,
+        1920,
+        1080
+      ]
+    }
+  ],
+  "nested_output_geometry": [
+    1250,
+    800
+  ],
+  "layer_surface_geometry": [
+    900,
+    560
+  ],
+  "host_output_association": "Verified by outer Hyprland floating window center and its physical monitor bounds; tests sequential; inner output always WAYLAND-1",
+  "static_and_controlled_matrix": [
+    {
+      "physical_host": "DP-2",
+      "test_run": "dp2-16",
+      "passed": 16,
+      "total": 16,
+      "membership_transitions": 10,
+      "floating_nested_window": true,
+      "nested_window_xy": [
+        2120,
+        515
+      ],
+      "nested_window_size": [
+        1250,
+        800
+      ],
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5"
+    },
+    {
+      "physical_host": "HDMI-A-1",
+      "test_run": "hdmi-16",
+      "passed": 16,
+      "total": 16,
+      "membership_transitions": 10,
+      "floating_nested_window": true,
+      "nested_window_xy": [
+        40,
+        795
+      ],
+      "nested_window_size": [
+        1250,
+        800
+      ],
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5"
+    }
+  ],
+  "native_motion_matrix": [
+    {
+      "name": "dp2-frame",
+      "output": "dp2",
+      "policy": "frame",
+      "frames": 249,
+      "targets": 21,
+      "matched_complete": true,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 4,
+      "wrong": []
+    },
+    {
+      "name": "dp2-timer",
+      "output": "dp2",
+      "policy": "timer",
+      "frames": 590,
+      "targets": 21,
+      "matched_complete": true,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 2,
+      "wrong": []
+    },
+    {
+      "name": "hdmi-frame",
+      "output": "hdmi",
+      "policy": "frame",
+      "frames": 249,
+      "targets": 21,
+      "matched_complete": true,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 6,
+      "wrong": []
+    },
+    {
+      "name": "hdmi-timer",
+      "output": "hdmi",
+      "policy": "timer",
+      "frames": 657,
+      "targets": 21,
+      "matched_complete": true,
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 4,
+      "wrong": []
+    }
+  ],
+  "audit_sha256": "3e35af473761800cdaf0c8eeeaab5ef925e80a80918d78f14a9338b6677d3c3e",
+  "audit_program_sha256": "517682b1ab301edab7e2da34d6d4a572e52c909d7a2982b7adcd6a40b2100f7b",
+  "crossing_callbacks_explained": 3,
+  "verification": {
+    "two_physical_host_windows": "PASS",
+    "two_stable_1250x800_nested_outputs_sequential": "PASS",
+    "controlled_16_case_matrix_both_host_monitors": "32/32_PASS",
+    "actual_sharedmotion_on_next_frame_and_timer_each_monitor": "4/4_COMPLETE",
+    "compositor_button_focus_client_attribution": "136/136_PASS",
+    "applied_region_membership_at_button_epoch": "136/136_PASS",
+    "region_changes_during_press_release": 16,
+    "original_two_head_single_compositor_native_layer_shell_matrix": "NOT_RUN",
+    "pointer_lock_and_confinement": "NOT_RUN",
+    "external_DnD_and_long_run": "NOT_RUN",
+    "E4_human_perceptual_review": "PENDING",
+    "G07B_production_promotion": "BLOCKED"
+  },
+  "trace_archive_sha256": {
+    "dp2-16.tar.zst": "8e940f52054c8c7823665fc8277d9a940da1f519137a2e27938a208ada53746d",
+    "dp2-compositor.log.zst": "bb4e245a98db2532178adb1182625383541a3014472462abcdb4b4646ca3ba4a",
+    "dp2-frame.tar.zst": "ae391d58ec88011f4afe4ef84fe2269215e68fc28fba4ef2d323491ea19c38cc",
+    "dp2-timer.tar.zst": "e974aa3fa3b71aaad102f109f8c31157c7dec648fbf9a13e289a6211fcbfdae0",
+    "hdmi-16.tar.zst": "300450cf9396e3d9968e2bc293a9972c5c929168b70b0a3af32fdd8d0695958d",
+    "hdmi-compositor.log.zst": "cd9da1dbfee74d5cc4b7590ba3896a8049ce6d092784b21bd2a56e4c2ccf6201",
+    "hdmi-frame.tar.zst": "65f50f820e45fd53ba7e24b58acd0615cf01e61e353008501d7944a8c073aa67",
+    "hdmi-timer.tar.zst": "ded06834f3a03bf78b0355161f76b3c43233b47a6eb863eef3afc39a7a8ac99c"
+  },
+  "excluded_or_bounded": [
+    "Three preliminary client-region mismatches were resolved as press preceding compositor region/focus transition; they are not client-display-region correctness claims",
+    "The 136 events qualify delivery against compositor applied region/focus at press; do not imply each callback saw unchanged client geometry",
+    "Two physically hosted nested Wayland compositor runs are not one corrected primary compositor controlling both outputs",
+    "The historical native two-output 16-case scheduling matrix is not a complete end-to-end rerun under corrected primary Hyprland",
+    "No explicit pointer constraint, hardware drag-and-drop, high-duration stress, or production run"
+  ],
+  "primary_compositor_modified": false,
+  "git_push": false,
+  "git_merge": false,
+  "system_package_install": false
+}

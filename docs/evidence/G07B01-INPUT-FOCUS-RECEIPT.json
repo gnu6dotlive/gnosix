@@ -1,0 +1,93 @@
+{
+  "schema": "g07b01-focus-causal-v1",
+  "date": "2026-10-12",
+  "source_head": "9434994f518994ddf8be5f93b50b03a9457958a8",
+  "diagnostic_binary_sha256": "104f0d97b78b554f267e10a7185077977ea01d00067f70226c2fcae42d9cfea0",
+  "experiment": "full-open region; cursor initially on witness; wait >=1.2 seconds; stationary vs +4/-4 relative motion",
+  "cases": {
+    "stationary": {
+      "expected": "overlay",
+      "received": "witness",
+      "delta": {
+        "overlay": 0,
+        "witness": 1
+      },
+      "stable_visible": 1.0,
+      "region_contains_point": true,
+      "observations_sha256": "fbc69e897d952f7e4b5763bbe9bf7cf0536eede3d47a5731b1576a713f0edb1a",
+      "logs": {
+        "overlay": {
+          "protocol_trace_sha256": "7fb9116149c523b928dea8ce0f6b22d262ece3b02076727071eb8e0a95a433be",
+          "pointer_events": [],
+          "set_input_region_count": 3,
+          "region_followed_by_commit": 3
+        },
+        "witness": {
+          "protocol_trace_sha256": "1aa98dd3e177de56d97596893c545186d703bddc9dea98c305286bba88f4baa5",
+          "pointer_events": [
+            "[05:44:40.105015] wl_pointer#30.enter(81994, wl_surface#34, 870.51562500, 460.28906250)",
+            "[05:44:43.113964] wl_pointer#30.button(82000, 135936291, 272, 1)",
+            "[05:44:43.169192] wl_pointer#30.button(82001, 135936346, 272, 0)"
+          ],
+          "set_input_region_count": 4,
+          "region_followed_by_commit": 4
+        }
+      }
+    },
+    "nudge": {
+      "expected": "overlay",
+      "received": "overlay",
+      "delta": {
+        "overlay": 1,
+        "witness": 0
+      },
+      "stable_visible": 1.0,
+      "region_contains_point": true,
+      "observations_sha256": "7c199cd2f9c866303edb4afb807791cca89fe2fa3324a3639c89ea3393a6bee9",
+      "logs": {
+        "overlay": {
+          "protocol_trace_sha256": "4ae1030a69337b9a433fe81dbb717d0eb45ce97a68d3fc81acc3a6d7843c94a5",
+          "pointer_events": [
+            "[05:45:30.649059] wl_pointer#30.enter(82035, wl_surface#34, 453.46875000, 460.14843750)",
+            "[05:45:30.756027] wl_pointer#30.button(82036, 135983933, 272, 1)",
+            "[05:45:30.811294] wl_pointer#30.button(82037, 135983989, 272, 0)"
+          ],
+          "set_input_region_count": 4,
+          "region_followed_by_commit": 4
+        },
+        "witness": {
+          "protocol_trace_sha256": "42564da50388202489ff01bdcbe80b2293fd792c101a269a23c12433a5c18ce4",
+          "pointer_events": [
+            "[05:45:27.467046] wl_pointer#31.enter(82028, wl_surface#34, 898.41796875, 460.14843750)",
+            "[05:45:30.649082] wl_pointer#31.leave(82034, wl_surface#34)",
+            "[05:45:31.209577] wl_pointer#31.enter(82039, wl_surface#34, 450.41796875, 460.14843750)"
+          ],
+          "set_input_region_count": 6,
+          "region_followed_by_commit": 6
+        }
+      }
+    }
+  },
+  "reverse_direction": {
+    "first_click": "overlay_correct_after_nudge",
+    "second_click": "overlay_wrong_after_region_excludes_point",
+    "second_event_expected": "witness",
+    "motion_before_second_click": 0,
+    "before_after_classification_stable": true,
+    "observations_sha256": "cfc56d27d1b02cca49e96581d5f7812b20ee7d554876f5f5952e75fd980f86bc",
+    "client_protocol_sha256": {
+      "overlay": "8ec1c47b54ab50f777fd9a6919992c73175c6c0c962fe985f01ac79dc9c5ef7a",
+      "witness": "f65f9f5f02f7cf22bd31afdc1a0865c7f16e39fc47471f956de2233b6574ec52"
+    }
+  },
+  "inferences": {
+    "missing_explicit_commit": "REFUTED_BY_CLIENT_PROTOCOL",
+    "short_transient_application_region_latency": "REFUTED_IN_SETTLED_CASE",
+    "stale_pointer_focus_until_motion": "SUPPORTED_BY_DIFFERENTIAL_AND_POINTER_EVENTS",
+    "compositor_internal_applied_region_at_click": "NOT_INDEPENDENTLY_OBSERVED"
+  },
+  "promotion": "BLOCKED",
+  "operator_E4": "PENDING",
+  "github_push": false,
+  "merge": false
+}

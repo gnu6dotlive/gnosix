@@ -1,0 +1,240 @@
+{
+  "schema": "g07b02d-real-motion-scheduler-causality-v1",
+  "source_commit": "823bd62",
+  "fixture_commit": "bb63742",
+  "hyprland_version": "0.56.2",
+  "hyprland_source_commit": "efb50993780079460b0cbed1363e2166a2de1d9f",
+  "patch_file": "../g07b02/hyprland-pointer-focus-probe.patch",
+  "patch_sha256": "0f10d5ef5c2ac20ab59f2c928f2394c8bd56bc41d953331cd59e17d77d39221f",
+  "stock_compositor_binary_sha256": "f2a1bda77437eb6497455f40c5af4994f984c7387a1cc225da637032a5e73732",
+  "patched_compositor_binary_sha256": "5b000377cfb3030933bda95fa525e7736dadff41d5034ecf935069a3885262bb",
+  "qualifications": {
+    "real_matched_shared_motion_with_frame_and_timer": "PASS",
+    "nested_stable_wayland_geometry_1250x800": "PASS",
+    "qualified_2x2_AB": "PASS",
+    "patched_eligible": 44,
+    "patched_correct": 44,
+    "patched_wrong": 0,
+    "stock_eligible": 43,
+    "stock_correct": 18,
+    "stock_wrong": 25,
+    "patched_intermediate_fraction_eligible": 23,
+    "patched_intermediate_fraction_wrong": 0,
+    "stock_intermediate_fraction_eligible": 26,
+    "stock_intermediate_fraction_wrong": 11,
+    "full_original_G07B_16_case_2_output_matrix": "NOT_RUN",
+    "pointer_grabs_drag_resize_double_click": "NOT_RUN",
+    "upstream_compositor_acceptance": "NOT_RUN",
+    "primary_Gnosix_runtime_promotion": "BLOCKED"
+  },
+  "evidence": [
+    {
+      "name": "patched-frame",
+      "variant": "patched",
+      "policy": "frame",
+      "nested_wayland_instance": "efb50993780079460b0cbed1363e2166a2de1d9f_1791789196_1504490991",
+      "compositor_pid_observed": 3029747,
+      "parent_geometry": [
+        1250,
+        800
+      ],
+      "output_name": "WAYLAND-1",
+      "witness_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "overlay_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "region_updates_by_client": 251,
+      "wayland_surface_commits_by_client": 753,
+      "pointer_enters_on_overlay": 11,
+      "pointer_leaves_on_overlay": 10,
+      "real_matched_callbacks": 250,
+      "real_retargets": 21,
+      "matched_complete": true,
+      "injected_clicks": 34,
+      "preliminary_eligible": 24,
+      "preliminary_correct": 24,
+      "independent_eligible": 21,
+      "independent_correct": 21,
+      "independent_wrong": 0,
+      "intermediate_fraction_eligible": 10,
+      "intermediate_fraction_wrong": 0,
+      "excluded_or_uncertain": 13,
+      "non_gated_overlay_inside_false_events": 1,
+      "archive": "traces/patched-frame.tar.zst",
+      "archive_sha256": "9d93db292b0149f22df71b3cecff812aab9093524309bb7c054167d0ddc89907",
+      "raw_logs_sha256": {
+        "overlay": "d316932936e8c56eb85c72b5524905c15aad5f8cb84c0b2177857341598d96b9",
+        "witness": "3b2ef970aaa4c3c515695860742d542b751e9793c0a6f645cedc2232dec03e1f"
+      }
+    },
+    {
+      "name": "patched-timer",
+      "variant": "patched",
+      "policy": "timer",
+      "nested_wayland_instance": "efb50993780079460b0cbed1363e2166a2de1d9f_1791789196_1504490991",
+      "compositor_pid_observed": 3029747,
+      "parent_geometry": [
+        1250,
+        800
+      ],
+      "output_name": "WAYLAND-1",
+      "witness_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "overlay_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "region_updates_by_client": 627,
+      "wayland_surface_commits_by_client": 1881,
+      "pointer_enters_on_overlay": 11,
+      "pointer_leaves_on_overlay": 10,
+      "real_matched_callbacks": 585,
+      "real_retargets": 21,
+      "matched_complete": true,
+      "injected_clicks": 34,
+      "preliminary_eligible": 28,
+      "preliminary_correct": 28,
+      "independent_eligible": 23,
+      "independent_correct": 23,
+      "independent_wrong": 0,
+      "intermediate_fraction_eligible": 13,
+      "intermediate_fraction_wrong": 0,
+      "excluded_or_uncertain": 11,
+      "non_gated_overlay_inside_false_events": 0,
+      "archive": "traces/patched-timer.tar.zst",
+      "archive_sha256": "891772f7ca771fe8a3ce842b79848868a458cc9b63f031708f3d2bed6279e988",
+      "raw_logs_sha256": {
+        "overlay": "dde79d71fa769c611160bc315a433a58e86f03a2f716a26f947006920fb2fef3",
+        "witness": "7b032a56b952338ba2a88e928a801bcb603e5f2b2c8e8f912841a4bcd9197924"
+      }
+    },
+    {
+      "name": "stock-frame",
+      "variant": "stock",
+      "policy": "frame",
+      "nested_wayland_instance": "efb50993780079460b0cbed1363e2166a2de1d9f_1791789364_726223877",
+      "compositor_pid_observed": 3033896,
+      "parent_geometry": [
+        1250,
+        800
+      ],
+      "output_name": "WAYLAND-1",
+      "witness_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "overlay_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "region_updates_by_client": 251,
+      "wayland_surface_commits_by_client": 753,
+      "pointer_enters_on_overlay": 0,
+      "pointer_leaves_on_overlay": 0,
+      "real_matched_callbacks": 250,
+      "real_retargets": 21,
+      "matched_complete": true,
+      "injected_clicks": 34,
+      "preliminary_eligible": 25,
+      "preliminary_correct": 10,
+      "independent_eligible": 22,
+      "independent_correct": 10,
+      "independent_wrong": 12,
+      "intermediate_fraction_eligible": 11,
+      "intermediate_fraction_wrong": 1,
+      "excluded_or_uncertain": 12,
+      "non_gated_overlay_inside_false_events": 0,
+      "archive": "traces/stock-frame.tar.zst",
+      "archive_sha256": "997769f3b342b8d45d1151d98cf164b3feec99c137f101067a93f99ab146e420",
+      "raw_logs_sha256": {
+        "overlay": "80eab27f718cc2cc323050efb291580316f159ca78dc3f485e1e7245f10afacb",
+        "witness": "0ec71fef5db73a01f92a7d4fe4ca4cc68452db41e1a18590af472ac9ad073454"
+      }
+    },
+    {
+      "name": "stock-timer",
+      "variant": "stock",
+      "policy": "timer",
+      "nested_wayland_instance": "efb50993780079460b0cbed1363e2166a2de1d9f_1791789364_726223877",
+      "compositor_pid_observed": 3033896,
+      "parent_geometry": [
+        1250,
+        800
+      ],
+      "output_name": "WAYLAND-1",
+      "witness_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "overlay_layer": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "region_updates_by_client": 605,
+      "wayland_surface_commits_by_client": 1815,
+      "pointer_enters_on_overlay": 0,
+      "pointer_leaves_on_overlay": 0,
+      "real_matched_callbacks": 584,
+      "real_retargets": 21,
+      "matched_complete": true,
+      "injected_clicks": 34,
+      "preliminary_eligible": 30,
+      "preliminary_correct": 10,
+      "independent_eligible": 21,
+      "independent_correct": 8,
+      "independent_wrong": 13,
+      "intermediate_fraction_eligible": 15,
+      "intermediate_fraction_wrong": 10,
+      "excluded_or_uncertain": 13,
+      "non_gated_overlay_inside_false_events": 0,
+      "archive": "traces/stock-timer.tar.zst",
+      "archive_sha256": "c4288f9103af1515f4bfdf18f0b92c2951e8de26e86f217650c33299098ee642",
+      "raw_logs_sha256": {
+        "overlay": "b419668c654575cc94128b2eab980ba4a8c9d77d508fc46057cce72dea60e233",
+        "witness": "2c1be0b8f2428f28b4f1f7165e522336d0dec94d5ec901b77b6c5f84b153fedc"
+      }
+    }
+  ],
+  "oracle": {
+    "scope": "client-published input region membership and independently timestamped click receiver",
+    "eligible": "stable region membership across all client-published regions spanning the click plus unique timestamped receiver",
+    "conservative": "cases with region crossing, stale event, or insufficient region evidence excluded",
+    "temporal_limitation": "compositor internal applied region and focus epoch not independently instrumented; Wayland client commit traces present"
+  },
+  "limits": [
+    "Four cases use ONE nested 1250x800 Wayland output, not both physical outputs",
+    "The original 16-case two-output scheduler test has not been reproduced",
+    "Under-motion samples have intermediate fraction and real motion callbacks but cannot prove per-event kernel scheduler latency",
+    "App-level inside=false for one non-gated patched overlay event requires investigation",
+    "Click samples excluded by stricter independent oracle are not credited as successful",
+    "No primary compositor installation, source merge, push, or production deployment"
+  ],
+  "production_modified": false,
+  "git_pushed": false
+}

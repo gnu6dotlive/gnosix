@@ -1,0 +1,485 @@
+{
+  "schema": "g07b02b-matched-compositor-ab-v1",
+  "scope": "G07B-02B input-region commit / stationary pointer focus; private nested Wayland",
+  "source": "Hyprland v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "source_probe_commit": "a9496df",
+  "fixture_commit": "e8f1992",
+  "patch_sha256": "0f10d5ef5c2ac20ab59f2c928f2394c8bd56bc41d953331cd59e17d77d39221f",
+  "stock_binary_sha256": "f2a1bda77437eb6497455f40c5af4994f984c7387a1cc225da637032a5e73732",
+  "patched_binary_sha256": "5b000377cfb3030933bda95fa525e7736dadff41d5034ecf935069a3885262bb",
+  "harness": {
+    "run_with_parent": "Wayland-1 Hyprland",
+    "nested_socket": "wayland-2",
+    "nested_output": "WAYLAND-1",
+    "wayland_compositor_mode": "preferred",
+    "independent_gpui_processes": true,
+    "pointer_movement_while_region_changes": false,
+    "nudge_only_for_controlled_focus_prime_before_retraction": true,
+    "scope_policy": "no primary compositor restart, package install, deployment or Git push"
+  },
+  "tests": [
+    {
+      "label": "stock-v1",
+      "kind": "initial",
+      "build": "stock",
+      "initial_expected": "overlay",
+      "initial_delivered": {
+        "overlay": 0,
+        "witness": 1
+      },
+      "initial_pass": false,
+      "initial_region": {
+        "stamp": 1791787775736570168,
+        "fraction": 1.0,
+        "boxes": [
+          [
+            30.0,
+            392.0,
+            870.0,
+            496.0
+          ],
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "retraction_expected": null,
+      "retraction_delivered": null,
+      "retraction_pass": null,
+      "retraction_region": null,
+      "prime": null,
+      "parent_geometry": [
+        1228,
+        693
+      ],
+      "layer_geometry": [
+        164,
+        133,
+        900,
+        560
+      ],
+      "target_global": [
+        1297,
+        1911
+      ],
+      "mouse_restored": {
+        "original": [
+          1119,
+          1770
+        ],
+        "restored": [
+          1120,
+          1770
+        ],
+        "moves": 8
+      },
+      "fixture_sha256": "8558197268c36378765dae403ef7da29ba818b6d042c84d64489b3efef727ec9",
+      "protocol_events": {
+        "witness": [
+          "[06:49:33.325743] wl_pointer#28.enter(4, wl_surface#32, 272.67187500, 318.08984375)",
+          "[06:49:33.355457] wl_pointer#28.leave(5, wl_surface#32)",
+          "[06:49:34.071237] wl_pointer#28.enter(6, wl_surface#32, 450.33203125, 15.17578125)",
+          "[06:49:37.033072] wl_pointer#28.button(12, 139830210, 272, 1)",
+          "[06:49:37.088284] wl_pointer#28.button(13, 139830266, 272, 0)"
+        ],
+        "overlay": []
+      },
+      "raw_sha256": {
+        "witness.stderr.log": "0df23e254bca73e700d66a1a2bd7333b1a156298d8e48a1c448229a849c13273",
+        "overlay.stderr.log": "20f3c00dbe2563e50098ec9b0f178757e869328aa78e018705261f4bb81efe65",
+        "witness.stdout.log": "1615e29c3823e75ca912eac5e40626f8a59d1fbe5b97cd8df3bd22314bead87c",
+        "overlay.stdout.log": "b2f78d466783345ad2c9b65b8305c518713cdf13668fdcc170a88a10424a58b0"
+      },
+      "trace_archive": "stock-v1.tar.zst",
+      "archive_sha256": "21a4967ff7033a16d861d5d1df69ef9133d14ee61287cb22dc19a6724ab574bd"
+    },
+    {
+      "label": "stock-v2",
+      "kind": "initial",
+      "build": "stock",
+      "initial_expected": "overlay",
+      "initial_delivered": {
+        "overlay": 0,
+        "witness": 1
+      },
+      "initial_pass": false,
+      "initial_region": {
+        "stamp": 1791787814043625164,
+        "fraction": 1.0,
+        "boxes": [
+          [
+            30.0,
+            392.0,
+            870.0,
+            496.0
+          ],
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "retraction_expected": null,
+      "retraction_delivered": null,
+      "retraction_pass": null,
+      "retraction_region": null,
+      "prime": null,
+      "parent_geometry": [
+        1228,
+        693
+      ],
+      "layer_geometry": [
+        164,
+        133,
+        900,
+        560
+      ],
+      "target_global": [
+        1297,
+        1911
+      ],
+      "mouse_restored": {
+        "original": [
+          1120,
+          1770
+        ],
+        "restored": [
+          1121,
+          1770
+        ],
+        "moves": 8
+      },
+      "fixture_sha256": "8558197268c36378765dae403ef7da29ba818b6d042c84d64489b3efef727ec9",
+      "protocol_events": {
+        "witness": [
+          "[06:50:13.021196] wl_pointer#28.enter(17, wl_surface#32, 288.99218750, 335.32812500)",
+          "[06:50:15.351729] wl_pointer#28.button(23, 139868529, 272, 1)",
+          "[06:50:15.406788] wl_pointer#28.button(24, 139868584, 272, 0)"
+        ],
+        "overlay": []
+      },
+      "raw_sha256": {
+        "witness.stderr.log": "e5fc0fbe0b7090c1e95ef87ee2d165365e85648caf180be459ac14e7477965dc",
+        "overlay.stderr.log": "3efb931c7b6b0256e1262e5af60527e01ee187eb06ab4b76c62b8142070b7da6",
+        "witness.stdout.log": "5f921c26275492f2da6efe2274334ec111f7e3f3106e5cc2d4b99b2bb94621df",
+        "overlay.stdout.log": "df47dbcbba475c5107a40583af1da32afda83485fa78ef0038ee16a377b3a445"
+      },
+      "trace_archive": "stock-v2.tar.zst",
+      "archive_sha256": "e73bda69fdd805e856b3e8677e3504133c20e7901dba38265a3a2266641f39db"
+    },
+    {
+      "label": "patched-v1",
+      "kind": "initial",
+      "build": "patched",
+      "initial_expected": "overlay",
+      "initial_delivered": {
+        "overlay": 1,
+        "witness": 0
+      },
+      "initial_pass": true,
+      "initial_region": {
+        "stamp": 1791787608118728124,
+        "fraction": 1.0,
+        "boxes": [
+          [
+            30.0,
+            392.0,
+            870.0,
+            496.0
+          ],
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "retraction_expected": null,
+      "retraction_delivered": null,
+      "retraction_pass": null,
+      "retraction_region": null,
+      "prime": null,
+      "parent_geometry": [
+        1228,
+        693
+      ],
+      "layer_geometry": [
+        164,
+        133,
+        900,
+        560
+      ],
+      "target_global": [
+        1297,
+        1911
+      ],
+      "mouse_restored": {
+        "original": [
+          1118,
+          1770
+        ],
+        "restored": [
+          1119,
+          1770
+        ],
+        "moves": 9
+      },
+      "fixture_sha256": "8558197268c36378765dae403ef7da29ba818b6d042c84d64489b3efef727ec9",
+      "protocol_events": {
+        "witness": [
+          "[06:46:46.819253] wl_pointer#28.enter(4, wl_surface#32, 287.03906250, 335.02343750)",
+          "[06:46:48.084651] wl_pointer#28.leave(10, wl_surface#32)",
+          "[06:46:50.209385] wl_pointer#28.enter(14, wl_surface#32, 449.12500000, 460.56640625)"
+        ],
+        "overlay": [
+          "[06:46:48.084797] wl_pointer#28.enter(11, wl_surface#32, 449.12500000, 460.56640625)",
+          "[06:46:49.410962] wl_pointer#28.button(12, 139662588, 272, 1)",
+          "[06:46:49.465985] wl_pointer#28.button(13, 139662643, 272, 0)"
+        ]
+      },
+      "raw_sha256": {
+        "witness.stderr.log": "d99bedf37cf073383b4c91fdb111c047df72357437e8596686d6b2a36ab2ed7a",
+        "overlay.stderr.log": "aec37ad67f8ff9db642c83bc7d24d72a3d6397d0d7056363ea87fc03766e5703",
+        "witness.stdout.log": "81a8c376b0c7493d23e03bedfc16c7886ade17a4e28d70eb5386434d815b32b3",
+        "overlay.stdout.log": "f27b1cbe65e9257562bf1ff5706da3fbf5f03de5712895719e952857be2ec992"
+      },
+      "trace_archive": "patched-v1.tar.zst",
+      "archive_sha256": "f11ec2bbf192392d9a8a51b370d8ee7ea5e9bdb380e1b1576bbae8fd6db20fcb"
+    },
+    {
+      "label": "stock-retract-v1",
+      "kind": "retraction",
+      "build": "stock",
+      "initial_expected": "overlay",
+      "initial_delivered": {
+        "overlay": 0,
+        "witness": 1
+      },
+      "initial_pass": false,
+      "initial_region": {
+        "stamp": 1791787939645175326,
+        "fraction": 1.0,
+        "boxes": [
+          [
+            30.0,
+            392.0,
+            870.0,
+            496.0
+          ],
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "retraction_expected": "witness",
+      "retraction_delivered": {
+        "overlay": 1,
+        "witness": 0
+      },
+      "retraction_pass": false,
+      "retraction_region": {
+        "stamp": 1791787943109348789,
+        "fraction": 0.0,
+        "boxes": [
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "prime": {
+        "delta": {
+          "overlay": 1,
+          "witness": 0
+        },
+        "correct": true
+      },
+      "parent_geometry": [
+        1228,
+        693
+      ],
+      "layer_geometry": [
+        164,
+        133,
+        900,
+        560
+      ],
+      "target_global": [
+        1297,
+        1911
+      ],
+      "mouse_restored": {
+        "original": [
+          1121,
+          1770
+        ],
+        "restored": [
+          1122,
+          1770
+        ],
+        "moves": 7
+      },
+      "fixture_sha256": "7940d2cef0bfd422b927674d58938675adc78cfd367c58055c27d251e5dcc564",
+      "protocol_events": {
+        "witness": [
+          "[06:52:18.602670] wl_pointer#28.enter(28, wl_surface#32, 290.15625000, 334.79296875)",
+          "[06:52:20.951239] wl_pointer#28.button(34, 139994128, 272, 1)",
+          "[06:52:21.006288] wl_pointer#28.button(35, 139994184, 272, 0)",
+          "[06:52:21.728726] wl_pointer#28.leave(36, wl_surface#32)",
+          "[06:52:23.902594] wl_pointer#28.enter(42, wl_surface#32, 451.56250000, 460.93750000)"
+        ],
+        "overlay": [
+          "[06:52:21.728733] wl_pointer#28.enter(37, wl_surface#32, 453.89453125, 460.93750000)",
+          "[06:52:21.965882] wl_pointer#28.button(38, 139995143, 272, 1)",
+          "[06:52:22.020598] wl_pointer#28.button(39, 139995198, 272, 0)",
+          "[06:52:23.469701] wl_pointer#28.button(40, 139996647, 272, 1)",
+          "[06:52:23.524776] wl_pointer#28.button(41, 139996702, 272, 0)"
+        ]
+      },
+      "raw_sha256": {
+        "witness.stderr.log": "42f0a56851245f95d772d0b10ec4286ad50aab84b7cad450d103f4029d495e80",
+        "overlay.stderr.log": "4bfd3dd1fcf3954863eb4dfc7d59938802a23637298fb209779ccbdf07cea48f",
+        "witness.stdout.log": "fd729edc3557eac71e5fe8acf0267823cec7c73b6c0f1f9533d6f2b600def195",
+        "overlay.stdout.log": "acf8be25215b75f27097422be5586b19fa05f372c35376735cc8f4aff65e7144"
+      },
+      "trace_archive": "stock-retract-v1.tar.zst",
+      "archive_sha256": "503fdf30290875c51812d31a821dd96ec8582c81dbf2be7260ac12b18cce72d2"
+    },
+    {
+      "label": "patched-retract-v1",
+      "kind": "retraction",
+      "build": "patched",
+      "initial_expected": "overlay",
+      "initial_delivered": {
+        "overlay": 1,
+        "witness": 0
+      },
+      "initial_pass": true,
+      "initial_region": {
+        "stamp": 1791787991174137491,
+        "fraction": 1.0,
+        "boxes": [
+          [
+            30.0,
+            392.0,
+            870.0,
+            496.0
+          ],
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "retraction_expected": "witness",
+      "retraction_delivered": {
+        "overlay": 0,
+        "witness": 1
+      },
+      "retraction_pass": true,
+      "retraction_region": {
+        "stamp": 1791787994639550566,
+        "fraction": 0.0,
+        "boxes": [
+          [
+            0.0,
+            496.0,
+            900.0,
+            501.3
+          ]
+        ]
+      },
+      "prime": {
+        "delta": {
+          "overlay": 1,
+          "witness": 0
+        },
+        "correct": true
+      },
+      "parent_geometry": [
+        1228,
+        693
+      ],
+      "layer_geometry": [
+        164,
+        133,
+        900,
+        560
+      ],
+      "target_global": [
+        1297,
+        1911
+      ],
+      "mouse_restored": {
+        "original": [
+          1122,
+          1770
+        ],
+        "restored": [
+          1123,
+          1770
+        ],
+        "moves": 9
+      },
+      "fixture_sha256": "7940d2cef0bfd422b927674d58938675adc78cfd367c58055c27d251e5dcc564",
+      "protocol_events": {
+        "witness": [
+          "[06:53:10.088645] wl_pointer#28.enter(4, wl_surface#32, 291.30859375, 334.54296875)",
+          "[06:53:11.140097] wl_pointer#28.leave(10, wl_surface#32)",
+          "[06:53:14.639182] wl_pointer#28.enter(17, wl_surface#32, 451.52343750, 460.25781250)",
+          "[06:53:15.015293] wl_pointer#28.button(18, 140048193, 272, 1)",
+          "[06:53:15.070440] wl_pointer#28.button(19, 140048248, 272, 0)"
+        ],
+        "overlay": [
+          "[06:53:11.140189] wl_pointer#28.enter(11, wl_surface#32, 451.57031250, 460.25781250)",
+          "[06:53:12.478668] wl_pointer#28.button(12, 140045656, 272, 1)",
+          "[06:53:12.533742] wl_pointer#28.button(13, 140045711, 272, 0)",
+          "[06:53:13.465512] wl_pointer#28.button(14, 140046643, 272, 1)",
+          "[06:53:13.520616] wl_pointer#28.button(15, 140046698, 272, 0)",
+          "[06:53:14.639160] wl_pointer#28.leave(16, wl_surface#32)"
+        ]
+      },
+      "raw_sha256": {
+        "witness.stderr.log": "084d9a81f6108f7d860325f3ddffa622a28055cea97d5d7084da854d094c3793",
+        "overlay.stderr.log": "2a83d86734ad1cd274f794eff18753a2896b9b87a70ca057a36df0327905a93b",
+        "witness.stdout.log": "e375b5144bfc6573952bd51f2bb285d3e3e1eaeeb586f1f44987fe28f947729f",
+        "overlay.stdout.log": "ae46c542df4058bea5e4b50dd8cd8864fba70861ea4f43777acc0ec308b8ce6a"
+      },
+      "trace_archive": "patched-retract-v1.tar.zst",
+      "archive_sha256": "a1e064942c4f8a8b5ceca75e441f1ef05a65f5f24ba7fb30af2d0dc209e0c014"
+    }
+  ],
+  "gates": {
+    "paired_initial_AB": "PASS",
+    "paired_retraction_AB": "PASS",
+    "patched_initial_samples": 2,
+    "stock_initial_wrong_receiver_samples": 3,
+    "stock_reverse_wrong_receiver_samples": 1,
+    "patched_reverse_correct_samples": 1,
+    "aborted_additional_run": "BLOCKED_PARENT_NESTED_WINDOW_REDUCED_BELOW_900px",
+    "full_dynamic_scheduler_16_case": "NOT_RUN",
+    "hyprland_upstream_qualification": "NOT_RUN",
+    "gnosix_runtime_promotion": "BLOCKED"
+  },
+  "limits": [
+    "Input event causality in bounded scenarios; no full 16-case moving-region matrix",
+    "Nested output resized during a later attempted extra run, excluded before click injection",
+    "No upstream acceptance or production install",
+    "Current upstream fix unknown"
+  ],
+  "production_modified": false,
+  "git_pushed": false
+}

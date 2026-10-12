@@ -1,0 +1,119 @@
+{
+  "schema": "g07b02g-simultaneous-twohead-negative-gate-v1",
+  "commit_baseline": "e2729ff",
+  "fixture_commit": "1c150ac",
+  "hyprland_source": "v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "nested_hyprland_binary_sha256": "11eb1e6fda485aa857c15180a532bc9a8ded1b9b0d723b119090dcce8bbae15d",
+  "primary_compositor_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "two_outputs_simultaneous": true,
+  "same_compositor_pid": 3116911,
+  "inner_monitors": [
+    {
+      "name": "WAYLAND-1",
+      "x": 0,
+      "y": 0,
+      "size": [
+        1250,
+        800
+      ]
+    },
+    {
+      "name": "WAYLAND-2",
+      "x": 1250,
+      "y": 0,
+      "size": [
+        1250,
+        800
+      ]
+    }
+  ],
+  "outer_windows": [
+    {
+      "inner": "WAYLAND-1",
+      "host": "HDMI-A-1",
+      "at": [
+        40,
+        795
+      ],
+      "size": [
+        1250,
+        800
+      ]
+    },
+    {
+      "inner": "WAYLAND-2",
+      "host": "DP-2",
+      "at": [
+        2120,
+        515
+      ],
+      "size": [
+        1250,
+        800
+      ]
+    }
+  ],
+  "gpui_display_selection": "PASS: named output x=0/1250 confirmed through GPUI display IDs and layer-shell x=1425 on WAYLAND-2",
+  "output_local_coordinate_fix": "PASS: subtract inner monitor x origin from compositor-global layer coordinates",
+  "test_runs": [
+    {
+      "label": "twohead-output1",
+      "target": "WAYLAND-1",
+      "attempts": 16,
+      "correct": 3,
+      "no_client_callback": 12,
+      "wrong_target": 1,
+      "nested_window_host": [
+        40,
+        795
+      ],
+      "layer_geometry": {
+        "x": 175,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "1ff336e128870bedfe09364a573a506ac5a5bbedd9eb50eabe6d26c2d51d376f"
+    },
+    {
+      "label": "twohead-output2-fixed",
+      "target": "WAYLAND-2",
+      "attempts": 16,
+      "correct": 0,
+      "no_client_callback": 16,
+      "wrong_target": 0,
+      "nested_window_host": [
+        2120,
+        515
+      ],
+      "layer_geometry": {
+        "x": 1425,
+        "y": 240,
+        "w": 900,
+        "h": 560
+      },
+      "fixture_sha256": "1ff336e128870bedfe09364a573a506ac5a5bbedd9eb50eabe6d26c2d51d376f"
+    }
+  ],
+  "compositor_pointer_focus_null_button_events": 56,
+  "excluded_first_output2_preflight": "Rejected: used compositor-global layer coordinate as output-local, target x=3995 outside monitor; cursor restored",
+  "verification": {
+    "two_real_outputs_one_patched_instance": "PASS",
+    "GPUI_named_output_targeting": "PASS",
+    "twohead_pointer_routing": "FAIL",
+    "explicit_pointer_constraints": "NOT_RUN",
+    "drag_and_drop": "NOT_RUN",
+    "E4_perceptual": "PENDING",
+    "production_promotion": "BLOCKED"
+  },
+  "interpretation": "Client click counters are often zero and compositor logs button events with pointer_focus=0/client_available=false; exact internal cause still unresolved. Prior sequential per-host tests cannot replace simultaneous two-output qualification.",
+  "archives": {
+    "compositor.log.zst": "944881760a18b93b7cafe5654759dabfbd3c69b69c86856624fd9f186a222ae0",
+    "twohead-output1.tar.zst": "33d420a6fd07bb961f38411b34ff7588faf01510301f863179a5c3c4b3d42539",
+    "twohead-output2-fixed.tar.zst": "54e6dab175c5367b28faf50f71a795b649af2b0c5c38d6adb339a80b899170d5",
+    "twohead-output2.tar.zst": "cd91a7f8da32464d8b22ce21caf53f2b1a6712cb3401bf2c32ee6287d1a9f19f"
+  },
+  "no_primary_restart": true,
+  "no_merge": true,
+  "no_push": true
+}

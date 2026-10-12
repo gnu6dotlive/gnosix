@@ -1,0 +1,8 @@
+RESTORED (2206, 1509)
+Traceback (most recent call last):
+  File "/mnt/workbench/capsule-donor-01/g07b02b_nested_reverse_probe.py", line 78, in <module>
+    parent=outer()
+  File "/mnt/workbench/capsule-donor-01/g07b02b_nested_reverse_probe.py", line 24, in outer
+    assert len(x)==1 and x[0]['mapped'] and x[0]['size'][0]>=900 and x[0]['size'][1]>=560,x
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'address': '0x5607c8e64c90', 'mapped': True, 'hidden': False, 'visible': True, 'acceptsInput': True, 'at': [1074, 1318], 'size': [837, 693], 'workspace': {'id': 1, 'name': '1'}, 'floating': False, 'monitor': 0, 'class': 'aquamarine', 'title': 'aquamarine - WAYLAND-1', 'initialClass': 'aquamarine', 'initialTitle': 'aquamarine - WAYLAND-1', 'pid': 3007138, 'xwayland': False, 'pinned': False, 'pinFullscreened': False, 'fullscreen': 0, 'fullscreenClient': 0, 'fullscreenHandler': 'default', 'allowedOverFullscreen': True, 'grouped': [], 'tags': [], 'swallowing': '0x0', 'focusHistoryID': 1, 'inhibitingIdle': False, 'xdgTag': '', 'xdgDescription': '', 'contentType': 'none', 'tearingHint': False, 'stableId': '180000dc'}]

@@ -1,0 +1,80 @@
+{
+  "schema": "g07b02c-matched-deterministic-stress-v1",
+  "prior_commit": "0d3c576",
+  "fixture_commit": "bb63742",
+  "hyprland_source": "v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "compositor_stock_sha256": "f2a1bda77437eb6497455f40c5af4994f984c7387a1cc225da637032a5e73732",
+  "compositor_patch_sha256": "5b000377cfb3030933bda95fa525e7736dadff41d5034ecf935069a3885262bb",
+  "tests": [
+    {
+      "label": "patched-stress-a",
+      "passes": 16,
+      "total": 16,
+      "transitions": 10,
+      "incorrect": [],
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "archive_sha256": "f0947bc7f502da8d6687dab125c7baddd549d3cb6d5d7f7ce4de818bbf81b32f",
+      "archive_name": "patched-stress-a.tar.zst"
+    },
+    {
+      "label": "stock-stress-a",
+      "passes": 11,
+      "total": 16,
+      "transitions": 10,
+      "incorrect": [
+        [
+          1,
+          "overlay",
+          {
+            "overlay": 0,
+            "witness": 1
+          }
+        ],
+        [
+          3,
+          "overlay",
+          {
+            "overlay": 0,
+            "witness": 1
+          }
+        ],
+        [
+          5,
+          "overlay",
+          {
+            "overlay": 0,
+            "witness": 1
+          }
+        ],
+        [
+          13,
+          "overlay",
+          {
+            "overlay": 0,
+            "witness": 1
+          }
+        ],
+        [
+          15,
+          "overlay",
+          {
+            "overlay": 0,
+            "witness": 1
+          }
+        ]
+      ],
+      "fixture_sha256": "b195748e2f179f5bf3f4ce431e1a4903d60255eee6980bd42383c070020889e5",
+      "archive_sha256": "cb1e168f0ddc9e962bc2d5408198f78683e06ec999710fb6d30fb007ca5adfd3",
+      "archive_name": "stock-stress-a.tar.zst"
+    }
+  ],
+  "gate": "BOUNDED_AB_PASS",
+  "g07b_production_promotion": "BLOCKED",
+  "original_16_case_matrix": "NOT_RUN",
+  "qualifiers": [
+    "16 new deterministic input-region commit cases, 10 pointer membership transitions, 6 invariants",
+    "Controlled nested Wayland output 1250x800, parent window floating",
+    "No primary compositor replacement or permanent configuration changes",
+    "No active animation scheduler qualification, grabs or multi-physical monitor generalization"
+  ]
+}

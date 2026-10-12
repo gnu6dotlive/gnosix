@@ -1,0 +1,54 @@
+{
+  "schema": "g07b02e-boundary-epoch-implicit-grab-v1",
+  "source_hyprland_tag": "v0.56.2",
+  "source_hyprland_commit": "efb50993780079460b0cbed1363e2166a2de1d9f",
+  "hyprland_instrumentation_branch": "probe/g07b02e-compositor-instrument-20261012",
+  "hyprland_instrumentation_commit": "5a4b7e6",
+  "gnosix_prior_receipt_commit": "c97fde5",
+  "experimental_binary": "/mnt/sandbox/builds/g07b02e-hyprland-instrumented",
+  "experimental_binary_sha256": "11eb1e6fda485aa857c15180a532bc9a8ded1b9b0d723b119090dcce8bbae15d",
+  "primary_binary_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "auditor_sha256": "261359298df24c434907d13b7f8fa20f2cfb1a02a04c06b64b5c77935ba2f461",
+  "auditor_result_sha256": "da870dabc6422774ac19eaba8684cbbdd346c58fb8b5dd041edcec81bf68c73c",
+  "results": {
+    "scenarios_clean_and_qualified": 9,
+    "scenarios_correct": 9,
+    "region_commit_membership_transitions": 5,
+    "focus_transitions_correlated": 5,
+    "region_changes_during_button_hold": 2,
+    "compositor_button_epoch_events": 22,
+    "max_log_region_to_focus_microseconds": 57.108
+  },
+  "archive_sha256": {
+    "hyprland-epoch.log.zst": "bdd4c51556633a6916951324c72cf6887ae0e03360a8a3427d5010fdf55c516e",
+    "instrumented-drag-v2.tar.zst": "cf2ab01e7a8bd44226b12e15cd4f5df023b9ea4c1469cad1f021f4a8f2e7fff8",
+    "instrumented-grabs-v3.tar.zst": "4692680529f37fe31b620f5658c4758b16602900e51a8f4892f2eb38a8394571"
+  },
+  "gates": {
+    "compositor_region_to_focus_correlation": "PASS",
+    "stationary_hold_shrink": "PASS",
+    "stationary_hold_expand": "PASS",
+    "drag_overlay_into_hole": "PASS",
+    "drag_witness_into_overlay": "PASS",
+    "overlay_double_click": "PASS",
+    "witness_double_click": "PASS",
+    "post_grab_focus_clicks": "PASS",
+    "original_2_physical_output_matrix": "NOT_RUN",
+    "pointer_lock_constraints": "NOT_RUN",
+    "hardware_DnD": "NOT_RUN",
+    "rapid_subframe_boundary_performance": "NOT_RUN",
+    "E4_perceptual_review": "PENDING",
+    "G07B_runtime_promotion": "BLOCKED"
+  },
+  "limits": [
+    "The compositor full trace includes one excluded aborted drag run; the audit filters windows from independent clean-client native click epochs",
+    "Focus state can change while wl_pointer preserves prior implicit-grab recipient; client transport is the correctness oracle",
+    "No explicit locked/confined pointer, hardware DnD, touchscreen, or multi-display generalization",
+    "One clean pass per grab/drag scenario; this is a bounded causal qualification, not long-haul stress"
+  ],
+  "production_modified": false,
+  "git_merged": false,
+  "git_pushed": false,
+  "instrumentation_patch_archive": "hyprland-epoch-instrument.patch.zst",
+  "instrumentation_patch_archive_sha256": "48650a92b770580ffc4a3fbbec1e9cabbd67afe26cfd88d4ff5ebf9f4e4d6f6f"
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "g07b02-compositor-pointer-focus-experimental-v1",
+  "source": "Hyprland v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "baseline_gnosix": "3b8349a",
+  "cause_from_source": "mapped layer surface commit updates input region but does not trigger a pointer refocus for isolated input-region changes",
+  "hypothesis": "stationary pointer focus remains stale until motion or explicit refocus",
+  "patch": "g07b02-evidence/hyprland-pointer-focus-probe.patch",
+  "patch_sha256": "0f10d5ef5c2ac20ab59f2c928f2394c8bd56bc41d953331cd59e17d77d39221f",
+  "private_binary": "/mnt/sandbox/builds/g07b02-hyprland-stock/Hyprland",
+  "binary_sha256": "5b000377cfb3030933bda95fa525e7736dadff41d5034ecf935069a3885262bb",
+  "build": "PASS",
+  "source_diff_check": "PASS",
+  "nested_launch": "PROCESS_STARTED",
+  "nested_e2e": "BLOCKED_GBM_ALLOCATION_OUTPUT_FALLBACK_0x0",
+  "stationary_click_retest": "NOT_RUN",
+  "compositor_applied_region_observation": "NOT_RUN",
+  "promotion": "BLOCKED",
+  "merge": false,
+  "push": false,
+  "primary_compositor_modified": false,
+  "nested_process_stopped": true,
+  "limitations": [
+    "The patch remains a hypothesis until independent compositor E2E verifies stationary pointer enter/leave and click routing",
+    "Do not claim source-level inspection alone proves exact runtime mechanism"
+  ]
+}

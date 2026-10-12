@@ -1,0 +1,260 @@
+{
+  "original": [
+    887.0,
+    1481.0
+  ],
+  "restored": [
+    888.0,
+    1480.0
+  ],
+  "samples": [
+    {
+      "name": "HDMI-center",
+      "outer": [
+        664.0,
+        1495.0
+      ],
+      "inner": [
+        37.0,
+        533.0
+      ],
+      "expected_inner": [
+        625,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "HDMI-left",
+      "outer": [
+        264.0,
+        1495.0
+      ],
+      "inner": [
+        0.0,
+        533.0
+      ],
+      "expected_inner": [
+        225,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "HDMI-center-repeat",
+      "outer": [
+        665.0,
+        1495.0
+      ],
+      "inner": [
+        39.0,
+        533.0
+      ],
+      "expected_inner": [
+        625,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "DP-center",
+      "outer": [
+        2744.0,
+        1214.0
+      ],
+      "inner": [
+        1248.0,
+        699.0
+      ],
+      "expected_inner": [
+        1875,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "DP-left",
+      "outer": [
+        2344.0,
+        1214.0
+      ],
+      "inner": [
+        449.0,
+        699.0
+      ],
+      "expected_inner": [
+        1475,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "DP-center-repeat",
+      "outer": [
+        2746.0,
+        1214.0
+      ],
+      "inner": [
+        1253.0,
+        699.0
+      ],
+      "expected_inner": [
+        1875,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "HDMI-return",
+      "outer": [
+        666.0,
+        1495.0
+      ],
+      "inner": [
+        41.0,
+        533.0
+      ],
+      "expected_inner": [
+        625,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    },
+    {
+      "name": "DP-return",
+      "outer": [
+        2746.0,
+        1214.0
+      ],
+      "inner": [
+        1253.0,
+        699.0
+      ],
+      "expected_inner": [
+        1875,
+        700
+      ],
+      "nested_monitors": [
+        {
+          "name": "WAYLAND-1",
+          "x": 0,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        },
+        {
+          "name": "WAYLAND-2",
+          "x": 1250,
+          "y": 0,
+          "width": 1250,
+          "height": 800
+        }
+      ]
+    }
+  ]
+}

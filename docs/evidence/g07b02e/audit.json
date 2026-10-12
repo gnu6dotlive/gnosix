@@ -1,0 +1,316 @@
+{
+  "schema": "g07b02e-pointer-grab-epoch-independent-v1",
+  "source": "Hyprland v0.56.2 local test branch plus G07B02B focus patch",
+  "accepted_windows_ns": [
+    [
+      1791790353420502680,
+      1791790358332317443
+    ],
+    [
+      1791790576853941009,
+      1791790581837152072
+    ]
+  ],
+  "full_log_event_counts": {
+    "region": 6,
+    "focus": 18,
+    "button": 30
+  },
+  "compositor_file": "g07b02e-compositor-trace.log",
+  "compositor_sha256": "72702fb375272a669d960da91e968ae6ab0a50fc505f1e1b7a0e107cc665e24e",
+  "epoch_traces": {
+    "region_transitions": 5,
+    "focus_transitions": 11,
+    "button_events": 22,
+    "region_focus_correlated": 5,
+    "region_change_during_pressed_button": 2,
+    "max_region_to_focus_lag_us": 57.108,
+    "regions": [
+      {
+        "epoch_ns": 1791790355705296550,
+        "overlay_pid": 3057015,
+        "old_membership": false,
+        "new_membership": true,
+        "local": [
+          450.05859375,
+          461.38671875
+        ],
+        "focus_before": 94405225561264,
+        "subsequent_focus_ns": 1791790355705353658,
+        "focus_after": 94405225952640,
+        "transition_lag_us": 57.108,
+        "within_held_button": false
+      },
+      {
+        "epoch_ns": 1791790356092477647,
+        "overlay_pid": 3057015,
+        "old_membership": true,
+        "new_membership": false,
+        "local": [
+          450.05859375,
+          461.38671875
+        ],
+        "focus_before": 94405225952640,
+        "subsequent_focus_ns": 1791790356092506382,
+        "focus_after": 94405225561264,
+        "transition_lag_us": 28.735,
+        "within_held_button": true
+      },
+      {
+        "epoch_ns": 1791790356763099229,
+        "overlay_pid": 3057015,
+        "old_membership": false,
+        "new_membership": true,
+        "local": [
+          450.05859375,
+          461.38671875
+        ],
+        "focus_before": 94405225561264,
+        "subsequent_focus_ns": 1791790356763124912,
+        "focus_after": 94405225952640,
+        "transition_lag_us": 25.683,
+        "within_held_button": true
+      },
+      {
+        "epoch_ns": 1791790357539075265,
+        "overlay_pid": 3057015,
+        "old_membership": true,
+        "new_membership": false,
+        "local": [
+          450.05859375,
+          461.38671875
+        ],
+        "focus_before": 94405225952640,
+        "subsequent_focus_ns": 1791790357539103968,
+        "focus_after": 94405225561264,
+        "transition_lag_us": 28.703,
+        "within_held_button": false
+      },
+      {
+        "epoch_ns": 1791790579116202995,
+        "overlay_pid": 3063239,
+        "old_membership": false,
+        "new_membership": true,
+        "local": [
+          450.49609375,
+          461.21875
+        ],
+        "focus_before": 94405225812368,
+        "subsequent_focus_ns": 1791790579116235217,
+        "focus_after": 94405226058224,
+        "transition_lag_us": 32.222,
+        "within_held_button": false
+      }
+    ]
+  },
+  "client_tests": [
+    {
+      "label": "instrumented-grabs-v3",
+      "cases": [
+        {
+          "case": "pressed_overlay_then_shrink",
+          "expected": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "observed": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "pass": true
+        },
+        {
+          "case": "post_release_witness",
+          "expected": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "observed": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "pass": true
+        },
+        {
+          "case": "pressed_witness_then_expand",
+          "expected": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "observed": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "pass": true
+        },
+        {
+          "case": "double_click_overlay",
+          "expected": {
+            "overlay": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "observed": {
+            "overlay": [
+              1,
+              0,
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "pass": true
+        },
+        {
+          "case": "double_click_witness",
+          "expected": {
+            "overlay": [],
+            "witness": [
+              1,
+              0,
+              1,
+              0
+            ]
+          },
+          "observed": {
+            "overlay": [],
+            "witness": [
+              1,
+              0,
+              1,
+              0
+            ]
+          },
+          "pass": true
+        }
+      ],
+      "passed": 5,
+      "cursor_restored_within_1px": true,
+      "raw_files": {
+        "observations.json": "1443458b82c9f9d278f47fbf05896f4cc24af9ee1ba834ae2c638f0db5ec7a1c",
+        "overlay.stderr.log": "43ffbabc94836448c53aa86c5141e0e7e087f2fb16892d3c2118b7a7ecf929d7",
+        "witness.stderr.log": "092b9e18eda8202ea81a77ed1261495e1b490149b2975544d38052fdac4c0f12",
+        "overlay.stdout.log": "8acc5ce6605c0a0d093d4034d58122925f90b6f3fcb06ee6b26b6dda19701ee8",
+        "witness.stdout.log": "79d5539a306b9be4e74819cbdc59c78112d332aa5390d477756de97079863e64"
+      }
+    },
+    {
+      "label": "instrumented-drag-v2",
+      "cases": [
+        {
+          "case": "overlay_drag_into_hole",
+          "expected": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "observed": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "pass": true
+        },
+        {
+          "case": "post_drag_click_witness",
+          "expected": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "observed": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "pass": true
+        },
+        {
+          "case": "witness_drag_into_overlay",
+          "expected": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "observed": {
+            "overlay": [],
+            "witness": [
+              1,
+              0
+            ]
+          },
+          "pass": true
+        },
+        {
+          "case": "post_drag_click_overlay",
+          "expected": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "observed": {
+            "overlay": [
+              1,
+              0
+            ],
+            "witness": []
+          },
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "cursor_restored_within_1px": true,
+      "raw_files": {
+        "observations.json": "fc61e846ef6736c939c1a4deb4e56b816451b910355a2809fb027de6ea6f4d41",
+        "overlay.stderr.log": "ecf2e9eaee5ed0e9be83a06d1f34d9674931633bf5ed377da1fb452e31b58f67",
+        "witness.stderr.log": "786b9a783327085d6940492f97f59de266ce5959e8a22aa87396082075a5f09a",
+        "overlay.stdout.log": "07d4b1a881ac24353c0fa9485136fed10c93c35eab2bfc8a54d52c63c2d72208",
+        "witness.stdout.log": "5dda96270cc7bc33d4c05b88833bbc4f3384347d7c02771df63367e1fd0b33c6"
+      }
+    }
+  ],
+  "qualified_cases": 9,
+  "qualified_pass": 9,
+  "limitations": [
+    "Only one 1250x800 nested Wayland output",
+    "One clean run per grab and drag fixture",
+    "Focus and client pointer delivery can differ during an implicit grab; raw transport logs determine recipient",
+    "No multi-output, GPU failure injection, 60Hz stress or source-level upstream acceptance",
+    "Earlier drag v1 had cleanup error and was excluded; earlier grab v1/v2 lacked compositor logging and were excluded",
+    "Input-region boundary race inside=false from G07B02D was unclassified, not promoted"
+  ]
+}
