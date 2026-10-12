@@ -1,0 +1,6 @@
+RESTORED confine (2695.0, 1781.0)
+Traceback (most recent call last):
+  File "/mnt/workbench/capsule-donor-01/g07b02g2-private/run_constraint_both.py", line 37, in <module>
+    assert window,('window_did_not_map',out.read_text())
+           ^^^^^^
+AssertionError: ('window_did_not_map', 'G2_READY\nG2_SURFACE_MAPPED\nG2_POINTER_ENTER\nG2_CONSTRAINT_ACTIVE confined\nG2_RESULT confine activated=1 entered=1 configured=2\n')

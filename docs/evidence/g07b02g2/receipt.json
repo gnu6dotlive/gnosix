@@ -1,0 +1,99 @@
+{
+  "schema": "g07b02g2-exact-wayland-button-transport-v1",
+  "date": "2026-10-12",
+  "origin_main": "2d319b6",
+  "hyprland_reference": "v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f",
+  "hyprland_experimental_patch": "4feb578",
+  "gpui_fixture_reference": "1c150ac",
+  "experiments": {
+    "historical": {
+      "injections": 135,
+      "wayland_pressed": 135,
+      "wayland_released_paired": 135,
+      "gpui_callbacks": 135,
+      "late_callback_count_12ms": 1,
+      "index4": {
+        "index": 4,
+        "press_ns": 1791794236385019994,
+        "release_ns": 1791794236420086875,
+        "focused_surface": "94651029392656",
+        "wl_client": "overlay",
+        "wl_press_serial": 152,
+        "wl_press_ms": 146289562,
+        "wl_release_ms": 146289597,
+        "wl_epoch_difference_ms": 0.0,
+        "release_attributed": true,
+        "release_epoch_lag_ms": 0.067,
+        "app_callback_ns": 1791794236497525659,
+        "callback_delay_ms": 112.5057,
+        "old_12ms_window_would_exclude": true
+      }
+    },
+    "replay": {
+      "injections": 136,
+      "wayland_pressed": 136,
+      "wayland_released_paired": 136,
+      "gpui_callbacks": 136,
+      "callback_max_ms": 1.965,
+      "matched_animations": 4,
+      "retargets_per_animation": 21,
+      "compositor_focus_attribution": 136,
+      "applied_region_consistent": 136,
+      "commit_boundary_during_button": 16
+    }
+  },
+  "native_constraints": {
+    "compositor_global_advertised": "zwp_pointer_constraints_v1 v1",
+    "WAYLAND-1": {
+      "confine_activation": "PASS",
+      "lock_activation": "PASS",
+      "continuous_movement_confinement": "NOT_RUN",
+      "continuous_pointer_lock_motion": "NOT_RUN"
+    },
+    "WAYLAND-2": {
+      "activation": "NOT_QUALIFIED",
+      "excluded": "Probe activated before target-output window association was verified"
+    },
+    "repeatability": "one successful activation per protocol type"
+  },
+  "gates": {
+    "G2_A_lost_click_origin": "PASS_ORACLE_WINDOW_FALSE_NEGATIVE",
+    "G2_B_protocol_to_gpui": "271/271_PASS",
+    "G2_C_replay_two_output_scheduler": "136/136_PASS",
+    "G2_D_pointer_constraint_activation": "PASS_ONE_OUTPUT_ONLY",
+    "G2_D_drag_and_drop": "NOT_RUN",
+    "G2_E_evidence_canonicalization": "PASS_LOCAL_EVIDENCE_READY_FOR_MAIN",
+    "E4_human_perceptual": "PENDING",
+    "G07B_production_promotion": "BLOCKED"
+  },
+  "source_hashes": {
+    "transport_audit.py": "be584ff579978c0ef4f27209864f2ac89c4b0f9a6e47a1cb88123455e1f66e23",
+    "replay_transport_audit.py": "7ec7bd757f431d0e52c463f0fee7300de7cd85666901657acc518d321b542a9d",
+    "button_epoch_replay_audit.py": "9c8661c0edff9bfa17259e9812716a9929030d2ca1e6605f8885cd45f350c696",
+    "pointer_constraints_probe.c": "8aaaeaf01874fbfcc1a9dd839437cffc15208689df2aa6a7cfc2f52851de767b",
+    "build_pointer_probe.sh": "54691adb610f64475d1a1eed148457036a9d3f86e5310274a60cc73e62cb612b"
+  },
+  "audit_hashes": {
+    "transport_audit.json": "e9a2b9b4ea1a6669bd62b7f76b260d4bc2dcd6f565b08300102ec91e5f5ae5e5",
+    "replay_transport_audit.json": "bfdf7683609a3565a34d150c3d906714b78233ff4d71f5c4df4446f7db063a6e",
+    "button_epoch_replay_audit.json": "ca4a8b7c7c53681dc0d096defe1daaf4c1df2913cfc043db7a55a96c37ba0730"
+  },
+  "pointer_constraints_binary_sha256": "182625deb29a8d0ac39dfbf1dc179b49a667e083aaccb00275c330026d561dae",
+  "trace_archives_sha256": {
+    "g2-output1-frame.tar.zst": "3fc348c9452836ef8aba972632591581968f619450e51448f6a92fe84e6d9a80",
+    "g2-output1-timer.tar.zst": "dc1e3dbc6d9fedea7fa7d517bd7c915dd2ffee51bb38bb62d86ae18d887b460d",
+    "g2-output2-frame.tar.zst": "7f3131caa2b56108a3d52f90337737e3a6afd31072a585857a571c390d07e703",
+    "g2-output2-timer.tar.zst": "e43f5e99452d766a8aee5bd8421d11cdf44c5e0499338128e3a294825716fdf7",
+    "replay-compositor.log.zst": "c57bbef85c29ef3931784e1b223665b0aa0aa19a11a95225b8213e226fe5e88e"
+  },
+  "limits": [
+    "Wayland button time is event-generation time and can precede client dispatch by >100ms",
+    "Offset between monotonic Wayland milliseconds and Unix epoch calibrated using a known original event",
+    "Native pointer constraint activation does not prove confinement correctness during sustained motion",
+    "DnD, explicit output2 pointer constraint proof and E4 require independent qualifications",
+    "No proof of a sustained p99 input latency SLA or primary compositor production operation"
+  ],
+  "runtime_modified": false,
+  "pushed": false,
+  "merged_hyprland_patch": false
+}

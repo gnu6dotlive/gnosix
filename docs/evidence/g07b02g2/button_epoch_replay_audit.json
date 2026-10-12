@@ -1,0 +1,5516 @@
+{
+  "schema": "g07b02g2-twohead-compositor-button-epoch-v1",
+  "results": [
+    {
+      "name": "g2-output1-frame",
+      "output": "one",
+      "policy": "frame",
+      "frames": 249,
+      "targets": 21,
+      "matched_complete": true,
+      "client_count": 34,
+      "mapped_compositor_focus": {
+        "94108476895712": "witness",
+        "94108477126608": "overlay"
+      },
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "wrong": [],
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 6,
+      "preliminary_wrong_examples": [
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806372787000009,
+            1791806372857713461
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806372787513393,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806372822619861,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806372787714055,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        }
+      ],
+      "rows": [
+        {
+          "index": 1,
+          "inject_ns": [
+            1791806370805777740,
+            1791806370876519025
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806370806353479,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806370841447943,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806370806519882,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 2,
+          "inject_ns": [
+            1791806371089624566,
+            1791806371160360187
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806371090198238,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806371125280683,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806371090303680,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 3,
+          "inject_ns": [
+            1791806371371409110,
+            1791806371442190887
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806371371963663,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806371407489552,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806371372346714,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 4,
+          "inject_ns": [
+            1791806371653856308,
+            1791806371724734693
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806371654488091,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806371689653370,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806371654702740,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 5,
+          "inject_ns": [
+            1791806371936888839,
+            1791806372007744471
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806371937643976,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806371972657526,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806371937823945,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 6,
+          "inject_ns": [
+            1791806372218340026,
+            1791806372289458959
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806372219232904,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806372254362993,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806372219468066,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 7,
+          "inject_ns": [
+            1791806372502173018,
+            1791806372573140849
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806372502900358,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806372537950347,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806372503097226,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806372787000009,
+            1791806372857713461
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806372787513393,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806372822619861,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806372787714055,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 9,
+          "inject_ns": [
+            1791806373069130508,
+            1791806373139836129
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806373069622169,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806373104700920,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806373069775351,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 10,
+          "inject_ns": [
+            1791806373352320341,
+            1791806373423329359
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806373353049115,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806373388112929,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806373353239598,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 11,
+          "inject_ns": [
+            1791806373635583269,
+            1791806373706397981
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806373636151424,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806373671719239,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806373636308535,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 12,
+          "inject_ns": [
+            1791806373918694970,
+            1791806373989404026
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806373919236560,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806373954268121,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806373919420072,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 13,
+          "inject_ns": [
+            1791806374201734721,
+            1791806374272635337
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806374202212623,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806374237332989,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806374202334553,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 14,
+          "inject_ns": [
+            1791806374486455853,
+            1791806374557249952
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806374487124127,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806374522267691,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806374487294185,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 15,
+          "inject_ns": [
+            1791806374770122692,
+            1791806374840966163
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806374770840875,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806374805820296,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806374771040574,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 16,
+          "inject_ns": [
+            1791806375052800598,
+            1791806375123561591
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806375053318647,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806375088378944,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806375053533924,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 17,
+          "inject_ns": [
+            1791806375337569447,
+            1791806375408317732
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806375338137379,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806375373245569,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806375338317546,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 18,
+          "inject_ns": [
+            1791806375620860516,
+            1791806375691695896
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806375621731415,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806375656620848,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806375621913531,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 19,
+          "inject_ns": [
+            1791806375904235370,
+            1791806375975141534
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806375904969357,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806375940065018,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806375905170116,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 20,
+          "inject_ns": [
+            1791806376189829710,
+            1791806376260601478
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806376190425586,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806376225543003,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806376190601910,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 21,
+          "inject_ns": [
+            1791806376472030224,
+            1791806376543065141
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806376473094459,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806376507791239,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806376473342358,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 22,
+          "inject_ns": [
+            1791806376755826559,
+            1791806376826780214
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806376756558234,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806376791848508,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806376756738353,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 23,
+          "inject_ns": [
+            1791806377039595038,
+            1791806377110222860
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806377040605979,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806377075130483,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806377040790462,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 24,
+          "inject_ns": [
+            1791806377323218820,
+            1791806377393943492
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806377323731519,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806377358933448,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806377323900034,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 25,
+          "inject_ns": [
+            1791806377606235580,
+            1791806377677079999
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806377607009900,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806377642004035,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806377607194856,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 26,
+          "inject_ns": [
+            1791806377891081085,
+            1791806377961973143
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806377891681548,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806377927053432,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806377891859958,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 27,
+          "inject_ns": [
+            1791806378176403224,
+            1791806378247084129
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806378176919080,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806378211970959,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806378177060398,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 28,
+          "inject_ns": [
+            1791806378459500716,
+            1791806378530361416
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806378460226171,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806378495266228,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806378461128597,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 29,
+          "inject_ns": [
+            1791806378743938994,
+            1791806378814802326
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806378744692528,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806378779781790,
+              "state": 0,
+              "focus": 94108476895712
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806378744881293,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 30,
+          "inject_ns": [
+            1791806379028559232,
+            1791806379099449665
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806379029458546,
+              "state": 1,
+              "focus": 94108476895712
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806379064385404,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806379029664606,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 31,
+          "inject_ns": [
+            1791806379312420985,
+            1791806379383127130
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806379312970284,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806379348090865,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806379313118776,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 32,
+          "inject_ns": [
+            1791806379597818195,
+            1791806379668846745
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806379598557692,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806379633739172,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806379598747046,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 33,
+          "inject_ns": [
+            1791806379882929535,
+            1791806379953739749
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806379883432584,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806379918579602,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806379883643333,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 34,
+          "inject_ns": [
+            1791806380168604814,
+            1791806380239400786
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806380169306076,
+              "state": 1,
+              "focus": 94108477126608
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806380204336124,
+              "state": 0,
+              "focus": 94108477126608
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806380169520024,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476895712": "witness",
+            "94108477126608": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        }
+      ]
+    },
+    {
+      "name": "g2-output1-timer",
+      "output": "one",
+      "policy": "timer",
+      "frames": 665,
+      "targets": 21,
+      "matched_complete": true,
+      "client_count": 34,
+      "mapped_compositor_focus": {
+        "94108477027024": "witness",
+        "94108476978496": "overlay"
+      },
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "wrong": [],
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 1,
+      "preliminary_wrong_examples": [],
+      "rows": [
+        {
+          "index": 1,
+          "inject_ns": [
+            1791806386047868441,
+            1791806386118706978
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806386048451412,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806386083495114,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806386048532826,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 2,
+          "inject_ns": [
+            1791806386329758920,
+            1791806386400724530
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806386332313108,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806386365615489,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806386332416940,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 3,
+          "inject_ns": [
+            1791806386613041761,
+            1791806386683894661
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806386613572860,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806386648707323,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806386613692694,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 4,
+          "inject_ns": [
+            1791806386897420880,
+            1791806386968314209
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806386898112003,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806386933207383,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806386898270841,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 5,
+          "inject_ns": [
+            1791806387180394797,
+            1791806387251367770
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806387181061530,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806387216115876,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806387181174587,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 6,
+          "inject_ns": [
+            1791806387464782443,
+            1791806387535424965
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806387465319838,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806387500503879,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806387465496016,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 7,
+          "inject_ns": [
+            1791806387747160100,
+            1791806387818358637
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806387748060952,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806387783123544,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806387748139316,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806388030934700,
+            1791806388101736999
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806388031467323,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806388066527284,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806388031568942,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 9,
+          "inject_ns": [
+            1791806388316435364,
+            1791806388387556067
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806388317070824,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806388352178154,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806388317249666,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 10,
+          "inject_ns": [
+            1791806388601867984,
+            1791806388672758908
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806388602567084,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806388637674710,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806388602661526,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 11,
+          "inject_ns": [
+            1791806388885930829,
+            1791806388956951251
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806388886714067,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806388921769522,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806388886845900,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 12,
+          "inject_ns": [
+            1791806389170589237,
+            1791806389241258990
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806389171137285,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806389206258996,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806389171304117,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 13,
+          "inject_ns": [
+            1791806389454617189,
+            1791806389525499056
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806389455395770,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806389490395977,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806389455498416,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 14,
+          "inject_ns": [
+            1791806389738194881,
+            1791806389809099109
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806389738870685,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806389774237911,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806389739025067,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 15,
+          "inject_ns": [
+            1791806390022520549,
+            1791806390093366451
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806390023003481,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806390058221137,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806390023190108,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 16,
+          "inject_ns": [
+            1791806390308513132,
+            1791806390379600566
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806390309333139,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806390344399141,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806390309431339,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 17,
+          "inject_ns": [
+            1791806390594086196,
+            1791806390664742799
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806390594594629,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806390629654122,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806390594762204,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 18,
+          "inject_ns": [
+            1791806390878089385,
+            1791806390948816947
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806390878628338,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806390913778464,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806390878775776,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 19,
+          "inject_ns": [
+            1791806391163294688,
+            1791806391234110690
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806391163872112,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806391199352690,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806391163975408,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 20,
+          "inject_ns": [
+            1791806391449684197,
+            1791806391520440845
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806391450218594,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806391485308059,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806391450377974,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 21,
+          "inject_ns": [
+            1791806391736385303,
+            1791806391807122302
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806391736934535,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806391772077870,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806391737067243,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 22,
+          "inject_ns": [
+            1791806392024306798,
+            1791806392095065973
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806392024802987,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806392060354026,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806392024974447,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 23,
+          "inject_ns": [
+            1791806392314451841,
+            1791806392385497415
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806392315394170,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806392350348459,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806392315764219,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 24,
+          "inject_ns": [
+            1791806392600369036,
+            1791806392671212086
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806392601160888,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806392636393948,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806392603125907,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 25,
+          "inject_ns": [
+            1791806392886827016,
+            1791806392957713001
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806392887453288,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806392922510211,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806392887602463,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 26,
+          "inject_ns": [
+            1791806393173418075,
+            1791806393244132372
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806393173945743,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806393209055601,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806393174135940,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 27,
+          "inject_ns": [
+            1791806393463336711,
+            1791806393534360827
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806393464182672,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806393499205454,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806393464362845,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 28,
+          "inject_ns": [
+            1791806393750222392,
+            1791806393821032109
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806393750842632,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806393785945061,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806393750979852,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 29,
+          "inject_ns": [
+            1791806394040063385,
+            1791806394110949533
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806394040735695,
+              "state": 1,
+              "focus": 94108477027024
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806394075799527,
+              "state": 0,
+              "focus": 94108477027024
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806394040931546,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 30,
+          "inject_ns": [
+            1791806394328965920,
+            1791806394399846783
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806394329496915,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806394364639070,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806394329665289,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 31,
+          "inject_ns": [
+            1791806394615956179,
+            1791806394687207696
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806394616886286,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806394652061221,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806394617742661,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 32,
+          "inject_ns": [
+            1791806394905202003,
+            1791806394975964711
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806394905765871,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806394940762038,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806394905975361,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 33,
+          "inject_ns": [
+            1791806395193033589,
+            1791806395263840693
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806395193642146,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806395229154059,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806395193832002,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 34,
+          "inject_ns": [
+            1791806395481031068,
+            1791806395551908278
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806395481703686,
+              "state": 1,
+              "focus": 94108476978496
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806395516784697,
+              "state": 0,
+              "focus": 94108476978496
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806395481924056,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477027024": "witness",
+            "94108476978496": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        }
+      ]
+    },
+    {
+      "name": "g2-output2-frame",
+      "output": "one",
+      "policy": "frame",
+      "frames": 249,
+      "targets": 21,
+      "matched_complete": true,
+      "client_count": 34,
+      "mapped_compositor_focus": {
+        "94108476976208": "witness",
+        "94108477235648": "overlay"
+      },
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "wrong": [],
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 6,
+      "preliminary_wrong_examples": [
+        {
+          "index": 2,
+          "inject_ns": [
+            1791806401376526389,
+            1791806401447348754
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806401377118840,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806401412170011,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806401377483132,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806403075148912,
+            1791806403145927080
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806403075776415,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806403110801353,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806403075958139,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        }
+      ],
+      "rows": [
+        {
+          "index": 1,
+          "inject_ns": [
+            1791806401094476614,
+            1791806401165177744
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806401095207003,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806401130231523,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806401095321540,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 2,
+          "inject_ns": [
+            1791806401376526389,
+            1791806401447348754
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806401377118840,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806401412170011,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806401377483132,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 3,
+          "inject_ns": [
+            1791806401659765260,
+            1791806401730853078
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806401660596162,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806401695647922,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806401660814511,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 4,
+          "inject_ns": [
+            1791806401942093229,
+            1791806402012820253
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806401942632478,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806401977827292,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806401942813945,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 5,
+          "inject_ns": [
+            1791806402224881215,
+            1791806402295562478
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806402225449999,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806402260499155,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806402225633037,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 6,
+          "inject_ns": [
+            1791806402507139771,
+            1791806402578061330
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806402508047397,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806402542936382,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806402508223102,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 7,
+          "inject_ns": [
+            1791806402791485138,
+            1791806402862209479
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806402791966151,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806402827090784,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806402792136664,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806403075148912,
+            1791806403145927080
+          ],
+          "preliminary_wrong": true,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806403075776415,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806403110801353,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806403075958139,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 9,
+          "inject_ns": [
+            1791806403357358930,
+            1791806403428017565
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806403357830484,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806403393119452,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806403358036292,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 10,
+          "inject_ns": [
+            1791806403646406719,
+            1791806403717758452
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806403648215155,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806403682602013,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806403648545673,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 11,
+          "inject_ns": [
+            1791806403929884487,
+            1791806404000644626
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806403930496707,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806403965556246,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806403930679669,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 12,
+          "inject_ns": [
+            1791806404219163962,
+            1791806404290379007
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806404220063202,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806404255092003,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806404220296747,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 13,
+          "inject_ns": [
+            1791806404502399474,
+            1791806404573266597
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806404503057616,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806404538185048,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806404503242090,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 14,
+          "inject_ns": [
+            1791806404786597600,
+            1791806404857235000
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806404787153652,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806404822153555,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806404787330823,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 15,
+          "inject_ns": [
+            1791806405069802367,
+            1791806405140546022
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806405070395428,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806405105470385,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806405070563085,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 16,
+          "inject_ns": [
+            1791806405352543862,
+            1791806405423374881
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806405353190106,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806405388390686,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806405353303644,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 17,
+          "inject_ns": [
+            1791806405634585686,
+            1791806405705323364
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806405635168350,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806405670225121,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806405635343699,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 18,
+          "inject_ns": [
+            1791806405917987263,
+            1791806405988711227
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806405918611994,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806405954112612,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806405918789759,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 19,
+          "inject_ns": [
+            1791806406201587056,
+            1791806406272329342
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806406202142353,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806406237304095,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806406202322381,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 20,
+          "inject_ns": [
+            1791806406486582528,
+            1791806406557287954
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806406487124935,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806406522273148,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806406487278003,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 21,
+          "inject_ns": [
+            1791806406769650363,
+            1791806406840550931
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806406770279628,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806406805376625,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806406770464553,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 22,
+          "inject_ns": [
+            1791806407054890828,
+            1791806407125749252
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806407055828313,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806407090619107,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806407056053485,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 23,
+          "inject_ns": [
+            1791806407338884437,
+            1791806407409778830
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806407339398108,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806407374589549,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806407339560895,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 24,
+          "inject_ns": [
+            1791806407623547075,
+            1791806407694301192
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806407624140186,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806407659206120,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806407624286618,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 25,
+          "inject_ns": [
+            1791806407907400089,
+            1791806407978114309
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806407907999381,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806407943055162,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806407908196241,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 26,
+          "inject_ns": [
+            1791806408191457417,
+            1791806408262218662
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806408192058563,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806408227087243,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806408192240853,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 27,
+          "inject_ns": [
+            1791806408474488499,
+            1791806408545201675
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806408475217810,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806408510191813,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806408475382256,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 28,
+          "inject_ns": [
+            1791806408758733576,
+            1791806408829580299
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806408759838582,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806408794520074,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806408760032544,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 29,
+          "inject_ns": [
+            1791806409043663750,
+            1791806409114447941
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806409044640596,
+              "state": 1,
+              "focus": 94108476976208
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806409079378179,
+              "state": 0,
+              "focus": 94108476976208
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806409044822075,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 30,
+          "inject_ns": [
+            1791806409328642499,
+            1791806409399441874
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806409329969399,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806409364349307,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806409330180970,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 31,
+          "inject_ns": [
+            1791806409614216193,
+            1791806409685122772
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806409614775674,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806409649827908,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806409615749510,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 32,
+          "inject_ns": [
+            1791806409897939834,
+            1791806409968746767
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806409898480304,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806409933604237,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806409898659637,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 33,
+          "inject_ns": [
+            1791806410183174365,
+            1791806410254206744
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806410183919758,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806410219109314,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806410184221562,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 34,
+          "inject_ns": [
+            1791806410471467123,
+            1791806410542453096
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806410472201253,
+              "state": 1,
+              "focus": 94108477235648
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806410507369172,
+              "state": 0,
+              "focus": 94108477235648
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806410472401061,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108476976208": "witness",
+            "94108477235648": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        }
+      ]
+    },
+    {
+      "name": "g2-output2-timer",
+      "output": "one",
+      "policy": "timer",
+      "frames": 586,
+      "targets": 21,
+      "matched_complete": true,
+      "client_count": 34,
+      "mapped_compositor_focus": {
+        "94108477038144": "witness",
+        "94108477010304": "overlay"
+      },
+      "injected": 34,
+      "qualified": 34,
+      "correct": 34,
+      "wrong": [],
+      "region_consistent_at_press": 34,
+      "boundary_cross_during_button": 3,
+      "preliminary_wrong_examples": [],
+      "rows": [
+        {
+          "index": 1,
+          "inject_ns": [
+            1791806416095532747,
+            1791806416166184784
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806416096049483,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806416131117903,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806416096205759,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 2,
+          "inject_ns": [
+            1791806416379064811,
+            1791806416449760724
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806416379554939,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806416414698034,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806416379648243,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 3,
+          "inject_ns": [
+            1791806416662341128,
+            1791806416733121298
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806416662950363,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806416698002593,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806416663127007,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 4,
+          "inject_ns": [
+            1791806416945110777,
+            1791806417015752523
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806416946164308,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806416980612270,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806416946423578,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 5,
+          "inject_ns": [
+            1791806417227304176,
+            1791806417298222783
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806417228038654,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806417263169060,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806417228179099,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 6,
+          "inject_ns": [
+            1791806417509706172,
+            1791806417580483488
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806417510229636,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806417545316256,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806417510411952,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 7,
+          "inject_ns": [
+            1791806417798029440,
+            1791806417869046989
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806417798815947,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806417833950369,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806417799052415,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 8,
+          "inject_ns": [
+            1791806418082197449,
+            1791806418152994862
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806418082792053,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806418117947744,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806418082950944,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 9,
+          "inject_ns": [
+            1791806418367292851,
+            1791806418438373333
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806418368135724,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806418403142476,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806418368278004,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 10,
+          "inject_ns": [
+            1791806418652128749,
+            1791806418723157168
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806418652906643,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806418688013264,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806418653103012,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 11,
+          "inject_ns": [
+            1791806418937768717,
+            1791806419008662890
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806418938409285,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806418973703846,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806418938557899,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 12,
+          "inject_ns": [
+            1791806419221522409,
+            1791806419292292263
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806419222088172,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806419257111400,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806419222277733,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 13,
+          "inject_ns": [
+            1791806419506495233,
+            1791806419577199582
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806419507259963,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806419542115296,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806419507409546,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 14,
+          "inject_ns": [
+            1791806419790142371,
+            1791806419861156156
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806419790935290,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806419826019144,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806419791139741,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 15,
+          "inject_ns": [
+            1791806420075686143,
+            1791806420146393872
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806420076211096,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806420111285077,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806420076357247,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 16,
+          "inject_ns": [
+            1791806420360587057,
+            1791806420431288748
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806420361097652,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806420396174707,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806420361229961,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 17,
+          "inject_ns": [
+            1791806420644762417,
+            1791806420715649310
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806420645390220,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806420681261530,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806420645540853,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 18,
+          "inject_ns": [
+            1791806420930967266,
+            1791806421001751102
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806420931488944,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806420966562300,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806420931696466,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 19,
+          "inject_ns": [
+            1791806421216542602,
+            1791806421287315782
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806421217152014,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806421252233392,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806421217334520,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 20,
+          "inject_ns": [
+            1791806421501557269,
+            1791806421572314663
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806421502130779,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806421537306404,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806421502270058,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 21,
+          "inject_ns": [
+            1791806421787801018,
+            1791806421858616797
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": true,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806421788596462,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806421823501556,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806421788835518,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": true
+        },
+        {
+          "index": 22,
+          "inject_ns": [
+            1791806422075359087,
+            1791806422146093714
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806422075912567,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806422111018384,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806422076115040,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 23,
+          "inject_ns": [
+            1791806422362408900,
+            1791806422433194730
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806422363005698,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806422398150874,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806422363182215,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 24,
+          "inject_ns": [
+            1791806422649818512,
+            1791806422720614202
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806422650375946,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806422685516151,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806422650441170,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 25,
+          "inject_ns": [
+            1791806422937961105,
+            1791806423009029640
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806422938757610,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806422973804043,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806422939447006,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 26,
+          "inject_ns": [
+            1791806423225784827,
+            1791806423296499443
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806423226319398,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806423261394302,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806423226492838,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 27,
+          "inject_ns": [
+            1791806423512604696,
+            1791806423583316579
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806423513196283,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806423548293119,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806423513374677,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 28,
+          "inject_ns": [
+            1791806423800457636,
+            1791806423871580245
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806423801152546,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806423836239521,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806423801288226,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 29,
+          "inject_ns": [
+            1791806424087892647,
+            1791806424158772003
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": false,
+          "published_membership_after": false,
+          "compositor_region_at_press": false,
+          "press": [
+            {
+              "ns": 1791806424088686733,
+              "state": 1,
+              "focus": 94108477038144
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806424123539626,
+              "state": 0,
+              "focus": 94108477038144
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806424088822618,
+              "receiver": "witness"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 30,
+          "inject_ns": [
+            1791806424375153781,
+            1791806424445895156
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806424375656543,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806424411503703,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806424375739688,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 31,
+          "inject_ns": [
+            1791806424663076070,
+            1791806424733929355
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806424663770107,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806424698821896,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806424663986908,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 32,
+          "inject_ns": [
+            1791806424951462794,
+            1791806425022418160
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806424952220852,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806424987324745,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806424952421348,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 33,
+          "inject_ns": [
+            1791806425239975747,
+            1791806425310687347
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806425240723178,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806425275675205,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806425240915176,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        },
+        {
+          "index": 34,
+          "inject_ns": [
+            1791806425527794993,
+            1791806425598684115
+          ],
+          "preliminary_wrong": false,
+          "published_membership_before": true,
+          "published_membership_after": true,
+          "compositor_region_at_press": true,
+          "press": [
+            {
+              "ns": 1791806425528375452,
+              "state": 1,
+              "focus": 94108477010304
+            }
+          ],
+          "release": [
+            {
+              "ns": 1791806425563526921,
+              "state": 0,
+              "focus": 94108477010304
+            }
+          ],
+          "callback": [
+            {
+              "ns": 1791806425528556458,
+              "receiver": "overlay"
+            }
+          ],
+          "focus_map": {
+            "94108477038144": "witness",
+            "94108477010304": "overlay"
+          },
+          "unique": true,
+          "correct_compositor_focus": true,
+          "correct_applied_region_at_press": true,
+          "region_changed_during_press_release": false
+        }
+      ]
+    }
+  ]
+}
