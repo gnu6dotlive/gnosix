@@ -1,0 +1,131 @@
+{
+  "schema": "g07b02h-pointer-constraints-bounded-v1",
+  "date": "2026-10-12",
+  "canonical_base": "1a3550d",
+  "hyprland_reference": "v0.56.2+experimental-focus-and-output-aware-patch-4feb578",
+  "test_environment": "one isolated patched nested Hyprland with two concurrent 1250x800 outputs mapped into windows on physical HDMI-A-1 and DP-2",
+  "controls": {
+    "four_real_xdg_constraint_activations": "4/4_PASS",
+    "bounded_horizontal_confine_two_outputs": "2/2_PASS",
+    "lock_keeps_reported_inner_pointer_static": "2/2_OBSERVED",
+    "locked_pointer_surface_local_anchor": "NOT_QUALIFIED",
+    "repeated_lock_relative_motion": "NOT_RUN",
+    "forced_motion_boundary_sustained_stress": "NOT_RUN",
+    "cross_surface_wayland_drag_and_drop": "NOT_RUN",
+    "E4_human_visual_review": "PENDING",
+    "G07B_production_promotion": "BLOCKED"
+  },
+  "runs": {
+    "confine-one": {
+      "activation": true,
+      "inner_before": [
+        319.0,
+        370.0
+      ],
+      "inner_after": [
+        479.0,
+        370.0
+      ],
+      "outer_before": [
+        359.0,
+        1165.0
+      ],
+      "outer_after": [
+        1483.0,
+        1165.0
+      ],
+      "bounded_confinement": true,
+      "stationary_locked": false,
+      "scope": "WAYLAND-1",
+      "log_sha256": "88cfb9e0f3c7b15c76ceecc47fb481b24c89c0bbc827ae675fc0852c6d1049b1"
+    },
+    "lock-one": {
+      "activation": true,
+      "inner_before": [
+        50.0,
+        6.0
+      ],
+      "inner_after": [
+        50.0,
+        6.0
+      ],
+      "outer_before": [
+        382.0,
+        988.0
+      ],
+      "outer_after": [
+        1501.0,
+        988.0
+      ],
+      "bounded_confinement": false,
+      "stationary_locked": true,
+      "scope": "WAYLAND-1",
+      "log_sha256": "d71e361d747448cd1140ab46c33d80ee6098295021e27d4de78eb9bb637c96f2"
+    },
+    "confine-two": {
+      "activation": true,
+      "inner_before": [
+        1571.0,
+        370.0
+      ],
+      "inner_after": [
+        1729.0,
+        375.0
+      ],
+      "outer_before": [
+        2441.0,
+        885.0
+      ],
+      "outer_after": [
+        3008.0,
+        903.0
+      ],
+      "bounded_confinement": true,
+      "stationary_locked": false,
+      "scope": "WAYLAND-2",
+      "log_sha256": "bea15a6ef7eeaaf6e57fde2d222583388e4fdddc5339a2ad51295d9d4780b350"
+    },
+    "lock-two": {
+      "activation": true,
+      "inner_before": [
+        1981.0,
+        5.0
+      ],
+      "inner_after": [
+        1981.0,
+        5.0
+      ],
+      "outer_before": [
+        2439.0,
+        884.0
+      ],
+      "outer_after": [
+        3008.0,
+        884.0
+      ],
+      "bounded_confinement": false,
+      "stationary_locked": true,
+      "scope": "WAYLAND-2",
+      "log_sha256": "55799ac4c6258cb607aa3dbf1e6cc51d68934d1fe038401f2d0e5727228260ca"
+    }
+  },
+  "evidence_sha256": {
+    "pointer_constraints_probe.c": "54493235e9ab367707f8de52d234643df2eaab3cedf277f991f53fbc5096e88c",
+    "build_pointer_probe.sh": "54691adb610f64475d1a1eed148457036a9d3f86e5310274a60cc73e62cb612b",
+    "constraint_runner.py": "dbc6fc18140d9d1f244ed2b65d9a8166bdc8542cc7e5e7356e62f44f8b1af00e",
+    "confine-one-motion.log": "88cfb9e0f3c7b15c76ceecc47fb481b24c89c0bbc827ae675fc0852c6d1049b1",
+    "confine-two-motion.log": "bea15a6ef7eeaaf6e57fde2d222583388e4fdddc5339a2ad51295d9d4780b350",
+    "lock-one-motion.log": "d71e361d747448cd1140ab46c33d80ee6098295021e27d4de78eb9bb637c96f2",
+    "lock-two-motion.log": "55799ac4c6258cb607aa3dbf1e6cc51d68934d1fe038401f2d0e5727228260ca",
+    "compositor.log.zst": "d380561c8486f93d262c9579e8483c499d81f1ff861fbd5a9e88f05d562bbca1"
+  },
+  "negative_limits": [
+    "Host cursor motion may continue even if the nested compositor confines its own seat; tested coordinate is inner hyprctl cursorpos",
+    "Six relative mousemove calls per run, not a prolonged stress test",
+    "Lock activation and position stability do not establish correct relative-motion semantics; observed internal lock coordinate did not independently establish client-local anchor",
+    "Data-device drag-and-drop and E4 not executed",
+    "No production restart, patch merge, or push"
+  ],
+  "persistent_runtime_modified": false,
+  "push": false
+}
