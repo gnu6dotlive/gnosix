@@ -1,0 +1,113 @@
+{
+  "schema": "g07b02i-native-wayland-audit-v1",
+  "dnd": [
+    {
+      "case": "same",
+      "expected_local": true,
+      "delivered": true,
+      "target_offer": true,
+      "source_cursor": [
+        360,
+        1175
+      ],
+      "target_cursor": [
+        885,
+        1175
+      ]
+    },
+    {
+      "case": "same2",
+      "expected_local": true,
+      "delivered": true,
+      "target_offer": true,
+      "source_cursor": [
+        2440,
+        895
+      ],
+      "target_cursor": [
+        2965,
+        895
+      ]
+    },
+    {
+      "case": "cross",
+      "expected_local": false,
+      "delivered": false,
+      "target_offer": false,
+      "source_cursor": [
+        360,
+        1175
+      ],
+      "target_cursor": [
+        2480,
+        895
+      ]
+    },
+    {
+      "case": "reverse",
+      "expected_local": false,
+      "delivered": false,
+      "target_offer": false,
+      "source_cursor": [
+        2440,
+        895
+      ],
+      "target_cursor": [
+        1515,
+        1145
+      ]
+    }
+  ],
+  "same_output_successes": 2,
+  "same_output_attempts": 2,
+  "cross_output_successes": 0,
+  "cross_output_attempts": 2,
+  "lock_recycle": [
+    {
+      "output": "WAYLAND-1",
+      "activated_twice": true,
+      "stationary": false,
+      "relative_events": 0,
+      "inner_before": [
+        271.0,
+        274.0
+      ],
+      "inner_after": [
+        1250.0,
+        621.0
+      ]
+    },
+    {
+      "output": "WAYLAND-2",
+      "activated_twice": true,
+      "stationary": true,
+      "relative_events": 0,
+      "inner_before": [
+        1691.0,
+        324.0
+      ],
+      "inner_after": [
+        1691.0,
+        324.0
+      ]
+    }
+  ],
+  "relative_protocol": "available_and_bound_but_zero_events_observed",
+  "relative_motion_status": "NOT_QUALIFIED",
+  "lock_continuity": "FAIL_BOUNDED_ON_WAYLAND-1",
+  "E4": "PENDING_HUMAN",
+  "production": "BLOCKED",
+  "archives_sha256": {
+    "dnd-cross.tar.zst": "a0d96d4f71ecc4fcc0796371560655ceff8ef3dc6f37efe901593fb72e652cb8",
+    "dnd-reverse.tar.zst": "061ecef2f5f5d45e41f437c0fdf1e80bf7b4a5fa915b31915ed55f7b2d87445f",
+    "dnd-same.tar.zst": "5331f4d706bb60850c76cf829a337687d7ced48e0934a6785ad5729dbdb905e7",
+    "dnd-same2.tar.zst": "d1755e7a5c26a67704ffc8e86065f87ad7d39be0011fabbe1f64783d2e09d411",
+    "nested-compositor.log.zst": "a7607c9a899db4d65ae9445664c8f6696af879ee177b307f32524cfdde6de519",
+    "relative-lock.tar.zst": "479a4e978e6410ef9e9ae0e51817ede49fd158cbc4586b9dd30d2f4aa71cbad4"
+  },
+  "limits": [
+    "Nested backend failure is not proof of physical DRM backend failure",
+    "Synthetic host movement does not prove native relative-motion delivery",
+    "No external perceptual E4 validation or production promotion"
+  ]
+}

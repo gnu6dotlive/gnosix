@@ -1,0 +1,52 @@
+{
+  "schema": "g07b02i-native-dnd-relative-lock-lifecycle-v1",
+  "date": "2026-10-12",
+  "gnosix_base_commit": "e87173bf8608a385eed88d26575d3a7531676ed2",
+  "hyprland_reference": "v0.56.2 efb50993780079460b0cbed1363e2166a2de1d9f + experimental 4feb578",
+  "compositor_binary_sha256": "3b2c93852f2941d1ac609eca64c1b84a06fcccf09edf5a9635eb4cdb1679f637",
+  "primary_binary_sha256": "0b98aa2e2de1080ca2e5534717c6002e9924e359b22cba42a77714c9dd343070",
+  "native_client_binaries_sha256": {
+    "dnd-native": "265c1258c0f53104e40c6ed0f485e6a40b634ad49ab063d69f67861ca823fca7",
+    "relative-lock-probe": "aeecbd12c5f8585a28ccea5e7bb2dd60eaf298f7386565aeec644fe5d5fb4698"
+  },
+  "source_sha256": {
+    "build_clients.sh": "dec12d07bdb1a2c81dfda556fb3f5967d5e76e3b032b858204bc90d4b34ad58d",
+    "dnd_native.c": "b44effae11ef5806733f191207ca025f7d4389a1bdc3245a25fe5f5860b7faac",
+    "dnd_runner.py": "e57fbbd006fe4b75cf4566c5c7a35e45b5a55aa8ff832e1ae2d731fc003fd154",
+    "relative_lock_probe.c": "1a7f2a5b21f766d1191c1561f657bace70dc340a7f5bc463bb22ca1e75690b77",
+    "relative_runner.py": "cd9e87524aaea4c66e89449eddcd809f2969b065fad1a991105da1dc91ebc29b",
+    "independent_audit.py": "f0576ba71a8fd0a04d8d8801241533fe7aa20ecce6eafe7c4dd6236040605685"
+  },
+  "independent_audit_sha256": "825ee1effb5b0178122476a5b8bfd68413bab4222373f6094ba1f32bd664a5b9",
+  "archive_sha256": {
+    "dnd-cross.tar.zst": "a0d96d4f71ecc4fcc0796371560655ceff8ef3dc6f37efe901593fb72e652cb8",
+    "dnd-reverse.tar.zst": "061ecef2f5f5d45e41f437c0fdf1e80bf7b4a5fa915b31915ed55f7b2d87445f",
+    "dnd-same.tar.zst": "5331f4d706bb60850c76cf829a337687d7ced48e0934a6785ad5729dbdb905e7",
+    "dnd-same2.tar.zst": "d1755e7a5c26a67704ffc8e86065f87ad7d39be0011fabbe1f64783d2e09d411",
+    "nested-compositor.log.zst": "a7607c9a899db4d65ae9445664c8f6696af879ee177b307f32524cfdde6de519",
+    "relative-lock.tar.zst": "479a4e978e6410ef9e9ae0e51817ede49fd158cbc4586b9dd30d2f4aa71cbad4"
+  },
+  "gates": {
+    "native_dnd_two_independent_clients_same_output": "2/2_PASS",
+    "native_dnd_cross_output": "0/2_FAIL",
+    "pointer_lock_destroy_and_recreate_callback": "2/2_DOUBLE_ACTIVATION",
+    "pointer_lock_continuity_after_recreate": "FAIL_WAYLAND_1_REPEATABLE",
+    "relative_pointer_protocol_available": "PASS_BIND",
+    "relative_pointer_motion_delivery": "NOT_QUALIFIED",
+    "E4_human_perceptual": "PENDING",
+    "G07B_runtime_promotion": "BLOCKED",
+    "data_offer_exact_mime_payload_length": "PASS_37_BYTE_EXACT_PAYLOAD_ON_EACH_LOCAL_OUTPUT"
+  },
+  "bounded_or_unproven": [
+    "Failed cross-output DnD occurred in a nested Wayland backend with separate parent windows and does not establish a direct DRM physical-display regression.",
+    "On both cross-output drags, destination process did not receive an offer and source logged a drop; hit-test and parent focus causality remains unknown.",
+    "Two lock activation callbacks after destroying/recreating the lock object do not guarantee persistent lock semantics.",
+    "The lock continuity failure on WAYLAND-1 was reproduced, while WAYLAND-2 remained stationary; one long-run stress test was not performed.",
+    "No relative motion event was observed with ydotool host input despite protocol manager binding; cannot generalize to native physical relative input.",
+    "No verified E4 human review, no source or patch promotion, no end-user deployment."
+  ],
+  "primary_compositor_changed": false,
+  "pushed": false,
+  "hyprland_patch_merged": false,
+  "worktree_lifecycle": "TEMP_WORKTREE_TO_BE_REMOVED_AFTER_CANONICAL_FAST_FORWARD"
+}
