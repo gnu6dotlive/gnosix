@@ -21,6 +21,7 @@ ROOT_FILES = {
     "AGENTS.md",
     "ARCHITECTURE.md",
     "AUTHORITY.md",
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
     "Cargo.lock",
     "Cargo.toml",
@@ -29,6 +30,7 @@ ROOT_FILES = {
     "README.md",
     "SECURITY.md",
     "THIRD_PARTY_NOTICES.md",
+    "VERSION",
     "rust-toolchain.toml",
 }
 PUBLIC_PREFIXES = (
@@ -49,6 +51,12 @@ PUBLIC_PREFIXES = (
     "docs/reference/",
     "docs/status/",
 )
+
+# The public face of documents the private repository keeps for itself
+# (its README, its agent contract…): a file here is published at the same
+# path without the prefix, in place of the private one. The overlay itself
+# is never published.
+PUBLIC_OVERLAY = "publication/public/"
 
 REQUIRED_LEGAL_FILES = (
     "LICENSE",
@@ -73,6 +81,7 @@ PUBLIC_TOOLS = {
     "tools/public_cut.py",
     "tools/test_public_cut.py",
     "tools/publication_lint.py",
+    "tools/i18n.py",
     "tools/test_publication_lint.py",
     "tools/r13-authority.sha256",
     "tools/stage-r13-production-caller.sh",
@@ -132,7 +141,11 @@ def _validate_literal_compile_time_includes(root: Path) -> None:
                 raise BuildError(
                     f"compile-time include escapes public cut: {source.relative_to(root)} -> {raw_target}"
                 ) from exc
-            if not target.is_file():
+            # A vendored snapshot's own tests reference upstream fixtures
+            # that were never vendored (never built here); first-party code
+            # must find every file it includes.
+            vendored = source.relative_to(root).parts[0] == "vendor"
+            if not target.is_file() and not vendored:
                 raise BuildError(
                     f"missing compile-time include: {source.relative_to(root)} -> {raw_target}"
                 )
@@ -167,14 +180,21 @@ def build_cut(
         if required not in tracked or not (source_root / required).is_file():
             raise BuildError(f"required legal file missing: {required}")
 
-    included = sorted(path for path in tracked_files if should_include(path))
+    # Published path -> tracked source path; the overlay wins.
+    sources = {path: path for path in tracked_files if should_include(path)}
+    for path in tracked_files:
+        if path.startswith(PUBLIC_OVERLAY):
+            published = path[len(PUBLIC_OVERLAY) :]
+            _safe_relative(published)
+            sources[published] = path
     destination.mkdir(parents=True)
     entries = []
     workspace_members_removed: list[str] = []
     try:
-        for raw in included:
-            rel = _safe_relative(raw)
-            source = source_root / rel
+        for published in sorted(sources):
+            raw = sources[published]
+            source = source_root / _safe_relative(raw)
+            rel = _safe_relative(published)
             if not source.is_file():
                 raise BuildError(f"tracked public file is missing: {raw}")
             target = destination / rel
@@ -201,6 +221,7 @@ def build_cut(
         "history_model": "fresh-public-root",
         "raw_evidence_included": False,
         "public_fixtures_included": sorted(PUBLIC_FIXTURES),
+        "overlaid": sorted(p for p, raw in sources.items() if raw != p),
         "private_paths_excluded": list(PRIVATE_PREFIXES),
         "workspace_members_removed": workspace_members_removed,
         "license_present": (destination / "LICENSE").is_file(),

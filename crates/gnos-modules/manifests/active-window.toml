@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.active-window"
+name = "Active window"
+description = "The focused window's icon and title."
+icon = "app-window"
+version = "1.0.0"
+places = ["bar"]
+needs = ["windows"]
+
+[provider]
+kind = "native"
+entry = "active_window"

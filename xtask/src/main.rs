@@ -10,7 +10,8 @@
 //! Commands:
 //!
 //! - `verify` — the full local contract, including host/live checks.
-//! - `ci`     — repository-hermetic checks only; the same definitions.
+//! - `native` — repository-hermetic + host-native build/test qualification.
+//! - `ci`     — repository-hermetic checks only; portable remote confirmation.
 //! - `provenance` — a machine-readable record of what ran.
 //! - `source-gates` — the enduring source invariants.
 //! - `explain` — list the checks and their classes without running anything.
@@ -34,16 +35,17 @@ use std::{
 };
 
 use checks::Profile;
-use model::{CheckClass, Disposition, VerificationReport};
+use model::{Disposition, VerificationReport};
 
 const USAGE: &str = "\
 cargo xtask <command>
 
 Commands:
-  verify         Run the full local contract: tests, clippy, fmt, diff check,
-                 builds, source invariants, and host/live checks.
-  ci             Run repository-hermetic checks only. The same definitions as
-                 verify, filtered by class. This is what CI runs.
+  verify         Run the full local contract: repository, native and host/live checks.
+  native         Run repository-hermetic plus host-native source/build checks.
+                 This is the local pre-publication qualification on Gnosix.
+  ci             Run repository-hermetic checks only. Portable remote CI uses
+                 this profile and does not impersonate the Gnosix host.
   provenance     Print a provenance record for the current tree.
   source-gates   Evaluate the enduring source invariants.
   keybindings    Read-only gesture, binding, browser-role and dry-run inspector.
@@ -90,6 +92,7 @@ fn main() -> ExitCode {
 
     match command.as_str() {
         "verify" => execute(&root, Profile::Verify, &options),
+        "native" => execute(&root, Profile::Native, &options),
         "ci" => execute(&root, Profile::Ci, &options),
         "provenance" => print_provenance(&root),
         "source-gates" | "source-gate" => {
@@ -510,13 +513,11 @@ fn explain() -> ExitCode {
         );
     }
     let total = checks::catalogue().len();
-    let ci = checks::catalogue()
-        .iter()
-        .filter(|c| c.class == CheckClass::RepositoryHermetic)
-        .count();
+    let ci = checks::checks_for(Profile::Ci).len();
+    let native = checks::checks_for(Profile::Native).len();
     println!();
-    println!("{total} checks defined; {ci} run in the ci profile");
-    println!("host/live checks never run in CI by construction, not by omission");
+    println!("{total} checks defined; {ci} portable ci; {native} native source/build");
+    println!("host-native/live/human checks never run in remote CI by construction");
     ExitCode::SUCCESS
 }
 

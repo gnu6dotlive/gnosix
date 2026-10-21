@@ -1,13 +1,14 @@
 # PRODUCT-TOOLING-01 Phase 5 lean CI.
 #
 # One workflow, one job, whose meaningful body is `cargo xtask ci`. The YAML
-# exists to provision an environment and then get out of the way; the
-# qualification contract itself lives in the repository, in Rust, where a
-# developer and an agent run exactly the same thing locally.
+# exists to provide a generic runner and then get out of the way. The canonical
+# check catalogue and its environment classes live in the repository, in Rust.
 #
-# The alternative - reproducing the check list in YAML - is how local truth and
-# CI truth drift apart. It is a second implementation of the same contract, and
-# the second one is the one nobody runs locally.
+# Local Gnosix qualification uses `cargo xtask native` for repository-hermetic
+# plus host-native checks. Remote CI uses the `ci` projection of that same
+# catalogue and is forbidden from claiming native workstation qualification.
+# This keeps one ontology without pretending every environment can answer every
+# question.
 
 name: ci
 
@@ -28,18 +29,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
 
-    # Storage and time only. Neither setting changes what a check computes or
-    # how a verdict is reached, which is why they belong here rather than in
-    # the check definitions: qualification semantics and build economics are
-    # separate concerns and should not be entangled.
-    #
-    # The second main run failed with "No space left on device" partway through
-    # Qualification. A cold build of this workspace produces roughly 9.3 GB of
-    # cargo artifacts, of which incremental compilation state and debug info
-    # are the bulk, and a hosted runner does not have much more than that to
-    # give. Turning both off is a storage measure, not a semantic one: a
-    # one-shot CI run gains nothing from incremental state it will never reuse,
-    # and qualification results are unaffected by the absence of debug info.
+    # Storage and time only. Neither setting changes a check's semantics.
+    # Remote CI is now the smaller repository-hermetic profile, but disabling
+    # incremental state and debug info still avoids paying hosted-runner time
+    # and disk for artifacts that are discarded at the end of a one-shot run.
     env:
       CARGO_INCREMENTAL: "0"
       CARGO_PROFILE_DEV_DEBUG: "0"
@@ -51,41 +44,13 @@ jobs:
       - name: Check out the source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      # Native build dependencies, determined from the workspace's own build
-      # graph rather than from a conventional CI setup. The `*-sys` and
-      # `*-sys`-adjacent crates in the graph are:
+      # Deliberately no desktop/native dependency provisioning here.
       #
-      #   wayland-sys               -> wayland-client, -cursor, -egl, -server
-      #   khronos-egl               -> egl
-      #   xkbcommon-dl              -> dlopen'd at runtime, so the built binary
-      #                                 links libxkbcommon.so.0 and nothing else
-      #   freetype-sys              -> freetype2
-      #   yeslogic-fontconfig-sys   -> fontconfig
-      #   accesskit_unix            -> dbus-1 (via zbus)
-      #   wgpu                      -> vulkan headers
-      #
-      # All of these are development headers, not a desktop stack. Nothing here
-      # installs a compositor, a session, or a display server, and the
-      # qualification never opens a window.
-      #
-      # This set is derived from the dependency graph, not yet confirmed by a
-      # green run. That is recorded in the Phase 5 receipt as an open item
-      # rather than claimed as a verified environment.
-      - name: Install native build dependencies
-        run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            pkg-config \
-            libwayland-dev \
-            libegl-dev \
-            libvulkan-dev \
-            libxkbcommon-dev \
-            libxkbcommon0 \
-            libfreetype-dev \
-            libfontconfig1-dev \
-            libdbus-1-dev
+      # GitHub-hosted Ubuntu is not the Gnosix runtime and must not be made to
+      # impersonate the CachyOS/Arch workstation by installing a second native
+      # ABI. The `ci` profile is repository-hermetic by construction. Native
+      # GPUI/PipeWire/Wayland builds belong to `cargo xtask native` on the
+      # qualified Gnosix host (or a separately qualified reproduction of it).
 
       # The first run of this workflow failed because this step was missing
       # entirely: the runner had an empty workspace, so neither

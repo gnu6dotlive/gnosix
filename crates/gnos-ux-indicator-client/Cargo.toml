@@ -1,0 +1,11 @@
+[package]
+name = "gnos-ux-indicator-client"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "GNOS.UX observer for the published application indicator contract"
+
+[dependencies]
+futures = "0.3.34"
+zbus = "5.19.0"

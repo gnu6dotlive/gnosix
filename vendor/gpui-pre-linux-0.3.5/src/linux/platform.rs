@@ -1008,6 +1008,17 @@ pub(super) fn cursor_style_to_icon_names(style: CursorStyle) -> &'static [&'stat
         CursorStyle::DragLink => &["alias"],
         CursorStyle::DragCopy => &["copy"],
         CursorStyle::ContextualMenu => &["context-menu"],
+        // GNOS.UX CURSOR-01 vendor seam: the CSS name first, then the names
+        // older XCursor themes ship.
+        CursorStyle::Progress => &["progress", "left_ptr_watch", "half-busy"],
+        CursorStyle::Wait => &["wait", "watch"],
+        CursorStyle::Help => &["help", "question_arrow", "left_ptr_help", "whats_this"],
+        CursorStyle::Move => &["move", "fleur", "size_all"],
+        CursorStyle::AllScroll => &["all-scroll", "fleur"],
+        CursorStyle::ZoomIn => &["zoom-in"],
+        CursorStyle::ZoomOut => &["zoom-out"],
+        CursorStyle::Cell => &["cell", "plus"],
+        CursorStyle::NoDrop => &["no-drop", "dnd-no-drop", "not-allowed", "crossed_circle"],
     }
 }
 

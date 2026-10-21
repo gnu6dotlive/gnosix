@@ -34,7 +34,7 @@ class PublicCutPolicyTests(unittest.TestCase):
                 self.assertTrue(should_include(path))
 
         rejected = (
-            "GNOS_UX_1_0_PROGRAM_REGISTER.md",
+            "PRIVATE_ENGINEERING_NOTES.md",
             "evidence/runs/private.json",
             "evidence/fixtures/not-public.json",
             "crates/in-gnu-os-personal-profile-provision/src/lib.rs",
@@ -78,7 +78,7 @@ class PublicCutBuildTests(unittest.TestCase):
             "docs/evidence/CURRENT.md": "# evidence\n",
             "crates/demo/src/lib.rs": "pub fn demo() {}\n",
             "evidence/runs/raw.json": "{}\n",
-            "GNOS_UX_1_0_PROGRAM_REGISTER.md": "private\n",
+            "PRIVATE_ENGINEERING_NOTES.md": "private\n",
         }
         for rel, content in files.items():
             path = source / rel
@@ -98,8 +98,27 @@ class PublicCutBuildTests(unittest.TestCase):
             manifest_b = (second / "PUBLICATION-MANIFEST.json").read_bytes()
             self.assertEqual(manifest_a, manifest_b)
             self.assertFalse((first / "evidence").exists())
-            self.assertFalse((first / "GNOS_UX_1_0_PROGRAM_REGISTER.md").exists())
+            self.assertFalse((first / "PRIVATE_ENGINEERING_NOTES.md").exists())
             self.assertTrue((first / "crates/demo/src/lib.rs").is_file())
+
+    def test_public_overlay_replaces_the_private_document(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            source, tracked = self.make_source(base)
+            overlay = source / "publication/public/README.md"
+            overlay.parent.mkdir(parents=True)
+            overlay.write_text("# gnosix, public\n", encoding="utf-8")
+            cut = base / "cut"
+            manifest = build_cut(
+                source,
+                cut,
+                tracked + ["publication/public/README.md"],
+                "source-sha",
+                "publication-sha",
+            )
+            self.assertEqual((cut / "README.md").read_text(), "# gnosix, public\n")
+            self.assertFalse((cut / "publication").exists())
+            self.assertEqual(manifest["overlaid"], ["README.md"])
 
     def test_manifest_records_file_hashes_without_timestamps(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -46,6 +46,7 @@ fn app_surface(
             initial_class: format!("app-{id}"),
             title: format!("title-{id}"),
             initial_title: format!("title-{id}"),
+            tags: Vec::new(),
             process_id: u32::from(id),
             xwayland: false,
         }),

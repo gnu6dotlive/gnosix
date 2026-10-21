@@ -25,6 +25,39 @@ pub enum BarTransitionCorner {
     BottomLeft,
 }
 
+impl BarTransitionCorner {
+    /// The corner two adjacent edges share.
+    pub fn between(a: SurfaceEdge, b: SurfaceEdge) -> Option<Self> {
+        shared_corner(a, b)
+    }
+}
+
+/// Where a frame is on its route: the segment it is in, how far through it
+/// (eased, as the arms use it), and the corners it leaves and heads for.
+/// Content that rides the material (BAR-01) needs these; the arms alone do
+/// not say which way the material flows.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct BarTransitionSegment {
+    pub index: usize,
+    pub count: usize,
+    pub progress: UnitInterval,
+    /// The corner the segment starts from: a corner transfer's own corner,
+    /// or the corner a perimeter or target slide leaves.
+    pub from_corner: Option<BarTransitionCorner>,
+    /// The corner the segment heads for: a corner transfer's own corner, or
+    /// the corner a source or perimeter slide reaches.
+    pub to_corner: Option<BarTransitionCorner>,
+}
+
+/// A retarget's handoff: the share of the new leg over which the arms off
+/// the active edge retract (BAR-01J).
+pub const RETARGET_HANDOFF: f32 = 0.3;
+
+/// The final slide always takes at least this share of its last corner's
+/// weight, so content riding the Bar has time to settle its order even when
+/// the arm itself has nothing left to travel (BAR-01, B02).
+const FINAL_SLIDE_SHARE: f32 = 1.0;
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct BarTransitionArm {
     pub edge: SurfaceEdge,
@@ -48,6 +81,8 @@ pub struct ResolvedBarTransitionFrame {
     pub arms: Vec<BarTransitionArm>,
     /// 0 is horizontal content layout, 1 is vertical.
     pub orientation_progress: UnitInterval,
+    /// The route segment this frame is in; None at an endpoint.
+    pub segment: Option<BarTransitionSegment>,
 }
 
 impl ResolvedBarTransitionFrame {
@@ -89,7 +124,13 @@ enum SegmentKind {
 struct Segment {
     phase: BarPlacementTransitionPhase,
     kind: SegmentKind,
+    /// The segment's share of the leg's time.
     weight: f32,
+    /// How far the material moves in it (the final slide may hold still
+    /// while content riding the Bar settles: its motion is below its weight).
+    motion: f32,
+    from_corner: Option<BarTransitionCorner>,
+    to_corner: Option<BarTransitionCorner>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -165,21 +206,27 @@ impl BarPlacementTransition {
         if let Some(start) = &self.retarget_start {
             let p = progress.value();
             if p == 0.0 {
+                // The live frame itself, as the handoff's first frame.
                 let mut frame = start.clone();
                 frame.progress = progress;
+                frame.phase = BarPlacementTransitionPhase::RetargetHandoff;
                 return Ok(frame);
             }
-            let handoff = 0.1;
+            let handoff = RETARGET_HANDOFF;
             let routed_progress =
                 UnitInterval::clamped(((p - handoff) / (1.0 - handoff)).clamp(0.0, 1.0));
             let mut frame = self.evaluate_route(routed_progress)?;
             if p < handoff {
                 let amount = 1.0 - smoothstep(p / handoff);
+                // BAR-01J (B09): an arm off the active edge retracts into
+                // the corner it shares with the active arm, so the material
+                // flows into the arm that carries on.
+                let active = start.active_allocation;
                 for arm in &start.arms {
                     if arm.edge != start.active_edge && amount > 0.01 {
                         frame.arms.push(BarTransitionArm {
                             edge: arm.edge,
-                            bounds: scale_about_center(arm.bounds, amount)?,
+                            bounds: retract_toward(arm.bounds, active, amount)?,
                         });
                     }
                 }
@@ -219,20 +266,8 @@ impl BarPlacementTransition {
             return Ok(endpoint(self.target, progress));
         }
 
-        let distance = p * self.total_weight;
-        let mut prefix = 0.0;
-        let mut chosen = self.segments.last().expect("non-empty");
-        let mut local = 1.0;
-        for segment in &self.segments {
-            let next = prefix + segment.weight;
-            if distance <= next {
-                chosen = segment;
-                local = ((distance - prefix) / segment.weight).clamp(0.0, 1.0);
-                break;
-            }
-            prefix = next;
-        }
-        let t = smoothstep(local);
+        let (chosen_index, t, segment_progress) = self.locate(p);
+        let chosen = &self.segments[chosen_index];
         let (arms, active_edge, _active_allocation) = match chosen.kind {
             SegmentKind::Slide { edge, from, to } => {
                 let bounds = lerp_rect(from, to, t)?;
@@ -350,7 +385,71 @@ impl BarPlacementTransition {
                 orientation(self.source.edge())
                     + (orientation(self.target.edge()) - orientation(self.source.edge())) * p,
             ),
+            segment: Some(BarTransitionSegment {
+                index: chosen_index,
+                count: self.segments.len(),
+                progress: UnitInterval::clamped(segment_progress),
+                from_corner: chosen.from_corner,
+                to_corner: chosen.to_corner,
+            }),
         })
+    }
+
+    /// Where the material is at leg progress `p`: the segment, how far
+    /// through it the arms are, and the segment's progress for content.
+    ///
+    /// BAR-01: one ease over the whole route. The material moves along the
+    /// route's length (each segment's motion) on a single smoothstep that
+    /// brings it to rest when the final hold begins; inside a segment it
+    /// moves at the route's speed, so it never stops at a corner or between
+    /// phases. The final slide's content (B02's crossing groups) eases over
+    /// the time left from when the material enters it.
+    fn locate(&self, p: f32) -> (usize, f32, f32) {
+        let last = self.segments.len() - 1;
+        let motion: f32 = self.segments.iter().map(|s| s.motion).sum();
+        let hold = (self.segments[last].weight - self.segments[last].motion).max(0.0);
+        let rest_at = ((self.total_weight - hold) / self.total_weight).clamp(1.0e-3, 1.0);
+        if motion <= 1.0e-3 {
+            return (last, 1.0, smoothstep(p));
+        }
+        let path = motion * smoothstep((p / rest_at).min(1.0));
+        let mut prefix = 0.0;
+        for (index, segment) in self.segments.iter().enumerate() {
+            if index == last || path < prefix + segment.motion {
+                let t = if segment.motion > 1.0e-3 {
+                    ((path - prefix) / segment.motion).clamp(0.0, 1.0)
+                } else {
+                    1.0
+                };
+                if index < last {
+                    return (index, t, t);
+                }
+                // When the material entered the final slide, in leg time.
+                let entered = rest_at * inverse_smoothstep(prefix / motion);
+                let s = if entered < 1.0 - 1.0e-4 {
+                    smoothstep(((p - entered) / (1.0 - entered)).clamp(0.0, 1.0))
+                } else {
+                    1.0
+                };
+                return (index, t, s);
+            }
+            prefix += segment.motion;
+        }
+        unreachable!("the last segment is always chosen")
+    }
+
+    /// The edges the route visits, source first.
+    pub fn route(&self) -> Vec<SurfaceEdge> {
+        let mut edges = vec![self.source.edge()];
+        for segment in &self.segments {
+            if let SegmentKind::Corner { to_edge, .. } = segment.kind {
+                edges.push(to_edge);
+            }
+        }
+        if edges.last() != Some(&self.target.edge()) {
+            edges.push(self.target.edge());
+        }
+        edges
     }
 
     fn build(&mut self) -> Result<(), GeometryError> {
@@ -380,7 +479,16 @@ impl BarPlacementTransition {
             .collect::<Vec<_>>();
         let source_span = span(source_edge, source);
         let target_span = span(target_edge, target);
-        let common_span = source_span.min(target_span);
+        // The arms also travel along every intermediate edge of the route
+        // (opposite edges go round one), so the span fits the shortest edge
+        // they cross: a full-width Bar crossing a shorter side edge would
+        // otherwise leave the output.
+        let common_span = route
+            .iter()
+            .skip(1)
+            .take(route.len().saturating_sub(2))
+            .map(|edge| edge_length(*edge, self.viewport))
+            .fold(source_span.min(target_span), f32::min);
         let source_thickness = thickness(source_edge, source);
         let target_thickness = thickness(target_edge, target);
         let source_inset = edge_inset(self.viewport, source_edge, source);
@@ -396,7 +504,7 @@ impl BarPlacementTransition {
             source_thickness,
             source_inset,
         )?;
-        self.push(
+        self.push_between(
             BarPlacementTransitionPhase::SourceSlide,
             SegmentKind::Slide {
                 edge: source_edge,
@@ -404,6 +512,8 @@ impl BarPlacementTransition {
                 to: first_rect,
             },
             rect_distance(source, first_rect),
+            None,
+            Some(first),
         );
 
         for (i, corner) in corners.iter().copied().enumerate() {
@@ -416,7 +526,7 @@ impl BarPlacementTransition {
             let ia = lerp(source_inset, target_inset, a);
             let ib = lerp(source_inset, target_inset, b);
             let phase = BarPlacementTransitionPhase::CornerTransfer;
-            self.push(
+            self.push_between(
                 phase,
                 SegmentKind::Corner {
                     corner,
@@ -429,6 +539,8 @@ impl BarPlacementTransition {
                     to_inset: ib,
                 },
                 std::f32::consts::FRAC_PI_2 * (common_span + (ta + tb) * 0.5).max(1.0),
+                Some(corner),
+                Some(corner),
             );
             if i + 1 < corners.len() {
                 let next = corners[i + 1];
@@ -437,10 +549,12 @@ impl BarPlacementTransition {
                 let inset = ib;
                 let from = corner_arm(self.viewport, edge, corner, common_span, t, inset)?;
                 let to = corner_arm(self.viewport, edge, next, common_span, t, inset)?;
-                self.push(
+                self.push_between(
                     BarPlacementTransitionPhase::PerimeterSlide,
                     SegmentKind::Slide { edge, from, to },
                     rect_distance(from, to),
+                    Some(corner),
+                    Some(next),
                 );
             }
         }
@@ -453,25 +567,45 @@ impl BarPlacementTransition {
             target_thickness,
             target_inset,
         )?;
-        self.push(
+        let last_corner_weight = self.segments.last().map_or(0.0, |segment| segment.weight);
+        self.push_between(
             BarPlacementTransitionPhase::TargetSlide,
             SegmentKind::Slide {
                 edge: target_edge,
                 from: final_corner,
                 to: target,
             },
-            rect_distance(final_corner, target),
+            rect_distance(final_corner, target).max(FINAL_SLIDE_SHARE * last_corner_weight),
+            Some(last),
+            None,
         );
+        if let Some(segment) = self.segments.last_mut() {
+            segment.motion = rect_distance(final_corner, target).min(segment.weight);
+        }
         Ok(())
     }
 
     fn push(&mut self, phase: BarPlacementTransitionPhase, kind: SegmentKind, weight: f32) {
+        self.push_between(phase, kind, weight, None, None);
+    }
+
+    fn push_between(
+        &mut self,
+        phase: BarPlacementTransitionPhase,
+        kind: SegmentKind,
+        weight: f32,
+        from_corner: Option<BarTransitionCorner>,
+        to_corner: Option<BarTransitionCorner>,
+    ) {
         let weight = weight.max(0.001);
         self.total_weight += weight;
         self.segments.push(Segment {
             phase,
             kind,
             weight,
+            motion: weight,
+            from_corner,
+            to_corner,
         });
     }
 }
@@ -515,6 +649,7 @@ fn endpoint_at(
             bounds: rect,
         }],
         orientation_progress: UnitInterval::clamped(orientation(placement.edge())),
+        segment: None,
     }
 }
 
@@ -750,17 +885,36 @@ fn lerp_rect(a: GeometryRect, b: GeometryRect, t: f32) -> Result<GeometryRect, G
     )
 }
 
-fn scale_about_center(rect: GeometryRect, scale: f32) -> Result<GeometryRect, GeometryError> {
-    let half_width = (rect.width() * scale * 0.5).max(0.005);
-    let half_height = (rect.height() * scale * 0.5).max(0.005);
-    let center_x = (rect.left() + rect.right()) * 0.5;
-    let center_y = (rect.top() + rect.bottom()) * 0.5;
+/// An arm shortened to `amount` of its length along its long axis, keeping
+/// the end nearer `anchor` (the corner it shares with that arm).
+fn retract_toward(
+    rect: GeometryRect,
+    anchor: GeometryRect,
+    amount: f32,
+) -> Result<GeometryRect, GeometryError> {
+    let amount = amount.clamp(0.0, 1.0);
+    let (l, t, r, b) = (rect.left(), rect.top(), rect.right(), rect.bottom());
+    let (l, t, r, b) = if rect.width() >= rect.height() {
+        let length = (rect.width() * amount).max(0.01);
+        if (anchor.left() + anchor.right()) * 0.5 <= (l + r) * 0.5 {
+            (l, t, l + length, b)
+        } else {
+            (r - length, t, r, b)
+        }
+    } else {
+        let length = (rect.height() * amount).max(0.01);
+        if (anchor.top() + anchor.bottom()) * 0.5 <= (t + b) * 0.5 {
+            (l, t, r, t + length)
+        } else {
+            (l, b - length, r, b)
+        }
+    };
     GeometryRect::try_new(
-        center_x - half_width,
-        center_y - half_height,
-        center_x + half_width,
-        center_y + half_height,
-        rect.radius().min(half_width).min(half_height),
+        l,
+        t,
+        r,
+        b,
+        rect.radius().min((r - l) * 0.5).min((b - t) * 0.5),
     )
 }
 
@@ -856,6 +1010,21 @@ fn disjoint_rect_union(rects: &[GeometryRect]) -> Vec<GeometryRect> {
 fn lerp(a: f32, b: f32, t: f32) -> f32 {
     a + (b - a) * t
 }
+/// The `t` whose smoothstep is `y` (bisection; smoothstep is monotonic).
+fn inverse_smoothstep(y: f32) -> f32 {
+    let y = y.clamp(0.0, 1.0);
+    let (mut lo, mut hi) = (0.0_f32, 1.0_f32);
+    for _ in 0..32 {
+        let mid = (lo + hi) * 0.5;
+        if smoothstep(mid) < y {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    (lo + hi) * 0.5
+}
+
 fn smoothstep(t: f32) -> f32 {
     t * t * (3.0 - 2.0 * t)
 }
@@ -894,6 +1063,135 @@ mod tests {
         .unwrap()
         .with_radius(14.0)
         .unwrap()
+    }
+
+    #[test]
+    fn the_material_never_stops_between_phases() {
+        // BAR-01: one ease over the whole route. Sampled finely, the arms'
+        // speed rises then falls once: no phase boundary brings the material
+        // to rest and no short phase bursts between two slow ones.
+        let extent = |r: GeometryRect| [r.left(), r.top(), r.right(), r.bottom()];
+        for (w, h) in [(1280.0, 800.0), (1042.0, 933.0), (800.0, 1280.0)] {
+            let viewport = SurfaceViewport::try_new(w, h).unwrap();
+            for source in EDGES {
+                for target in EDGES {
+                    if source == target {
+                        continue;
+                    }
+                    let transition = BarPlacementTransition::new(
+                        viewport,
+                        endpoint(viewport, source),
+                        endpoint(viewport, target),
+                    )
+                    .unwrap();
+                    let frames: Vec<_> = (0..=600)
+                        .map(|i| {
+                            transition
+                                .evaluate(UnitInterval::clamped(i as f32 / 600.0))
+                                .unwrap()
+                        })
+                        .collect();
+                    // Each arm's ends, between frames that both have it (an
+                    // arm born at a corner starts there at no length).
+                    let speeds: Vec<f32> = frames
+                        .windows(2)
+                        .map(|f| {
+                            f[0].arms
+                                .iter()
+                                .filter_map(|a| {
+                                    let b = f[1].arms.iter().find(|b| b.edge == a.edge)?;
+                                    Some(
+                                        extent(a.bounds)
+                                            .iter()
+                                            .zip(extent(b.bounds))
+                                            .map(|(x, y)| (x - y).abs())
+                                            .fold(0.0, f32::max),
+                                    )
+                                })
+                                .fold(0.0, f32::max)
+                        })
+                        .collect();
+                    let peak = speeds.iter().copied().fold(0.0, f32::max);
+                    let top = speeds.iter().position(|v| *v == peak).unwrap();
+                    // Rising to the peak and falling after it, within a
+                    // sampling tolerance (a corner's arms trade length).
+                    let tolerance = 0.35 * peak + 0.5;
+                    let mut high = 0.0_f32;
+                    for v in &speeds[..top] {
+                        assert!(
+                            *v + tolerance >= high,
+                            "{source:?}->{target:?} on {w}x{h}: slowed to {v:.2} after {high:.2} before the peak"
+                        );
+                        high = high.max(*v);
+                    }
+                    let mut low = peak;
+                    for v in &speeds[top..] {
+                        assert!(
+                            *v <= low + tolerance,
+                            "{source:?}->{target:?} on {w}x{h}: sped up to {v:.2} after {low:.2} past the peak"
+                        );
+                        low = low.min(*v);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn frames_name_their_segment_and_the_route_and_the_final_slide_takes_time() {
+        let viewport = SurfaceViewport::try_new(1280.0, 800.0).unwrap();
+        let transition = BarPlacementTransition::new(
+            viewport,
+            endpoint(viewport, SurfaceEdge::Left),
+            endpoint(viewport, SurfaceEdge::Right),
+        )
+        .unwrap();
+        let route = transition.route();
+        assert_eq!(route.len(), 3, "opposite edges go round one: {route:?}");
+        assert_eq!(route[0], SurfaceEdge::Left);
+        assert_eq!(route[2], SurfaceEdge::Right);
+        let first = BarTransitionCorner::between(route[0], route[1]).unwrap();
+        let last = BarTransitionCorner::between(route[1], route[2]).unwrap();
+        let mut final_steps = 0;
+        let mut corners_seen = Vec::new();
+        for step in 0..=400 {
+            let frame = transition
+                .evaluate(UnitInterval::clamped(step as f32 / 400.0))
+                .unwrap();
+            let Some(segment) = frame.segment else {
+                assert!(step == 0 || step == 400, "only endpoints have none");
+                continue;
+            };
+            assert!(segment.index < segment.count);
+            match frame.phase {
+                BarPlacementTransitionPhase::SourceSlide => {
+                    assert_eq!(segment.to_corner, Some(first));
+                }
+                BarPlacementTransitionPhase::CornerTransfer => {
+                    assert_eq!(segment.from_corner, segment.to_corner);
+                    if corners_seen.last() != segment.to_corner.as_ref() {
+                        corners_seen.push(segment.to_corner.unwrap());
+                    }
+                }
+                BarPlacementTransitionPhase::PerimeterSlide => {
+                    assert_eq!(
+                        (segment.from_corner, segment.to_corner),
+                        (Some(first), Some(last))
+                    );
+                }
+                BarPlacementTransitionPhase::TargetSlide => {
+                    assert_eq!(segment.from_corner, Some(last));
+                    final_steps += 1;
+                }
+                _ => {}
+            }
+        }
+        assert_eq!(corners_seen, [first, last]);
+        // At least a corner turn's worth: about a fifth of this route.
+        assert!(
+            final_steps > 400 / 6,
+            "final slide {final_steps} of 400 steps"
+        );
     }
 
     #[test]
@@ -953,6 +1251,59 @@ mod tests {
                         transition.evaluate(UnitInterval::ONE).unwrap().allocation,
                         target.allocation()
                     );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn full_span_bars_stay_inside_the_output_between_any_two_edges() {
+        // TOPO-01C3: full-length, flush Bars (the native rail) on outputs
+        // where the top and bottom edges are longer than the side edges, and
+        // the reverse.
+        let full = |viewport: SurfaceViewport, edge: SurfaceEdge| {
+            let horizontal = matches!(edge, SurfaceEdge::Top | SurfaceEdge::Bottom);
+            BarPlacement {
+                edge,
+                along_edge_alignment: AlongEdgeAlignment::Start,
+                thickness: 60.0,
+                span: if horizontal {
+                    viewport.width
+                } else {
+                    viewport.height
+                },
+                inset: 0.0,
+                reservation_policy: BarReservationPolicy::ReserveOccupiedExtent,
+                sensing_policy: BarSensingPolicy::None,
+            }
+            .resolve(viewport)
+            .unwrap()
+        };
+        for (width, height) in [(1042.0, 933.0), (933.0, 1042.0), (2560.0, 1440.0)] {
+            let viewport = SurfaceViewport::try_new(width, height).unwrap();
+            for source_edge in EDGES {
+                for target_edge in EDGES {
+                    if source_edge == target_edge {
+                        continue;
+                    }
+                    let transition = BarPlacementTransition::new(
+                        viewport,
+                        full(viewport, source_edge),
+                        full(viewport, target_edge),
+                    )
+                    .unwrap();
+                    for step in 0..=200 {
+                        let progress = UnitInterval::try_new(step as f32 / 200.0).unwrap();
+                        let frame = transition.evaluate(progress).unwrap();
+                        assert!(
+                            viewport_rect(viewport).contains(frame.allocation),
+                            "{source_edge:?}->{target_edge:?} at {step}: {:?}",
+                            frame.allocation
+                        );
+                        for arm in &frame.arms {
+                            assert!(viewport_rect(viewport).contains(arm.bounds));
+                        }
+                    }
                 }
             }
         }

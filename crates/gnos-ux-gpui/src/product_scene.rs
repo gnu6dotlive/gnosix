@@ -51,10 +51,13 @@ pub struct ProductApplicationContent {
     pub title: String,
     pub class: String,
     pub initial_class: String,
+    pub tags: Vec<String>,
     pub process_id: u32,
     pub xwayland: bool,
     pub visibility: SurfaceVisibility,
     pub focus: SurfaceFocus,
+    /// WS-03: where the window stands, in the layout's logical pixels.
+    pub bounds: Option<gnosix_desktop_model::LogicalRect>,
 }
 
 impl ProductApplicationContent {
@@ -75,6 +78,8 @@ pub struct ProductContent {
     pub applications: Vec<ProductApplicationContent>,
     pub visible_application_count: usize,
     pub focused_application: Option<ProductApplicationContent>,
+    /// WS-03: the output's area, in the layout's logical pixels.
+    pub output_area: Option<gnosix_desktop_model::LogicalRect>,
 }
 
 impl ProductSemanticState {
@@ -145,6 +150,7 @@ impl ProductSemanticState {
                     .application
                     .as_ref()
                     .map(|application| ProductApplicationContent {
+                        bounds: Some(surface.bounds),
                         reference: ObservedSurfaceReference::new(
                             surface.surface_id,
                             view.generation,
@@ -155,6 +161,7 @@ impl ProductSemanticState {
                         title: application.title.clone(),
                         class: application.class.clone(),
                         initial_class: application.initial_class.clone(),
+                        tags: application.tags.clone(),
                         process_id: application.process_id,
                         xwayland: application.xwayland,
                         visibility: surface.visibility,
@@ -185,6 +192,10 @@ impl ProductSemanticState {
             })
             .cloned();
         Self::Current(Box::new(ProductContent {
+            output_area: Some(gnosix_desktop_model::LogicalRect::new(
+                view.output.logical_position,
+                view.output.logical_size,
+            )),
             generation: view.generation,
             connector: view.output.connector.as_str().to_owned(),
             active_workspace,
@@ -1003,6 +1014,30 @@ impl ProductLayout {
             reservation_policy,
             sensing_policy,
         )?;
+        Self::resolve_reactive_with_exact_bar_placement(
+            viewport,
+            solver,
+            target_open,
+            reduced_motion,
+            pointer,
+            placement,
+        )
+    }
+
+    /// Reuse the *same* production reactive scene engine with an exact native
+    /// Bar placement rather than hallucinating a second preview geometry.
+    /// The donor-constrained full-height 60 px rail is one caller, not a new
+    /// global product default.
+    #[allow(clippy::too_many_arguments)]
+    pub fn resolve_reactive_with_exact_bar_placement(
+        viewport: SurfaceViewport,
+        solver: &mut Option<ReactiveEnvelopeSolver>,
+        target_open: bool,
+        reduced_motion: bool,
+        pointer: Option<Point2>,
+        placement: BarPlacement,
+    ) -> Option<Self> {
+        let edge = placement.edge;
         let mut layout = Self::resolve_with_bar_placement(viewport, 1.0, placement)?;
         let available = match edge {
             SurfaceEdge::Top => GeometryRect::try_new(
@@ -1334,6 +1369,7 @@ mod tests {
                 initial_class: "terminal".to_owned(),
                 title: title.to_owned(),
                 initial_title: title.to_owned(),
+                tags: vec!["project".into()],
                 process_id: 42,
                 xwayland: false,
             }),
@@ -1504,6 +1540,7 @@ mod tests {
                 initial_class: "terminal".to_owned(),
                 title: "Terminal".to_owned(),
                 initial_title: "Terminal".to_owned(),
+                tags: Vec::new(),
                 process_id: 43,
                 xwayland: false,
             }),
@@ -1515,6 +1552,7 @@ mod tests {
         let targets = state.application_targets();
         assert_eq!(targets.len(), 2);
         assert_eq!(targets[0].title, targets[1].title);
+        assert_eq!(targets[0].tags, ["project"]);
         assert_ne!(
             targets[0].reference.surface_id(),
             targets[1].reference.surface_id()
@@ -2257,6 +2295,7 @@ mod panel_state_tests {
         // Installed applications are a property of the catalog, not of the
         // workspace the user happens to be on.
         let no_workspace = ProductSemanticState::Current(Box::new(super::ProductContent {
+            output_area: None,
             connector: "wl-1".to_owned(),
             generation: super::DesktopContextGeneration(7),
             active_workspace: None,
@@ -3261,5 +3300,50 @@ mod cardinal_product_tests {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod native_review_rail_tests {
+    use super::*;
+
+    #[test]
+    fn exact_caelestia_placement_drives_real_product_frame_and_input() {
+        let viewport = SurfaceViewport::try_new(1920.0, 1080.0).unwrap();
+        let placement = crate::reference_bar::idle_bar_placement(viewport).unwrap();
+        let layout = ProductLayout::resolve_reactive_with_exact_bar_placement(
+            viewport, &mut None, false, true, None, placement,
+        )
+        .expect("exact left rail must resolve through the product solver");
+        assert_eq!(layout.bar.left(), 0.0);
+        assert_eq!(layout.bar.top(), 0.0);
+        assert_eq!(layout.bar.width(), 60.0);
+        assert_eq!(layout.bar.height(), 1080.0);
+        assert_eq!(
+            layout.bar_placement.orientation(),
+            gnos_ux_surface::grammar::BarOrientation::Vertical
+        );
+        let frame = layout.frame(MonitorSceneId::new(1), SceneEpoch::new(1));
+        let bar = frame
+            .nodes
+            .iter()
+            .find(|n| n.role == SceneNodeRole::Bar)
+            .unwrap();
+        assert_eq!(bar.envelope.width(), 60.0);
+        // Shape-aware input tiles the rail with narrow strips and clipped
+        // corners, instead of using one full-surface rectangle.
+        assert!(
+            frame
+                .input_regions
+                .iter()
+                .any(|r| r.contains_point(30.0, 540.0))
+        );
+        assert!(
+            frame
+                .input_regions
+                .iter()
+                .filter(|r| r.left() < 60.0)
+                .all(|r| { r.left() >= 0.0 && r.right() <= 60.0 })
+        );
     }
 }

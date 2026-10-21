@@ -293,6 +293,7 @@ mod tests {
         let mut runtime = ProductRuntime::default();
         runtime.refresh_semantic_for_test(ProductSemanticState::Current(Box::new(
             ProductContent {
+                output_area: None,
                 generation: DesktopContextGeneration(42),
                 connector: "HDMI-A-1".to_owned(),
                 active_workspace: Some(workspace.clone()),

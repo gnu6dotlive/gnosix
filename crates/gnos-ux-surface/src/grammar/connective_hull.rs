@@ -112,6 +112,32 @@ impl ConnectiveHullGeometry {
         Ok(builder.finish())
     }
 
+    /// Resolves in world axes for a parent lying on a screen edge.
+    ///
+    /// Left/Right parents are solved in the transposed (parent-local) space and
+    /// the outline is exchanged back, exactly as the reactive solver does, so a
+    /// popout beside a vertical rail gets the same joint as a body under a
+    /// horizontal one. `growth` is derived from the edge, never inferred.
+    pub fn resolve_from_edge(
+        mut input: ConnectiveHullInput,
+        edge: crate::envelope::SurfaceEdge,
+    ) -> Result<Self, GeometryError> {
+        use super::transposition::{point, rect};
+        use crate::envelope::SurfaceEdge;
+        let transpose = matches!(edge, SurfaceEdge::Left | SurfaceEdge::Right);
+        if transpose {
+            input.parent = rect(input.parent);
+            input.child = rect(input.child);
+            input.outer_contour = input.outer_contour.map(point);
+        }
+        input.growth = match edge {
+            SurfaceEdge::Top | SurfaceEdge::Left => ReactiveGrowthDirection::Downward,
+            SurfaceEdge::Bottom | SurfaceEdge::Right => ReactiveGrowthDirection::Upward,
+        };
+        let hull = Self::resolve(input)?;
+        Ok(if transpose { hull.transposed() } else { hull })
+    }
+
     /// Exchange axes of the exact closed outline, including all cubic controls.
     pub(crate) fn transposed(mut self) -> Self {
         use super::transposition::{point, rect};
@@ -148,101 +174,29 @@ impl ConnectiveHullGeometry {
         self.contour_count as usize
     }
 
-    /// Scan converts the same closed contours used for paint into narrow input bands.
+    /// Conservative, compositor-safe input bands for the painted contours.
+    ///
+    /// Each band is a horizontal strip of `band_height` pixels. Inside a strip
+    /// the accepted width is the intersection of the painted spans over the
+    /// *whole* strip: its two edges plus every contour vertex height strictly
+    /// between them. Between those heights each span endpoint is linear in `y`,
+    /// so that intersection bounds the entire strip from the inside. The earlier
+    /// three-point interior scan could miss the strip edge where a corner is
+    /// still curving inward - the counterevidence this projection corrects, where
+    /// late-close frames accepted input a few pixels outside the bottom corners.
+    ///
+    /// Edges are quantized inward to whole pixels. The Wayland backend hands the
+    /// region to the compositor as `f32 as i32`, which truncates toward zero; a
+    /// band whose edge sat between pixels would grow outward on the way in.
+    /// Whole-pixel edges survive the conversion unchanged, the same property
+    /// `shared_envelope::rounded_input` relies on.
     pub fn input_regions(self, band_height: f32) -> Vec<GeometryRect> {
-        if self.flush_joint {
-            return self.flush_input_regions(band_height);
-        }
-        let step = band_height.clamp(1.0, 8.0);
-        let contours = self.flattened();
-        let mut regions = Vec::new();
-        let mut top = self.bounds.top();
-        while top < self.bounds.bottom() {
-            let bottom = (top + step).min(self.bounds.bottom());
-            let mut intervals = Vec::new();
-            for contour in &contours {
-                let ys = [top + 0.25, (top + bottom) * 0.5, bottom - 0.25];
-                let mut left = f32::NEG_INFINITY;
-                let mut right = f32::INFINITY;
-                for y in ys {
-                    if let Some((a, b)) = scan_interval(contour, y) {
-                        left = left.max(a);
-                        right = right.min(b);
-                    } else {
-                        left = f32::INFINITY;
-                        break;
-                    }
-                }
-                if left.is_finite() && right > left + 1.0 {
-                    intervals.push((left + 0.5, right - 0.5));
-                }
-            }
-            intervals.sort_by(|a, b| a.0.total_cmp(&b.0));
-            for (left, right) in intervals {
-                if let Ok(region) = GeometryRect::try_new(left, top, right, bottom, 0.0) {
-                    regions.push(region);
-                }
-            }
-            top = bottom;
-        }
-        regions
-    }
-
-    // Flush bodies use polygon-conservative bands: intersect the painted
-    // intervals at each vertex height and between vertices. Legacy non-flush
-    // inputs retain their exact projection for Auto compatibility.
-    fn flush_input_regions(self, band_height: f32) -> Vec<GeometryRect> {
-        let contours = hull_probe::contours(self);
-        let step = band_height.clamp(1.0, 8.0);
-        let mut regions = Vec::new();
-        let mut top = self.bounds.top();
-        while top < self.bounds.bottom() {
-            let bottom = (top + step).min(self.bounds.bottom());
-            for contour in &contours {
-                let mut ys = vec![top, bottom];
-                ys.extend(
-                    contour
-                        .iter()
-                        .map(|p| p.y())
-                        .filter(|y| *y > top && *y < bottom),
-                );
-                ys.sort_by(f32::total_cmp);
-                ys.dedup();
-                let mids = ys
-                    .windows(2)
-                    .map(|w| (w[0] + w[1]) * 0.5)
-                    .collect::<Vec<_>>();
-                ys.extend(mids);
-                let mut common = vec![(self.bounds.left(), self.bounds.right())];
-                for y in ys {
-                    let spans = hull_probe::filled_intervals_at(contour, y);
-                    let mut next = Vec::new();
-                    for &(a, b) in &common {
-                        for &(c, d) in &spans {
-                            let left = a.max(c);
-                            let right = b.min(d);
-                            if right > left {
-                                next.push((left, right));
-                            }
-                        }
-                    }
-                    common = next;
-                    if common.is_empty() {
-                        break;
-                    }
-                }
-                for (left, right) in common {
-                    if right > left + 1.0 {
-                        regions.push(
-                            GeometryRect::try_new(left + 0.5, top, right - 0.5, bottom, 0.0)
-                                .expect("bounded input band"),
-                        );
-                    }
-                }
-            }
-            top = bottom;
-        }
-        regions
+        let contours = if self.flush_joint {
+            hull_probe::contours(self)
+        } else {
+            self.flattened()
+        };
+        conservative_input_bands(&contours, self.bounds, band_height)
     }
 
     fn flattened(self) -> Vec<Vec<Point2>> {
@@ -947,18 +901,144 @@ fn cubic(a: Point2, b: Point2, c: Point2, d: Point2, t: f32) -> Point2 {
         u * u * u * a.y() + 3.0 * u * u * t * b.y() + 3.0 * u * t * t * c.y() + t * t * t * d.y(),
     )
 }
-fn scan_interval(points: &[Point2], y: f32) -> Option<(f32, f32)> {
+/// Crossing positions at `y`, under one of the two half-open rules.
+///
+/// `closed_upper` picks the rule that counts an edge whose endpoint is exactly at
+/// `y` from above. Neither rule alone is right at a contour's extreme height, so
+/// the caller tries both.
+fn crossing_positions(points: &[Point2], y: f32, closed_upper: bool) -> Vec<f32> {
     let mut xs = Vec::new();
     for edge in points.windows(2) {
         let a = edge[0];
         let b = edge[1];
-        if (a.y() <= y && b.y() > y) || (b.y() <= y && a.y() > y) {
+        let crosses = if closed_upper {
+            (a.y() < y && b.y() >= y) || (b.y() < y && a.y() >= y)
+        } else {
+            (a.y() <= y && b.y() > y) || (b.y() <= y && a.y() > y)
+        };
+        if crosses {
             let t = (y - a.y()) / (b.y() - a.y());
             xs.push(a.x() + (b.x() - a.x()) * t);
         }
     }
+    xs
+}
+
+/// The filled spans of a simple contour on the scanline `y`, even-odd paired.
+///
+/// A concave edge - the deformed far edge indenting into the body - makes a
+/// single scanline cut the contour more than twice, so the filled region there is
+/// several intervals with unpainted gaps between them. Pairing the crossings in
+/// order keeps those gaps out of the projection; a single min/max span would
+/// paint across them.
+fn crossing_spans(points: &[Point2], y: f32) -> Vec<(f32, f32)> {
+    let mut xs = crossing_positions(points, y, false);
+    if xs.len() < 2 {
+        xs = crossing_positions(points, y, true);
+    }
+    if xs.len() < 2 || !xs.len().is_multiple_of(2) {
+        return Vec::new();
+    }
     xs.sort_by(f32::total_cmp);
-    (xs.len() >= 2).then(|| (xs[0], *xs.last().unwrap()))
+    xs.chunks_exact(2).map(|pair| (pair[0], pair[1])).collect()
+}
+
+/// Intersect two sets of disjoint spans.
+fn intersect_spans(a: &[(f32, f32)], b: &[(f32, f32)]) -> Vec<(f32, f32)> {
+    let mut out = Vec::new();
+    for &(a0, a1) in a {
+        for &(b0, b1) in b {
+            let left = a0.max(b0);
+            let right = a1.min(b1);
+            if right > left {
+                out.push((left, right));
+            }
+        }
+    }
+    out
+}
+
+/// The spans the contour is known to fill across the whole of `[top, bottom]`.
+///
+/// The strip edges and every contour vertex height strictly between them are the
+/// only heights at which a span can widen, narrow, or split, because the crossing
+/// positions are linear in `y` between vertices. Intersecting the filled spans at
+/// those heights therefore bounds the whole strip from the inside - an interior
+/// sample cannot miss a strip edge, and a concave edge cannot be bridged.
+fn conservative_spans(contour: &[Point2], top: f32, bottom: f32) -> Vec<(f32, f32)> {
+    let mut ys = vec![top, bottom];
+    ys.extend(
+        contour
+            .iter()
+            .map(|point| point.y())
+            .filter(|y| *y > top && *y < bottom),
+    );
+    ys.sort_by(f32::total_cmp);
+    ys.dedup();
+    let mut common = vec![(f32::NEG_INFINITY, f32::INFINITY)];
+    for y in ys {
+        let spans = crossing_spans(contour, y);
+        if spans.is_empty() {
+            return Vec::new();
+        }
+        common = intersect_spans(&common, &spans);
+        if common.is_empty() {
+            return Vec::new();
+        }
+    }
+    common
+}
+
+/// The whole-pixel rectangles the painted contour set is known to cover.
+///
+/// One horizontal strip of `band_height` pixels at a time. A strip is clipped to
+/// the whole pixels the paint actually reaches, so a strip that only partly
+/// overlaps the body still contributes its painted part instead of being dropped
+/// whole, and two strips never overlap.
+fn conservative_input_bands(
+    contours: &[Vec<Point2>],
+    bounds: GeometryRect,
+    band_height: f32,
+) -> Vec<GeometryRect> {
+    let step = band_height.clamp(1.0, 8.0).ceil();
+    if !step.is_finite() {
+        return Vec::new();
+    }
+    let mut y_min = f32::INFINITY;
+    let mut y_max = f32::NEG_INFINITY;
+    for contour in contours {
+        for point in contour {
+            y_min = y_min.min(point.y());
+            y_max = y_max.max(point.y());
+        }
+    }
+    if !y_min.is_finite() || !y_max.is_finite() {
+        return Vec::new();
+    }
+    let mut regions = Vec::new();
+    let mut top = bounds.top().ceil();
+    let end = bounds.bottom().floor();
+    while top < end {
+        let bottom = (top + step).min(end);
+        let strip_top = top.max(y_min.ceil());
+        let strip_bottom = bottom.min(y_max.floor());
+        if strip_bottom > strip_top {
+            for contour in contours {
+                for (left, right) in conservative_spans(contour, strip_top, strip_bottom) {
+                    let left = (left + 0.5).ceil();
+                    let right = (right - 0.5).floor();
+                    if right > left
+                        && let Ok(region) =
+                            GeometryRect::try_new(left, strip_top, right, strip_bottom, 0.0)
+                    {
+                        regions.push(region);
+                    }
+                }
+            }
+        }
+        top += step;
+    }
+    regions
 }
 
 /// Software qualification of a hull as a filled planar region.
@@ -1178,6 +1258,65 @@ pub mod hull_probe {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn left_edge_popout_resolves_in_world_axes_with_a_flush_joint() {
+        use crate::envelope::SurfaceEdge;
+        let parent = GeometryRect::try_new(0.0, 0.0, 60.0, 800.0, 25.0).unwrap();
+        let child = GeometryRect::try_new(60.0, 300.0, 380.0, 500.0, 25.0).unwrap();
+        let ys = [325.0, 362.5, 400.0, 437.5, 475.0];
+        let hull = ConnectiveHullGeometry::resolve_from_edge(
+            ConnectiveHullInput {
+                parent,
+                child,
+                attachment: ReactiveAttachment::Fused,
+                topology_phase: 1.0,
+                attachment_phase: 1.0,
+                release_phase: 0.0,
+                reattach_phase: 1.0,
+                neck_width: child.height(),
+                mouth_width: child.height(),
+                shoulder_run: 0.0,
+                shoulder_center_x: 400.0,
+                outer_contour: ys.map(|y| Point2::new(child.right(), y)),
+                openness: 1.0,
+                growth: ReactiveGrowthDirection::Downward,
+            },
+            SurfaceEdge::Left,
+        )
+        .expect("popout beside a vertical rail");
+        let bounds = hull.bounds();
+        assert_eq!((bounds.left(), bounds.top()), (0.0, 0.0));
+        assert_eq!((bounds.right(), bounds.bottom()), (380.0, 800.0));
+        // Opening beyond the rail's straight span is refused, not distorted.
+        let too_high = GeometryRect::try_new(60.0, 10.0, 380.0, 210.0, 25.0).unwrap();
+        assert!(
+            ConnectiveHullGeometry::resolve_from_edge(
+                ConnectiveHullInput {
+                    child: too_high,
+                    outer_contour: [35.0, 72.5, 110.0, 147.5, 185.0].map(|y| Point2::new(380.0, y)),
+                    ..ConnectiveHullInput {
+                        parent,
+                        child,
+                        attachment: ReactiveAttachment::Fused,
+                        topology_phase: 1.0,
+                        attachment_phase: 1.0,
+                        release_phase: 0.0,
+                        reattach_phase: 1.0,
+                        neck_width: 200.0,
+                        mouth_width: 200.0,
+                        shoulder_run: 0.0,
+                        shoulder_center_x: 110.0,
+                        outer_contour: ys.map(|y| Point2::new(child.right(), y)),
+                        openness: 1.0,
+                        growth: ReactiveGrowthDirection::Downward,
+                    }
+                },
+                SurfaceEdge::Left,
+            )
+            .is_err()
+        );
+    }
+
     use super::*;
 
     /// The Downward outline, captured before the hull became direction-neutral.
@@ -1704,5 +1843,115 @@ narrowest_body_span={:.2} body_width={:.2} coverage={:.3} contours={}",
                 .count(),
             2
         );
+    }
+
+    /// The attachment and growth cases the input projection is held against.
+    fn input_projection_cases() -> Vec<(&'static str, ConnectiveHullInput)> {
+        let flush = {
+            // Move the child onto the parent's joint edge so the Fused case is
+            // a genuine flush joint rather than a narrow connected gap.
+            let mut i = input(ReactiveAttachment::Fused);
+            let shift = i.parent.bottom() - i.child.top();
+            i.child = GeometryRect::try_new(
+                i.child.left(),
+                i.child.top() + shift,
+                i.child.right(),
+                i.child.bottom() + shift,
+                i.child.radius(),
+            )
+            .unwrap();
+            i.outer_contour = i.outer_contour.map(|p| Point2::new(p.x(), p.y() + shift));
+            i
+        };
+        let detached = {
+            let mut i = input(ReactiveAttachment::Detached);
+            i.release_phase = 1.0;
+            i
+        };
+        vec![
+            ("downward flush", flush),
+            ("downward bridged", input(ReactiveAttachment::Bridged)),
+            ("downward detached", detached),
+            (
+                "upward bridged",
+                mirrored_input(ReactiveAttachment::Bridged),
+            ),
+            ("upward fused", mirrored_input(ReactiveAttachment::Fused)),
+        ]
+    }
+
+    /// Every input band must be inside the painted contour *at its own edges*.
+    ///
+    /// The declared bounds are not the painted region: near a band edge a curving
+    /// corner is narrower than anywhere inside the band, so a projection that
+    /// only samples the band's interior accepts input outside the fill. That is
+    /// exactly the counterevidence this projection corrects (late-close frames
+    /// accepting input a few pixels outside the bottom corners). Probing just
+    /// inside each edge keeps the boundary itself out of the comparison.
+    #[test]
+    fn input_bands_stay_inside_the_painted_contour_at_their_edges() {
+        for (label, i) in input_projection_cases() {
+            let hull = ConnectiveHullGeometry::resolve(i).expect(label);
+            let contours = hull_probe::contours(hull);
+            let regions = hull.input_regions(4.0);
+            assert!(
+                !regions.is_empty(),
+                "{label}: a visible hull must be inputtable"
+            );
+            for region in &regions {
+                let probe = 0.001;
+                for y in [
+                    region.top() + probe,
+                    (region.top() + region.bottom()) * 0.5,
+                    region.bottom() - probe,
+                ] {
+                    let spans = contours
+                        .iter()
+                        .flat_map(|contour| hull_probe::filled_intervals_at(contour, y))
+                        .collect::<Vec<_>>();
+                    assert!(
+                        spans
+                            .iter()
+                            .any(|&(a, b)| region.left() >= a - 0.01 && region.right() <= b + 0.01),
+                        "{label}: input region {region:?} accepts unpainted input at \
+                         y={y}; painted spans there are {spans:?}"
+                    );
+                }
+            }
+        }
+    }
+
+    /// The shipped bands must survive the compositor's integer conversion.
+    ///
+    /// The Wayland backend hands a region to the compositor as `f32 as i32`,
+    /// which truncates toward zero; a band edge between pixels would grow outward
+    /// on that conversion and reintroduce the very overshoot the geometry
+    /// projection removes. Whole-pixel edges are unchanged, so the box the
+    /// geometry proves contained is the box the compositor receives.
+    #[test]
+    fn input_bands_are_whole_pixel_boxes_the_compositor_cannot_widen() {
+        for (label, i) in input_projection_cases() {
+            let hull = ConnectiveHullGeometry::resolve(i).expect(label);
+            let regions = hull.input_regions(4.0);
+            assert!(!regions.is_empty(), "{label}: no input bands");
+            for region in &regions {
+                for (name, value) in [
+                    ("left", region.left()),
+                    ("top", region.top()),
+                    ("right", region.right()),
+                    ("bottom", region.bottom()),
+                ] {
+                    assert_eq!(
+                        value,
+                        value.trunc(),
+                        "{label}: {name}={value} would move under compositor truncation"
+                    );
+                }
+                assert!(
+                    region.width() >= 1.0 && region.height() >= 1.0,
+                    "{label}: degenerate band {region:?}"
+                );
+            }
+        }
     }
 }

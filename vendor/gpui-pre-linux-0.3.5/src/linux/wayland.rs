@@ -38,5 +38,15 @@ pub(super) fn to_shape(style: CursorStyle) -> Shape {
         CursorStyle::DragLink => Shape::Alias,
         CursorStyle::DragCopy => Shape::Copy,
         CursorStyle::ContextualMenu => Shape::ContextMenu,
+        // GNOS.UX CURSOR-01 vendor seam.
+        CursorStyle::Progress => Shape::Progress,
+        CursorStyle::Wait => Shape::Wait,
+        CursorStyle::Help => Shape::Help,
+        CursorStyle::Move => Shape::Move,
+        CursorStyle::AllScroll => Shape::AllScroll,
+        CursorStyle::ZoomIn => Shape::ZoomIn,
+        CursorStyle::ZoomOut => Shape::ZoomOut,
+        CursorStyle::Cell => Shape::Cell,
+        CursorStyle::NoDrop => Shape::NoDrop,
     }
 }

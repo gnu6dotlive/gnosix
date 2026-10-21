@@ -267,10 +267,18 @@ fn a_failing_check_produces_a_nonzero_overall_disposition() {
 // --- check classification -------------------------------------------------
 
 #[test]
-fn the_ci_profile_excludes_host_and_human_checks() {
+fn the_ci_profile_excludes_native_host_and_human_checks() {
     let all = checks::checks_for(Profile::Verify);
+    let native = checks::checks_for(Profile::Native);
     let ci = checks::checks_for(Profile::Ci);
-    assert!(ci.len() < all.len(), "ci must be a strict subset");
+    assert!(
+        ci.len() < native.len(),
+        "portable ci must exclude host-native checks"
+    );
+    assert!(
+        native.len() < all.len(),
+        "native must exclude host-live/human checks"
+    );
 
     for check in &ci {
         assert!(
@@ -279,7 +287,84 @@ fn the_ci_profile_excludes_host_and_human_checks() {
             check.name,
             check.class.as_str()
         );
-        assert_ne!(check.class, CheckClass::HumanAcceptance);
+        assert_eq!(check.class, CheckClass::RepositoryHermetic);
+    }
+}
+
+#[test]
+fn docs_index_is_a_repository_hermetic_ci_gate() {
+    let check = checks::catalogue()
+        .into_iter()
+        .find(|check| check.name == "docs-index");
+    // A public projection has no catalogue, and so no docs-index gate.
+    let Some(check) = check else {
+        assert!(
+            !checks::has_engineering_catalogue(),
+            "docs-index check must exist where the catalogue does"
+        );
+        return;
+    };
+    assert!(checks::has_engineering_catalogue());
+    assert_eq!(check.class, CheckClass::RepositoryHermetic);
+    assert_eq!(
+        check.argv,
+        vec![
+            "python3".to_owned(),
+            "tools/docs_index.py".to_owned(),
+            "--check".to_owned(),
+        ]
+    );
+    assert!(
+        checks::checks_for(Profile::Ci)
+            .iter()
+            .any(|check| check.name == "docs-index")
+    );
+}
+
+#[test]
+fn i18n_coverage_is_a_repository_hermetic_ci_gate() {
+    let check = checks::catalogue()
+        .into_iter()
+        .find(|check| check.name == "i18n-coverage")
+        .expect("i18n-coverage check must exist");
+    assert_eq!(check.class, CheckClass::RepositoryHermetic);
+    assert_eq!(
+        check.argv,
+        vec![
+            "python3".to_owned(),
+            "tools/i18n.py".to_owned(),
+            "--check".to_owned(),
+        ]
+    );
+    assert!(
+        checks::checks_for(Profile::Ci)
+            .iter()
+            .any(|check| check.name == "i18n-coverage")
+    );
+}
+
+#[test]
+fn checks_that_need_libwayland_never_run_in_ci() {
+    // The runner image has no libwayland (pkg-config `wayland-client`); a
+    // check reaching it there fails (2026-10-20). It runs in `native` only.
+    for name in ["test-hyprland", "clippy-hyprland"] {
+        let check = checks::catalogue()
+            .into_iter()
+            .find(|check| check.name == name)
+            .expect("the check exists");
+        assert_eq!(check.class, CheckClass::HostNative, "{name}");
+        assert!(
+            !checks::checks_for(Profile::Ci)
+                .iter()
+                .any(|check| check.name == name),
+            "{name}"
+        );
+        assert!(
+            checks::checks_for(Profile::Native)
+                .iter()
+                .any(|check| check.name == name),
+            "{name}"
+        );
     }
 }
 
@@ -915,7 +1000,7 @@ fn source_invariants_are_evaluated_in_process_not_by_spawning_cargo() {
 }
 
 #[test]
-fn every_source_invariant_is_a_check_in_both_profiles() {
+fn every_source_invariant_is_a_check_in_all_machine_profiles() {
     // Regression guard. Making the source invariants in-process briefly removed
     // them from the catalogue altogether, so verify and ci silently stopped
     // running them - and the test above passed anyway, because it only checked
@@ -926,7 +1011,7 @@ fn every_source_invariant_is_a_check_in_both_profiles() {
     let rules: Vec<&str> = sourcegates::rules().into_iter().map(|(r, _)| r).collect();
     assert!(!rules.is_empty(), "the rule set must not be empty");
 
-    for profile in [Profile::Verify, Profile::Ci] {
+    for profile in [Profile::Verify, Profile::Native, Profile::Ci] {
         let selected = checks::checks_for(profile);
         for rule in &rules {
             assert!(
@@ -1305,7 +1390,11 @@ fn the_appstack_view_gate_is_in_the_catalogue_under_its_canonical_name() {
         defined.contains(&"appstack-view-supplies-no-command"),
         "the canonical AppStack view gate is missing: {defined:?}"
     );
-    for profile in [checks::Profile::Verify, checks::Profile::Ci] {
+    for profile in [
+        checks::Profile::Verify,
+        checks::Profile::Native,
+        checks::Profile::Ci,
+    ] {
         let selected = checks::checks_for(profile);
         assert!(
             selected
@@ -1342,20 +1431,35 @@ fn an_unknown_rule_is_an_error_rather_than_a_silent_pass() {
 }
 
 #[test]
-fn profile_ingress_and_its_real_caller_stay_in_the_hermetic_catalogue() {
+fn profile_ingress_stays_portable_while_its_gpui_caller_is_host_native() {
     let catalogue = checks::catalogue();
     for name in [
         "test-profile-ingress",
-        "test-gpui-r12",
         "clippy-profile-ingress",
-        "clippy-gpui-r12",
         "build-profile-authority",
     ] {
         let check = catalogue
             .iter()
             .find(|check| check.name == name)
-            .expect("bounded R12 production coverage must not disappear");
+            .expect("bounded profile authority coverage must not disappear");
         assert_eq!(check.class, crate::model::CheckClass::RepositoryHermetic);
+    }
+    for name in ["test-gpui-r12", "clippy-gpui-r12", "build-gnos-ux-scene"] {
+        let check = catalogue
+            .iter()
+            .find(|check| check.name == name)
+            .expect("the native GPUI caller coverage must not disappear");
+        assert_eq!(check.class, crate::model::CheckClass::HostNative);
+        assert!(
+            !checks::checks_for(Profile::Ci)
+                .iter()
+                .any(|c| c.name == name)
+        );
+        assert!(
+            checks::checks_for(Profile::Native)
+                .iter()
+                .any(|c| c.name == name)
+        );
     }
     let ingress = checks::TEST_TARGETS
         .iter()
@@ -1374,7 +1478,48 @@ fn profile_ingress_and_its_real_caller_stay_in_the_hermetic_catalogue() {
         .find(|(name, _)| *name == "build-gnos-ux-scene")
         .unwrap()
         .1;
-    assert!(caller.contains(&"r12-production-client,r13-production-client"));
+    // The production caller must keep every production client feature it had.
+    // The set may grow — a further production client is added to the same
+    // binary — but none of them may be dropped from the shipped build.
+    let features = caller
+        .iter()
+        .find(|argument| argument.contains("production-client"))
+        .expect("the production caller must build with the production client features");
+    for feature in [
+        "r12-production-client",
+        "r13-production-client",
+        "indicator-production-client",
+    ] {
+        assert!(
+            features.split(',').any(|declared| declared == feature),
+            "the production caller must keep {feature}"
+        );
+    }
+}
+
+#[test]
+fn every_gpui_cargo_check_is_host_native_and_absent_from_portable_ci() {
+    let catalogue = checks::catalogue();
+    let ci = checks::checks_for(Profile::Ci);
+    let native = checks::checks_for(Profile::Native);
+    let gpui: Vec<_> = catalogue
+        .iter()
+        .filter(|check| {
+            check
+                .argv
+                .windows(2)
+                .any(|pair| pair == ["-p", "gnos-ux-gpui"])
+        })
+        .collect();
+    assert!(
+        !gpui.is_empty(),
+        "the native GPUI gate set must not disappear"
+    );
+    for check in gpui {
+        assert_eq!(check.class, CheckClass::HostNative, "{}", check.name);
+        assert!(!ci.iter().any(|candidate| candidate.name == check.name));
+        assert!(native.iter().any(|candidate| candidate.name == check.name));
+    }
 }
 
 #[test]

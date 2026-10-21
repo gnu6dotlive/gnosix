@@ -367,6 +367,83 @@ fn a_present_try_exec_allows_the_launch() {
 
 // --- terminal and D-Bus refusals -----------------------------------------
 
+// --- desktop actions ------------------------------------------------------
+
+const WITH_ACTIONS: &str = "[Desktop Entry]\nType=Application\nName=Test App\nExec=/usr/bin/true\nActions=window;broken;\n\n[Desktop Action window]\nName=New Window\nExec=/usr/bin/printf window %U\n\n[Desktop Action broken]\nName=Broken\nExec=/usr/bin/true %Z\n";
+
+#[test]
+fn a_desktop_action_runs_its_own_exec_against_the_same_generation() {
+    let (fixture, id) = CatalogFixture::with_entry("actions.desktop", WITH_ACTIONS);
+    let catalog = fixture.catalog();
+    let request = reference(&catalog, &id).with_action("window");
+    assert_eq!(request.action(), Some("window"));
+    let plan = launcher()
+        .plan(&request, &catalog, &LaunchDocuments::None)
+        .expect("the action resolves");
+    assert_eq!(plan.action(), Some("window"));
+    assert_eq!(plan.argv(), ["/usr/bin/printf", "window"]);
+    assert_eq!(plan.substituted_field_codes(), &BTreeSet::from(['U']));
+    let plain = launcher()
+        .plan(&reference(&catalog, &id), &catalog, &LaunchDocuments::None)
+        .expect("the entry resolves");
+    assert_eq!(plain.action(), None);
+    assert_eq!(plain.argv(), ["/usr/bin/true"]);
+}
+
+#[test]
+fn an_action_the_catalog_did_not_honour_is_refused_not_approximated() {
+    let (fixture, id) = CatalogFixture::with_entry("actions.desktop", WITH_ACTIONS);
+    let catalog = fixture.catalog();
+    for action in ["broken", "absent"] {
+        let refusal = launcher()
+            .plan(
+                &reference(&catalog, &id).with_action(action),
+                &catalog,
+                &LaunchDocuments::None,
+            )
+            .expect_err("no plan for an action the catalog does not hold");
+        assert_eq!(refusal, LaunchRefusal::UnknownAction);
+        assert_eq!(refusal.code(), "UNKNOWN_ACTION");
+    }
+}
+
+#[test]
+fn an_action_receipt_names_the_action_and_a_plain_one_is_unchanged() {
+    let (fixture, id) = CatalogFixture::with_entry("actions.desktop", WITH_ACTIONS);
+    let catalog = fixture.catalog();
+    let refused = launcher().launch_with_executor(
+        &reference(&catalog, &id).with_action("absent"),
+        &catalog,
+        &LaunchDocuments::None,
+        &NeverExecutor,
+    );
+    assert_eq!(refused.action.as_deref(), Some("absent"));
+    assert!(
+        refused
+            .summary()
+            .starts_with("entry=actions.desktop action=absent generation=")
+    );
+    let plain = launcher().launch_with_executor(
+        &reference(&catalog, &id),
+        &catalog,
+        &LaunchDocuments::None,
+        &NeverExecutor,
+    );
+    assert!(
+        plain
+            .summary()
+            .starts_with("entry=actions.desktop generation=")
+    );
+}
+
+struct NeverExecutor;
+
+impl LaunchExecutor for NeverExecutor {
+    fn execute(&self, _: &LaunchPlan) -> Result<LaunchExecutionReceipt, LaunchExecutionError> {
+        Err(LaunchExecutionError::ExecutableStartFailed("never".into()))
+    }
+}
+
 #[test]
 fn a_terminal_entry_is_refused_when_no_terminal_is_configured() {
     let (fixture, id) =
@@ -458,6 +535,8 @@ fn a_built_argv_with_no_program_is_refused_rather_than_launched() {
         exec: Some(template),
         try_exec: None,
         startup_wm_class: None,
+        categories: vec![],
+        keywords: vec![],
         terminal: false,
         no_display: false,
         hidden: false,
@@ -465,6 +544,7 @@ fn a_built_argv_with_no_program_is_refused_rather_than_launched() {
         not_show_in: vec![],
         mime_types: vec![],
         actions: vec![],
+        desktop_actions: vec![],
     };
     let substitution = FieldSubstitution::for_documents(&LaunchDocuments::None);
     let (program, args, _dropped) =

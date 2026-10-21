@@ -1,0 +1,11 @@
+[package]
+name = "gnos-clock"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Typed read-only local civil time observation for Gnosix"
+
+[dependencies]
+chrono = { version = "0.4.45", default-features = false, features = ["clock", "std"] }
+libc = "0.2"

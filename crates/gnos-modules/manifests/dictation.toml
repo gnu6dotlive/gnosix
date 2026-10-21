@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.dictation"
+name = "Dictation"
+description = "The microphone, and what it is hearing."
+icon = "microphone"
+version = "1.0.0"
+places = ["desktop"]
+needs = ["indicators"]
+
+[provider]
+kind = "native"
+entry = "dictation"

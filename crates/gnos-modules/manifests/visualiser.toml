@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.visualiser"
+name = "Visualiser"
+description = "The sound playing, as bars on the desktop."
+icon = "wave-sine"
+version = "1.0.0"
+places = ["desktop"]
+needs = ["audio"]
+
+[provider]
+kind = "native"
+entry = "visualiser"

@@ -1409,14 +1409,20 @@ mod tests {
         let regions = frame.shape_input_regions();
         assert!(!regions.is_empty());
         for region in regions {
+            // Probe strictly inside the band. A band edge can land exactly on a
+            // contour vertex height, where the fill rule reports the boundary as
+            // a pair of degenerate spans; the containment claim is about the
+            // band's interior, not that artefact.
+            let lo = region.top() + 0.001;
+            let hi = region.bottom() - 0.001;
             for iy in 0..=8 {
-                let y =
-                    region.top() + (region.height() * iy as f32 / 8.0).min(region.height() - 0.001);
+                let y = lo + (hi - lo) * iy as f32 / 8.0;
                 let intervals = hull_probe::filled_intervals_at(contour, y);
                 assert!(
                     intervals
                         .iter()
-                        .any(|&(a, b)| region.left() >= a - 0.001 && region.right() <= b + 0.001)
+                        .any(|&(a, b)| region.left() >= a - 0.001 && region.right() <= b + 0.001),
+                    "region {region:?} y={y} intervals={intervals:?}"
                 );
             }
         }
@@ -1707,12 +1713,45 @@ mod tests {
             false,
             STEPS,
         );
-        assert_eq!(
-            down.shape_input_regions().len(),
-            up.shape_input_regions().len(),
-            "the derived hull must be realized the same way in both directions"
+        // Input geometry must follow the body in either direction, or the
+        // mirrored surface would be painted where it cannot be clicked.
+        //
+        // The two fixtures are near-mirrors, not literal reflections: the solver
+        // dynamics and the concave far edge differ slightly, so an exact region
+        // count is not the right invariant - whole-pixel quantization can round
+        // one strip away and a concave edge can split one strip in two. What must
+        // hold is that the covered vertical extent mirrors about the viewport's
+        // centre and that neither direction loses its input.
+        let axis = viewport.height * 0.5;
+        let extent = |regions: &[GeometryRect]| {
+            regions.iter().fold(None, |acc: Option<(f32, f32)>, r| {
+                Some(match acc {
+                    None => (r.top(), r.bottom()),
+                    Some((top, bottom)) => (top.min(r.top()), bottom.max(r.bottom())),
+                })
+            })
+        };
+        let down_regions = down.shape_input_regions();
+        let up_regions = up.shape_input_regions();
+        assert!(
+            !down_regions.is_empty() && !up_regions.is_empty(),
+            "both directions must produce input regions"
         );
-        assert!(!up.shape_input_regions().is_empty());
+        let (down_top, down_bottom) = extent(&down_regions).expect("down extent");
+        let (up_top, up_bottom) = extent(&up_regions).expect("up extent");
+        assert!(
+            (down_top + up_bottom - 2.0 * axis).abs() <= 1.0
+                && (down_bottom + up_top - 2.0 * axis).abs() <= 1.0,
+            "input coverage must mirror: down {down_top}..{down_bottom} vs \
+             up {up_top}..{up_bottom} about {axis}"
+        );
+        assert!(
+            down_regions.len().abs_diff(up_regions.len()) <= 2,
+            "input region counts must agree up to quantization and span splits: \
+             {} vs {}",
+            down_regions.len(),
+            up_regions.len()
+        );
     }
 
     #[test]

@@ -10,6 +10,7 @@ use std::{env, process, sync::Arc, time::Duration};
 
 use gnos_ux_gpui::{
     lab_appstack_surface,
+    product_bar::{BarOrientation, BarTrayPresentation, render_audio_status, render_tray},
     product_design::{
         ProductControlFocus, ProductControlState, ProductDesignContext, ProductPalette,
         ProductSpacing, ProductStateKind, ProductStatusTone, ProductTextStyle, ProductTooltip,
@@ -599,6 +600,92 @@ impl LabView {
                     .child(text("Action", ProductTextStyle::Caption, design))
                     .child(badge(action_label, action_tone, design)),
             )
+            .child({
+                let tray_presentation = BarTrayPresentation::derive(
+                    output.runtime.tray(),
+                    output.runtime.preferences(),
+                );
+                let tray_content = if !tray_presentation.available {
+                    state_presentation(
+                        format!("lab-output-{output_index}-tray-unavail"),
+                        ProductStateKind::Empty,
+                        "Plateau indisponible",
+                        design,
+                    )
+                    .into_any_element()
+                } else if tray_presentation.is_empty() {
+                    state_presentation(
+                        format!("lab-output-{output_index}-tray-empty"),
+                        ProductStateKind::Empty,
+                        "Plateau vide (0 élément)",
+                        design,
+                    )
+                    .into_any_element()
+                } else {
+                    render_tray(
+                        &tray_presentation,
+                        BarOrientation::Horizontal,
+                        14.0 * design.text_scale(),
+                        None,
+                    )
+                    .into_any_element()
+                };
+                panel()
+                    .flex()
+                    .flex_col()
+                    .gap(px(ProductSpacing::XS))
+                    .child(
+                        div()
+                            .flex()
+                            .items_center()
+                            .justify_between()
+                            .child(text("Plateau système", ProductTextStyle::Label, design))
+                            .child(badge(
+                                if tray_presentation.compact {
+                                    "compact"
+                                } else {
+                                    "étendu"
+                                },
+                                ProductStatusTone::Neutral,
+                                design,
+                            )),
+                    )
+                    .child(tray_content)
+            })
+            .child({
+                let audio = output.runtime.audio_presentation();
+                let osd = output
+                    .audio_osd
+                    .as_ref()
+                    .and_then(|state| {
+                        gnos_ux_gpui::product_audio_osd::render_audio_osd(state.clone(), design)
+                    })
+                    .map(|surface| surface.mt(px(ProductSpacing::XXS)));
+                let network = output.runtime.network_presentation();
+                panel()
+                    .flex()
+                    .flex_col()
+                    .gap(px(ProductSpacing::XS))
+                    .child(text("Audio", ProductTextStyle::Label, design))
+                    .child(render_audio_status(
+                        &audio,
+                        BarOrientation::Horizontal,
+                        14.0 * design.text_scale(),
+                    ))
+                    .when_some(osd, |panel, surface| panel.child(surface))
+                    .child(
+                        panel()
+                            .flex()
+                            .flex_col()
+                            .gap(px(ProductSpacing::XXS))
+                            .child(text("Réseau", ProductTextStyle::Label, design))
+                            .child(gnos_ux_gpui::product_bar::render_network_status(
+                                &network,
+                                BarOrientation::Horizontal,
+                                14.0 * design.text_scale(),
+                            )),
+                    )
+            })
             .child(
                 panel()
                     .flex()
@@ -1092,6 +1179,23 @@ fn dump_fixture(fixture: &ProductLabFixture) {
             "{}",
             ProductDiagnosticSnapshot::from_runtime(&output.runtime).compact_text()
         );
+        let tray_presentation =
+            BarTrayPresentation::derive(output.runtime.tray(), output.runtime.preferences());
+        println!(
+            "tray=available:{} compact:{} items:{}",
+            tray_presentation.available,
+            tray_presentation.compact,
+            tray_presentation.items.len()
+        );
+        for item in &tray_presentation.items {
+            println!(
+                "  item id={} title={:?} status={:?} glyph={}",
+                item.id.as_str(),
+                item.title,
+                item.status,
+                gnos_ux_gpui::product_bar::tray_item_glyph(&item.icon, &item.id, &item.title)
+            );
+        }
     }
 }
 

@@ -1,0 +1,18 @@
+[package]
+name = "gnos-thumbnails"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Live window thumbnails for the workspaces panel (WS-04): ext-image-copy-capture on a worker thread, in memory only"
+license.workspace = true
+[dependencies]
+memmap2 = "0.9.11"
+rustix = { version = "1.1.5", features = ["event", "fs"] }
+wayland-backend = "0.3.15"
+wayland-client = "0.31.11"
+wayland-protocols = { version = "0.32.9", features = ["client", "staging"] }
+wayland-protocols-wlr = { version = "0.3.9", features = ["client"] }
+wayland-scanner = "0.31.7"
+
+[lints.rust]
+unsafe_code = "deny"

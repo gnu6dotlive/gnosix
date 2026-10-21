@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.session"
+name = "Session"
+description = "Lock, log out, suspend, restart and power off."
+icon = "power"
+version = "1.0.0"
+places = ["bar"]
+needs = ["session"]
+
+[provider]
+kind = "native"
+entry = "power"

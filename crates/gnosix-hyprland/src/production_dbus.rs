@@ -1,7 +1,9 @@
 //! Typed R13 user-session D-Bus boundary.
 //!
-//! The boundary exposes only the two ratified product operations. Caller
-//! authentication is mandatory before authority-local admission/execution.
+//! The boundary exposes only the three ratified product operations: activate
+//! a workspace, focus a window and (WS-02B) move a window onto a workspace.
+//! Caller authentication is mandatory before authority-local
+//! admission/execution.
 //! The production runtime keeps one bounded, non-evicting completed-request
 //! ledger for the current ActivationSessionEpoch. Restart/session replacement
 //! destroys that ledger rather than replaying requests into a new epoch.
@@ -415,6 +417,29 @@ impl ActivationDbusBoundary {
                 request_id,
                 DesktopContextGeneration(client_observation_generation),
                 ActivationOperation::FocusObservedApplication(surface_id),
+            )
+            .wire())
+    }
+
+    /// WS-02B: move an observed application window onto an observed
+    /// workspace (it stays where the operator is looking).
+    fn move_observed_application(
+        &self,
+        request_id: Vec<u8>,
+        client_observation_generation: u64,
+        surface_id: Vec<u8>,
+        workspace_id: Vec<u8>,
+        #[zbus(header)] header: Header<'_>,
+    ) -> fdo::Result<(u32, String)> {
+        let request_id = ActivationRequestId::from_bytes(exact_id(request_id, "request_id")?);
+        let surface_id = SurfaceId::from_bytes(exact_id(surface_id, "surface_id")?);
+        let workspace_id = WorkspaceId::from_bytes(exact_id(workspace_id, "workspace_id")?);
+        self.authenticate(&header)?;
+        Ok(self
+            .dispatch(
+                request_id,
+                DesktopContextGeneration(client_observation_generation),
+                ActivationOperation::MoveObservedApplicationToWorkspace(surface_id, workspace_id),
             )
             .wire())
     }

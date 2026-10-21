@@ -970,6 +970,50 @@ fn decode_profile_document(bytes: &[u8]) -> Result<DesktopProfileDocument, Profi
                 .map_err(ProfileCandidateIssue::from_document_error)?;
             Ok(document)
         }
+        // Schema 2 predates BAR-01D's shell preferences: it reads as before,
+        // and a v2 document carrying them is refused rather than guessed.
+        2 => {
+            if legacy_v2_contains_post_v2_bar_fields(&value) {
+                return Err(ProfileCandidateIssue::InvalidJson);
+            }
+            let mut document: DesktopProfileDocument =
+                serde_json::from_value(value).map_err(|_| ProfileCandidateIssue::InvalidJson)?;
+            document.schema_version = crate::DESKTOP_PROFILE_SCHEMA_VERSION;
+            document
+                .validate()
+                .map_err(ProfileCandidateIssue::from_document_error)?;
+            Ok(document)
+        }
+        // Schema 4 predates SURF-04's desktop modules: it reads as before,
+        // and a v4 document carrying them is refused rather than guessed.
+        4 => {
+            if legacy_contains_bar_field(&value, "desktop_widgets") {
+                return Err(ProfileCandidateIssue::InvalidJson);
+            }
+            let mut document: DesktopProfileDocument =
+                serde_json::from_value(value).map_err(|_| ProfileCandidateIssue::InvalidJson)?;
+            document.schema_version = crate::DESKTOP_PROFILE_SCHEMA_VERSION;
+            document
+                .validate()
+                .map_err(ProfileCandidateIssue::from_document_error)?;
+            Ok(document)
+        }
+        // Schema 3 predates DECK-01F's pins: it reads as before, and a v3
+        // document carrying them is refused rather than guessed.
+        3 => {
+            if legacy_contains_bar_field(&value, "pins")
+                || legacy_contains_bar_field(&value, "desktop_widgets")
+            {
+                return Err(ProfileCandidateIssue::InvalidJson);
+            }
+            let mut document: DesktopProfileDocument =
+                serde_json::from_value(value).map_err(|_| ProfileCandidateIssue::InvalidJson)?;
+            document.schema_version = crate::DESKTOP_PROFILE_SCHEMA_VERSION;
+            document
+                .validate()
+                .map_err(ProfileCandidateIssue::from_document_error)?;
+            Ok(document)
+        }
         crate::DESKTOP_PROFILE_SCHEMA_VERSION => {
             let document: DesktopProfileDocument =
                 serde_json::from_value(value).map_err(|_| ProfileCandidateIssue::InvalidJson)?;
@@ -980,6 +1024,46 @@ fn decode_profile_document(bytes: &[u8]) -> Result<DesktopProfileDocument, Profi
         }
         other => Err(ProfileCandidateIssue::UnsupportedSchema(other)),
     }
+}
+
+/// Whether a legacy document's Bar preferences carry `field` (one its
+/// schema did not have).
+fn legacy_contains_bar_field(value: &serde_json::Value, field: &str) -> bool {
+    value
+        .get("profiles")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|profiles| {
+            profiles.iter().any(|profile| {
+                profile
+                    .get("preferences")
+                    .and_then(|preferences| preferences.get("bar"))
+                    .and_then(serde_json::Value::as_object)
+                    .is_some_and(|bar| bar.contains_key(field))
+            })
+        })
+}
+
+fn legacy_v2_contains_post_v2_bar_fields(value: &serde_json::Value) -> bool {
+    const V2: [&str; 6] = [
+        "edge",
+        "persistent",
+        "show_on_hover",
+        "workspace_count",
+        "workspace_display",
+        "tray_compact",
+    ];
+    value
+        .get("profiles")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|profiles| {
+            profiles.iter().any(|profile| {
+                profile
+                    .get("preferences")
+                    .and_then(|preferences| preferences.get("bar"))
+                    .and_then(serde_json::Value::as_object)
+                    .is_some_and(|bar| bar.keys().any(|key| !V2.contains(&key.as_str())))
+            })
+        })
 }
 
 fn legacy_v1_contains_post_v1_bar_fields(value: &serde_json::Value) -> bool {

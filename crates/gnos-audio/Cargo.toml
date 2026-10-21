@@ -1,0 +1,16 @@
+[package]
+name = "gnos-audio"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Native PipeWire audio observation substrate for Gnosix"
+
+[dependencies]
+pipewire = { version = "0.10.1", features = ["v1_2_0"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+
+[lints.rust]
+unsafe_code = "forbid"

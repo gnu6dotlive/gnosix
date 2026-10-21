@@ -4,11 +4,15 @@
 //! can consume the same resolved geometry instead of reimplementing it.
 
 pub mod atoms;
+pub mod attention;
 pub mod connective_hull;
 pub mod connectors;
 pub mod curves;
 pub mod dynamics;
+pub mod extrusion;
+pub mod frame_joint;
 pub mod frames;
+pub mod handoff;
 pub mod influences;
 pub mod molecules;
 pub mod placement;
@@ -16,6 +20,7 @@ pub mod placement_transition;
 pub mod reactive_envelope;
 pub mod recipes;
 pub mod shared_envelope;
+pub mod shell_field;
 mod transposition;
 
 pub use atoms::{
@@ -36,6 +41,11 @@ pub use dynamics::{
     PhaseResponseProfile, PhaseStep, SecondOrderChannel, SecondOrderSpec, SecondOrderStep,
     SettlePolicy, TemporalResponseMode, simulate_step_response, step_second_order_pair,
 };
+pub use extrusion::{
+    EXTRUSION_DAMPING, EXTRUSION_RESPONSE, ExtrusionMotion, FOLLOW_DAMPING, FOLLOW_RESPONSE,
+    Follow, border_parent, clear_depth, fused_hull, revealed, sliding, within_depth,
+};
+pub use frame_joint::{FlushSides, FrameJointOutline, frame_joint_outline};
 pub use frames::{
     BarGeometryFrame, DockGeometryFrame, FrameInvariantViolation, FrameValidation, RecipeIdentity,
 };
@@ -48,6 +58,6 @@ pub use placement::{
 };
 pub use placement_transition::{
     BarPlacementTransition, BarPlacementTransitionPhase, BarTransitionArm, BarTransitionCorner,
-    ResolvedBarTransitionFrame,
+    BarTransitionSegment, RETARGET_HANDOFF, ResolvedBarTransitionFrame,
 };
 pub use recipes::{BarGeometryRecipe, DockGeometryRecipe, RectRecipe, SurfaceGeometryRecipe};

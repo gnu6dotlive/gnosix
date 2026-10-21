@@ -2,7 +2,7 @@
 
 A local-first Linux computing platform built around native Wayland surfaces, explicit system state, and bounded authority.
 
-**Development state:** Experimental / pre-release. The source is available for inspection and development; no stable end-user release is claimed.
+**Development state:** Experimental. Gnosix 26.11 « Ardoise » is the first public release: a desktop shell in daily use by its author, not yet offered as a finished desktop for others. Versions are named by year and month ([release policy](docs/reference/RELEASE-POLICY.md)).
 
 ## What gnosix is
 
@@ -12,7 +12,7 @@ The repository is intentionally evidence-driven: a claim is not promoted because
 
 ## Current status
 
-The integrated `main` line is qualified through the repository-owned `cargo xtask ci` contract. Current product work includes native Bar/Dock/Workspace/AppStack presentation, current-session multi-output routing, durable logical output/profile contracts, installed typed workspace activation, and qualified user-session lifecycle boundaries.
+Gnosix draws a full desktop shell on Hyprland in native Rust/GPUI: a persistent Bar that travels between edges, the Deck and its AppStack, utilities, session, dashboard and workspace panels, a lock screen, notifications, one Settings surface, wallpaper and desktop modules, in English and French. Each surface's proof is stated in [current status](docs/status/STATUS.md).
 
 ![Current gnosix evidence boundary](.github/assets/gnosix-evidence.png)
 

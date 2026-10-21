@@ -8,31 +8,55 @@ publish = false
 [features]
 default = []
 r12-production-client = ["dep:gnos-ux-profile-client"]
-component-lab = ["dep:serde_json"]
+component-lab = ["dep:serde_json", "dep:ttf-parser"]
 qualification-surfaces = []
 r13-production-client = ["dep:gnos-ux-activation-client", "dep:gnosix-activation-protocol"]
+indicator-production-client = ["dep:gnos-ux-indicator-client"]
 
 [dependencies]
+gnos-audio = { path = "../gnos-audio" }
+gnos-network = { path = "../gnos-network" }
+gnos-bluetooth = { path = "../gnos-bluetooth" }
+gnos-power = { path = "../gnos-power" }
+gnos-lock = { path = "../gnos-lock" }
+gnos-i18n = { path = "../gnos-i18n" }
+gnos-icons = { path = "../gnos-icons" }
+gnos-modules = { path = "../gnos-modules" }
+gnos-notifications = { path = "../gnos-notifications" }
+gnos-text = { path = "../gnos-text" }
+gnos-clock = { path = "../gnos-clock" }
 gnos-ux-profile-client = { path = "../gnos-ux-profile-client", optional = true }
+gnos-ux-indicator-client = { path = "../gnos-ux-indicator-client", optional = true }
 gnos-ux-surface = { path = "../gnos-ux-surface" }
+# PARITY-02: headless input routing from blob.in (private, pinned).
+blobin-ui-core = { path = "../../vendor/blobin-ui-core" }
 gnos-ux-product-intent = { path = "../gnos-ux-product-intent" }
 gnos-ux-activation-client = { path = "../gnos-ux-activation-client", optional = true }
 gnosix-activation-protocol = { path = "../gnosix-activation-protocol", optional = true }
 gnosix-desktop-model = { path = "../gnosix-desktop-model" }
 gnosix-hyprland = { path = "../gnosix-hyprland" }
+gnos-thumbnails = { path = "../gnos-thumbnails" }
 gnosix-application-launch = { path = "../gnosix-application-launch" }
 gnosix-application-catalog = { path = "../gnosix-application-catalog" }
+gnosix-icon-theme = { path = "../gnosix-icon-theme" }
 in-gnu-os-settings-read-model = { path = "../in-gnu-os-settings-read-model" }
 in-gnu-os-settings-core = { path = "../in-gnu-os-settings-core" }
 gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false }
 gpui_platform = { package = "gpui-pre-platform", version = "=0.3.5", default-features = false, features = ["wayland"] }
+image = { version = "=0.25.10", default-features = false, features = ["png", "jpeg", "webp"] }
 uuid = { version = "1.26.1", features = ["v4", "v5"] }
 signal-hook = "0.3.18"
 futures = "0.3.34"
+serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", optional = true }
+ttf-parser = { version = "=0.25.1", optional = true }
 ashpd = { version = "=0.13.13", default-features = false, features = ["async-io", "settings"] }
+zbus = "5.19.0"
+tokio = { version = "1", features = ["rt", "time"] }
+gnos-utilities = { path = "../gnos-utilities" }
 
 [dev-dependencies]
+serde_json = "1"
 gpui = { package = "gpui-pre", version = "=0.3.5", default-features = false, features = ["test-support"] }
 
 [[bin]]
@@ -58,6 +82,11 @@ required-features = ["component-lab"]
 name = "gnos-ux-topology-lab"
 path = "src/bin/gnos-ux-topology-lab.rs"
 required-features = ["component-lab"]
+
+[[bin]]
+name = "gnos-ux-hull-input-qualify"
+path = "src/bin/gnos-ux-hull-input-qualify.rs"
+required-features = ["qualification-surfaces"]
 
 [[bin]]
 name = "gnos-ux-envelope-qualify"

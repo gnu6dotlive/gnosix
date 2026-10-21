@@ -176,7 +176,10 @@ impl BarProfileWriter {
         if profile.preferences.bar.overrides() == request.preferences {
             return Ok((BarWriteCode::AlreadySatisfied, version));
         }
-        profile.preferences.bar.set_overrides(request.preferences);
+        profile
+            .preferences
+            .bar
+            .set_overrides(request.preferences.clone());
         let version = self.commit_changed(&request.expected, document)?;
         Ok((BarWriteCode::Applied, version))
     }

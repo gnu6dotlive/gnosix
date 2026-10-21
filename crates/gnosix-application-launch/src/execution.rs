@@ -284,6 +284,7 @@ mod tests {
             generation: gnosix_application_catalog::ApplicationCatalog::empty()
                 .generation()
                 .clone(),
+            action: None,
             program: OsString::from("/usr/bin/printf"),
             args: vec![
                 "literal space".into(),

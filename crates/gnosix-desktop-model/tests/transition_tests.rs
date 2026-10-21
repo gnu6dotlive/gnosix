@@ -14,6 +14,7 @@ fn application_descriptors(id: u8) -> ApplicationSurfaceDescriptors {
         initial_class: format!("org.example.App{id}"),
         title: format!("Window {id}"),
         initial_title: format!("Window {id}"),
+        tags: Vec::new(),
         process_id: u32::from(id) + 100,
         xwayland: false,
     }

@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.clock"
+name = "Clock"
+description = "The time and date; on the Bar the dashboard opens out of it."
+icon = "clock"
+version = "1.0.0"
+places = ["bar", "desktop"]
+needs = ["time"]
+
+[provider]
+kind = "native"
+entry = "clock"

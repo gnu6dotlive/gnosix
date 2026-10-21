@@ -103,6 +103,13 @@ pub enum ProductIntent {
         request_id: ProductIntentRequestId,
         target: ObservedSurfaceReference,
     },
+    /// WS-02B: move an observed window onto an observed workspace. Both
+    /// references come from the same observation.
+    MoveObservedApplication {
+        request_id: ProductIntentRequestId,
+        window: ObservedSurfaceReference,
+        destination: ObservedWorkspaceReference,
+    },
 }
 
 impl ProductIntent {
@@ -120,10 +127,27 @@ impl ProductIntent {
         Self::FocusObservedApplication { request_id, target }
     }
 
+    /// WS-02B: `None` when the two references come from different
+    /// observations (a move is judged against one view of the desktop).
+    pub fn move_observed_application(
+        request_id: ProductIntentRequestId,
+        window: ObservedSurfaceReference,
+        destination: ObservedWorkspaceReference,
+    ) -> Option<Self> {
+        (window.observed_generation() == destination.observed_generation()).then_some(
+            Self::MoveObservedApplication {
+                request_id,
+                window,
+                destination,
+            },
+        )
+    }
+
     pub const fn request_id(self) -> ProductIntentRequestId {
         match self {
             Self::ActivateObservedWorkspace { request_id, .. }
-            | Self::FocusObservedApplication { request_id, .. } => request_id,
+            | Self::FocusObservedApplication { request_id, .. }
+            | Self::MoveObservedApplication { request_id, .. } => request_id,
         }
     }
 }

@@ -1,0 +1,9 @@
+[package]
+name = "gnos-text"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "One-line text editing for every field of the shell: graphemes, UTF-16 for the platform's input methods, and an admission policy per field"
+license.workspace = true
+[dependencies]
+unicode-segmentation = "1.13.3"

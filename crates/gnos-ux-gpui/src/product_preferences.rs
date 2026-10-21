@@ -25,6 +25,20 @@ pub const fn bar_surface_edge(
     }
 }
 
+/// TOPO-01C: the edge the native rail takes. The product default edge is
+/// the top, but the native rail's own default is the left edge (the
+/// reference rail): only a durable profile choice moves it.
+pub fn native_rail_edge(
+    preferences: &EffectiveProductPreferences,
+) -> Option<gnos_ux_surface::envelope::SurfaceEdge> {
+    match preferences.bar_edge_source {
+        Some(PreferenceValueSource::ProductDefault) => {
+            Some(gnos_ux_surface::envelope::SurfaceEdge::Left)
+        }
+        _ => bar_surface_edge(preferences),
+    }
+}
+
 /// Reapply the validated durable Bar projection after system-only preferences refresh.
 /// Portal observations own color/motion/text inputs; they must not erase R12-B state.
 pub fn preserve_durable_bar_projection(
@@ -33,7 +47,7 @@ pub fn preserve_durable_bar_projection(
 ) -> EffectiveProductPreferences {
     refreshed.bar_edge = current.bar_edge;
     refreshed.bar_edge_source = current.bar_edge_source;
-    refreshed.bar_overrides = current.bar_overrides;
+    refreshed.bar_overrides = current.bar_overrides.clone();
     refreshed.profile_revision = current.profile_revision;
     refreshed.identity_revision = current.identity_revision;
     refreshed.projection_state = current.projection_state;
@@ -62,6 +76,23 @@ pub const fn bar_edge_settings_projection(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_native_rail_keeps_the_left_edge_until_a_durable_choice_moves_it() {
+        use gnos_ux_surface::envelope::SurfaceEdge;
+        let mut preferences = EffectiveProductPreferences {
+            bar_edge: Some(BarEdgePreference::Top),
+            bar_edge_source: Some(PreferenceValueSource::ProductDefault),
+            ..EffectiveProductPreferences::default()
+        };
+        assert_eq!(native_rail_edge(&preferences), Some(SurfaceEdge::Left));
+        assert_eq!(bar_surface_edge(&preferences), Some(SurfaceEdge::Top));
+        preferences.bar_edge_source = Some(PreferenceValueSource::DurableProfile);
+        assert_eq!(native_rail_edge(&preferences), Some(SurfaceEdge::Top));
+        preferences.bar_edge = None;
+        preferences.bar_edge_source = None;
+        assert_eq!(native_rail_edge(&preferences), None);
+    }
 
     #[test]
     fn durable_bar_edges_map_to_the_existing_surface_edge_domain() {

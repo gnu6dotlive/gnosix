@@ -12,7 +12,17 @@ keeping the existing CAS/rotation lineage. Schema-1 documents are decoded
 strictly into an in-memory schema-2 compatibility view and are upgraded only on
 the next authorised commit; post-v1 fields hidden under `schema_version: 1` are
 refused. Older readers therefore fail closed on schema 2 rather than silently
-misreading the new preferences. The document associates a durable
+misreading the new preferences. BAR-01D advances the schema to `3` the same
+way: schema-2 documents read as before and upgrade on the next authorised
+commit, and a schema-2 document carrying a BAR-01D field is refused. Schema 3
+adds bounded shell preferences under `bar` (`shell_preferences.rs`): the
+modules' groups and order, the rail's thickness and density, travel and motion
+speed, the clock's format, the title's width, the status icons, and the Deck's
+wave (`deck`). Each is its own type with its own range, checked on decode, and
+all ride the existing bounded Bar write. DECK-01F advances the schema to `4`
+the same way: schema-3 documents read as before, and a schema-3 document
+carrying `pins` is refused. Schema 4 adds the Deck's pins (`pins`): at most 32
+desktop entry IDs, each once, in order. The document associates a durable
 `DurableOutputHubId` with a `DesktopProfileId`; it never replaces a session
 `OutputHubId`.
 

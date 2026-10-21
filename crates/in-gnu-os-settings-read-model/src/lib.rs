@@ -20,8 +20,12 @@ use sha2::{Digest, Sha256};
 use std::fmt;
 
 pub use in_gnu_os_desktop_profiles::{
-    BarEdgePreference, BarPreferenceOverrides, WorkspaceDisplayCount, WorkspaceDisplayCountError,
-    WorkspaceDisplayMode,
+    BarDensityPercent, BarEdgePreference, BarModule, BarModuleLayout, BarModulePlace,
+    BarPreferenceOverrides, BarThickness, ClockFormat, DeckMagnifyPercent, DeckPinError, DeckPinId,
+    DeckPinList, DeckReachTenths, DeckShoulderPx, DeckTuning, DesktopAnchorEdge, DesktopAnchorMode,
+    DesktopAnchorOffset, DesktopFraction, DesktopModuleAnchor, DesktopModuleLayout,
+    DesktopModulePlace, MotionTempoPercent, StatusIconSet, TitleMaxWidth, WorkspaceDisplayCount,
+    WorkspaceDisplayCountError, WorkspaceDisplayMode,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -725,12 +729,13 @@ mod donor11_projection_tests {
             workspace_count: Some(WorkspaceDisplayCount::try_from(9_i64).unwrap()),
             workspace_display: Some(WorkspaceDisplayMode::Shapes),
             tray_compact: Some(false),
+            ..Default::default()
         };
         let effective = resolve_effective_preferences(
             ProductPreferenceDefaults::default(),
             SystemProductPreferences::default(),
             Some(&super::tests::association(7)),
-            Some(&selected_with(overrides)),
+            Some(&selected_with(overrides.clone())),
         )
         .unwrap();
         assert_eq!(effective.bar_overrides, overrides);

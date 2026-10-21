@@ -36,6 +36,12 @@
 //! - **No terminal guessing.** An entry that needs a terminal is refused unless
 //!   a terminal command has been configured by the operator. Picking one on
 //!   the user's behalf would be inventing behaviour the product does not own.
+//! - **Desktop actions are named, never given.** A reference may name one
+//!   of the entry's desktop actions by its identifier. The action's `Exec`
+//!   is resolved here, from the same catalog generation, under every rule
+//!   above (`TryExec`, terminal, field codes); an identifier the catalog
+//!   does not hold is refused (`UNKNOWN_ACTION`), never approximated by the
+//!   entry's own `Exec`.
 //! - **No D-Bus activation fallback.** A `DBusActivatable=true` entry with no
 //!   `Exec` needs an activation bus. There is none here, so it is refused
 //!   rather than silently run through some other path.
@@ -63,12 +69,30 @@ use gnosix_application_catalog::{
 pub struct LaunchReference {
     entry: DesktopEntryId,
     generation: CatalogGeneration,
+    action: Option<String>,
 }
 
 impl LaunchReference {
     /// Bind a catalog entry identity to the generation that presented it.
     pub fn new(entry: DesktopEntryId, generation: CatalogGeneration) -> Self {
-        Self { entry, generation }
+        Self {
+            entry,
+            generation,
+            action: None,
+        }
+    }
+
+    /// The same entry, started through one of its desktop actions. The
+    /// action is named by its identifier only; its `Exec` is resolved here,
+    /// from the same catalog generation, like the entry's own.
+    pub fn with_action(mut self, action: impl Into<String>) -> Self {
+        self.action = Some(action.into());
+        self
+    }
+
+    /// The desktop action this reference starts, if any.
+    pub fn action(&self) -> Option<&str> {
+        self.action.as_deref()
     }
 
     pub fn entry(&self) -> &DesktopEntryId {
@@ -112,6 +136,9 @@ pub enum LaunchRefusal {
     CatalogGenerationChanged { expected: String, current: String },
     /// The catalog no longer contains the referenced entry.
     UnknownEntry,
+    /// The entry carries no desktop action with the referenced identifier
+    /// (or none the catalog could honour).
+    UnknownAction,
     /// The entry resolved but is not presentable, and is therefore not
     /// launchable through a product surface.
     NotPresentable,
@@ -142,6 +169,7 @@ impl LaunchRefusal {
         match self {
             Self::CatalogGenerationChanged { .. } => "CATALOG_GENERATION_CHANGED",
             Self::UnknownEntry => "UNKNOWN_ENTRY",
+            Self::UnknownAction => "UNKNOWN_ACTION",
             Self::NotPresentable => "NOT_PRESENTABLE",
             Self::RequiresDBusActivation => "REQUIRES_DBUS_ACTIVATION",
             Self::NoLaunchMethod => "NO_LAUNCH_METHOD",
@@ -163,6 +191,7 @@ impl LaunchRefusal {
 pub struct LaunchPlan {
     entry: DesktopEntryId,
     generation: CatalogGeneration,
+    action: Option<String>,
     program: OsString,
     args: Vec<OsString>,
     /// Field codes that were present in the `Exec` and were removed because
@@ -181,6 +210,11 @@ impl LaunchPlan {
     /// The catalog generation the entry was resolved against.
     pub fn generation(&self) -> &CatalogGeneration {
         &self.generation
+    }
+
+    /// The desktop action whose `Exec` this plan runs, if any.
+    pub fn action(&self) -> Option<&str> {
+        self.action.as_deref()
     }
 
     /// The program that will be executed. Never a shell.
@@ -268,6 +302,8 @@ impl LaunchOutcome {
 pub struct LaunchReceipt {
     pub entry: DesktopEntryId,
     pub generation: CatalogGeneration,
+    /// The desktop action requested, if any.
+    pub action: Option<String>,
     pub outcome: LaunchOutcome,
 }
 
@@ -284,8 +320,12 @@ impl LaunchReceipt {
             LaunchOutcome::SpawnFailed { error, .. } => format!(" execution_error={error}"),
             LaunchOutcome::Refused(_) => String::new(),
         };
+        let action = self
+            .action
+            .as_deref()
+            .map_or_else(String::new, |action| format!(" action={action}"));
         format!(
-            "entry={} generation={} outcome={}{}",
+            "entry={}{action} generation={} outcome={}{}",
             self.entry.as_str(),
             self.generation.hex(),
             self.outcome.code(),
@@ -380,12 +420,18 @@ impl ApplicationLauncher {
             });
         }
 
-        let Some(template) = entry.exec.as_ref() else {
-            return Err(if entry.dbus_activatable {
+        let template = match request.action() {
+            Some(action) => {
+                &entry
+                    .desktop_action(action)
+                    .ok_or(LaunchRefusal::UnknownAction)?
+                    .exec
+            }
+            None => entry.exec.as_ref().ok_or(if entry.dbus_activatable {
                 LaunchRefusal::RequiresDBusActivation
             } else {
                 LaunchRefusal::NoLaunchMethod
-            });
+            })?,
         };
 
         if entry.terminal && self.configuration.terminal_command().is_empty() {
@@ -400,6 +446,7 @@ impl ApplicationLauncher {
             return Ok(LaunchPlan {
                 entry: entry.id.clone(),
                 generation: current,
+                action: request.action.clone(),
                 program: wrapped.0,
                 args: wrapped.1,
                 substituted_field_codes: dropped,
@@ -410,6 +457,7 @@ impl ApplicationLauncher {
         Ok(LaunchPlan {
             entry: entry.id.clone(),
             generation: current,
+            action: request.action.clone(),
             program,
             args,
             substituted_field_codes: dropped,
@@ -445,6 +493,7 @@ impl ApplicationLauncher {
                 Ok(process) => LaunchReceipt {
                     entry: plan.entry().clone(),
                     generation: plan.generation().clone(),
+                    action: plan.action.clone(),
                     outcome: LaunchOutcome::Launched {
                         pid: process.pid,
                         owner: process.owner,
@@ -456,6 +505,7 @@ impl ApplicationLauncher {
                 Err(error) => LaunchReceipt {
                     entry: plan.entry().clone(),
                     generation: plan.generation().clone(),
+                    action: plan.action.clone(),
                     outcome: LaunchOutcome::SpawnFailed {
                         program: plan.program().to_owned(),
                         error,
@@ -465,6 +515,7 @@ impl ApplicationLauncher {
             Err(refusal) => LaunchReceipt {
                 entry: request.entry().clone(),
                 generation: request.generation().clone(),
+                action: request.action.clone(),
                 outcome: LaunchOutcome::Refused(refusal),
             },
         }

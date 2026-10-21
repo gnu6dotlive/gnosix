@@ -34,8 +34,17 @@
 use gnosix_application_catalog::{CatalogGeneration, DesktopEntryId};
 use gpui::SharedString;
 
-use crate::product_runtime::{
-    ProductInstalledApplicationContent, ProductLaunchOutcome, ProductLaunchState, ProductRuntime,
+pub use crate::product_application_search::{
+    ApplicationSearchMode as AppStackSearchMode,
+    ApplicationSearchPreferences as AppStackPreferenceProjection,
+    ApplicationSearchQuery as AppStackQuery,
+};
+use crate::{
+    product_application_search::search_installed_applications,
+    product_runtime::{
+        ProductInstalledApplicationContent, ProductLaunchOutcome, ProductLaunchState,
+        ProductRuntime,
+    },
 };
 
 /// One row in the AppStack, resolved from installed application content.
@@ -47,6 +56,8 @@ pub struct AppStackRow {
     pub name: String,
     /// The catalog generation this row was presented from.
     pub generation: CatalogGeneration,
+    /// Explicit user preference only. Usage ranking is a separate M13 concern.
+    pub favourite: bool,
 }
 
 impl AppStackRow {
@@ -62,6 +73,7 @@ impl AppStackRow {
                 entry: item.reference.entry().clone(),
                 name: item.name,
                 generation: item.reference.generation().clone(),
+                favourite: false,
             })
             .collect();
         rows.sort_by(|left, right| {
@@ -87,7 +99,32 @@ impl AppStackRow {
 
 /// The installed applications the AppStack offers, in product order.
 pub fn appstack_rows(runtime: &ProductRuntime) -> Vec<AppStackRow> {
-    AppStackRow::from_content(runtime.installed_applications())
+    appstack_rows_for(
+        runtime,
+        AppStackQuery::parse(""),
+        &AppStackPreferenceProjection::default(),
+    )
+}
+
+/// Resolve one query against the bounded search index.
+///
+/// The search service returns only product identity, generation, visible name
+/// and preference state. Command-shaped catalogue metadata never enters this
+/// AppStack model.
+pub fn appstack_rows_for(
+    runtime: &ProductRuntime,
+    query: AppStackQuery,
+    preferences: &AppStackPreferenceProjection,
+) -> Vec<AppStackRow> {
+    search_installed_applications(runtime.installed_applications(), &query, preferences)
+        .into_iter()
+        .map(|hit| AppStackRow {
+            entry: hit.entry,
+            name: hit.name,
+            generation: hit.generation,
+            favourite: hit.favourite,
+        })
+        .collect()
 }
 
 /// What the AppStack says after a launch attempt.

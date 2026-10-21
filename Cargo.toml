@@ -3,9 +3,11 @@ resolver = "2"
 members = ["crates/gnos-ux-surface","crates/gnos-ux-gpui","crates/gnos-ux-sdk","crates/gnoshow",
     "crates/gnos-ux-product-intent",
     "crates/gnos-ux-activation-client",
+    "crates/gnos-ux-indicator-client",
     "crates/gnosix-activation-protocol",
     "crates/gnosix-desktop-model",
     "crates/gnosix-hyprland",
+    "crates/gnos-thumbnails",
     "crates/in-gnu-os-output-identity",
     "crates/in-gnu-os-output-identity-projection",
     "crates/in-gnu-os-desktop-profiles",
@@ -13,6 +15,7 @@ members = ["crates/gnos-ux-surface","crates/gnos-ux-gpui","crates/gnos-ux-sdk","
     "crates/in-gnu-os-settings-core",
     "crates/in-gnu-os-settings-read-model",
     "crates/gnosix-application-catalog",
+    "crates/gnosix-icon-theme",
     "crates/gnosix-application-launch",
     "crates/gnosix-input-core",
     "crates/in-gnu-os-caller-auth",
@@ -20,7 +23,18 @@ members = ["crates/gnos-ux-surface","crates/gnos-ux-gpui","crates/gnos-ux-sdk","
     "crates/gnos-ux-profile-client",
     "crates/gnosix-input-observation",
     "crates/gnosix-input-runtime-observer",
-    "crates/in-gnu-os-filechooser-portal",
+    "crates/gnos-audio",
+    "crates/gnos-network",
+    "crates/gnos-bluetooth",
+    "crates/gnos-power",
+    "crates/gnos-utilities",
+    "crates/gnos-clock",
+    "crates/gnos-notifications",
+    "crates/gnos-lock",
+    "crates/gnos-i18n",
+    "crates/gnos-icons",
+    "crates/gnos-modules",
+    "crates/gnos-text",
     "xtask",
 ]
 
@@ -31,4 +45,10 @@ license = "MIT"
 # gpui-pre-linux 0.3.5 rewrites compositor-selected layer-shell size (0) to the
 # configured pixel size after the first configure. GNOS.UX needs compositor-sized
 # axes to remain compositor-sized across Hyprland hot output resizes.
+# CURSOR-01: it also maps the cursor-shape-v1 shapes GPUI lacked (progress,
+# wait, help, move, all-scroll, zoom-in/out, cell, no-drop) and their XCursor
+# fallback names.
 gpui-pre-linux = { path = "vendor/gpui-pre-linux-0.3.5" }
+# Narrow additional vendor seam for typed Wayland backdrop-blur regions, and
+# (CURSOR-01) the CursorStyle variants for those shapes.
+gpui-pre = { path = "vendor/gpui-pre-0.3.5" }
