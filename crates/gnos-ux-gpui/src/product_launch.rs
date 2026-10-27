@@ -32,7 +32,8 @@ use crate::product_runtime::{
 };
 use gnosix_application_launch::{
     ApplicationLauncher, LaunchDocuments, LaunchExecutionError, LaunchExecutionReceipt,
-    LaunchExecutor, LaunchOutcome, LaunchPlan, LaunchReceipt, SystemdUserLaunchExecutor,
+    LaunchExecutor, LaunchOutcome, LaunchPlan, LaunchReceipt, LaunchReference,
+    SystemdUserLaunchExecutor,
 };
 
 pub fn launch_application(
@@ -40,6 +41,24 @@ pub fn launch_application(
     selected: &ProductInstalledApplicationContent,
 ) -> ProductLaunchRecord {
     launch_with(runtime, selected, &ApplicationLauncher::default())
+}
+
+/// Start one of the entry's desktop actions (DECK-01D). The action is named
+/// by its identifier on the same typed reference, so the capability resolves
+/// its `Exec` from the catalog generation the user saw, or refuses.
+pub fn launch_application_action(
+    runtime: &mut ProductRuntime,
+    selected: &ProductInstalledApplicationContent,
+    action: &str,
+) -> ProductLaunchRecord {
+    let request = selected.reference.clone().with_action(action);
+    launch_reference(
+        runtime,
+        selected,
+        &request,
+        &ApplicationLauncher::default(),
+        &SystemdUserLaunchExecutor,
+    )
 }
 
 /// Launch with an explicit capability, for a session that has operator
@@ -58,6 +77,16 @@ fn launch_with_executor(
     launcher: &ApplicationLauncher,
     executor: &dyn LaunchExecutor,
 ) -> ProductLaunchRecord {
+    launch_reference(runtime, selected, &selected.reference, launcher, executor)
+}
+
+fn launch_reference(
+    runtime: &mut ProductRuntime,
+    selected: &ProductInstalledApplicationContent,
+    request: &LaunchReference,
+    launcher: &ApplicationLauncher,
+    executor: &dyn LaunchExecutor,
+) -> ProductLaunchRecord {
     runtime.begin_launch_action(selected);
 
     // The content was built from a catalog snapshot. If the runtime has
@@ -67,7 +96,7 @@ fn launch_with_executor(
     let catalog = runtime.application_catalog().clone();
     let documents = LaunchDocuments::None;
     let receipt: LaunchReceipt =
-        launcher.launch_with_executor(&selected.reference, &catalog, &documents, executor);
+        launcher.launch_with_executor(request, &catalog, &documents, executor);
     emit_launch(&receipt);
     runtime.finish_launch_action(outcome_of(&receipt), receipt.summary())
 }

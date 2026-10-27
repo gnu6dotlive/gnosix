@@ -94,6 +94,13 @@ fn exact_focused(target: &CurrentExecutionTarget, observation: &ExecutionObserva
                 binding.role() == DesktopSurfaceRole::Application && binding.is_focused()
             })
         }
+        // WS-02B: the window stands on the destination workspace.
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface, workspace) => {
+            observation.surface_binding(surface).is_some_and(|binding| {
+                binding.role() == DesktopSurfaceRole::Application
+                    && binding.workspace_id() == Some(workspace)
+            })
+        }
     }
 }
 
@@ -234,6 +241,12 @@ mod tests {
             ActivationOperation::FocusObservedApplication(_) => {
                 NativeExecutionTarget::ApplicationStableId("aabb".into())
             }
+            ActivationOperation::MoveObservedApplicationToWorkspace(..) => {
+                NativeExecutionTarget::ApplicationToWorkspace {
+                    stable_id: "aabb".into(),
+                    workspace: 7,
+                }
+            }
         };
         CurrentExecutionTarget {
             request_id: ActivationRequestId::from_bytes([4; 16]),
@@ -316,6 +329,69 @@ mod tests {
             receipt.admission_freshness.generation(),
             DesktopContextGeneration(1)
         );
+    }
+
+    /// WS-02B: the window seen on `on` (the destination is `workspace_id()`,
+    /// native 7; another workspace, native 8, is where it starts).
+    fn move_observation(on: WorkspaceId) -> ExecutionObservation {
+        ExecutionObservation::new(
+            epoch(),
+            "session-a",
+            DesktopContextGeneration(1),
+            vec![
+                ObservedWorkspaceBinding::with_focus(workspace_id(), Some(7), false),
+                ObservedWorkspaceBinding::with_focus(other_workspace(), Some(8), true),
+            ],
+            vec![ObservedSurfaceBinding::with_focus(
+                surface_id(),
+                DesktopSurfaceRole::Application,
+                Some("aabb"),
+                true,
+            )
+            .on_workspace(Some(on))],
+        )
+    }
+
+    fn other_workspace() -> WorkspaceId {
+        WorkspaceId::from_bytes([21; 16])
+    }
+
+    #[test]
+    fn a_move_is_applied_only_when_the_window_is_seen_on_the_destination() {
+        let operation =
+            ActivationOperation::MoveObservedApplicationToWorkspace(surface_id(), workspace_id());
+        // Moved: applied, with one attempt naming the window and destination.
+        let mut fake = FakeBackend::new(vec![
+            Ok(move_observation(other_workspace())),
+            Ok(move_observation(workspace_id())),
+        ]);
+        let receipt = execute_bounded(target(operation), &mut fake);
+        assert_eq!(receipt.outcome, ActivationExecutionOutcome::Applied);
+        assert_eq!(
+            fake.attempted,
+            vec![NativeExecutionTarget::ApplicationToWorkspace {
+                stable_id: "aabb".into(),
+                workspace: 7
+            }]
+        );
+        // Accepted but still elsewhere afterwards: a mismatch, not applied.
+        let mut fake = FakeBackend::new(vec![
+            Ok(move_observation(other_workspace())),
+            Ok(move_observation(other_workspace())),
+        ]);
+        let receipt = execute_bounded(target(operation), &mut fake);
+        assert_eq!(
+            receipt.outcome,
+            ActivationExecutionOutcome::PostconditionMismatch
+        );
+        // Already there: nothing is attempted.
+        let mut fake = FakeBackend::new(vec![Ok(move_observation(workspace_id()))]);
+        let receipt = execute_bounded(target(operation), &mut fake);
+        assert_eq!(
+            receipt.outcome,
+            ActivationExecutionOutcome::AlreadySatisfied
+        );
+        assert!(fake.attempted.is_empty());
     }
 
     #[test]

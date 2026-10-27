@@ -812,8 +812,9 @@ fn bounded_writer_applies_and_clears_only_the_five_donor_overrides() {
         workspace_count: Some(WorkspaceDisplayCount::try_from(7_i64).unwrap()),
         workspace_display: Some(WorkspaceDisplayMode::Icons),
         tray_compact: Some(true),
+        ..Default::default()
     };
-    let request = donor_overrides_request(&writer, [10; 16], desired);
+    let request = donor_overrides_request(&writer, [10; 16], desired.clone());
     let receipt = writer.apply_overrides(request.clone());
     assert_eq!(receipt.code, crate::BarWriteCode::Applied);
     let snapshot = writer.read().unwrap();

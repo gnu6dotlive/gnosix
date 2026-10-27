@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.tray"
+name = "Tray"
+description = "The applications' status items, their menus and actions."
+icon = "stack-2"
+version = "1.0.0"
+places = ["bar"]
+needs = ["tray"]
+
+[provider]
+kind = "native"
+entry = "tray"

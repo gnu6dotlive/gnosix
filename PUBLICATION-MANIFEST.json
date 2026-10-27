@@ -1,5 +1,5 @@
 {
-  "file_count": 270,
+  "file_count": 1012,
   "files": [
     {
       "bytes": 281,
@@ -27,14 +27,14 @@
       "sha256": "1214d56df60a2c7d9e341315c86684deb990639f4be9043c5b159a914882eda9"
     },
     {
-      "bytes": 6930,
+      "bytes": 5349,
       "path": ".github/workflows/ci.yml",
-      "sha256": "680194d6f3fe9d267e74e8950bde323cc107f30288b2a8a4b36719d7c763c016"
+      "sha256": "3edc5fb9b996bd4feb9ccadf7465481d6bef1742295533099e860cb0857cc781"
     },
     {
-      "bytes": 35,
+      "bytes": 210,
       "path": ".gitignore",
-      "sha256": "7a5cdc2d06218216df66d2d8eeca3858a8213d58132a742c90aac8481a31cfd3"
+      "sha256": "82cb552a02790b026f4bb5cb0b2d67cd50dc7497e228855a3abd1b530872d105"
     },
     {
       "bytes": 2894,
@@ -52,34 +52,39 @@
       "sha256": "710aa3a43c183e8915c10341c1b01e69cfda75314f09187a76a8f1bdab423088"
     },
     {
-      "bytes": 2146,
+      "bytes": 2275,
+      "path": "CHANGELOG.md",
+      "sha256": "aaa6268295a8c7596754ae20f9883e4be97c24fbbcd5bc00984b2623b4fa1a2f"
+    },
+    {
+      "bytes": 2312,
       "path": "CONTRIBUTING.md",
-      "sha256": "dd331c533f1f4f98bd94f0d2ac20923c8cda3f8559139e440ee55dbe08162ecc"
+      "sha256": "aba8f226827f9411805148c6c2e9378058bb2fcc35b707d8c7646a5e8bffa167"
     },
     {
-      "bytes": 187459,
+      "bytes": 195604,
       "path": "Cargo.lock",
-      "sha256": "202c008c34cfb80e972355192a9c1b6d6181666dece2dad2aedf62798f484946"
+      "sha256": "1911d939cd5d514b05fcd87927eb3fcfa3a34f4d812821bb5e422e24d67931a3"
     },
     {
-      "bytes": 1239,
+      "bytes": 1996,
       "path": "Cargo.toml",
-      "sha256": "dfd4d315db7e73167d65cb2d6b5f419e1d6a8d198f0d0cced008f95536bc886b"
+      "sha256": "68e902b0894055fd786376116df374ee756733fc5619ae8e779d62a156627ecf"
     },
     {
-      "bytes": 35149,
+      "bytes": 1076,
       "path": "LICENSE",
-      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+      "sha256": "90f5735f28fc0b10c111020b8ffa551a8f83f212c4998fb38e4da4eef161fa4e"
     },
     {
-      "bytes": 1575,
+      "bytes": 1688,
       "path": "NAMING.md",
-      "sha256": "156e001cd6df7af04e148661b9906a23c14e8660589e53b0c3c728269da1fad5"
+      "sha256": "a5f2b60323bd6020e3bf643a5232f891f8a73d74ba3844dbfe79f3253c881515"
     },
     {
-      "bytes": 3701,
+      "bytes": 3976,
       "path": "README.md",
-      "sha256": "83f8eb9a255268b9719204e122b33aa3831d660b24cd5726ff1337ac0dc2d6f8"
+      "sha256": "b9a304852676dcfab312f79d5aa6643cd8fdfe6c694c7b6bf58e82b29f833ab5"
     },
     {
       "bytes": 1549,
@@ -87,9 +92,1989 @@
       "sha256": "fdab625cfa5ad2c0f6cc86543ea604fa41a4b8dbb296317f9f8ec40547b0a036"
     },
     {
-      "bytes": 1003,
+      "bytes": 2214,
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "166236a9c05b0ac101eca9a786ae24b7c0a73c58f8452672e7d29b22c00cd0a6"
+      "sha256": "bea7aa669ba0fa3cdf23f786e6b4a79ae0ef57de9ea2865366f92e39496667ca"
+    },
+    {
+      "bytes": 10,
+      "path": "VERSION",
+      "sha256": "f47dd5447f1f418fe11beffd933e94fbcec52d4d8e87566404fe10fb43f80d02"
+    },
+    {
+      "bytes": 369,
+      "path": "crates/gnos-audio/Cargo.toml",
+      "sha256": "5e6fe2e0e8ffe0ed5fd34bd704526b7bc7780d8e522ac7053e6b4314a9b9df5d"
+    },
+    {
+      "bytes": 8533,
+      "path": "crates/gnos-audio/qualification/phase2_gate.py",
+      "sha256": "34f177d944fdadf825f163e33e2ff8792800fe37a87caf8e8cd15b6cd8d1bc49"
+    },
+    {
+      "bytes": 2404,
+      "path": "crates/gnos-audio/src/bin/gnos-audio-mutate-exact.rs",
+      "sha256": "d1aa80bd665a49201bca4916ba0adc4c2a44110dee6cc1bff6b65b79c8348d39"
+    },
+    {
+      "bytes": 546,
+      "path": "crates/gnos-audio/src/bin/gnos-audio-observe.rs",
+      "sha256": "a3bb35ae444c7fab86a6d7d5b2b1e162aad9eeb38b7b41779887e906fdbed01e"
+    },
+    {
+      "bytes": 7310,
+      "path": "crates/gnos-audio/src/lib.rs",
+      "sha256": "d979ff1a9d77ab0e5d2ed0d91d3de509b17015f21a6f276aae1bd9980d912e2d"
+    },
+    {
+      "bytes": 10517,
+      "path": "crates/gnos-audio/src/model.rs",
+      "sha256": "57d343b388c1baa6a4486797f70d897b3d2d061ec449cf79b4891a421e4454f5"
+    },
+    {
+      "bytes": 22962,
+      "path": "crates/gnos-audio/src/pipewire_mutation.rs",
+      "sha256": "99afaa850b42bd3d367375cab4e5e99f9275f92092ac361a810f4277ab1ff2ac"
+    },
+    {
+      "bytes": 32465,
+      "path": "crates/gnos-audio/src/pipewire_observer.rs",
+      "sha256": "f22defc54bfba9f64bfd2a4603633a30db896afc28c66fdf86fe4bb5abf17f35"
+    },
+    {
+      "bytes": 11781,
+      "path": "crates/gnos-audio/src/visualiser.rs",
+      "sha256": "be7ae6dcff9cee8a84ff3372d33717290f6071a9c923c2a7d2658e31db54c0ba"
+    },
+    {
+      "bytes": 533,
+      "path": "crates/gnos-bluetooth/Cargo.toml",
+      "sha256": "cf70ca002e283824a6225a2713227a5c83d7461b0592376f094b280c39366375"
+    },
+    {
+      "bytes": 6313,
+      "path": "crates/gnos-bluetooth/qualification/phase2_causal_mutations.py",
+      "sha256": "6e3c10296a4c5b84727332e42ff65ee354f6f05a147c8ede6ead283485d2a33d"
+    },
+    {
+      "bytes": 8461,
+      "path": "crates/gnos-bluetooth/qualification/phase2_live_gate.py",
+      "sha256": "351149ad95efd49f81a03baae6ee07a77924c68b49644b211904d5f540f7908c"
+    },
+    {
+      "bytes": 2376,
+      "path": "crates/gnos-bluetooth/src/bin/gnos-bluetooth-observe.rs",
+      "sha256": "89aaa063c67d009468b64ea36210d2b14cf5d53ee4976ea1fb5697f6878cdaa4"
+    },
+    {
+      "bytes": 8848,
+      "path": "crates/gnos-bluetooth/src/bluez_mutation.rs",
+      "sha256": "7e73bd90c02f4ce7c7ccc6caf282f4a585cccb950134a0e6eb64fc4ce3f3aefa"
+    },
+    {
+      "bytes": 8389,
+      "path": "crates/gnos-bluetooth/src/bluez_observer.rs",
+      "sha256": "b91be31758db929bc263515cbba7f28f07dcc48c6f32556b4e7284559272ffb8"
+    },
+    {
+      "bytes": 402,
+      "path": "crates/gnos-bluetooth/src/lib.rs",
+      "sha256": "521f9965bfa55a739484799b9b91a5799e10d6947775761a755c6e8d5f01d2d0"
+    },
+    {
+      "bytes": 3177,
+      "path": "crates/gnos-bluetooth/src/model.rs",
+      "sha256": "7a3e7d2018e701418f3403af1cb8deace4560f771168562bec2a78223692a543"
+    },
+    {
+      "bytes": 4431,
+      "path": "crates/gnos-bluetooth/src/reducer.rs",
+      "sha256": "e4a0efcb2cb90d78d99a32c11e38c3cd8566ee7ad42bc4b88d81cae7961dc3c8"
+    },
+    {
+      "bytes": 6402,
+      "path": "crates/gnos-bluetooth/src/runner.rs",
+      "sha256": "b7c5664ad021a23184ac9afd1a624f48a9bb1d3e758436fd9fac5d4ab0727e2a"
+    },
+    {
+      "bytes": 5307,
+      "path": "crates/gnos-bluetooth/tests/model_contract.rs",
+      "sha256": "514f1a5123b60595db4ae9e0a90d3eb9588416856f10f73225e66d465b31fe7f"
+    },
+    {
+      "bytes": 974,
+      "path": "crates/gnos-bluetooth/tests/observer_contract.rs",
+      "sha256": "dabb76d3af34e90c2a9c2071b3cb71d415e8943a41bf02c67b488afd3e69ff2c"
+    },
+    {
+      "bytes": 8593,
+      "path": "crates/gnos-bluetooth/tests/private_bus.rs",
+      "sha256": "24a194bf3f7fa9396ba561f9066d125574787d42f0915c72053843dc788521b7"
+    },
+    {
+      "bytes": 1258,
+      "path": "crates/gnos-bluetooth/tests/runner_contract.rs",
+      "sha256": "d0194371d9705ef2829aa1340cb13afed168e01e2d58babb7d763878f5730db9"
+    },
+    {
+      "bytes": 294,
+      "path": "crates/gnos-clock/Cargo.toml",
+      "sha256": "25feb8db2151baa63b2af3433e955db954a623b03f1855367e57262aa936de31"
+    },
+    {
+      "bytes": 1098,
+      "path": "crates/gnos-clock/src/bin/gnos-clock-observe.rs",
+      "sha256": "81a058bf90044137910b2831eee13ea39fa374bcfe05f4ad03e402ed609e8d04"
+    },
+    {
+      "bytes": 12702,
+      "path": "crates/gnos-clock/src/lib.rs",
+      "sha256": "80e0d13b8d11a00d2ed3f4fff2b744280216d49125cd5602794d8702935a9dc2"
+    },
+    {
+      "bytes": 298,
+      "path": "crates/gnos-i18n/Cargo.toml",
+      "sha256": "422410ad1a96d59a8dde7b10300da205f4622e263fbeedc67a5d47f493fa337b"
+    },
+    {
+      "bytes": 20065,
+      "path": "crates/gnos-i18n/locales/fr.json",
+      "sha256": "c96c724a8c5d9b21fc40800e989532af20f2663c0113d02e394f3aa31fe2aaa8"
+    },
+    {
+      "bytes": 7346,
+      "path": "crates/gnos-i18n/src/lib.rs",
+      "sha256": "30490f0f5efa4ec1252a8b98a10d7aa485e31f45729a4b27d0551bc981176571"
+    },
+    {
+      "bytes": 244,
+      "path": "crates/gnos-icons/Cargo.toml",
+      "sha256": "c7285ab07622b071ce02949d0efec8119ab0dfccedfff02bc5df5d45bb9b7fc8"
+    },
+    {
+      "bytes": 1068,
+      "path": "crates/gnos-icons/LICENSE-tabler-flags",
+      "sha256": "f83dd86cb07e0bae5b57f81d4a355e5a27b468b0812c6b8934aa899b1ab7a6cc"
+    },
+    {
+      "bytes": 1073,
+      "path": "crates/gnos-icons/LICENSE-tabler-icons",
+      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
+    },
+    {
+      "bytes": 39,
+      "path": "crates/gnos-icons/data/VERSION",
+      "sha256": "324cd90b804e8ab0cbf64e49146aff24138ae1d5bed925356ba82a043d8dfb7f"
+    },
+    {
+      "bytes": 479624,
+      "path": "crates/gnos-icons/data/filled.tsv",
+      "sha256": "6109a593217d0ad3f9d817d8b2fb784ff5f9250597c45831a11b849c3473bd48"
+    },
+    {
+      "bytes": 10341,
+      "path": "crates/gnos-icons/data/flags.tsv",
+      "sha256": "d996537f334cc92c1d0ba87b852748cab590e35acafb10315ad81dfc117c6f2d"
+    },
+    {
+      "bytes": 1201,
+      "path": "crates/gnos-icons/data/flags/abkhazia.svg",
+      "sha256": "b8290e98043daa863b09b3e84c530a7d610e4df20a5ef06f09c8115be6d7fa66"
+    },
+    {
+      "bytes": 6068,
+      "path": "crates/gnos-icons/data/flags/afghanistan.svg",
+      "sha256": "5a002565cd014bb9326ab8c238abf13d2b6255302bfa5b9ec0c4a93adebcf939"
+    },
+    {
+      "bytes": 5219,
+      "path": "crates/gnos-icons/data/flags/african-union.svg",
+      "sha256": "00472485016090eb8ff591c73d045a82ee26b3ef1a00a12da08f406afe28e949"
+    },
+    {
+      "bytes": 261,
+      "path": "crates/gnos-icons/data/flags/aland-islands.svg",
+      "sha256": "304966b2231b32a9bd646906df82aa3a0b7eca0f9db5be4882b18c544a6ef7d2"
+    },
+    {
+      "bytes": 2566,
+      "path": "crates/gnos-icons/data/flags/albania.svg",
+      "sha256": "291cb0d71012d66f3efcdb91af50042f6473319f63dfc9a46b2da6593f2a0ca3"
+    },
+    {
+      "bytes": 408,
+      "path": "crates/gnos-icons/data/flags/algeria.svg",
+      "sha256": "d1b1032a75ce6c3b2c3b828679a29229273321d942be46ab0fec1134234cb425"
+    },
+    {
+      "bytes": 3815,
+      "path": "crates/gnos-icons/data/flags/american-samoa.svg",
+      "sha256": "34a51102954a454d3f2db41d6c676330e1d672f41b8b8982ad580d77f1ea28ae"
+    },
+    {
+      "bytes": 3311,
+      "path": "crates/gnos-icons/data/flags/andorra.svg",
+      "sha256": "9a3cc0539149851a4d59ab58ed62a8670b813d0a14f3530aeee2a799d172df50"
+    },
+    {
+      "bytes": 1046,
+      "path": "crates/gnos-icons/data/flags/angola.svg",
+      "sha256": "ae4e54860be33348a2073836819064df6805b54dae7a0815d9d10f9f503a9c8a"
+    },
+    {
+      "bytes": 2427,
+      "path": "crates/gnos-icons/data/flags/anguilla.svg",
+      "sha256": "3bf6593ed9e83a22a9b839347e3c035810546cbea5fb12727b52a7910acda7cc"
+    },
+    {
+      "bytes": 1037,
+      "path": "crates/gnos-icons/data/flags/antarctica.svg",
+      "sha256": "b8e4a324cda52e0718c5acb3288e713974b506cbb358f20b2525460627cecf55"
+    },
+    {
+      "bytes": 458,
+      "path": "crates/gnos-icons/data/flags/antigua-and-barbuda.svg",
+      "sha256": "f2f246e2bba8325ba42136d93d174b8c4c046342f9a4a8e2a2f58bbc659bca09"
+    },
+    {
+      "bytes": 7189,
+      "path": "crates/gnos-icons/data/flags/arab-league.svg",
+      "sha256": "42feb95deb3540c8583b189641e90f9856323a26ec7bb428b0af099e8ab75cce"
+    },
+    {
+      "bytes": 3737,
+      "path": "crates/gnos-icons/data/flags/argentina.svg",
+      "sha256": "b0f4e3b96da7d47a846bd60a60ff16df628b5587bf0af090542048dc9bb0f34a"
+    },
+    {
+      "bytes": 221,
+      "path": "crates/gnos-icons/data/flags/armenia.svg",
+      "sha256": "8dcd20fc91f7e72f36eec4493fd916928a7a95316fbbe4f92fdf4b768607b9b7"
+    },
+    {
+      "bytes": 576,
+      "path": "crates/gnos-icons/data/flags/aruba.svg",
+      "sha256": "d9defd92b78dc40de9f1a6834e7c30fd819e8a6a9751d747c2e26bd3da814a8d"
+    },
+    {
+      "bytes": 7357,
+      "path": "crates/gnos-icons/data/flags/ascension-island.svg",
+      "sha256": "e6ad8133213985246b4895f04783f30e86bab914eb1ef410d93d6d2fecc0bdfd"
+    },
+    {
+      "bytes": 1704,
+      "path": "crates/gnos-icons/data/flags/asean-union.svg",
+      "sha256": "723185eac080760877c0df216fb692ec46c83b41bd964787bf89c284a95c8fe8"
+    },
+    {
+      "bytes": 1096,
+      "path": "crates/gnos-icons/data/flags/australia.svg",
+      "sha256": "571a152e45d2dfa067bd51cf9656edef084cd57103971a4a13d868720249ab0e"
+    },
+    {
+      "bytes": 174,
+      "path": "crates/gnos-icons/data/flags/austria.svg",
+      "sha256": "3c0f4d3931e6e851287ad79d92ca6664b71102f87efd60fee21993d80c769287"
+    },
+    {
+      "bytes": 474,
+      "path": "crates/gnos-icons/data/flags/azerbaijan.svg",
+      "sha256": "8b64e943b8ea7abc9705e8c49c57b4effaae42e010d7902a27ea09ad87fd5c78"
+    },
+    {
+      "bytes": 220,
+      "path": "crates/gnos-icons/data/flags/bahamas.svg",
+      "sha256": "d8d6655e82e39e7c4735147f93aee12e3f8e218ab28c2bd7ea9ef76b92d8c478"
+    },
+    {
+      "bytes": 231,
+      "path": "crates/gnos-icons/data/flags/bahrain.svg",
+      "sha256": "e55c73b5b943c3df92feed087a49030ada73e1e901c20ed10a1a428b39dbf734"
+    },
+    {
+      "bytes": 199,
+      "path": "crates/gnos-icons/data/flags/bangladesh.svg",
+      "sha256": "5b78768921c04967ffbe10ea9bf621a8ce500613776dfb1ff27ab72dc8634ade"
+    },
+    {
+      "bytes": 667,
+      "path": "crates/gnos-icons/data/flags/barbados.svg",
+      "sha256": "b37872768fbe2a008e657864370c69644767524bfe68d929b6057d44eb61f0ca"
+    },
+    {
+      "bytes": 348,
+      "path": "crates/gnos-icons/data/flags/basque-country.svg",
+      "sha256": "ccb56662fe29fb4194471282f2678ba093329b03792414eceff261f1012802fd"
+    },
+    {
+      "bytes": 441,
+      "path": "crates/gnos-icons/data/flags/belarus.svg",
+      "sha256": "e3e73844b5385af3e6c0c9415e025054078598c9499f1a8b04d1d4a90b884881"
+    },
+    {
+      "bytes": 220,
+      "path": "crates/gnos-icons/data/flags/belgium.svg",
+      "sha256": "08c3f8dd2c954b8ac54da65504fe40838e847dcdbd3a09cb5e8447269e881b61"
+    },
+    {
+      "bytes": 7663,
+      "path": "crates/gnos-icons/data/flags/belize.svg",
+      "sha256": "b551c33ff7d1b099778c8b2b1622914d95abf927fa196f61233cb0d011673561"
+    },
+    {
+      "bytes": 226,
+      "path": "crates/gnos-icons/data/flags/benin.svg",
+      "sha256": "cf12671cc2f2709cd0e4910711e5d7240b49605a2fb98a91e67eaf6fa0d30819"
+    },
+    {
+      "bytes": 7237,
+      "path": "crates/gnos-icons/data/flags/bermuda.svg",
+      "sha256": "51bef470a578e75771c81522325d83daca1ca31164808035b0f2f7264ad73d23"
+    },
+    {
+      "bytes": 3612,
+      "path": "crates/gnos-icons/data/flags/bhutan.svg",
+      "sha256": "e9f5cd9109d4a85da05b9f780736f5d98d8ee180583d34d143156e45b534e492"
+    },
+    {
+      "bytes": 220,
+      "path": "crates/gnos-icons/data/flags/bolivia.svg",
+      "sha256": "e3009533c1fb30d4551b4a25474813c70be629099e236dca246b4c973eede118"
+    },
+    {
+      "bytes": 569,
+      "path": "crates/gnos-icons/data/flags/bonaire.svg",
+      "sha256": "44a9fef3c512b702b97646b4170bb31df876b2983f07236b2d1a2404f71758e4"
+    },
+    {
+      "bytes": 614,
+      "path": "crates/gnos-icons/data/flags/bosnia-and-herzegovina.svg",
+      "sha256": "82e86b1496fe30edb3f28a990cc4c819c8bfbbcd56d876813fd220659f4ac6bb"
+    },
+    {
+      "bytes": 225,
+      "path": "crates/gnos-icons/data/flags/botswana.svg",
+      "sha256": "15978f8964f0a803eb33f8e029d34eea4c2a2a029a39bf0bea03ab72754b6dc8"
+    },
+    {
+      "bytes": 682,
+      "path": "crates/gnos-icons/data/flags/brazil.svg",
+      "sha256": "724998f4e54547f4386cb67be3246f9f5a356dd79e45a79fc98ec1303a3bf9e0"
+    },
+    {
+      "bytes": 1829,
+      "path": "crates/gnos-icons/data/flags/british-virgin-islands.svg",
+      "sha256": "70bf1325c59633ddeb113ba256c65380fe579ae44c98187071ec78268c2804f8"
+    },
+    {
+      "bytes": 2647,
+      "path": "crates/gnos-icons/data/flags/brunei.svg",
+      "sha256": "86cf37cb5ae81ced2c6895feef2e0431ce5ea600dba7459a7504c688641172a6"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/bulgaria.svg",
+      "sha256": "cf62e4ee415bc663f018106fdb7b746439221b225cb766eba99b8bee9f42bf15"
+    },
+    {
+      "bytes": 300,
+      "path": "crates/gnos-icons/data/flags/burkina-faso.svg",
+      "sha256": "904a2e446d11181b08ae9218f51c34c731fe3d39d8504bc9be503a7701b140da"
+    },
+    {
+      "bytes": 644,
+      "path": "crates/gnos-icons/data/flags/burundi.svg",
+      "sha256": "489be5874e710bba509cb6b8b3f0b9557b7d8a130dab20e35f49695ec6448e4e"
+    },
+    {
+      "bytes": 212,
+      "path": "crates/gnos-icons/data/flags/cabinda.svg",
+      "sha256": "f1b0cb103a4b545dc09cbe61267e9eabcf10f2344db39491689a28cc2f473ba7"
+    },
+    {
+      "bytes": 1450,
+      "path": "crates/gnos-icons/data/flags/cambodia.svg",
+      "sha256": "9e6ac5714a054cfa1677c303abaf213362a0e49e616e69ac154f46eb485f296b"
+    },
+    {
+      "bytes": 312,
+      "path": "crates/gnos-icons/data/flags/cameroon.svg",
+      "sha256": "fb98edbf5ffa4e9ef6e01560d4a355fb9849afbb7724759fa3c9c96a1f040cce"
+    },
+    {
+      "bytes": 630,
+      "path": "crates/gnos-icons/data/flags/canada.svg",
+      "sha256": "1b9e429610fc9f5bdbf5bab8cfdfae7855f1e22a4623cd11692dd3e66668b53b"
+    },
+    {
+      "bytes": 4240,
+      "path": "crates/gnos-icons/data/flags/canary-islands.svg",
+      "sha256": "11f0ce091cc0fff5cd29cb483f5da3d528c826c5adf47d2ecffefba15783c080"
+    },
+    {
+      "bytes": 940,
+      "path": "crates/gnos-icons/data/flags/cape-verde.svg",
+      "sha256": "8cbce987eb67daccc7b359ac7c059e976fbf93126c53dc6e331649d9bfaf12a6"
+    },
+    {
+      "bytes": 503,
+      "path": "crates/gnos-icons/data/flags/catalonia.svg",
+      "sha256": "fb95728b94559dd6007d2ad87a164713e545e25b52925103d3514bd15a3149c2"
+    },
+    {
+      "bytes": 5360,
+      "path": "crates/gnos-icons/data/flags/cayman-islands.svg",
+      "sha256": "957223b5ebe537f3a6b93cc45fee69dda373f0b452e7787df9769ebe5d8d1919"
+    },
+    {
+      "bytes": 1059,
+      "path": "crates/gnos-icons/data/flags/cefta.svg",
+      "sha256": "e1843be53c1e03c2adc1ad0d493e6b14b92bb9a6cc3762cee7aac2e45c26a7d1"
+    },
+    {
+      "bytes": 379,
+      "path": "crates/gnos-icons/data/flags/central-african-republic.svg",
+      "sha256": "ab1051495fff30df06c642e8bafd69caf164d215882ef4906a67fa1d355f3cc5"
+    },
+    {
+      "bytes": 225,
+      "path": "crates/gnos-icons/data/flags/chad.svg",
+      "sha256": "600d12c3e57f5cac7286d92c75e9a42ddb21905641643fd55b15857155ea9b72"
+    },
+    {
+      "bytes": 2452,
+      "path": "crates/gnos-icons/data/flags/chechnya.svg",
+      "sha256": "f08f249c2daa519b1e9b2e2b75dda5511811c070c043c00f3b46aaeac166ae85"
+    },
+    {
+      "bytes": 278,
+      "path": "crates/gnos-icons/data/flags/chequered.svg",
+      "sha256": "e44c2792d17994e3dd61e8091efa6a826414916d41fbebcc47b2b9a189725fb6"
+    },
+    {
+      "bytes": 322,
+      "path": "crates/gnos-icons/data/flags/chile.svg",
+      "sha256": "059ec5a6d8e2a0d69302a596dc5e903dbe77bb14b3f6d43163dd1760d1854b0c"
+    },
+    {
+      "bytes": 534,
+      "path": "crates/gnos-icons/data/flags/china.svg",
+      "sha256": "193420c5ad4c1b823573c1e31ae998b071caf94dd622cf2a88d47cfd2dd5301f"
+    },
+    {
+      "bytes": 1377,
+      "path": "crates/gnos-icons/data/flags/christmas-island.svg",
+      "sha256": "533c4134df1d21fc7ca79fa8235b43233d680adbade8a0fecd40c559d1c7d614"
+    },
+    {
+      "bytes": 1256,
+      "path": "crates/gnos-icons/data/flags/cocos-keeling-islands.svg",
+      "sha256": "343c4c2786e0f2e07ffdb929e21d6472c3aac5b494cc18cac2259462814073a3"
+    },
+    {
+      "bytes": 223,
+      "path": "crates/gnos-icons/data/flags/colombia.svg",
+      "sha256": "03a21c2caa72b15443f80b53969472476d57de773a7554c748ee72d54e287c21"
+    },
+    {
+      "bytes": 1004,
+      "path": "crates/gnos-icons/data/flags/commonwealth-of-independent-states.svg",
+      "sha256": "5fc0754c56d01612fb9436a064df4e02b67de44f63814e9138afb0de81bafa7a"
+    },
+    {
+      "bytes": 5401,
+      "path": "crates/gnos-icons/data/flags/commonwealth-of-nations.svg",
+      "sha256": "d32db27bbd4b34b730bb55197e521d603d5ffe0918dc119e7e3974aabe11171b"
+    },
+    {
+      "bytes": 700,
+      "path": "crates/gnos-icons/data/flags/comoros.svg",
+      "sha256": "82f413039fec6578c78ff84a242d3bc1074b5928a0d1cfb46ce17c35c12a388d"
+    },
+    {
+      "bytes": 1600,
+      "path": "crates/gnos-icons/data/flags/cook-islands.svg",
+      "sha256": "da08a01ded35bbe46ff4fe95af08718b747cbcb7ba2af4a5aff6b9e9ff323e38"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/costa-rica.svg",
+      "sha256": "96c5a8411f9f474a712c7524650053d15b7508896c974b5f3529151a9060bf26"
+    },
+    {
+      "bytes": 1760,
+      "path": "crates/gnos-icons/data/flags/croatia.svg",
+      "sha256": "53a3ee62041f363a0efb82b1e7764cb41c0b46a661c846ba69e66bd503fdf993"
+    },
+    {
+      "bytes": 238,
+      "path": "crates/gnos-icons/data/flags/cuba.svg",
+      "sha256": "981a9589dcde18aa19ea5ff227d71cd6ef0c43f0a64e9fe4bb6198649df9157f"
+    },
+    {
+      "bytes": 354,
+      "path": "crates/gnos-icons/data/flags/curacao.svg",
+      "sha256": "721a8201cfcc34fa50e1c2f729af9e4b645c8831f3331a09cb499be8bee855a8"
+    },
+    {
+      "bytes": 2968,
+      "path": "crates/gnos-icons/data/flags/cyprus.svg",
+      "sha256": "c953642f618e5c55f63ae98c078821a388833893b9f3d3bb0a76851b8904e3b4"
+    },
+    {
+      "bytes": 223,
+      "path": "crates/gnos-icons/data/flags/czechia.svg",
+      "sha256": "800085eb3290720fc0d3ddfbb5442fa35a5f9060466443985ae2c11c422b7570"
+    },
+    {
+      "bytes": 320,
+      "path": "crates/gnos-icons/data/flags/democratic-republic-congo.svg",
+      "sha256": "8f1ec195747b426f3bf69650693a5bf751d0e6c85a0a4e0031102454d7956922"
+    },
+    {
+      "bytes": 197,
+      "path": "crates/gnos-icons/data/flags/denmark.svg",
+      "sha256": "fb12332c033153416d050adad2db832cacc363251040464951df2fc91c6e322a"
+    },
+    {
+      "bytes": 6826,
+      "path": "crates/gnos-icons/data/flags/diego-garcia.svg",
+      "sha256": "58fda38f23091008a389d3c33f419c7af702a2081c043c7662d9e427894cf196"
+    },
+    {
+      "bytes": 195,
+      "path": "crates/gnos-icons/data/flags/diver-down.svg",
+      "sha256": "eec0ec59d3b77446dc5729cfe0801bcfe1741cfb857957b77c8e99ae1a38673c"
+    },
+    {
+      "bytes": 335,
+      "path": "crates/gnos-icons/data/flags/djibouti.svg",
+      "sha256": "71e3aa39207fc7eef803c9c78d207765cb53601ba1d82e22dd345ffaac4d45ef"
+    },
+    {
+      "bytes": 1207,
+      "path": "crates/gnos-icons/data/flags/dominica.svg",
+      "sha256": "27461d97892d236e0978609d48cf1465613192d922b980677cc5acbb2ba74668"
+    },
+    {
+      "bytes": 3137,
+      "path": "crates/gnos-icons/data/flags/dominican-republic.svg",
+      "sha256": "da8b7abe0a9756045f494e525a1689909175a83bd64b47efd53802c2d339e0fe"
+    },
+    {
+      "bytes": 2951,
+      "path": "crates/gnos-icons/data/flags/east-african-community.svg",
+      "sha256": "43d1c3c2fb860e4cc84ec5b36ba05c6c5ede131bb90bd23d4b58740e67d6fee0"
+    },
+    {
+      "bytes": 342,
+      "path": "crates/gnos-icons/data/flags/east-timor.svg",
+      "sha256": "686cdc3a0c54f88278919abcdb574706d3555b3ccaa0afe21025365ce86bcd6c"
+    },
+    {
+      "bytes": 1866,
+      "path": "crates/gnos-icons/data/flags/ecuador.svg",
+      "sha256": "c4c1bebb35a88bc7e629757c590565f471309fc75ab3900483a7a8ba5a6077f2"
+    },
+    {
+      "bytes": 2219,
+      "path": "crates/gnos-icons/data/flags/egypt.svg",
+      "sha256": "dca4d66982399a54541c1709ed5e594d5e176df73768081d120baf8b948c0bf2"
+    },
+    {
+      "bytes": 681,
+      "path": "crates/gnos-icons/data/flags/el-salvador.svg",
+      "sha256": "e8907fc86a96aa1dc1e6f80f49da116497255a3389586cbd653e78e400368400"
+    },
+    {
+      "bytes": 197,
+      "path": "crates/gnos-icons/data/flags/england.svg",
+      "sha256": "9abfe336bef4ba05680a470ed4c3e8f389998583ece16651c08e37ba758f9531"
+    },
+    {
+      "bytes": 2997,
+      "path": "crates/gnos-icons/data/flags/equatorial-guinea.svg",
+      "sha256": "fc981b2a4449c0a6f69d2f43ef85590948a8d50d15adaba086c5d39ba12598fa"
+    },
+    {
+      "bytes": 1979,
+      "path": "crates/gnos-icons/data/flags/eritrea.svg",
+      "sha256": "cc36ee782f3bf151461fd5a7a16b7109b67ff45711092db7c4df1652af2b283a"
+    },
+    {
+      "bytes": 216,
+      "path": "crates/gnos-icons/data/flags/estonia.svg",
+      "sha256": "617c91c6ff36a821f25d095f8ca4fef79030fca56ea4926ee6523a601240bf1b"
+    },
+    {
+      "bytes": 2712,
+      "path": "crates/gnos-icons/data/flags/eswatini.svg",
+      "sha256": "eb00d8f83e5008aeb1206ef27a1623281294bd9a82ab951704f37344d09bd8eb"
+    },
+    {
+      "bytes": 879,
+      "path": "crates/gnos-icons/data/flags/ethiopia.svg",
+      "sha256": "127eee6ba0d2a40b813c14144fc72be0e4a7a90943b40d4c426420a194c2a771"
+    },
+    {
+      "bytes": 1013,
+      "path": "crates/gnos-icons/data/flags/european-union.svg",
+      "sha256": "21d16809ac1da5d5077f9c54ba979055ccaef6b70beb2941725900669de43412"
+    },
+    {
+      "bytes": 4402,
+      "path": "crates/gnos-icons/data/flags/falkland-islands.svg",
+      "sha256": "d0a9d0d2e7624ebb2ae2778916083ad49a5bc1a7584bdb76cc915a39b3858877"
+    },
+    {
+      "bytes": 258,
+      "path": "crates/gnos-icons/data/flags/faroe-islands.svg",
+      "sha256": "22d7b1fcc63a2c365277c3c5a927c51fc43af8e89a3d0b5fa33dc840a55a6d89"
+    },
+    {
+      "bytes": 4433,
+      "path": "crates/gnos-icons/data/flags/fiji.svg",
+      "sha256": "d60d3ef439dda05adbab854855759c3e2de735996e80336f1bbc5a74cd228b30"
+    },
+    {
+      "bytes": 197,
+      "path": "crates/gnos-icons/data/flags/finland.svg",
+      "sha256": "4850a228e6fbec9a610c42d4eeefa784510a259afdc0fe3bbb1b2ed947118595"
+    },
+    {
+      "bytes": 222,
+      "path": "crates/gnos-icons/data/flags/france.svg",
+      "sha256": "e6aa1c13acea0fc8e959be276e1924a3b0e3b6c2ff48e2ad136de47273ff5f31"
+    },
+    {
+      "bytes": 294,
+      "path": "crates/gnos-icons/data/flags/french-guiana.svg",
+      "sha256": "beeb14b4457a467c4e36f21785e2747738853fddfdca15430421d4d4f0b17730"
+    },
+    {
+      "bytes": 3163,
+      "path": "crates/gnos-icons/data/flags/french-polynesia.svg",
+      "sha256": "8cadbc27a373f66fc2b526f70a50e374e049368e785771edb1def7afd4347608"
+    },
+    {
+      "bytes": 819,
+      "path": "crates/gnos-icons/data/flags/french-southern-territories.svg",
+      "sha256": "e3e937a55b172f5a47a7fa0d989a5c669da999cfef8f0a06e33c007327ef5db7"
+    },
+    {
+      "bytes": 221,
+      "path": "crates/gnos-icons/data/flags/gabon.svg",
+      "sha256": "d1376b331ec5d694f07b9f21e0971e85b8d8b5375087c50c9fc345c9ad7a6429"
+    },
+    {
+      "bytes": 185,
+      "path": "crates/gnos-icons/data/flags/galicia.svg",
+      "sha256": "cdc9f665dd3ce3fe3ddc6978eac9a0990824cc6043e6809f5970404224416e9c"
+    },
+    {
+      "bytes": 262,
+      "path": "crates/gnos-icons/data/flags/gambia.svg",
+      "sha256": "9c39bdae1bf6d76d33bc278e44e3733e6b29f5533f5a44d8796823c627774aa3"
+    },
+    {
+      "bytes": 1086,
+      "path": "crates/gnos-icons/data/flags/georgia.svg",
+      "sha256": "c5e0a7bee33b3927767aad19d2eafebf37f0205a581e52d7fc0218c9efcf8e1f"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/germany.svg",
+      "sha256": "e6d1d3dc88e1523a763bfca5b1e881260c72609936f81da151c472bc9f05da1a"
+    },
+    {
+      "bytes": 323,
+      "path": "crates/gnos-icons/data/flags/ghana.svg",
+      "sha256": "129d15db69e725cf68f2f159a328cd12ebb66eba0e213a8055ecd899dfccfc1c"
+    },
+    {
+      "bytes": 1498,
+      "path": "crates/gnos-icons/data/flags/gibraltar.svg",
+      "sha256": "7eabf8d67609eec04eb1bd04fbbcaf1445fe379e51ae6df76deb15884722f489"
+    },
+    {
+      "bytes": 394,
+      "path": "crates/gnos-icons/data/flags/greece.svg",
+      "sha256": "cf5b690083c9ef81387f15e05c890ea76369c2bcd317e53a6c4de5e967f16598"
+    },
+    {
+      "bytes": 301,
+      "path": "crates/gnos-icons/data/flags/greenland.svg",
+      "sha256": "8cd83800e988583de6b7d74fcffe6023f159f726e1a213ca068f3216df4a7ef8"
+    },
+    {
+      "bytes": 1081,
+      "path": "crates/gnos-icons/data/flags/grenada.svg",
+      "sha256": "0be366720d005dd67c439f80ee6d15bdb035d8d6782ff226486572b5ffff821a"
+    },
+    {
+      "bytes": 6866,
+      "path": "crates/gnos-icons/data/flags/guadeloupe.svg",
+      "sha256": "92eeeb633d7d66411c91f735b0b33293fa5b613f513c9af2f469cb38a1ab0d61"
+    },
+    {
+      "bytes": 4470,
+      "path": "crates/gnos-icons/data/flags/guam.svg",
+      "sha256": "790d45732cf3102681aef3f8a0232c16620ae1e8a6a332e245f2c726953d0521"
+    },
+    {
+      "bytes": 5955,
+      "path": "crates/gnos-icons/data/flags/guatemala.svg",
+      "sha256": "4de6024738b8d1c4844638af74a2f93e7a3fc5e649a85db1f26314c485770047"
+    },
+    {
+      "bytes": 290,
+      "path": "crates/gnos-icons/data/flags/guernsey.svg",
+      "sha256": "1507c44c999c7f7dfaf6d181f546b18fa1f189823761320f2b8ce57cdf1db25e"
+    },
+    {
+      "bytes": 335,
+      "path": "crates/gnos-icons/data/flags/guinea-bissau.svg",
+      "sha256": "edd99da949dad8b39233cc41e305cb0ec33c0009158d3f6e63468c21ff3cd2b2"
+    },
+    {
+      "bytes": 225,
+      "path": "crates/gnos-icons/data/flags/guinea.svg",
+      "sha256": "d78b1133b76ce9ddf80eccb59f8c377b82a2c68cdfbb62d402b3a92c650a8388"
+    },
+    {
+      "bytes": 318,
+      "path": "crates/gnos-icons/data/flags/guyana.svg",
+      "sha256": "33131106a26e082311d631601f54258d2b34d6928feed2a3dc67a9c71c49435e"
+    },
+    {
+      "bytes": 3290,
+      "path": "crates/gnos-icons/data/flags/haiti.svg",
+      "sha256": "f272cf2cf8333154396ab6f36acac273d8b5d85c210473b6de123ab5f2c264b9"
+    },
+    {
+      "bytes": 1098,
+      "path": "crates/gnos-icons/data/flags/heard-and-mcdonald-islands.svg",
+      "sha256": "fcae46706cc06250d75adc5fd223c83ce5e74771a8fe51c0eb88662b4f00e250"
+    },
+    {
+      "bytes": 537,
+      "path": "crates/gnos-icons/data/flags/honduras.svg",
+      "sha256": "56918432473ed5df11081d203b0a64238660d02a0656ee13be26ee6a7cf12b8e"
+    },
+    {
+      "bytes": 933,
+      "path": "crates/gnos-icons/data/flags/hong-kong.svg",
+      "sha256": "eaf1ab9bb64e1ab7a2bc8b5a69824d3cd7c7283e451d9dba230fcf251afaffc2"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/hungary.svg",
+      "sha256": "f47c7e59305d116ed4c2507e3e29b53f78d9721b875d1dfcb37fa7b630245620"
+    },
+    {
+      "bytes": 258,
+      "path": "crates/gnos-icons/data/flags/iceland.svg",
+      "sha256": "59e8fee86d4fe717057a74d77ef454e2558aa90bf2e77c22482d1f62a7d448e3"
+    },
+    {
+      "bytes": 2284,
+      "path": "crates/gnos-icons/data/flags/india.svg",
+      "sha256": "381262ff5b3078bf70ed99ec351ed855323a20b067364fdcfb0c0df0ecbd1f70"
+    },
+    {
+      "bytes": 176,
+      "path": "crates/gnos-icons/data/flags/indonesia.svg",
+      "sha256": "f6a201d5dccafa0bc29360069d6371f261003352d72aa49d87157d9b39e4f348"
+    },
+    {
+      "bytes": 771,
+      "path": "crates/gnos-icons/data/flags/iran.svg",
+      "sha256": "a6de172d17021db950d2860619b3cc6aed83a5bf4bd89aff494bc5f5b928d0b6"
+    },
+    {
+      "bytes": 1255,
+      "path": "crates/gnos-icons/data/flags/iraq.svg",
+      "sha256": "d3db3c05ad2882c4df39168989de62bb5ced09f36594a360af6b277f5cfcf2fa"
+    },
+    {
+      "bytes": 222,
+      "path": "crates/gnos-icons/data/flags/ireland.svg",
+      "sha256": "801c23273dd07c18f072818d2cf69b2a114c3d264d2aef46080ae51938eb44b5"
+    },
+    {
+      "bytes": 1199,
+      "path": "crates/gnos-icons/data/flags/isle-of-man.svg",
+      "sha256": "28a967141b1471de9962ebe3ac1a28fe86cbd721cb8254682c01ec4724112187"
+    },
+    {
+      "bytes": 466,
+      "path": "crates/gnos-icons/data/flags/israel.svg",
+      "sha256": "ea392dab706679dd57c742ab8e995c658226ef91d2bc0e847f1e84d923c1fabb"
+    },
+    {
+      "bytes": 222,
+      "path": "crates/gnos-icons/data/flags/italy.svg",
+      "sha256": "0e3230c822b77e044a1cb3df7c67bc31bdc9a16cf41d9936f8851935186b15c4"
+    },
+    {
+      "bytes": 220,
+      "path": "crates/gnos-icons/data/flags/ivory-coast.svg",
+      "sha256": "e5fad7c8955eed8fd6a33afdc1a8a0b95ba54e60c60ab2d1f6f740ccb72d0579"
+    },
+    {
+      "bytes": 298,
+      "path": "crates/gnos-icons/data/flags/jamaica.svg",
+      "sha256": "d755d3777d7a0ebbc097a329a5349557607fa6e9ba9d5e0065e60832c88636c2"
+    },
+    {
+      "bytes": 196,
+      "path": "crates/gnos-icons/data/flags/japan.svg",
+      "sha256": "566315fd4ce13cbb741fa6081621db71d99f1d01f27298685b286341abd6eedd"
+    },
+    {
+      "bytes": 6287,
+      "path": "crates/gnos-icons/data/flags/jersey.svg",
+      "sha256": "e4ce4d4321504db85fdd35192a47ff0ecd103dc31529259654986bbaad17efb3"
+    },
+    {
+      "bytes": 410,
+      "path": "crates/gnos-icons/data/flags/jordan.svg",
+      "sha256": "989c1b35f687585f036fc5b4b5e0a23398bfa68580b538dee4686c71bdcc5bec"
+    },
+    {
+      "bytes": 324,
+      "path": "crates/gnos-icons/data/flags/jubaland.svg",
+      "sha256": "ee6b0bf931b87b2015d058185b5cf7907ad92e5a7bb21dad309bff187bfc63e6"
+    },
+    {
+      "bytes": 4821,
+      "path": "crates/gnos-icons/data/flags/kazakhstan.svg",
+      "sha256": "9a5245f771c7c13544e0d532079cc0fe70b8dfb762e273693e847d8e70bd8122"
+    },
+    {
+      "bytes": 1133,
+      "path": "crates/gnos-icons/data/flags/kenya.svg",
+      "sha256": "fbb6f2b780a7cb648a4379ae644614feb221a1e1c9be4ca66d54c2a856a3df97"
+    },
+    {
+      "bytes": 1902,
+      "path": "crates/gnos-icons/data/flags/kiribati.svg",
+      "sha256": "a7b37ddf1b4494f996729e40c61aa9043f436a68910c46776d748c7f0fbf461b"
+    },
+    {
+      "bytes": 1066,
+      "path": "crates/gnos-icons/data/flags/kosovo.svg",
+      "sha256": "f8e7075c35e7258e958cec404a5fdef4246aa6caaeed10345694bf9c10c1ecf6"
+    },
+    {
+      "bytes": 621,
+      "path": "crates/gnos-icons/data/flags/kurdistan.svg",
+      "sha256": "a57587649bb683b47e3f62ac9009a5b59a06c0686dca33529f9c1ad123c4753f"
+    },
+    {
+      "bytes": 264,
+      "path": "crates/gnos-icons/data/flags/kuwait.svg",
+      "sha256": "04da7a8e977e9b880be0e7629e2e529f56afcacac1de4376ebefc5560798c22b"
+    },
+    {
+      "bytes": 3653,
+      "path": "crates/gnos-icons/data/flags/kyrgyzstan.svg",
+      "sha256": "70c344c7e395f06a0deb5975f6d33f977a3496a54228ef54558b279eb9b7663b"
+    },
+    {
+      "bytes": 309,
+      "path": "crates/gnos-icons/data/flags/laos.svg",
+      "sha256": "f9273ea0e607bfa91b43f1fef2bc9fb01afd7af2457be03fe5fbdfd99c2c2892"
+    },
+    {
+      "bytes": 187,
+      "path": "crates/gnos-icons/data/flags/latvia.svg",
+      "sha256": "47a392b7f703d9fcaf56963d9e9e00d9d43ac06e95cc5a2094cadd4c3fa60a38"
+    },
+    {
+      "bytes": 889,
+      "path": "crates/gnos-icons/data/flags/lebanon.svg",
+      "sha256": "da9773bcd43eeb5c4e1e100bf1202e06d25359de84ebb7352f31de8f9e707bba"
+    },
+    {
+      "bytes": 591,
+      "path": "crates/gnos-icons/data/flags/lesotho.svg",
+      "sha256": "a47e28ce61f7bc1d9c7f6a929bfaad0c85790972b5b2ed13e0908f2c1b2cb65a"
+    },
+    {
+      "bytes": 434,
+      "path": "crates/gnos-icons/data/flags/liberia.svg",
+      "sha256": "a22927dbff682c529dab8e263939c32f3ac8e0b4a2410afa34c4c87922facc5f"
+    },
+    {
+      "bytes": 431,
+      "path": "crates/gnos-icons/data/flags/libya.svg",
+      "sha256": "46f6a846bcfc1fca24b7208a822213c96b1f2948fc5f06c35b54059fc13aa8a9"
+    },
+    {
+      "bytes": 1062,
+      "path": "crates/gnos-icons/data/flags/liechtenstein.svg",
+      "sha256": "3ed9960ef6220bef18fea61994d9d0d259d1268ba057746ffddf3972929f0a7a"
+    },
+    {
+      "bytes": 221,
+      "path": "crates/gnos-icons/data/flags/lithuania.svg",
+      "sha256": "588478f5b30a71d035414fa9a57133b4fb5dddc640c029df0235b95f25169f8e"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/luxembourg.svg",
+      "sha256": "02779a43f29c653bc99cbd564ac6187bb88b04e16b48bdad5faf41973ddb3db2"
+    },
+    {
+      "bytes": 1769,
+      "path": "crates/gnos-icons/data/flags/macau.svg",
+      "sha256": "ebe5c55179b910ece60f219eeb6338e6356f8d7b55fa1ab6363e379bc9561546"
+    },
+    {
+      "bytes": 223,
+      "path": "crates/gnos-icons/data/flags/madagascar.svg",
+      "sha256": "965ca4f5411773e0fcf71129a883e2322fd559f2e3ca4a6288a3d6723321f6e1"
+    },
+    {
+      "bytes": 300,
+      "path": "crates/gnos-icons/data/flags/malawi.svg",
+      "sha256": "ef3aa2db985674b2da80fc2568811160ceb964e5f72cc4d99ed86e24459bf51b"
+    },
+    {
+      "bytes": 703,
+      "path": "crates/gnos-icons/data/flags/malaysia.svg",
+      "sha256": "549fb8f6b087351c671a53e54b1f3bb6ae2eedf1a534eae31f6afa59cf705761"
+    },
+    {
+      "bytes": 282,
+      "path": "crates/gnos-icons/data/flags/maldives.svg",
+      "sha256": "3acdcbd69fb22ca2f7e93680e4cee869cfcd8aed7c0a6df81ce627e7577c6296"
+    },
+    {
+      "bytes": 225,
+      "path": "crates/gnos-icons/data/flags/mali.svg",
+      "sha256": "ece4e11d1d86d799f555ca31cdd83d64f5d4d3b38c9318702609b1204cb6e278"
+    },
+    {
+      "bytes": 698,
+      "path": "crates/gnos-icons/data/flags/malta.svg",
+      "sha256": "ae8a6fbc9d43ee09dd8f24ae1871bf1725d989e46ae65d79cef0f8ad73087ec3"
+    },
+    {
+      "bytes": 285,
+      "path": "crates/gnos-icons/data/flags/maltese-cross.svg",
+      "sha256": "9ceb0bb755467295d33b1c4279a6f5c4d8ce04ece9c0376012368eecfc390de5"
+    },
+    {
+      "bytes": 610,
+      "path": "crates/gnos-icons/data/flags/marshall-islands.svg",
+      "sha256": "d2d4bac291e106d862391618db4033582a7c89d1e3e9a4d8cc321f5ba1936fbf"
+    },
+    {
+      "bytes": 2340,
+      "path": "crates/gnos-icons/data/flags/martinique.svg",
+      "sha256": "f56db511a43eae994b05535172dbe78ae63c8d8901b0a1766a05e45602ca5e4e"
+    },
+    {
+      "bytes": 436,
+      "path": "crates/gnos-icons/data/flags/mauritania.svg",
+      "sha256": "3408170f61cc14390205c1fcc254e73d2ed061ad043d5d352fe497ea4f8bf0ae"
+    },
+    {
+      "bytes": 263,
+      "path": "crates/gnos-icons/data/flags/mauritius.svg",
+      "sha256": "7b9ed1828720b2452dad6c5ca9e752a12e59c28704cbcaa0c1961dc0ff795b5b"
+    },
+    {
+      "bytes": 5642,
+      "path": "crates/gnos-icons/data/flags/mayotte.svg",
+      "sha256": "843202a03b2dc5d5d251e56e6498886c20998f134b34e3563f5835ba5c183ab6"
+    },
+    {
+      "bytes": 2335,
+      "path": "crates/gnos-icons/data/flags/mercosur.svg",
+      "sha256": "ab8c6b3a6e0c95a1bf00577771e4c0fb96aab22b2760ae148205b1097c52faf9"
+    },
+    {
+      "bytes": 1887,
+      "path": "crates/gnos-icons/data/flags/mexico.svg",
+      "sha256": "7ef5d055cc595b04350ab3f7740043b2226b2d52828a09c26ea7c491e9eb9ff7"
+    },
+    {
+      "bytes": 501,
+      "path": "crates/gnos-icons/data/flags/micronesia.svg",
+      "sha256": "936491f4e05d4c9407bc8ce83dfb5dc6503105f3efbfcc880e1118dd32690bdb"
+    },
+    {
+      "bytes": 1315,
+      "path": "crates/gnos-icons/data/flags/moldova.svg",
+      "sha256": "1ee4cbae2371671b6419565b6e165875231c8067b91751e029bd42925f9101f3"
+    },
+    {
+      "bytes": 176,
+      "path": "crates/gnos-icons/data/flags/monaco.svg",
+      "sha256": "010c3b720bd34292eb453723f4e69f9e417cab7d7ba2d26393bf730e92cc766c"
+    },
+    {
+      "bytes": 446,
+      "path": "crates/gnos-icons/data/flags/mongolia.svg",
+      "sha256": "61f0ad5f2ddfcce2cc4eb2d04dea5a55e9ed39181746d69b72068fb33d78d6ab"
+    },
+    {
+      "bytes": 1994,
+      "path": "crates/gnos-icons/data/flags/montenegro.svg",
+      "sha256": "f02dfaaf22eee2b320a312e10caf423a48708b12ff14f6ce247825757ceab9db"
+    },
+    {
+      "bytes": 4045,
+      "path": "crates/gnos-icons/data/flags/montserrat.svg",
+      "sha256": "e669b12b791443cabaa1922ec2cbeaf2cb0b236b8dbbb7002fc240c194f9390d"
+    },
+    {
+      "bytes": 432,
+      "path": "crates/gnos-icons/data/flags/morocco.svg",
+      "sha256": "e19005bdeb8b3cfcfa79eb1da5c3c13ef0fcce88410076b66b1d646a75c0b8b2"
+    },
+    {
+      "bytes": 424,
+      "path": "crates/gnos-icons/data/flags/mozambique.svg",
+      "sha256": "cb5d05c0bf645f0019d9bda0872d788538c0f4ab6094d56c133d1f7bec02630c"
+    },
+    {
+      "bytes": 336,
+      "path": "crates/gnos-icons/data/flags/myanmar.svg",
+      "sha256": "ffc84e89b1eec1c28c783277fd1117200da7aa3a384f1b6b8b125bf439ece2fb"
+    },
+    {
+      "bytes": 773,
+      "path": "crates/gnos-icons/data/flags/namibia.svg",
+      "sha256": "1726bb6cfa8752e8990ecbf5d47148736ee3ef15040efd97bfff4bc646186df3"
+    },
+    {
+      "bytes": 1111,
+      "path": "crates/gnos-icons/data/flags/nato.svg",
+      "sha256": "59c325cf66f85bd6ea800fc6da01819304118404e442275c92cc70e332f1ac1d"
+    },
+    {
+      "bytes": 401,
+      "path": "crates/gnos-icons/data/flags/nauru.svg",
+      "sha256": "1acf3ea9f64b933c3a94179d2c2478c6d3885aaf65cae1214ab85b286c08225f"
+    },
+    {
+      "bytes": 683,
+      "path": "crates/gnos-icons/data/flags/nepal.svg",
+      "sha256": "27cf9f668401d435cafa8009e124c7a8779267e634d842b07c919d92a0a0090c"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/netherlands.svg",
+      "sha256": "f101baf39f2e4b946c3d347f051d7c0fb5aae30c76dcb3b0191dc7d11c203ba7"
+    },
+    {
+      "bytes": 1174,
+      "path": "crates/gnos-icons/data/flags/new-caledonia.svg",
+      "sha256": "50f2fd8859ce631eb322f9c8d00d420bb4a0ec3f33285d55d336c179324f39cd"
+    },
+    {
+      "bytes": 1686,
+      "path": "crates/gnos-icons/data/flags/new-zealand.svg",
+      "sha256": "30b162e8328d7c422efbd78e26d38fc2548c969a55c992be38d661399114a3f7"
+    },
+    {
+      "bytes": 224,
+      "path": "crates/gnos-icons/data/flags/nicaragua.svg",
+      "sha256": "a0122557a9d1614d7d10b9ea5220757d90d3fb7f0a98aa4170effa3032c87ebe"
+    },
+    {
+      "bytes": 282,
+      "path": "crates/gnos-icons/data/flags/niger.svg",
+      "sha256": "1a6fd95da61ef6965fe683b61b9b6b472f9387fa1ac0277f4883d56c3358e8e0"
+    },
+    {
+      "bytes": 177,
+      "path": "crates/gnos-icons/data/flags/nigeria.svg",
+      "sha256": "1cedc18cf941a6ed2a18519011702011912d8e6a6d9a3daece58413d5e43205f"
+    },
+    {
+      "bytes": 1023,
+      "path": "crates/gnos-icons/data/flags/niue.svg",
+      "sha256": "2a14b6404258adac9e08da74b418c25f94aaa3d5e4ab854ca1df432ea0017979"
+    },
+    {
+      "bytes": 613,
+      "path": "crates/gnos-icons/data/flags/nordic-council.svg",
+      "sha256": "58682d1973fe2d5bcde723f2c9048b924b3e5ee32d7ee112d411e6687244ed21"
+    },
+    {
+      "bytes": 9328,
+      "path": "crates/gnos-icons/data/flags/norfolk-island.svg",
+      "sha256": "f53ac8ef1ff067091cd992d40d9bf3380ce28ae3f8e435c93ebee1bcc0f1e2dc"
+    },
+    {
+      "bytes": 360,
+      "path": "crates/gnos-icons/data/flags/north-korea.svg",
+      "sha256": "f4ca9597daf2adfa77fa48a30fbad0164793502e144dd2da98ee8a9f81af1588"
+    },
+    {
+      "bytes": 581,
+      "path": "crates/gnos-icons/data/flags/north-macedonia.svg",
+      "sha256": "7b9076484b4174366b8245b867d7ddc1de54f29ec289b18d39bf1a64bf0ce72d"
+    },
+    {
+      "bytes": 437,
+      "path": "crates/gnos-icons/data/flags/northern-cyprus.svg",
+      "sha256": "c8608f161c3cd66c2490d9c2e2a19362699159aecbae0e3d24ebbbd4b7d1b018"
+    },
+    {
+      "bytes": 10269,
+      "path": "crates/gnos-icons/data/flags/northern-ireland.svg",
+      "sha256": "8d20e6816b3d6f7e94802413b9530d579245b2d255b679c5425c7dd879e63427"
+    },
+    {
+      "bytes": 8887,
+      "path": "crates/gnos-icons/data/flags/northern-mariana-islands.svg",
+      "sha256": "ca1dfc1430e1a84ec2839208f63f78c201e163898de20b393665b0bc85042e13"
+    },
+    {
+      "bytes": 258,
+      "path": "crates/gnos-icons/data/flags/norway.svg",
+      "sha256": "8d70e2ee135961cf8a6f31868a89516eb5b4e6ef81c9209ed3feb0d03c7bc9d0"
+    },
+    {
+      "bytes": 1218,
+      "path": "crates/gnos-icons/data/flags/olympic.svg",
+      "sha256": "3bae6e4b812a4810a724288c13bed5c9924d7376c55509eaedc7692f8a028efc"
+    },
+    {
+      "bytes": 959,
+      "path": "crates/gnos-icons/data/flags/oman.svg",
+      "sha256": "c2b1ddce9ead639c46bb0695ad58d697a84c2a5ae9c4eeb62f659be6f1a3cafe"
+    },
+    {
+      "bytes": 3923,
+      "path": "crates/gnos-icons/data/flags/pacific-community.svg",
+      "sha256": "38dca67274df34e1e99b5aa3489fde5d1bdab4b3b03a31a79dbaa4f7f42e16d2"
+    },
+    {
+      "bytes": 351,
+      "path": "crates/gnos-icons/data/flags/pakistan.svg",
+      "sha256": "3e3a126082c96b9a4a25a42f2f1f20d0bfb0be62a62f34f1a4be92ff8a75e946"
+    },
+    {
+      "bytes": 199,
+      "path": "crates/gnos-icons/data/flags/palau.svg",
+      "sha256": "16743de72c5ae0da9550a24b28a36d2252bb44859445f927cf909e739cf6f936"
+    },
+    {
+      "bytes": 259,
+      "path": "crates/gnos-icons/data/flags/palestine.svg",
+      "sha256": "f5fdf81b6c92ece9ff2e1e412822002271a21bc342d785b32b7343eec9a47e6a"
+    },
+    {
+      "bytes": 499,
+      "path": "crates/gnos-icons/data/flags/panama.svg",
+      "sha256": "b7d2311c6394aa0a2a0d1c9aa1ff260a0db0e1b70054fb9297c7b96c6f0a39a0"
+    },
+    {
+      "bytes": 1598,
+      "path": "crates/gnos-icons/data/flags/paneuropean-union.svg",
+      "sha256": "041bc30e0c132c9625fd67a234945e81bed67b20ec53a7390f16163903f19d1f"
+    },
+    {
+      "bytes": 1650,
+      "path": "crates/gnos-icons/data/flags/papua-new-guinea.svg",
+      "sha256": "785ca0cb4fa01e18f5d35cda23fca8e526521792a7656c28f600e164b13e5d32"
+    },
+    {
+      "bytes": 1658,
+      "path": "crates/gnos-icons/data/flags/paraguay.svg",
+      "sha256": "086685cbe30d950c75a50ec58aac8258d2fa6848278930d08c9435341dafa44e"
+    },
+    {
+      "bytes": 700,
+      "path": "crates/gnos-icons/data/flags/paraolympic.svg",
+      "sha256": "23fd1897ccd59d36e57bd1d620d6658f8b05d0d479c3347711e733e6518b44c7"
+    },
+    {
+      "bytes": 177,
+      "path": "crates/gnos-icons/data/flags/peru.svg",
+      "sha256": "347e7e823207ad3a2aa20a56bfb05d04a36b39ed99b6a26f101294c2735ff072"
+    },
+    {
+      "bytes": 613,
+      "path": "crates/gnos-icons/data/flags/philippines.svg",
+      "sha256": "1be84fdca668cc5d43154ae006606b7fa4ac71256198158fe7a416fa2a5fb935"
+    },
+    {
+      "bytes": 1998,
+      "path": "crates/gnos-icons/data/flags/pirate.svg",
+      "sha256": "6061b47cfec2e6d5315567459c82c1c552bdec6e2b84afd23e61451dc8dd5b8a"
+    },
+    {
+      "bytes": 4379,
+      "path": "crates/gnos-icons/data/flags/pitcairn-islands.svg",
+      "sha256": "967cbe0f04853a74f2e9f9a5fad317b8be0fb5b74db86cf0b7f1364fb3041414"
+    },
+    {
+      "bytes": 177,
+      "path": "crates/gnos-icons/data/flags/poland.svg",
+      "sha256": "72ac9bb52ed310e3be219efc2be2695d7bad372cb8b455f996492b2eb870d74a"
+    },
+    {
+      "bytes": 1155,
+      "path": "crates/gnos-icons/data/flags/portugal.svg",
+      "sha256": "9b4d13d4dd42b5d8a530d9ae258c733c7871687dc02e8186739d9c01bdf30fc3"
+    },
+    {
+      "bytes": 427,
+      "path": "crates/gnos-icons/data/flags/puerto-rico.svg",
+      "sha256": "a9d7a414b0458f50a5df4f48f41f70f5ec0f18b7537bdb1a1a4577a382b6f845"
+    },
+    {
+      "bytes": 231,
+      "path": "crates/gnos-icons/data/flags/qatar.svg",
+      "sha256": "40c9c8398eb6a71ec0b056abbd76747c60dbfe33c68dc1ec78147c3ded35595a"
+    },
+    {
+      "bytes": 346,
+      "path": "crates/gnos-icons/data/flags/rainbow.svg",
+      "sha256": "0301c5529843d99dec094298e285e1ec23523fa40d5b032bdb337356d4bb4bc6"
+    },
+    {
+      "bytes": 263,
+      "path": "crates/gnos-icons/data/flags/red-crescent.svg",
+      "sha256": "dfa8114029d7da4cd04f351dd2433d6bfea251eed1730c6699db7ae988f7e231"
+    },
+    {
+      "bytes": 193,
+      "path": "crates/gnos-icons/data/flags/red-cross.svg",
+      "sha256": "2105a9d6d3527968d6d789d3625120c0e7665709ba186a09424d8d43fbd759b3"
+    },
+    {
+      "bytes": 232,
+      "path": "crates/gnos-icons/data/flags/republic-congo.svg",
+      "sha256": "b59f0383e2dab58efc09482974684fc688398f53f24c709b01858936bbffe883"
+    },
+    {
+      "bytes": 292,
+      "path": "crates/gnos-icons/data/flags/reunion.svg",
+      "sha256": "cae99febf7e56ee11b3acf15dd3077478e29be7c289aac2d5df783b2092a132a"
+    },
+    {
+      "bytes": 225,
+      "path": "crates/gnos-icons/data/flags/romania.svg",
+      "sha256": "f4995e07e545be07009ab467e005db1bc5602a75317a87d75629b702af8426dd"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/russia.svg",
+      "sha256": "7ace08438a0bf28249fe0e1c45a66d7abacac5011c7c1d9b99006d5bc6b96f65"
+    },
+    {
+      "bytes": 646,
+      "path": "crates/gnos-icons/data/flags/rwanda.svg",
+      "sha256": "028cf63ef18098a7849a4ad6bc85c7c8c108ca855fe12b233bd815e14c48a23c"
+    },
+    {
+      "bytes": 335,
+      "path": "crates/gnos-icons/data/flags/saba.svg",
+      "sha256": "fcfd65b2ffd79a2911864f72d8b87538ab34230fc2cd7a919ff4a034c83629d7"
+    },
+    {
+      "bytes": 4152,
+      "path": "crates/gnos-icons/data/flags/saint-barthelemy.svg",
+      "sha256": "5b9f9f170c7eb97e25c57cf1efafb7299c008fcf2e67f872c2abe4bb295ce573"
+    },
+    {
+      "bytes": 3131,
+      "path": "crates/gnos-icons/data/flags/saint-helena.svg",
+      "sha256": "13af26b28a818388996a603f33e4d1c388f5f5cf81eff1984046d7783eb1d9a0"
+    },
+    {
+      "bytes": 499,
+      "path": "crates/gnos-icons/data/flags/saint-kitts-and-nevis.svg",
+      "sha256": "ad728a3bdc10956c4619076511cfc8700a52531a678736e71045ddbce7614531"
+    },
+    {
+      "bytes": 291,
+      "path": "crates/gnos-icons/data/flags/saint-lucia.svg",
+      "sha256": "b3747ccde341dba4eec5c8c6b044a7e2b815dc861d3330bdf5348ec0f861ba3a"
+    },
+    {
+      "bytes": 9841,
+      "path": "crates/gnos-icons/data/flags/saint-pierre-and-miquelon.svg",
+      "sha256": "bde213f6d899b82ea14e493a340bc1ebfa288b14831238e027a8d2a5aef52e46"
+    },
+    {
+      "bytes": 337,
+      "path": "crates/gnos-icons/data/flags/saint-vincent-and-grenadines.svg",
+      "sha256": "e650ca3be37c164dde2ec4437fc6a0d9113d8db44e69811059f211784a727cef"
+    },
+    {
+      "bytes": 559,
+      "path": "crates/gnos-icons/data/flags/samoa.svg",
+      "sha256": "ef047cec7e3dea064a73cecfe3f66f8796e884f8c77cf2a596312d59be1f9088"
+    },
+    {
+      "bytes": 4669,
+      "path": "crates/gnos-icons/data/flags/san-marino.svg",
+      "sha256": "c66db0675579af7b13fa93f1ec431049dc4e09278e590f1fb97bf90bd95bfaed"
+    },
+    {
+      "bytes": 435,
+      "path": "crates/gnos-icons/data/flags/sao-tome-and-principe.svg",
+      "sha256": "7583f16663003520bf806e9c33deac7b846659d59e4341cd04208648daa8c4c2"
+    },
+    {
+      "bytes": 3813,
+      "path": "crates/gnos-icons/data/flags/saudi-arabia.svg",
+      "sha256": "47ae6ae6ff26e0070b071fa2a512301a35a69bbedc42112fc30475138ec26313"
+    },
+    {
+      "bytes": 373,
+      "path": "crates/gnos-icons/data/flags/scotland.svg",
+      "sha256": "a4e4f0aae52e1dd4178e45a13eaaf1f7d138161934c542e7225d008f5c18426c"
+    },
+    {
+      "bytes": 221,
+      "path": "crates/gnos-icons/data/flags/sealand.svg",
+      "sha256": "100a52b1662c0d73e1c82ecd5984d0caf32df98539481a8eb06bd9ccf2d0d777"
+    },
+    {
+      "bytes": 177,
+      "path": "crates/gnos-icons/data/flags/semaphore-signal.svg",
+      "sha256": "c52ff246f157f39da5378299454ba2e56ee2c153e3e3a4ed535d2b64c4bdae82"
+    },
+    {
+      "bytes": 344,
+      "path": "crates/gnos-icons/data/flags/senegal.svg",
+      "sha256": "a6c6a07ec9107cbcfd1a3e00bedd906325d3bbd17e6ede9dd8ba4026574dfd91"
+    },
+    {
+      "bytes": 4451,
+      "path": "crates/gnos-icons/data/flags/serbia.svg",
+      "sha256": "e540afadce5d25aae1c4215a3a300f44ea3b511a2f76130bc4b5856c964b43f1"
+    },
+    {
+      "bytes": 315,
+      "path": "crates/gnos-icons/data/flags/seychelles.svg",
+      "sha256": "38bf73e8dc1c507999227314334095ea1a5a0cbc1a869e5147cb738f7cc00cc8"
+    },
+    {
+      "bytes": 218,
+      "path": "crates/gnos-icons/data/flags/sierra-leone.svg",
+      "sha256": "b4045dc20c1a04207999793919effafbb95fcb5583795dd6790a6db470447679"
+    },
+    {
+      "bytes": 640,
+      "path": "crates/gnos-icons/data/flags/singapore.svg",
+      "sha256": "f13aa4c44514cbcaa4a831fd8cea2dbc5efc13b9a406692a1ed1c92b11f3cf97"
+    },
+    {
+      "bytes": 861,
+      "path": "crates/gnos-icons/data/flags/sint-eustatius.svg",
+      "sha256": "c4b8e3c2572d2ffaa744318d1af9ac462461aac38597dc918ba9ae8c2153742c"
+    },
+    {
+      "bytes": 2120,
+      "path": "crates/gnos-icons/data/flags/sint-maarten.svg",
+      "sha256": "2ed3b355a152d2dff5105476efa5a242a6c04ddccb6c05c082918cf144e1f5ad"
+    },
+    {
+      "bytes": 1269,
+      "path": "crates/gnos-icons/data/flags/slovakia.svg",
+      "sha256": "5520e55761e524298817944ee48f0ec9ec4d835b57c0af9c4907bd9cd476eddf"
+    },
+    {
+      "bytes": 1290,
+      "path": "crates/gnos-icons/data/flags/slovenia.svg",
+      "sha256": "037e9add634f337ec7bc3f5fe221ee7d36a44166ccf14ecb8fbcc736ff245100"
+    },
+    {
+      "bytes": 623,
+      "path": "crates/gnos-icons/data/flags/solomon-islands.svg",
+      "sha256": "413c85c392eaa1a079d9219a74baa7c91f52c7deace6d5b8053b302d7fafee8e"
+    },
+    {
+      "bytes": 247,
+      "path": "crates/gnos-icons/data/flags/somalia.svg",
+      "sha256": "122c897e3e8406174e71800527dbd8ec35aec937db1baa279c14eb7ac753ad42"
+    },
+    {
+      "bytes": 8687,
+      "path": "crates/gnos-icons/data/flags/somaliland.svg",
+      "sha256": "44140968b9dacc83bd087e8ffb000ebb68ab29bcb2850aa326d4f104df362456"
+    },
+    {
+      "bytes": 447,
+      "path": "crates/gnos-icons/data/flags/south-africa.svg",
+      "sha256": "119be7da97d96f1d412d84958ab796ecb6a344cb4b9f347b98e71876fd05b068"
+    },
+    {
+      "bytes": 1495,
+      "path": "crates/gnos-icons/data/flags/south-american-union.svg",
+      "sha256": "78ec3bd5506bdb8c1a2ae0f7524b953ae12bff971f0906e1d683bded607dde7e"
+    },
+    {
+      "bytes": 6383,
+      "path": "crates/gnos-icons/data/flags/south-georgia-and-south-sandwich-islands.svg",
+      "sha256": "18b69abba1fbd768f52c2a186181baf32a0b029b17fcc269aacca1c93c04a9c8"
+    },
+    {
+      "bytes": 1184,
+      "path": "crates/gnos-icons/data/flags/south-korea.svg",
+      "sha256": "275a17612a48ed9a138c8fb654d7143e9353e3b6423702de9d92881b568de530"
+    },
+    {
+      "bytes": 210,
+      "path": "crates/gnos-icons/data/flags/south-ossetia.svg",
+      "sha256": "fb05d662e998c281ba5f65bc5c4c9235063b302aeb2354295cb77a2fa2da43c5"
+    },
+    {
+      "bytes": 429,
+      "path": "crates/gnos-icons/data/flags/south-sudan.svg",
+      "sha256": "68c3a4fc778a6de4925365f484aa685442a5690d1fee16a498ea1959d39db578"
+    },
+    {
+      "bytes": 2602,
+      "path": "crates/gnos-icons/data/flags/spain.svg",
+      "sha256": "cd1e698422d7c80977166c3355c7bc0dfc05cea34fb1fbd8410d0957e3389c3a"
+    },
+    {
+      "bytes": 1900,
+      "path": "crates/gnos-icons/data/flags/sri-lanka.svg",
+      "sha256": "3a2ed72021ccee1eb2a9f9be595e49e3a4a2ea329e75d7207aeabef3fe68fbe1"
+    },
+    {
+      "bytes": 261,
+      "path": "crates/gnos-icons/data/flags/sudan.svg",
+      "sha256": "14aa0d08f1bc84fd9404003d9167c7beb019c504f1cff5ae18713b5f17c9b0ff"
+    },
+    {
+      "bytes": 343,
+      "path": "crates/gnos-icons/data/flags/suriname.svg",
+      "sha256": "a38eafdcfcad75ecaa1953c7f4b8b918deba8ba51867c76f0b805d1c3b90c61e"
+    },
+    {
+      "bytes": 200,
+      "path": "crates/gnos-icons/data/flags/sweden.svg",
+      "sha256": "1f8f704bce7571f340cffac0eb87e286457c9ee9dab1a4e0f7d72b5956a63d2c"
+    },
+    {
+      "bytes": 216,
+      "path": "crates/gnos-icons/data/flags/switzerland.svg",
+      "sha256": "1d3152b631e4295e9840a58d971324f301d57413a9bc1ffd2ecadef4815280f7"
+    },
+    {
+      "bytes": 546,
+      "path": "crates/gnos-icons/data/flags/syria.svg",
+      "sha256": "6e8c57bc34666c176e71629a1bbaed93a2c2d755d3edb94c656e861ea8a5ac62"
+    },
+    {
+      "bytes": 853,
+      "path": "crates/gnos-icons/data/flags/taiwan.svg",
+      "sha256": "848e8b6911cd792f2bfbc652e63a8d3cbe62d58467e95de6497e289fbb965ed4"
+    },
+    {
+      "bytes": 1465,
+      "path": "crates/gnos-icons/data/flags/tajikistan.svg",
+      "sha256": "2b9b26f318cd98802da5d32e9037617fce1237afe68a38462bdfe464bcace38f"
+    },
+    {
+      "bytes": 294,
+      "path": "crates/gnos-icons/data/flags/tanzania.svg",
+      "sha256": "189036cdbe2f02f7943e9f37948f75d363f4789dc6586e2325fd425f38588ec7"
+    },
+    {
+      "bytes": 215,
+      "path": "crates/gnos-icons/data/flags/tatarstan.svg",
+      "sha256": "8167bddbad2ba9b779e9be5ee7372249afd3c43122ff590343fd566cd09fd58c"
+    },
+    {
+      "bytes": 219,
+      "path": "crates/gnos-icons/data/flags/thailand.svg",
+      "sha256": "858f2b1d119e6cd139ff9ee44a5c9fb0e04826ea38b6f5cc9094a47e2d0c9cb0"
+    },
+    {
+      "bytes": 1168,
+      "path": "crates/gnos-icons/data/flags/tibet.svg",
+      "sha256": "eec47ddcc86903355bb457199e3839e32573576fd57ff8bd7bc6973126af2e95"
+    },
+    {
+      "bytes": 365,
+      "path": "crates/gnos-icons/data/flags/togo.svg",
+      "sha256": "16ca0f1b39f2b20da2438f3925b6bab32aacb842bd90566d0591f1d3c7953069"
+    },
+    {
+      "bytes": 515,
+      "path": "crates/gnos-icons/data/flags/tokelau.svg",
+      "sha256": "cefa41b4323de8a75351f8d7938a3f8c8418c349e4547a0c1cc0988f2e609a4f"
+    },
+    {
+      "bytes": 268,
+      "path": "crates/gnos-icons/data/flags/tonga.svg",
+      "sha256": "7eea9578753095e5bd603e3842b8d48350d73c997a25e4b16f0b47d93440ab05"
+    },
+    {
+      "bytes": 834,
+      "path": "crates/gnos-icons/data/flags/transnistria.svg",
+      "sha256": "2987339fbd05637d401f9c654a43f7ad82bf8157d7eda5c0aa2beb3326180c0c"
+    },
+    {
+      "bytes": 227,
+      "path": "crates/gnos-icons/data/flags/trinidad-tobago.svg",
+      "sha256": "8eb8345b43720dd816f7b71c3ff9792060c8c8bf23b3981cce01f0b925915c74"
+    },
+    {
+      "bytes": 7431,
+      "path": "crates/gnos-icons/data/flags/tristan-da-cunha.svg",
+      "sha256": "d913f01b77af298193aa8dad2faed315feeb6c6f161ddac8069c3050908c1aae"
+    },
+    {
+      "bytes": 354,
+      "path": "crates/gnos-icons/data/flags/tunisia.svg",
+      "sha256": "ea971fa7d4d674c37d7497ae534c69652bf7a824ed2bfb5bebc4126ed141e236"
+    },
+    {
+      "bytes": 341,
+      "path": "crates/gnos-icons/data/flags/turkey.svg",
+      "sha256": "1d240c51629630175b0ed7e02a031d55761badb301bbed2a83ed0eb92c63ac5f"
+    },
+    {
+      "bytes": 3874,
+      "path": "crates/gnos-icons/data/flags/turkic-states.svg",
+      "sha256": "4ef701051fb5baaaa9b0ec2b3bb1096e90f7537d1dc9e3d57e101821024adfc0"
+    },
+    {
+      "bytes": 615,
+      "path": "crates/gnos-icons/data/flags/turkmenistan.svg",
+      "sha256": "2d57d1bee135b94e3aa75c83ebd11c33a11aa22a2f122d0e1eeef89ab2e46a54"
+    },
+    {
+      "bytes": 3538,
+      "path": "crates/gnos-icons/data/flags/turks-and-caicos-islands.svg",
+      "sha256": "28b6063a2ed56b355a8f0dbd86f62d814dd1e44e5e129e6fecce6d856619c64a"
+    },
+    {
+      "bytes": 1326,
+      "path": "crates/gnos-icons/data/flags/tuvalu.svg",
+      "sha256": "d2db82f61067acc6a77742550f4f9ae25123be9e1af6fa23d99605b52b4e8873"
+    },
+    {
+      "bytes": 1089,
+      "path": "crates/gnos-icons/data/flags/uganda.svg",
+      "sha256": "931e9122cba245bf895f258fd8f08f335a3545c0b56f8ec6ea2dc51cec0fab6c"
+    },
+    {
+      "bytes": 180,
+      "path": "crates/gnos-icons/data/flags/ukraine.svg",
+      "sha256": "3694c8a7218d7c84911897f933dde580adc51ba264a90bdba4ce8ae60d10124d"
+    },
+    {
+      "bytes": 6327,
+      "path": "crates/gnos-icons/data/flags/un.svg",
+      "sha256": "047dd8907d4671db9e74aab2267a5630e2bef9b3822192676a3d5d60862c8de3"
+    },
+    {
+      "bytes": 258,
+      "path": "crates/gnos-icons/data/flags/united-arab-emirates.svg",
+      "sha256": "a4ca32c89feefdf4a94dbd213c553458a24fbaf588f2f854ae63ea106de465fb"
+    },
+    {
+      "bytes": 547,
+      "path": "crates/gnos-icons/data/flags/united-kingdom.svg",
+      "sha256": "1c1acc372c3d9c6c1c0e91442a43c8766c5e06ad68c1a6adcec0f93acfbae9c2"
+    },
+    {
+      "bytes": 1531,
+      "path": "crates/gnos-icons/data/flags/united-states.svg",
+      "sha256": "555fa159b5c44bcbb00a625bdfe3e914e87385b43789f466e669985d17438de7"
+    },
+    {
+      "bytes": 209,
+      "path": "crates/gnos-icons/data/flags/unknown.svg",
+      "sha256": "e3cfb55ebb5de445a385a2f6171becbe535e7e052472a7858d62c3430db01f7e"
+    },
+    {
+      "bytes": 830,
+      "path": "crates/gnos-icons/data/flags/uruguay.svg",
+      "sha256": "7d7c9f8b133e173c837e9da524e5a8a4e390d6bc634af00967c66f0052f37cec"
+    },
+    {
+      "bytes": 566,
+      "path": "crates/gnos-icons/data/flags/uzbekistan.svg",
+      "sha256": "e3d3881b7bd4693ef37f1506e04c458d93c3b3ca97ae891e70bad43b7995293c"
+    },
+    {
+      "bytes": 830,
+      "path": "crates/gnos-icons/data/flags/vanuatu.svg",
+      "sha256": "b78ba372d82c1ffaf2c819af4d403eba5f50b074bcadfe8b319bfe8056153ced"
+    },
+    {
+      "bytes": 4833,
+      "path": "crates/gnos-icons/data/flags/vatican.svg",
+      "sha256": "719f3eb5d477468d6bfb1b54f10b2d28c291786eaa889b0ed29590bd759a7009"
+    },
+    {
+      "bytes": 807,
+      "path": "crates/gnos-icons/data/flags/venezuela.svg",
+      "sha256": "5b849c09582b149a0f7ee659653ea1d9a38553a238390c7912bf38ecc442b17b"
+    },
+    {
+      "bytes": 247,
+      "path": "crates/gnos-icons/data/flags/vietnam.svg",
+      "sha256": "f1ce8a2a037ddca0dfcc0e8cff37f560c63c07522a09dd329de458d45dee6afc"
+    },
+    {
+      "bytes": 4036,
+      "path": "crates/gnos-icons/data/flags/virgin-islands.svg",
+      "sha256": "fecaab906a80146b709486c5e8e20cad9da655ad64438cbbed4537b1c6d89120"
+    },
+    {
+      "bytes": 4984,
+      "path": "crates/gnos-icons/data/flags/wales.svg",
+      "sha256": "6ca88404aa9475c4ba8623f81884162d3c5e5c0815622d353cdbafdeba248eeb"
+    },
+    {
+      "bytes": 307,
+      "path": "crates/gnos-icons/data/flags/wallis-and-futuna.svg",
+      "sha256": "3042daf482a11afd2ffbb9e1c93095a97f16f61aac72d2441942c0d515dd7c71"
+    },
+    {
+      "bytes": 496,
+      "path": "crates/gnos-icons/data/flags/western-sahara.svg",
+      "sha256": "cbbe7494885264dae33c0f4c88b9af39c67d3572b426ae1b2fc6294e2e45e02c"
+    },
+    {
+      "bytes": 215,
+      "path": "crates/gnos-icons/data/flags/yemen.svg",
+      "sha256": "6b000f95dd82807eff554e9be4a3b3bc18110a001f612e384dc6a8cbafe8c032"
+    },
+    {
+      "bytes": 1365,
+      "path": "crates/gnos-icons/data/flags/zambia.svg",
+      "sha256": "71dac286265c3d15691a9afe9184b6d52919a03f7865d55cb8a07c7576e961c8"
+    },
+    {
+      "bytes": 718,
+      "path": "crates/gnos-icons/data/flags/zimbabwe.svg",
+      "sha256": "b1f4eea76022dc1d1adad8c082f07382e5a48968bafed5d8ced5c6d43897143f"
+    },
+    {
+      "bytes": 1347097,
+      "path": "crates/gnos-icons/data/outline.tsv",
+      "sha256": "db3fecb7c853cf7af1c31c2103ccb5b114136a63bf1d1b2af0e88f63f991a620"
+    },
+    {
+      "bytes": 22182,
+      "path": "crates/gnos-icons/src/flags_index.rs",
+      "sha256": "11427697512d4d3173b83b1e94cbdee73e12ab78bb992ca94dd3e6f4c2dca6dd"
+    },
+    {
+      "bytes": 4561,
+      "path": "crates/gnos-icons/src/lib.rs",
+      "sha256": "2dbc314b9d6099c43c0219cbbec0774c81c97234499d83b10c48feb8cabccd62"
+    },
+    {
+      "bytes": 11880,
+      "path": "crates/gnos-icons/src/path.rs",
+      "sha256": "2a0f27f246c8af1fb071d681aa73ea9a82752328199324e1daad3b314bbc7ad4"
+    },
+    {
+      "bytes": 3499,
+      "path": "crates/gnos-icons/src/tests.rs",
+      "sha256": "14e6fc236693426afa6c324a22c20b1fcf4da9f2061e5c559a1579acac7dec28"
+    },
+    {
+      "bytes": 1724,
+      "path": "crates/gnos-lock/Cargo.toml",
+      "sha256": "ed96594ae61838376555f040fa5e64e097aa315599c63219dba26650f6cfb328"
+    },
+    {
+      "bytes": 33728,
+      "path": "crates/gnos-lock/src/bin/gnos-lockd.rs",
+      "sha256": "f0c21311a405418d4562277ce3aa96de5179f0dacb5c517eb5a7b547f62c94f5"
+    },
+    {
+      "bytes": 14126,
+      "path": "crates/gnos-lock/src/config.rs",
+      "sha256": "64fb8e3389c68587a710c2436836d9f668617d4c06ac40143ce79645cbc5dd04"
+    },
+    {
+      "bytes": 934,
+      "path": "crates/gnos-lock/src/lib.rs",
+      "sha256": "36d1b9cf813de9f1ab950513254fd7d9b15be08082fdaf1f37dc81ef008f9e79"
+    },
+    {
+      "bytes": 14175,
+      "path": "crates/gnos-lock/src/machine.rs",
+      "sha256": "4dd9f0b7dcd3e34df3a65f36a219627d890563ed7b7fc7d3eb8248ecce8a051c"
+    },
+    {
+      "bytes": 420,
+      "path": "crates/gnos-modules/Cargo.toml",
+      "sha256": "fed474ba23e5f37ca688277b515e4373a9577bbf51f9ec79284c4298ec5a9c73"
+    },
+    {
+      "bytes": 259,
+      "path": "crates/gnos-modules/manifests/active-window.toml",
+      "sha256": "a2a8163382458095dd067c05f47bbfa69e93a9c48057205ff15678c542216109"
+    },
+    {
+      "bytes": 262,
+      "path": "crates/gnos-modules/manifests/clock.toml",
+      "sha256": "d70e3e5468b1ca38b8ec6add090b61c1815c727101e82a5eec7f0fd621119ef7"
+    },
+    {
+      "bytes": 257,
+      "path": "crates/gnos-modules/manifests/dictation.toml",
+      "sha256": "e9b41de0b7f4360a160e0d855ae80f7fe6d8e05af7bcd55a4b111365ff9a3241"
+    },
+    {
+      "bytes": 357,
+      "path": "crates/gnos-modules/manifests/quick-settings.toml",
+      "sha256": "2c4ac03891d323cc8d7f233ecc643bfd051ab3d278ecad6e3d7ae94ad7e71039"
+    },
+    {
+      "bytes": 244,
+      "path": "crates/gnos-modules/manifests/session.toml",
+      "sha256": "a925755810e24660d8d963009f462aef2b2ab1120b158887902302462e1668da"
+    },
+    {
+      "bytes": 246,
+      "path": "crates/gnos-modules/manifests/tray.toml",
+      "sha256": "0d6c000d0cb72a3c1c9a517e17b76290e934ced717d41183a012bed814103297"
+    },
+    {
+      "bytes": 257,
+      "path": "crates/gnos-modules/manifests/visualiser.toml",
+      "sha256": "1befa7deefd00da9fbfd6af10080662bf845ad3021c1e303ac258a72ba657c47"
+    },
+    {
+      "bytes": 318,
+      "path": "crates/gnos-modules/manifests/workspaces.toml",
+      "sha256": "71cf96f147af534c6f87f62655e0091d700d9aee4da686d4bf79693835db6060"
+    },
+    {
+      "bytes": 10196,
+      "path": "crates/gnos-modules/src/lib.rs",
+      "sha256": "8e1bffbfa92833a747b0aeafcc4c44f87ea64ba9d63aef7b0145c89a66fd02ee"
+    },
+    {
+      "bytes": 3186,
+      "path": "crates/gnos-modules/src/tests.rs",
+      "sha256": "f0c9aa882dba477af93ccb0c4c3c0d05f3b52f80bbe834abc98395703d03b164"
+    },
+    {
+      "bytes": 524,
+      "path": "crates/gnos-network/Cargo.toml",
+      "sha256": "0295c4064083cd9f714361b0d5cd262444aff3aca6dae8a514b89818963ee88f"
+    },
+    {
+      "bytes": 12003,
+      "path": "crates/gnos-network/qualification/phase2_causal_mutations.py",
+      "sha256": "17837fc8a09416edbca2e87f225c9e03cb3756480e431353e707bef7ec507795"
+    },
+    {
+      "bytes": 18806,
+      "path": "crates/gnos-network/qualification/phase2_network_gate.py",
+      "sha256": "5eae3dd810ba9df7462bffa147e78a0171be6c074d4aac25ed5cdce09cc217fa"
+    },
+    {
+      "bytes": 3518,
+      "path": "crates/gnos-network/src/bin/gnos-network-observe.rs",
+      "sha256": "1694e923bf8af77cd94402cfc8265a09869664ab1567d5d59a548f2ab5905dce"
+    },
+    {
+      "bytes": 582,
+      "path": "crates/gnos-network/src/bin/gnos-network-wifi-list.rs",
+      "sha256": "5a11b9ceac9ab331bfc77d26e50c13ca61da31ac1ab41f28e561ef48d639e92c"
+    },
+    {
+      "bytes": 1155,
+      "path": "crates/gnos-network/src/lib.rs",
+      "sha256": "adb6a39a37db23f64bb520d9d638acd494256db805966716266183253465f0d0"
+    },
+    {
+      "bytes": 31415,
+      "path": "crates/gnos-network/src/model.rs",
+      "sha256": "ddbb8fa9e04a2eae9f0bec456606fef9b8c2cee031a1143b192aa34912d1bef4"
+    },
+    {
+      "bytes": 10031,
+      "path": "crates/gnos-network/src/model/tests.rs",
+      "sha256": "2abe505294c732a7fd2790ad9336ef8a96a37ff06cbc0d763234def3836bf889"
+    },
+    {
+      "bytes": 5574,
+      "path": "crates/gnos-network/src/nm_mutation.rs",
+      "sha256": "3ac6a326b71f8b7874d906e7463f8db59a81bfda024b0b046d2795f5860bbc40"
+    },
+    {
+      "bytes": 19466,
+      "path": "crates/gnos-network/src/nm_observer.rs",
+      "sha256": "cd521f8aecede52d006d314142ee23550f12e68fcaa0f719538a321461bd36af"
+    },
+    {
+      "bytes": 12103,
+      "path": "crates/gnos-network/src/reducer.rs",
+      "sha256": "99c19f130ae0bc0568757b21d0a5d40de96af2722cdd2d039b0710a9ff480947"
+    },
+    {
+      "bytes": 22255,
+      "path": "crates/gnos-network/src/reducer/tests.rs",
+      "sha256": "bf2ff3e56f67b4cd75cb60a99132b9d497fbb2ee4d7c8e1d2c1291efd51f6b00"
+    },
+    {
+      "bytes": 6747,
+      "path": "crates/gnos-network/src/runner.rs",
+      "sha256": "aea3666390f797968e0dc0d02784194f7e6ecd54a39a84693040a5c0ef9b16ea"
+    },
+    {
+      "bytes": 11354,
+      "path": "crates/gnos-network/src/wifi.rs",
+      "sha256": "7015b3e084e83487e4d14d246bcb18e72b7839f42425a67356fa4ca15ac47aa4"
+    },
+    {
+      "bytes": 599,
+      "path": "crates/gnos-notifications/Cargo.toml",
+      "sha256": "95dd3ffbb7f8848742024e9cbca34b9a50b68e20bf9ca4199bb0c2574a24f61f"
+    },
+    {
+      "bytes": 650,
+      "path": "crates/gnos-notifications/src/lib.rs",
+      "sha256": "71f1fdacd5ea973ab87a98908640b86dcb26db339bc7e8e343d5c46def18c550"
+    },
+    {
+      "bytes": 7222,
+      "path": "crates/gnos-notifications/src/model.rs",
+      "sha256": "4387daa0a9cb89c00a2f4fa211f47cc971730e121ff58add90144355912eb9e5"
+    },
+    {
+      "bytes": 6443,
+      "path": "crates/gnos-notifications/src/prefs.rs",
+      "sha256": "499ac021f3d1330b616e99ce7ed3f52153a78fb645279eaaae02eba6d02e61f8"
+    },
+    {
+      "bytes": 19748,
+      "path": "crates/gnos-notifications/src/server.rs",
+      "sha256": "30c3a138d761d3823a0a342dc7dc53c54e7789659e28e7155ee3751f093d9f43"
+    },
+    {
+      "bytes": 25782,
+      "path": "crates/gnos-notifications/src/store.rs",
+      "sha256": "1924dfb736f2355c2e19be8731aa18ed3ddde3f772ac17e5bc106e1646d05b45"
+    },
+    {
+      "bytes": 15321,
+      "path": "crates/gnos-notifications/tests/private_bus.rs",
+      "sha256": "3e806300293ca9c2fcc6ad21e31490026f8ef74206b0793449bee5598fd22f87"
+    },
+    {
+      "bytes": 399,
+      "path": "crates/gnos-power/Cargo.toml",
+      "sha256": "fd7b6e9ecd1ed8a5d9db700d0dabcc112447ddb6687e60ca2d8456c374021ab4"
+    },
+    {
+      "bytes": 195,
+      "path": "crates/gnos-power/src/bin/gnos-power-observe.rs",
+      "sha256": "bcdc1759eaf8e67f4bd7ab996e08d14481a7168198c0d15615ef77c324c1fbf1"
+    },
+    {
+      "bytes": 16803,
+      "path": "crates/gnos-power/src/lib.rs",
+      "sha256": "763c4ca66b8425f7bdbbc762d08de0dce0499485c4cbc67e662a5c5dbc75f484"
+    },
+    {
+      "bytes": 8666,
+      "path": "crates/gnos-power/tests/private_bus.rs",
+      "sha256": "f88386dcc5f995ab9bd73bacf7694608da883a3128d279c958191273a258a1c7"
+    },
+    {
+      "bytes": 306,
+      "path": "crates/gnos-text/Cargo.toml",
+      "sha256": "efe28a21e85443a5dc5aac88c7f90c4459e3e17f43a7aec4d55fac448e35f581"
+    },
+    {
+      "bytes": 13033,
+      "path": "crates/gnos-text/src/lib.rs",
+      "sha256": "470d0cf3d675ef327c5bfb05f92d9f09308b8c79a39c3fa98eb10ad81ec7bcaf"
+    },
+    {
+      "bytes": 597,
+      "path": "crates/gnos-thumbnails/Cargo.toml",
+      "sha256": "b54d2538b605d575e4395ee20a85a9fb51a6d532109b2b94098ede72eef752ae"
+    },
+    {
+      "bytes": 633,
+      "path": "crates/gnos-thumbnails/protocols/README.md",
+      "sha256": "8f19e189f7ebbd5145d4fa6d6b34c03c7a61dff746ab9f535cdb212db4d68d3d"
+    },
+    {
+      "bytes": 4792,
+      "path": "crates/gnos-thumbnails/protocols/hyprland-toplevel-mapping-v1.xml",
+      "sha256": "05464521a13c96ed274a8545d84ac03980d94b32bd55a8467c7949ed1a1ee96e"
+    },
+    {
+      "bytes": 4127,
+      "path": "crates/gnos-thumbnails/src/bin/gnos-thumbnails-probe.rs",
+      "sha256": "d5c8661a1ca42aa61381321334d356b2f13ecb99d960d42ae8dc6e5a43b352c1"
+    },
+    {
+      "bytes": 4065,
+      "path": "crates/gnos-thumbnails/src/lib.rs",
+      "sha256": "ea660f7b9e5618c70b62751c92f8081eef748f802d166c1a4d9e173e61f424c2"
+    },
+    {
+      "bytes": 4225,
+      "path": "crates/gnos-thumbnails/src/policy.rs",
+      "sha256": "bef026eda674dbefec80fa31338a793f09dd98423e33ee61a8126c1d398d195e"
+    },
+    {
+      "bytes": 3973,
+      "path": "crates/gnos-thumbnails/src/scale.rs",
+      "sha256": "04226e9174da2d01a30f57eaf7e1566293eae767ee72be94e49779a107acf636"
+    },
+    {
+      "bytes": 21858,
+      "path": "crates/gnos-thumbnails/src/worker.rs",
+      "sha256": "65a62edd3caa815e21d14f7d3758f5e9057ec80f1ccd0580aa267fcd68ab8a96"
+    },
+    {
+      "bytes": 600,
+      "path": "crates/gnos-utilities/Cargo.toml",
+      "sha256": "69a855d2ca566995867504b82c31262ee75395e31b57ef1b18353f7619e88cb8"
+    },
+    {
+      "bytes": 12221,
+      "path": "crates/gnos-utilities/src/brightness.rs",
+      "sha256": "284cf65afda13a9b9864021f04db1d889d2c248df93dab8a4d2feae309775d10"
+    },
+    {
+      "bytes": 19369,
+      "path": "crates/gnos-utilities/src/displays.rs",
+      "sha256": "c0a764b73f810a0a385509bc6a25ce5c80a3454e9e15426ff5af161682016c96"
+    },
+    {
+      "bytes": 4889,
+      "path": "crates/gnos-utilities/src/idle.rs",
+      "sha256": "deb33a68b119e2ae7454b9d4e1f22bb873e55a13ab709fe060387afa4717f927"
+    },
+    {
+      "bytes": 941,
+      "path": "crates/gnos-utilities/src/lib.rs",
+      "sha256": "90453aa46bdeac7e7a383754143893fe3f511c3fc96578f6e6baa5b38a301a12"
+    },
+    {
+      "bytes": 8242,
+      "path": "crates/gnos-utilities/src/resources.rs",
+      "sha256": "4e534feaccaf4db792405a7d570b852a920514740a32ca2781a5f844b66e4677"
+    },
+    {
+      "bytes": 14206,
+      "path": "crates/gnos-utilities/src/session.rs",
+      "sha256": "60fa29d3a9e58b31c2293569da1bedcfc5a7cfd42923655b20cea60192763a40"
     },
     {
       "bytes": 421,
@@ -97,19 +2082,174 @@
       "sha256": "b6b2071e495507a0e4bf0ccc50dcd08cd1532d37d15d25ca7c975d368fbb2ea4"
     },
     {
-      "bytes": 6860,
+      "bytes": 7552,
       "path": "crates/gnos-ux-activation-client/src/lib.rs",
-      "sha256": "618dae30ed3c70e94382bd08eec8a8ff0457c4a4e16b5785aebc087bf5421f80"
+      "sha256": "c0bdf54d40ebaee9f5e4bb6b6086b5cf85ddaf59dc720180040ef8c0e62b00af"
     },
     {
-      "bytes": 2588,
+      "bytes": 1911,
+      "path": "crates/gnos-ux-gpui/CLAUDE.md",
+      "sha256": "d2925a43a7c023d20c40d4315cdc71d958702342b0e6b7f3c59986e20ddc131f"
+    },
+    {
+      "bytes": 3921,
       "path": "crates/gnos-ux-gpui/Cargo.toml",
-      "sha256": "50244f0e3562f52f5cb616a1e96d6fbe24ca15633995263034a78057c9905c6d"
+      "sha256": "80e4a3a85b390c207b7902d6829123b723e408452c71b9fdb7aeba146499472b"
     },
     {
-      "bytes": 19086,
+      "bytes": 191116,
+      "path": "crates/gnos-ux-gpui/assets/fonts/gnosix-reference-sans-01f/GnosixReferenceSans01F-Regular.ttf",
+      "sha256": "cfc83ca0e1b162277c8b0ddd9d788ff5536740fc2d91c99d6013b8d61ea3cf75"
+    },
+    {
+      "bytes": 4302,
+      "path": "crates/gnos-ux-gpui/assets/fonts/gnosix-reference-sans-01f/LICENSE-OFL-1.1.txt",
+      "sha256": "fb755fa3280d1d215a20df2e64fe6a0f75f8208439b11671978214aae60d2997"
+    },
+    {
+      "bytes": 822,
+      "path": "crates/gnos-ux-gpui/assets/fonts/gnosix-reference-sans-01f/derivation.json",
+      "sha256": "3c3d6a47c39a42af3ad5e54898f3f7311e5a91f2577550c84c0f42fe06e41919"
+    },
+    {
+      "bytes": 973,
+      "path": "crates/gnos-ux-gpui/assets/identity/README.md",
+      "sha256": "2546156551db6694dd15c17d012dc76fd17ab2fcebf53a86a63f4eb671291af0"
+    },
+    {
+      "bytes": 14053,
+      "path": "crates/gnos-ux-gpui/assets/identity/gnosix-cube-128.png",
+      "sha256": "f491851e083c9ddb6d4e2d515551dd564ce103648628ae6ac275da129d13cf2d"
+    },
+    {
+      "bytes": 5243,
+      "path": "crates/gnos-ux-gpui/assets/identity/gnosix-cube-64.png",
+      "sha256": "be22a823942221e2f384201294321584c78932241e38ef965f92f46954d3ded6"
+    },
+    {
+      "bytes": 1216,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/README.md",
+      "sha256": "d857729db271d6a015edff9f944d8618f074c77a5692889ddaa6561dea902c82"
+    },
+    {
+      "bytes": 239,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/icons/GnosixTrayFixture/24/fixture-attention.svg",
+      "sha256": "8943363b2eb270202e05935ec008b06c824791d972c56ec5060b35c2b6f83809"
+    },
+    {
+      "bytes": 217,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/icons/GnosixTrayFixture/24/fixture-normal.svg",
+      "sha256": "8f2945cc42f9dcd1b6e82cee9cd4b08b519ae28acf0525e9070617f6185f3326"
+    },
+    {
+      "bytes": 247,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/icons/GnosixTrayFixture/24/fixture-overlay.svg",
+      "sha256": "ca5be8a42d67a19416eaa97c8e5226d514d8202cea739c3ee2602e72f587dd25"
+    },
+    {
+      "bytes": 119,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/icons/GnosixTrayFixture/index.theme",
+      "sha256": "84f190f8da9b245464adb463c05afafa0e1e8c13a0a86b76267b2fb7380a6085"
+    },
+    {
+      "bytes": 183,
+      "path": "crates/gnos-ux-gpui/fixtures/tray-native/item-icons/fixture-private.svg",
+      "sha256": "100820cffd063d0b64f0416a9023ece4507c16f42b64817970c70c29554f09e3"
+    },
+    {
+      "bytes": 4521,
+      "path": "crates/gnos-ux-gpui/qualification/phase3_audio_product_gate.py",
+      "sha256": "5144cf75bb88d0301ed1bf08529ba9f41058074fc60ef7045c5151f4215d6b79"
+    },
+    {
+      "bytes": 6161,
+      "path": "crates/gnos-ux-gpui/qualification/phase3_network_causal_mutations.py",
+      "sha256": "90871b61eb3c2e83032d41dde603102bf76fbd8e3c498f4eb1892dd6d76894a3"
+    },
+    {
+      "bytes": 11035,
+      "path": "crates/gnos-ux-gpui/qualification/phase3_network_gate.py",
+      "sha256": "1d92284a7202d1524066a755d7165927c2ebe6fd21176022825d0d3d4c26ed71"
+    },
+    {
+      "bytes": 7763,
+      "path": "crates/gnos-ux-gpui/qualification/phase4_audio_action_gate.py",
+      "sha256": "9d95fec7f4e2b9d7f4e2c00d03421666294ac08fe4686a8ca2488d1068fefee9"
+    },
+    {
+      "bytes": 15497,
+      "path": "crates/gnos-ux-gpui/qualification/phase5_audio_osd_gate.py",
+      "sha256": "5b3534b0a59d4109c4f5920ec8f32a031c189610bdb43ff0a582262e0e73ee42"
+    },
+    {
+      "bytes": 6776,
+      "path": "crates/gnos-ux-gpui/qualification/phase5_osd_causal_mutations.py",
+      "sha256": "8114c7953d2431936e19a928030d5ba5857c8371414581708a755388feab2ab1"
+    },
+    {
+      "bytes": 10775,
+      "path": "crates/gnos-ux-gpui/src/attention.rs",
+      "sha256": "00e243eb50b47d48319f5e8f481df9ff9a6f8240a1d74c6297d68b4c81ce4ae0"
+    },
+    {
+      "bytes": 34728,
+      "path": "crates/gnos-ux-gpui/src/bar_audio_popout.rs",
+      "sha256": "80c43497c488f6fd20000d1f75268c5142999bf8e9a60446e8ef5a5592fff81f"
+    },
+    {
+      "bytes": 11793,
+      "path": "crates/gnos-ux-gpui/src/bar_osd.rs",
+      "sha256": "c584edfe9751565b99b9a81843aafeb3c32b6a87116a6edb935b17fee3723ffd"
+    },
+    {
+      "bytes": 4071,
+      "path": "crates/gnos-ux-gpui/src/bar_osd_view.rs",
+      "sha256": "f789ee86e651e339c9b6abace79b8fd80d0f1451579ef64405a45ad183483e80"
+    },
+    {
+      "bytes": 37715,
       "path": "crates/gnos-ux-gpui/src/bar_placement_lab.rs",
-      "sha256": "e9d072e091f7dd60d891def5963e605ee6c54b5fa877a95ee53b111523f00eed"
+      "sha256": "88cc2483fa01437087418828ac1d43d975849db57c8fa89cb7cd35df28a9915e"
+    },
+    {
+      "bytes": 35576,
+      "path": "crates/gnos-ux-gpui/src/bar_pointer_routing.rs",
+      "sha256": "945859e4eae41720633fc803d760af73b269218d88403f0f5f0519d5e13728d2"
+    },
+    {
+      "bytes": 54098,
+      "path": "crates/gnos-ux-gpui/src/bar_popout_host.rs",
+      "sha256": "013cd4cc36d3407b9389aaad96c9e614fc61632c26438b3b2827c62086da9e9e"
+    },
+    {
+      "bytes": 11740,
+      "path": "crates/gnos-ux-gpui/src/bar_popout_view.rs",
+      "sha256": "9aa432ae8e6184cd6317ba0a142e9353b2bc665ad4623a313b05a954bd97f761"
+    },
+    {
+      "bytes": 8638,
+      "path": "crates/gnos-ux-gpui/src/bar_status_popout_view.rs",
+      "sha256": "235374ee95b3e68e983d5f24398953677e298689a3a71cccc1f6e4c0846a9fa0"
+    },
+    {
+      "bytes": 26622,
+      "path": "crates/gnos-ux-gpui/src/bar_status_popouts.rs",
+      "sha256": "f33077b01d4fbb67d9f0b37245f0710d6ecfd57d8edd3a2afcb8091a9636a224"
+    },
+    {
+      "bytes": 28728,
+      "path": "crates/gnos-ux-gpui/src/bar_strip.rs",
+      "sha256": "82577fe332bfec7ccd8433675e462824a2d5811fad0edd3c31275fdb939849e8"
+    },
+    {
+      "bytes": 19362,
+      "path": "crates/gnos-ux-gpui/src/bar_strip/tests.rs",
+      "sha256": "9d886f0d95f5eeafece6e4cf1b66d06dfe60ec677aea191c8f705638c4d40762"
+    },
+    {
+      "bytes": 6502,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-audio-qualify.rs",
+      "sha256": "e8f296018cc005f6ad64dada08196ea44bdfad4ec294b930bd78560e2d33ca54"
     },
     {
       "bytes": 22841,
@@ -117,9 +2257,9 @@
       "sha256": "1f15f4e357cb4241336e055303e72c65755b7c9990d5d2ea33a586bced936ec2"
     },
     {
-      "bytes": 3976,
+      "bytes": 8275,
       "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-bar-placement-lab.rs",
-      "sha256": "3ce2292342cfbd0469f8f92ba2096ec80209746d791b78e46db6551dc06d25a0"
+      "sha256": "a54898270ad5bc473302384c9532c95ccd6d0b0970636d04f6c24e11a86b707c"
     },
     {
       "bytes": 474,
@@ -147,9 +2287,14 @@
       "sha256": "509d85259851641a377cf58fc1708e7e9d99afc21a32cc3fb4ccecaa1f3c0c5b"
     },
     {
-      "bytes": 50262,
+      "bytes": 1709,
+      "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-hull-input-qualify.rs",
+      "sha256": "ac5e56a51eb884e19eaa619de8a7f8725b8986898298cad19004337d2af519ae"
+    },
+    {
+      "bytes": 54748,
       "path": "crates/gnos-ux-gpui/src/bin/gnos-ux-lab.rs",
-      "sha256": "fc1e528b416d0a7c33b69d7838ec53b8f3e6f108d956d75e22095390b89e58b6"
+      "sha256": "4840f6c5528504a8f8b9ef4b8ea995cba93cf37d19a7132246231d012ce8a2f1"
     },
     {
       "bytes": 235,
@@ -162,14 +2307,124 @@
       "sha256": "d84ec06e67b0cec32cc2aa71e949a05d668eda5221d243d8e912e15ec27eed72"
     },
     {
+      "bytes": 3294,
+      "path": "crates/gnos-ux-gpui/src/compositor_blur.rs",
+      "sha256": "819e9ded4d901ee5e46284666f17f5c1bdfc3ccdbbda90acbe5a5e0988c1b52d"
+    },
+    {
+      "bytes": 6644,
+      "path": "crates/gnos-ux-gpui/src/cursor.rs",
+      "sha256": "4b8e2b30e5f49c6f7b31d528a5b537af8cf43fd6323acb7a5be7dd38e2db34e4"
+    },
+    {
+      "bytes": 28653,
+      "path": "crates/gnos-ux-gpui/src/dashboard_panel.rs",
+      "sha256": "cd4548897193972fd1c69a7883a1d5ac3ccf3ed579e5fc1015b610d22b3e5ef4"
+    },
+    {
+      "bytes": 5980,
+      "path": "crates/gnos-ux-gpui/src/dashboard_view.rs",
+      "sha256": "6abc70ad168b583873be707488b72ef06ba0ecbc66e8c6875756e682732ef3fd"
+    },
+    {
+      "bytes": 13686,
+      "path": "crates/gnos-ux-gpui/src/deck.rs",
+      "sha256": "f2cd3e343886003a272edd61973762e5f66be140184321f20d9f074580b34a82"
+    },
+    {
+      "bytes": 11193,
+      "path": "crates/gnos-ux-gpui/src/deck/drag.rs",
+      "sha256": "a92a2c8f39d5731ad42eddef394de9f3e41d7d3d3513d6ee761443bf1f59e61b"
+    },
+    {
+      "bytes": 6988,
+      "path": "crates/gnos-ux-gpui/src/deck/drag/tests.rs",
+      "sha256": "6a5e073a46a98ec5458a0dccca74d0fb2ec3c6f85a3e34f7d7e891bcb94b941d"
+    },
+    {
+      "bytes": 9676,
+      "path": "crates/gnos-ux-gpui/src/deck/sheet.rs",
+      "sha256": "53c9d45c5bb14ec880fa6a2233854047b0bcc294374aaea15631704716fef64c"
+    },
+    {
+      "bytes": 5917,
+      "path": "crates/gnos-ux-gpui/src/deck/sheet/tests.rs",
+      "sha256": "6bdd52139ae358e95c7ee41048892cfa7281dc28ef54d5d36c8dd25af2f9bdd5"
+    },
+    {
+      "bytes": 36393,
+      "path": "crates/gnos-ux-gpui/src/deck/stack.rs",
+      "sha256": "c424aa2703a3a1819eb891dde7abe2e41d7ad9f1610a18f1de0bed4d6c3079e9"
+    },
+    {
+      "bytes": 15988,
+      "path": "crates/gnos-ux-gpui/src/deck/stack/tests.rs",
+      "sha256": "91bcafdd99c8021e2fc0a1a4ce5076ea73e396e2d2a115cfce1bed239c43477b"
+    },
+    {
+      "bytes": 22071,
+      "path": "crates/gnos-ux-gpui/src/deck/stack_content.rs",
+      "sha256": "cdeee83d235a5f95ecbf8862c129437e1ac7f9780d9356f9ce7e524418a5ecbb"
+    },
+    {
+      "bytes": 8157,
+      "path": "crates/gnos-ux-gpui/src/deck/stack_view.rs",
+      "sha256": "b350bfc2f14f7e8f5fd8514a9a6b9a68017cea3584b16033f5fb180a6b0eac8f"
+    },
+    {
+      "bytes": 6954,
+      "path": "crates/gnos-ux-gpui/src/deck/tests.rs",
+      "sha256": "2269c6e981a5cdc2a273e5611c43d7d2d64bd5d18ddf451e656f65432c2aa7e2"
+    },
+    {
+      "bytes": 26688,
+      "path": "crates/gnos-ux-gpui/src/deck/wave.rs",
+      "sha256": "039f1099c4c4adf1a81e5b5ac5230c6e0e5e41c98c69ed4511337e60f077da54"
+    },
+    {
+      "bytes": 14461,
+      "path": "crates/gnos-ux-gpui/src/deck/wave/tests.rs",
+      "sha256": "21359b2114f16aca1dd1ed8784c24fbb1ed1059340a0de155037f6e0c2bd5057"
+    },
+    {
+      "bytes": 22110,
+      "path": "crates/gnos-ux-gpui/src/desktop_layer.rs",
+      "sha256": "c1f15ddfb1dae1b7a421590b7ab6fdc9818097818ec061013d112d7772687aad"
+    },
+    {
+      "bytes": 12112,
+      "path": "crates/gnos-ux-gpui/src/desktop_modules.rs",
+      "sha256": "668f3885dfe1a70ee2ab0d89782839bf62c8ca2ac13ec40ad606e297f49fba12"
+    },
+    {
       "bytes": 8659,
       "path": "crates/gnos-ux-gpui/src/geometry_lab.rs",
       "sha256": "9b95623debe4014d76ae71a54064b3719002bdb22405251585cf75d97b5f9282"
     },
     {
+      "bytes": 21673,
+      "path": "crates/gnos-ux-gpui/src/hull_input_qualification.rs",
+      "sha256": "9262aa3cef7c7a140bee0d177f3171caad867c08fd8205b83af691d1f0fd5913"
+    },
+    {
       "bytes": 7811,
       "path": "crates/gnos-ux-gpui/src/hyprland_live.rs",
       "sha256": "e3b3d4beb4eaba129a473a29471e210bb701b7867ba2d44f6a2b19ea174f6ca6"
+    },
+    {
+      "bytes": 12776,
+      "path": "crates/gnos-ux-gpui/src/icons.rs",
+      "sha256": "8f5400da6f75612a036ab34b032be1e905e485c55267c08750355c401d476ad9"
+    },
+    {
+      "bytes": 2655,
+      "path": "crates/gnos-ux-gpui/src/identity.rs",
+      "sha256": "59e89f7c6299621229bd050bce7080974f8f66924ec3854db129850972e5e9b2"
+    },
+    {
+      "bytes": 13806,
+      "path": "crates/gnos-ux-gpui/src/interaction_lease.rs",
+      "sha256": "410bc0cd5bd4b775d92631727e3a2f8131ff7ee574c2f0adcad6a435c6edf236"
     },
     {
       "bytes": 16571,
@@ -187,9 +2442,9 @@
       "sha256": "6fb5fc7994b6733ef837bc3d85a3e924202ce41160dea7bb199387c4a76a8329"
     },
     {
-      "bytes": 6481,
+      "bytes": 9323,
       "path": "crates/gnos-ux-gpui/src/lib.rs",
-      "sha256": "3c3e9130feb58fc3d11d4808ce61de287987d2b256985144169d40a5bcea7f19"
+      "sha256": "097147c13967fab95cdfdd8c7ae8ea5a06ffc1fbdf954518f268a9d1014aef86"
     },
     {
       "bytes": 12464,
@@ -197,19 +2452,69 @@
       "sha256": "29aa4ccf0e134b03135643e4ce9c45ce250c5d53bf0c94dcfd8f46eaa31e5370"
     },
     {
+      "bytes": 4649,
+      "path": "crates/gnos-ux-gpui/src/modules.rs",
+      "sha256": "d6a44b8b6cbc900a07ee97856fb17fed0032a8e344992254010d041160494145"
+    },
+    {
       "bytes": 4045,
       "path": "crates/gnos-ux-gpui/src/motion_preference.rs",
       "sha256": "e5595fd53df5216db7650e3e3fa6e0f56b4cf440421cb30bbf72ddfe6da8f2db"
     },
     {
-      "bytes": 6652,
-      "path": "crates/gnos-ux-gpui/src/product_appstack.rs",
-      "sha256": "e4e2f7b5ac86c52f0aff8c1a7b2ff8095df94a51d283dc1d520e18fe2a3a6fbe"
+      "bytes": 67059,
+      "path": "crates/gnos-ux-gpui/src/notification_centre.rs",
+      "sha256": "c0c273002e941301f5549a3930f349f6fc80a258e49486db3d0dbd7a7d8a520c"
     },
     {
-      "bytes": 15688,
+      "bytes": 12984,
+      "path": "crates/gnos-ux-gpui/src/notification_centre_view.rs",
+      "sha256": "6672c4acfe65e0746a2ff7e5b458bb9e4b65a740b1e29db0f10290b4c57506f0"
+    },
+    {
+      "bytes": 55888,
+      "path": "crates/gnos-ux-gpui/src/notification_toasts.rs",
+      "sha256": "47156b8644f79e02a8ee659a831b194e6c4597c05c4e39eb808e497f98ac4947"
+    },
+    {
+      "bytes": 13317,
+      "path": "crates/gnos-ux-gpui/src/notification_view.rs",
+      "sha256": "9785c700572b694f6d635935102b9dcda53c5d91a012f2530e1b4a6e8daccc64"
+    },
+    {
+      "bytes": 16504,
+      "path": "crates/gnos-ux-gpui/src/overflow_panel.rs",
+      "sha256": "cedbc9f086e395c41bc276ee7d083033bb392524bde705db728dcad1c40027c7"
+    },
+    {
+      "bytes": 3778,
+      "path": "crates/gnos-ux-gpui/src/overflow_view.rs",
+      "sha256": "61ddda72608141d7aea03059e53693df093065f95a918790d7000eae78d14c2b"
+    },
+    {
+      "bytes": 9229,
+      "path": "crates/gnos-ux-gpui/src/product_anchor.rs",
+      "sha256": "96f8e64bb850cd4f9e5712a7b1a3969124f0e838d58df773c3b7a40a80a4df0a"
+    },
+    {
+      "bytes": 8008,
+      "path": "crates/gnos-ux-gpui/src/product_application_search.rs",
+      "sha256": "5a564339ad2a06619fdf006a38bd2ca1171520d804a25b18e0dcdb8b2984c894"
+    },
+    {
+      "bytes": 7856,
+      "path": "crates/gnos-ux-gpui/src/product_appstack.rs",
+      "sha256": "390329ed40cebde038dc2d0ffeb6588cc4a3fa1946fe247811c68c5657a9948a"
+    },
+    {
+      "bytes": 22738,
       "path": "crates/gnos-ux-gpui/src/product_appstack/tests.rs",
-      "sha256": "850cbadef50bb93bf0e391c1804167f40892475afabcc13838f6284e832f8644"
+      "sha256": "05882dd4e9c571eccf9d6531bfcb5ebe385de1e7565677fe367ef0fd2339c612"
+    },
+    {
+      "bytes": 14381,
+      "path": "crates/gnos-ux-gpui/src/product_appstack_search_input.rs",
+      "sha256": "d4f56160c1e0404a5ad1dee2bbf9042670b0ed616661e28b1f511de0413bf59c"
     },
     {
       "bytes": 672,
@@ -217,9 +2522,34 @@
       "sha256": "bf5c557aa3adb53c6621dbc4a7bcd1a29d3eb61691de9a404d36956c9471655a"
     },
     {
-      "bytes": 14964,
+      "bytes": 5774,
+      "path": "crates/gnos-ux-gpui/src/product_audio.rs",
+      "sha256": "bfbdd2ae39b4561a64aad0edd7b909b59c06e68571d3011300ed8b6adc5ce59c"
+    },
+    {
+      "bytes": 16550,
+      "path": "crates/gnos-ux-gpui/src/product_audio_action.rs",
+      "sha256": "2acea484a8b6128b2f86b435d7ebeb41faaff64a46b713e7cb65fb11f9ad4b2d"
+    },
+    {
+      "bytes": 24804,
+      "path": "crates/gnos-ux-gpui/src/product_audio_osd.rs",
+      "sha256": "3cef3f11bdb8d383678fe703d54814f617dc00199ca7e3bf6ff6882f65f6b856"
+    },
+    {
+      "bytes": 18884,
+      "path": "crates/gnos-ux-gpui/src/product_audio_osd/tests.rs",
+      "sha256": "ce4b5be4ba585263a09edd087c255f127587d0305d4dc20d32735d5d3d5e1fbb"
+    },
+    {
+      "bytes": 3114,
+      "path": "crates/gnos-ux-gpui/src/product_audio_session.rs",
+      "sha256": "497c2fc14d8ef5b58684718c6d27fa70826df764fcb66cf529d8c7e28a7691b3"
+    },
+    {
+      "bytes": 54618,
       "path": "crates/gnos-ux-gpui/src/product_bar.rs",
-      "sha256": "71dd694b0046cca4b59226afbd939eadd72637feeb35fd426afeecd0c0994c96"
+      "sha256": "b82e97d41526cacf1c0c416113934e267a19a10ce9bc4d29426a3517b1a8a510"
     },
     {
       "bytes": 15200,
@@ -227,14 +2557,19 @@
       "sha256": "af5cd2f11665ce4469f894df116f49876c63947ffe6d5f4fdcbcd96081dfac98"
     },
     {
-      "bytes": 25612,
+      "bytes": 25806,
       "path": "crates/gnos-ux-gpui/src/product_bar_settings.rs",
-      "sha256": "d2bb19745834d2a154c89ddbb874928c3c32349f696ffe6636eaef8a19341f94"
+      "sha256": "32464fa84bf6baa8ab18cf624a6bbdee723c775423da28d035acbf9f3e9c3cde"
     },
     {
-      "bytes": 18646,
+      "bytes": 3780,
+      "path": "crates/gnos-ux-gpui/src/product_clock.rs",
+      "sha256": "fcf35d334bdf5ed179e323a3f4957c1f17b8a6cc1b29c25eec3d7a2e507e71e6"
+    },
+    {
+      "bytes": 23341,
       "path": "crates/gnos-ux-gpui/src/product_controller.rs",
-      "sha256": "347c7bc6e047bcb2f3434c18558f4f24daf8ca6660c28539a05283b5d8a27c25"
+      "sha256": "dd407d4e88f1f616d3d8724988618635ddee8efe6bb2ca30333b9841fd5739cc"
     },
     {
       "bytes": 29644,
@@ -242,9 +2577,9 @@
       "sha256": "e450a9844c65c5f3c4a20262dcc39dd72a1ed6fc2ae02b7502c976ec73d789d2"
     },
     {
-      "bytes": 12040,
+      "bytes": 12075,
       "path": "crates/gnos-ux-gpui/src/product_diagnostics.rs",
-      "sha256": "981e0713f4548aa2b2978c7325e7af861874deaae5468d96a5317b7b32808d62"
+      "sha256": "94fa569e02fcbcde4b823748305dc65535d2fe5f240f7b3d7063009b68f58ba8"
     },
     {
       "bytes": 30645,
@@ -257,9 +2592,19 @@
       "sha256": "f31379e2c57099f0b18f65cd503c48d2511c794d091277c893dd570f0424993f"
     },
     {
-      "bytes": 5717,
+      "bytes": 15717,
       "path": "crates/gnos-ux-gpui/src/product_hull.rs",
-      "sha256": "2c2bd05d73769a5a04de365af0f739fbedbbfc9fa1b3f342f9bf2b3e384ccbe3"
+      "sha256": "41d350e56ebaf538a52f23662783e503ec0232e5fb3cf47909c9dcf351a1da86"
+    },
+    {
+      "bytes": 6254,
+      "path": "crates/gnos-ux-gpui/src/product_icon.rs",
+      "sha256": "e3eec2eeddfa2b478b428569cb4a6a176bba07c91192c10351854c771c00f89a"
+    },
+    {
+      "bytes": 10839,
+      "path": "crates/gnos-ux-gpui/src/product_indicator.rs",
+      "sha256": "2ef34c33153ee16aa30463207061a2eaf7f1c1afc1052a0c00373f8a258dac2e"
     },
     {
       "bytes": 5152,
@@ -267,14 +2612,14 @@
       "sha256": "91325ba090e0cf1f97b3857ca990aed9f30345ac7bc827e4bba716945796d710"
     },
     {
-      "bytes": 34109,
+      "bytes": 115307,
       "path": "crates/gnos-ux-gpui/src/product_lab.rs",
-      "sha256": "718062747821ff3431a90c097773385bc273b238277f4fde7405215e94f7973e"
+      "sha256": "7fb0354c1ff36d8399541ac1d007e56c55c03a3e4b29ffeb370615b03745632c"
     },
     {
-      "bytes": 6153,
+      "bytes": 7096,
       "path": "crates/gnos-ux-gpui/src/product_launch.rs",
-      "sha256": "684f7052596ab1542af693b2526d0203da19667ed34d41055c63bc3fbcdb7df2"
+      "sha256": "c79bfc92ab232f4fec5a7d74009279245d3ec0bdce1396b0c6365de671c64ba4"
     },
     {
       "bytes": 7602,
@@ -282,29 +2627,174 @@
       "sha256": "6416043b9466248af611b5225babb957ef37a764eb728335b75e1cfda440ea16"
     },
     {
-      "bytes": 7844,
+      "bytes": 29008,
+      "path": "crates/gnos-ux-gpui/src/product_mpris.rs",
+      "sha256": "4951f8a1230649c2348850b5d01a02249344d35f34d30982cbb0fb6c70dcf14f"
+    },
+    {
+      "bytes": 3177,
+      "path": "crates/gnos-ux-gpui/src/product_mpris_ownership.rs",
+      "sha256": "79fe72893f9571495dc734c02ef07dc582cab448416526633ab04704cfd6d865"
+    },
+    {
+      "bytes": 11449,
+      "path": "crates/gnos-ux-gpui/src/product_mpris_relay.rs",
+      "sha256": "55e39683d432238a7fc7706a3d0267b8b740a671c75887ece7ff48366c52b92f"
+    },
+    {
+      "bytes": 13744,
+      "path": "crates/gnos-ux-gpui/src/product_mpris_session.rs",
+      "sha256": "5c44c8679e654bff4712ae0aaeffe8f9d76eca731736384cf1118160ffff25fb"
+    },
+    {
+      "bytes": 33799,
+      "path": "crates/gnos-ux-gpui/src/product_mpris_transport.rs",
+      "sha256": "05446ea5b36a25aff4bc2c78cd40a3bd1cde06bbd27ee04c25297ba6aa607ac2"
+    },
+    {
+      "bytes": 7589,
+      "path": "crates/gnos-ux-gpui/src/product_network.rs",
+      "sha256": "963f455c1791698f04048cddd1e6914bab72656ce5b1bc809fb0fd2c3d356f43"
+    },
+    {
+      "bytes": 12931,
+      "path": "crates/gnos-ux-gpui/src/product_network/tests.rs",
+      "sha256": "8e981a50649be0f80a56ba838e473648629eadc19d3e0f40b4357f5863d58954"
+    },
+    {
+      "bytes": 4427,
+      "path": "crates/gnos-ux-gpui/src/product_network_session.rs",
+      "sha256": "f41ebaba945dfafd8529dd88cead8ab9fbf77b8f54a76ebd8ec8e5af61ea2c94"
+    },
+    {
+      "bytes": 5988,
+      "path": "crates/gnos-ux-gpui/src/product_notification_session.rs",
+      "sha256": "51d890b23ea471398fbc5b4c10118ec63033faf6c25c654b0076c29fc3bbebff"
+    },
+    {
+      "bytes": 23856,
+      "path": "crates/gnos-ux-gpui/src/product_now_playing.rs",
+      "sha256": "b272675860f16f6f9901057f7e654d0929eaffb1aff1b33f87937e18a2cd5f79"
+    },
+    {
+      "bytes": 9256,
       "path": "crates/gnos-ux-gpui/src/product_preferences.rs",
-      "sha256": "086f26af454fb68728cb029930624d7d1fd4fcc7bcd65decbe713e4e706f826f"
+      "sha256": "9e28864d6607aac0728d98ca47b7818f2a094c6a26e68e00a8ca7b6ad3308032"
     },
     {
-      "bytes": 12855,
+      "bytes": 12912,
       "path": "crates/gnos-ux-gpui/src/product_profile.rs",
-      "sha256": "28b5a6753a6dab112dfeb97d2c253c49f6ae02304514aa6e01130c65bce39592"
+      "sha256": "6391d36f3a033db2952509d9c570e7dceae8ffd28d6932bfac04f95dc578c06c"
     },
     {
-      "bytes": 17720,
+      "bytes": 15451,
+      "path": "crates/gnos-ux-gpui/src/product_reference_consumer.rs",
+      "sha256": "b7d85f4ca97feab1d5d789bfada7c5d0aa0eb2c9f9850d4d0efc31de1a008ff0"
+    },
+    {
+      "bytes": 30138,
       "path": "crates/gnos-ux-gpui/src/product_runtime.rs",
-      "sha256": "a5e169ff661715d00e796e3b71dc71d65415dec7179aa0ff4487d39bdbb441ef"
+      "sha256": "cffc54874846d8a5c3d7b4e3e61e14a04b05b0c14b4ade41f50796ac2960c048"
     },
     {
-      "bytes": 128084,
+      "bytes": 131301,
       "path": "crates/gnos-ux-gpui/src/product_scene.rs",
-      "sha256": "3b75b08ddbb18b8759fe1b5d26de8630dee0e2732ad3af63704f3855cbe0e9f9"
+      "sha256": "d6dcfcf45fbe7202005fb067c41a66700a83172c24f6efe5f6d808355fcfdff0"
     },
     {
-      "bytes": 17396,
+      "bytes": 21527,
       "path": "crates/gnos-ux-gpui/src/product_shared_envelope.rs",
-      "sha256": "fc96e51621de4e5887d443ec84502c4967a871bfa6d3b62e4acc74eb1e8912ca"
+      "sha256": "70e379c85a13f665913246e32d9e92793cad576e03d48b30715f6a99501bba07"
+    },
+    {
+      "bytes": 3660,
+      "path": "crates/gnos-ux-gpui/src/product_shell_blur.rs",
+      "sha256": "41ed7bcc6916d2a26b7c45ad8c2fce1273943297dfd595a85e08f43015a0c0e5"
+    },
+    {
+      "bytes": 29190,
+      "path": "crates/gnos-ux-gpui/src/product_shell_material.rs",
+      "sha256": "ee89235d854fb83e6c014c10aace951d193c7071d70a721632c01dc4a18c1c52"
+    },
+    {
+      "bytes": 11673,
+      "path": "crates/gnos-ux-gpui/src/product_status_glyph.rs",
+      "sha256": "e4aafd1f1b13ec2245908dfb557da21fee28f2efa9c0da46ffeb16f78f3c6e70"
+    },
+    {
+      "bytes": 7884,
+      "path": "crates/gnos-ux-gpui/src/product_status_session.rs",
+      "sha256": "4081e9ca5deea3daaed35e96f70c929b1aa83d327b537767d4d067ccdbcf96ac"
+    },
+    {
+      "bytes": 10900,
+      "path": "crates/gnos-ux-gpui/src/product_thumbnails.rs",
+      "sha256": "961fbd981dfae830deb1a008feba63ce0a922cf4da6d640dbfb76ab8ee8e6d1a"
+    },
+    {
+      "bytes": 33671,
+      "path": "crates/gnos-ux-gpui/src/product_tray.rs",
+      "sha256": "c56480b06bc368992b09ec56ca92ddf5b6973191b1425355819cf1fddd71e9fa"
+    },
+    {
+      "bytes": 18906,
+      "path": "crates/gnos-ux-gpui/src/product_tray_action.rs",
+      "sha256": "7fa052c8e64f1659e3550bb7318ec28b6be1eeba536542f2fb4070a0e7d0d07d"
+    },
+    {
+      "bytes": 16278,
+      "path": "crates/gnos-ux-gpui/src/product_tray_controller.rs",
+      "sha256": "89141a6fd1fdcc9cb6d1ff8a35ce5b1b6935b781c9e7d712e286fe6c2e612812"
+    },
+    {
+      "bytes": 6784,
+      "path": "crates/gnos-ux-gpui/src/product_tray_geometry.rs",
+      "sha256": "510929bda406a20465a5c490320cc4426c7a1d7604f56cb8e02790ee22f9ec1f"
+    },
+    {
+      "bytes": 13059,
+      "path": "crates/gnos-ux-gpui/src/product_tray_icon.rs",
+      "sha256": "7c60f785d9d9601cbe5040a03409c0ca36cf6e45488892335610c6417f47fc97"
+    },
+    {
+      "bytes": 15948,
+      "path": "crates/gnos-ux-gpui/src/product_tray_menu.rs",
+      "sha256": "4722bc9e6791d6d7991340a88c4dda7be886bdd5fe275d89977ea46854a9636f"
+    },
+    {
+      "bytes": 8110,
+      "path": "crates/gnos-ux-gpui/src/product_tray_menu_render.rs",
+      "sha256": "a1d56402d09942f3e841bb19bebb9b99e52624473183c5498b276e209135d493"
+    },
+    {
+      "bytes": 19138,
+      "path": "crates/gnos-ux-gpui/src/product_tray_menu_surface.rs",
+      "sha256": "a74223dbfbb592ac2f26afac51c30e62bbbe93bf8710a880422aaf8a71675140"
+    },
+    {
+      "bytes": 9003,
+      "path": "crates/gnos-ux-gpui/src/product_tray_menu_wire.rs",
+      "sha256": "93d07169b39afd83b8bee8f86f07e7c3ddba853bb98c7fd5ff621c528ef5d854"
+    },
+    {
+      "bytes": 2487,
+      "path": "crates/gnos-ux-gpui/src/product_tray_ownership.rs",
+      "sha256": "579ce4fe8a2002f6f21f15ffad00973f7daae4d2fb9112818ab45a4a1215f8bd"
+    },
+    {
+      "bytes": 16003,
+      "path": "crates/gnos-ux-gpui/src/product_tray_presentation.rs",
+      "sha256": "c3787499a4c0f6f5aeccf4a7563174205b2e14e1aeb88368648cd931db304c77"
+    },
+    {
+      "bytes": 24650,
+      "path": "crates/gnos-ux-gpui/src/product_tray_relay.rs",
+      "sha256": "f5a35d194b0f9541c0f6090cad3b9224193ee7ae1d16fe6f2b26a95e7099b4a4"
+    },
+    {
+      "bytes": 26613,
+      "path": "crates/gnos-ux-gpui/src/product_tray_transport.rs",
+      "sha256": "7ad4a67377032615747a4bb4ac3feda7d5e3156864d085b0165569099d9cafc1"
     },
     {
       "bytes": 7414,
@@ -317,14 +2807,289 @@
       "sha256": "7c04833232b076fdc0a28291215d9f272227b40de15618a948033ec84aa7f7d8"
     },
     {
-      "bytes": 260647,
+      "bytes": 16947,
+      "path": "crates/gnos-ux-gpui/src/rail_topology.rs",
+      "sha256": "9d594be08acdfcb0c7609855eeaf38d3faf857561e22dab769b4fa0fcacac30b"
+    },
+    {
+      "bytes": 3360,
+      "path": "crates/gnos-ux-gpui/src/receipt_hold.rs",
+      "sha256": "92ab8fc7657e71ebe28b8c9dca1f2823034f97b14719164788273eb8f7419405"
+    },
+    {
+      "bytes": 37006,
+      "path": "crates/gnos-ux-gpui/src/reference_active_window.rs",
+      "sha256": "9b9eee1d80226afee140285b7f615806f2e95822f4a99809e486ac5bbffcbe1b"
+    },
+    {
+      "bytes": 190746,
+      "path": "crates/gnos-ux-gpui/src/reference_bar.rs",
+      "sha256": "5b081d81e1da7a57ef3ffcf730a3485ddbe56b7138356e818ffa1dcdcef56dc3"
+    },
+    {
+      "bytes": 9369,
+      "path": "crates/gnos-ux-gpui/src/reference_status_fixture.rs",
+      "sha256": "c5923aae386422f5c12475bb1f8ffd545cec557e2cc4529ad606970e15a3b3ef"
+    },
+    {
+      "bytes": 6874,
+      "path": "crates/gnos-ux-gpui/src/reference_tray_fixture.rs",
+      "sha256": "9affaac3b5fe1b83b115c6e1547997e99bdbace6a4f9d448cff3acbcf0288936"
+    },
+    {
+      "bytes": 358149,
       "path": "crates/gnos-ux-gpui/src/scene_runtime.rs",
-      "sha256": "84ad1e68d77c4ab38b7641aee32feae196b4519c3240812b1ea8c27bf682d5c0"
+      "sha256": "af14da5a1f2bfbf949f52d0d23c0c3ddce93bf6886950121168924a75bbcc1fc"
+    },
+    {
+      "bytes": 15797,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/appstack.rs",
+      "sha256": "438b6d06f6aee52bbfa168a0247b9fbe6d25deb88e4b4a44011f0476a5ffbf4c"
+    },
+    {
+      "bytes": 25212,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/attention.rs",
+      "sha256": "3513c5d22604444a459e83eaa0e8d1de777b501dd62f400d358cf22196bef3fa"
+    },
+    {
+      "bytes": 14035,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/bar_drag.rs",
+      "sha256": "816223e034924097eb985980d00366e525512e53060052753eb5923b711c0535"
+    },
+    {
+      "bytes": 11303,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/bar_keys.rs",
+      "sha256": "67603ae28646f7c03c5853b4eddb71b3e5ec15f1989756a42c7cb6874c6f4434"
+    },
+    {
+      "bytes": 16080,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/bar_travel.rs",
+      "sha256": "011f67018d087dac06292e9cd7d12fffd919cc2225a2908d125ba9822dfa99bb"
+    },
+    {
+      "bytes": 5398,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/cursor.rs",
+      "sha256": "e4ffb6e8a90c9bab27090407ef40a6c23f5677401ece1baff794f7f2c2dcf2d7"
+    },
+    {
+      "bytes": 14694,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/dashboard.rs",
+      "sha256": "5ba077d743da7a470a3f571e596622a2064fcb0dcb4505564dd5778b0efc2474"
+    },
+    {
+      "bytes": 35514,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/deck_actions.rs",
+      "sha256": "d1a6cb9ac818efb752ffc75e58f28551ecf901515442edc280f2d7c4ec978af3"
+    },
+    {
+      "bytes": 18009,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/deck_dock.rs",
+      "sha256": "2ce0dd33c9480724db360cb656ceab2b9edff23179f78e89bc49e7b7bcb680f9"
+    },
+    {
+      "bytes": 28554,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/desktop.rs",
+      "sha256": "4996e1e65e20a2a95138c863dcd53ed26321993b2edf7ea2cd7f764fca9906b5"
+    },
+    {
+      "bytes": 9372,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/focus.rs",
+      "sha256": "fe18c65d85bdc64877ce94ccebb9a533a7b48133ba741048d7c76adf3876da3f"
+    },
+    {
+      "bytes": 22653,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/frame.rs",
+      "sha256": "f06d50b5b7cd3e6c55877b917474cc170ebb81d887365f8c8dccfa3e80383361"
+    },
+    {
+      "bytes": 3836,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/launch_feedback.rs",
+      "sha256": "33759c16dee4d1ac608100f38402c39cc2d437243beb6aa8ce53cd401d835ab6"
+    },
+    {
+      "bytes": 5519,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/lifecycle.rs",
+      "sha256": "6ab8f3300827423e26f0d9023c08d16a67ddb763581ae755439fe546e0a712a8"
+    },
+    {
+      "bytes": 15544,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/media.rs",
+      "sha256": "c97db22991645379860d93a31d007bee0cf5123bd4fe95f74d0e4063ac4f4d98"
+    },
+    {
+      "bytes": 11423,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/motion.rs",
+      "sha256": "28aa24ff73e58e36612d288345812d47ffce57206deb9ba9264c6e9d790bff3d"
+    },
+    {
+      "bytes": 6882,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/notifications_host.rs",
+      "sha256": "a7166bcbaa19dd9d519f6776bb8d0a0e4c19a026b2fa049e63d4a8d48b22ae9b"
+    },
+    {
+      "bytes": 6914,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/osd.rs",
+      "sha256": "21f1ac5fb6cf0832bc7318839170f30e6ffc820beeddfe787cb340a1df2e6126"
+    },
+    {
+      "bytes": 7352,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/overflow.rs",
+      "sha256": "9d927b8ad40a031b226c18bfd3e6d44f6ddb713616a94dd5f885e0f2fbde3b2e"
+    },
+    {
+      "bytes": 10811,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/popouts.rs",
+      "sha256": "008c7cfc36f07e1d9b50f6198479888faa884b9c3960b2792dd35f71bb7c655f"
+    },
+    {
+      "bytes": 8099,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/projection.rs",
+      "sha256": "ec86abb9b2b360fe814830ccbf4b6fd02a089d9ffc1ffea9f45060b4f9d526e6"
+    },
+    {
+      "bytes": 59042,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/qualification.rs",
+      "sha256": "5be257fb71a861fa28bfacfbecd462ec113253b258ecd27ac19a9c094f7993d8"
+    },
+    {
+      "bytes": 10612,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/rail.rs",
+      "sha256": "4f956b2afdbe77ae7cd82acc8eb0bfa0bda2da138a3cf6e1503f4bf3e76e4559"
+    },
+    {
+      "bytes": 15922,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/session.rs",
+      "sha256": "aac54a3def16751ec3a8d1c654fc70ee603a5cfaae7f75758136e0d2922cbab8"
+    },
+    {
+      "bytes": 8518,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/settings_host.rs",
+      "sha256": "e4b2c71ec6e04010303eda6a648a28d06e1f050ee649279d365a7fa4922752bc"
+    },
+    {
+      "bytes": 8890,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/shell_prefs.rs",
+      "sha256": "aaf71a0452b1518200b874d9be4e3511dd91300244a472e14419f5d58fed147b"
+    },
+    {
+      "bytes": 57494,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/topology.rs",
+      "sha256": "3bf2e4eae0ca9a2ac3a511ab2b4e2e07432e457ce5ef12c1379480c61aee3692"
+    },
+    {
+      "bytes": 26774,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/tray_host.rs",
+      "sha256": "ee5f628c7d42892d207f885960648d0611f29302f8675c9ea9f9c0b0d4f86816"
+    },
+    {
+      "bytes": 75859,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/utilities.rs",
+      "sha256": "0db568eb1a82d22d20fce4284e3d4cc5695541407a0767728e45a020ac3856e5"
+    },
+    {
+      "bytes": 10459,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/windows.rs",
+      "sha256": "30e9599da155ec63f0adf00ee7d2d5271ad47485512a6f85f245c16ec23e92aa"
+    },
+    {
+      "bytes": 18065,
+      "path": "crates/gnos-ux-gpui/src/scene_runtime/workspaces.rs",
+      "sha256": "2137735619c74407f2ec92d97b4c8d783536e51a9dfb96aca08083bd93402c15"
+    },
+    {
+      "bytes": 22952,
+      "path": "crates/gnos-ux-gpui/src/session_panel.rs",
+      "sha256": "2df222b013889af6100291b6bca80e9185b1f0949b17c5097675e1bb944b8e93"
+    },
+    {
+      "bytes": 6819,
+      "path": "crates/gnos-ux-gpui/src/session_view.rs",
+      "sha256": "e654a8d0b66cb9d7960d028e9a99febbf78315849d9c8c45af0c9136acf7b57a"
+    },
+    {
+      "bytes": 98871,
+      "path": "crates/gnos-ux-gpui/src/settings_pages.rs",
+      "sha256": "11c9ccdea59176931a0a48f67a96223397a8fc9b30161c4b948726e9db60a65d"
+    },
+    {
+      "bytes": 43950,
+      "path": "crates/gnos-ux-gpui/src/settings_panel.rs",
+      "sha256": "1643e34958466b8561e420fa9171e6cf7c532f8e1c7e613bb485ee46a7f0083a"
+    },
+    {
+      "bytes": 12558,
+      "path": "crates/gnos-ux-gpui/src/settings_view.rs",
+      "sha256": "bbb9e60ce5de9edb823fc876afa3b3114482f77768760292202508b028d3240d"
+    },
+    {
+      "bytes": 10016,
+      "path": "crates/gnos-ux-gpui/src/shell_field_paint.rs",
+      "sha256": "97340038ba654aeac3e337d5a32a1d5bc677a3f8ba6c901de82f1ff5903bfa5b"
+    },
+    {
+      "bytes": 42734,
+      "path": "crates/gnos-ux-gpui/src/surface_prefs.rs",
+      "sha256": "5395f2b67489d827b1dc82d433a87a6f2636f90c7f3875927e6e83d31271f8a4"
     },
     {
       "bytes": 6861,
       "path": "crates/gnos-ux-gpui/src/topology_wake.rs",
       "sha256": "4ac0d9947db8c32fbbd1a3bf2adf8130ed949bfdd68d943fa491c5986204d9fb"
+    },
+    {
+      "bytes": 15191,
+      "path": "crates/gnos-ux-gpui/src/tray_menu_extrusion.rs",
+      "sha256": "64648e7135db7e0a58772a29762b94db8936fce639bad3c63b03f09930df80b5"
+    },
+    {
+      "bytes": 27537,
+      "path": "crates/gnos-ux-gpui/src/utilities_panel.rs",
+      "sha256": "511cbd8d7153a33f92e06af0048fd045196544b966796cc0d275a9ba86281fc0"
+    },
+    {
+      "bytes": 6843,
+      "path": "crates/gnos-ux-gpui/src/utilities_view.rs",
+      "sha256": "220e96468a39453777cd9c075f1e1adf5ec361c859fb144b17271034931f1110"
+    },
+    {
+      "bytes": 12710,
+      "path": "crates/gnos-ux-gpui/src/wallpaper.rs",
+      "sha256": "18f5a2e7c0b527baa2e8975514ea46d4e711d611cef2f5d8a4ba9ba50daa4fe1"
+    },
+    {
+      "bytes": 38915,
+      "path": "crates/gnos-ux-gpui/src/workspace_panel.rs",
+      "sha256": "ae50bac4abfaca3840c4329f349336b98f3b1c6bf4a1ea8f67ce89c13ca9e6de"
+    },
+    {
+      "bytes": 12831,
+      "path": "crates/gnos-ux-gpui/src/workspace_view.rs",
+      "sha256": "e038d472c421be7a5b6a065aef2553e0da533575299f48079a3b4ef2061c6748"
+    },
+    {
+      "bytes": 47957,
+      "path": "crates/gnos-ux-gpui/tests/fixtures/active-window-oracle/elision-sweep.json",
+      "sha256": "9c516e123006bcdc18648b621ef7448b20d3cdeff0cb1eee7bae1de1bbc9ac68"
+    },
+    {
+      "bytes": 3529,
+      "path": "crates/gnos-ux-gpui/tests/fixtures/active-window-oracle/gpui-shaper-pair-residual.json",
+      "sha256": "128b82259da54dc4ab1d7572c34bf16e2b439997914590052aa9b7144ea0ae24"
+    },
+    {
+      "bytes": 16567,
+      "path": "crates/gnos-ux-gpui/tests/fixtures/active-window-oracle/random-strings-qt-advances.json",
+      "sha256": "d16d18f8f9fa3b350c9df849015001715372306c1fc1e70a4ad73d6d01a0dd00"
+    },
+    {
+      "bytes": 253,
+      "path": "crates/gnos-ux-indicator-client/Cargo.toml",
+      "sha256": "fb3b17ad1f8e0bfd02fabafa2dcae2df4d71f03a35fa5be7dda241cc70767a4f"
+    },
+    {
+      "bytes": 32756,
+      "path": "crates/gnos-ux-indicator-client/src/lib.rs",
+      "sha256": "94966374d424a4dcd23e326795d6a3b34d171083cdc913f270709d366216aa08"
     },
     {
       "bytes": 256,
@@ -337,9 +3102,9 @@
       "sha256": "31e6687e97a49dc6cfb8fd8253f85802bfaf0d3f46b668c753a4c7363f5a73f5"
     },
     {
-      "bytes": 3768,
+      "bytes": 4708,
       "path": "crates/gnos-ux-product-intent/src/lib.rs",
-      "sha256": "6a2fe3e1fb3e248baeb22a33eb89fd52ca2dcff2975d6ec1e307027229427edc"
+      "sha256": "9d06a50dd9023cae396b87ffb66d76587e72172d93280813613114dc7a8fdd76"
     },
     {
       "bytes": 313,
@@ -347,9 +3112,9 @@
       "sha256": "b1eda04513cf1e2fd93c5438dec69651f51368152b2c9493f81e3b2282f853b3"
     },
     {
-      "bytes": 19458,
+      "bytes": 19511,
       "path": "crates/gnos-ux-profile-client/src/lib.rs",
-      "sha256": "deab51f60b2e9d7d3ea6af1646ee69310c06a23895e56a489c50a2dc7696bfc0"
+      "sha256": "60214b113eb298856e13ba6ef8304a4f9ad685fed36c774b7c6c8cd3eb6d8241"
     },
     {
       "bytes": 279,
@@ -422,9 +3187,14 @@
       "sha256": "2519cffbfcb9f9dddae68e11552b6cba3c1b97427b6f55865df8645890661a47"
     },
     {
-      "bytes": 67460,
+      "bytes": 55338,
+      "path": "crates/gnos-ux-surface/src/grammar/attention.rs",
+      "sha256": "dac7dae0a7aa9c96170cb0ba7e3891eee78662b8ba8ae3b482c36c9fe77efb6f"
+    },
+    {
+      "bytes": 78011,
       "path": "crates/gnos-ux-surface/src/grammar/connective_hull.rs",
-      "sha256": "51562662945c51fc4e5f9a1dde3bf1543463baeb18629fed60c037d0014393c9"
+      "sha256": "9a26997dacacbd850f81eb9de5ccc627b1e4544c1d7fb580468756612f838cae"
     },
     {
       "bytes": 5162,
@@ -442,9 +3212,24 @@
       "sha256": "6d5290ae208167b20b42cb67c1fd3caef304ac739c72ef186bf3edaf4297ce84"
     },
     {
+      "bytes": 21306,
+      "path": "crates/gnos-ux-surface/src/grammar/extrusion.rs",
+      "sha256": "2e522ab364a4e2b16f9422216fe4465c9ebf38da80228eee82ab4575c9075005"
+    },
+    {
+      "bytes": 8821,
+      "path": "crates/gnos-ux-surface/src/grammar/frame_joint.rs",
+      "sha256": "8a5ddbf22d77e25f4a9d10c23c8420c59e74c4ec799b0bcc99c064cc6b6558ef"
+    },
+    {
       "bytes": 4445,
       "path": "crates/gnos-ux-surface/src/grammar/frames.rs",
       "sha256": "8a2765e6f1b1cee074fcaf99550fb34c923a9bc8eee9cef3f40932dae5bf6c8a"
+    },
+    {
+      "bytes": 9594,
+      "path": "crates/gnos-ux-surface/src/grammar/handoff.rs",
+      "sha256": "c2b815ef50384434a7ada29d84f89bca0466217b7094a207476059e2ddf7835c"
     },
     {
       "bytes": 8745,
@@ -452,9 +3237,9 @@
       "sha256": "61d46681ce5458cc74188175c0bc0d32f8c20cc038a85e18a239d7e5629f32ff"
     },
     {
-      "bytes": 2021,
+      "bytes": 2435,
       "path": "crates/gnos-ux-surface/src/grammar/mod.rs",
-      "sha256": "a05f7ffb416e36d31af5aa8fdaa228fb22b0d7b7ca730ca5359ec50055053aab"
+      "sha256": "68f296dc5d8bf2a5ca656d83af6adf18316deecbb268185520f6d0a7b5ed85ca"
     },
     {
       "bytes": 3992,
@@ -467,14 +3252,14 @@
       "sha256": "9e17e66aaad15bf673c9091d71401a05c86c31fb7f3518bc1dff0c7bbd2fbb54"
     },
     {
-      "bytes": 38918,
+      "bytes": 53968,
       "path": "crates/gnos-ux-surface/src/grammar/placement_transition.rs",
-      "sha256": "ea13e3dabbbd864f79b7f11a4dba3cf6e67cd028d25762b55e58e6ff44d32a3b"
+      "sha256": "76d7a032d8ef2df7038e40be6964574084ced7b7593b8fd13cd23a8cfd5d6fee"
     },
     {
-      "bytes": 137745,
+      "bytes": 139839,
       "path": "crates/gnos-ux-surface/src/grammar/reactive_envelope.rs",
-      "sha256": "4b24d6050620eaefdc8130268b5a94d0d6a179a73cdf88f7b228464e90dffb92"
+      "sha256": "267dc1fe66030abfa849a8d723d03a2185599d45e3c174d52f673c1ebfcdd805"
     },
     {
       "bytes": 12296,
@@ -485,6 +3270,11 @@
       "bytes": 11137,
       "path": "crates/gnos-ux-surface/src/grammar/shared_envelope.rs",
       "sha256": "bf8d675a65c94e160c4ac6b25a112ab85db5b48749e7410e6ad49dc7ecce06f7"
+    },
+    {
+      "bytes": 24239,
+      "path": "crates/gnos-ux-surface/src/grammar/shell_field.rs",
+      "sha256": "2d73e030e1a96a39e0af515c930a2042d38ccd3bfebb4b4735c1f77249a083cb"
     },
     {
       "bytes": 390,
@@ -567,9 +3357,14 @@
       "sha256": "d3eacdb1c944ce9fd7967def4c9b6ba0a21f10cbdd89bfa27960d9d3b11ebd36"
     },
     {
-      "bytes": 28779,
+      "bytes": 10412,
+      "path": "crates/gnosix-application-catalog/src/defaults.rs",
+      "sha256": "eba693fdc92831ce49098c9e79ce27b19c4fc0b4f06ed397ef6e4309c93a2a89"
+    },
+    {
+      "bytes": 34504,
       "path": "crates/gnosix-application-catalog/src/lib.rs",
-      "sha256": "253b33539b5c08fc682ee7d767118318ac850d354fa91cacce4cbebb502d5623"
+      "sha256": "a3cfa31668a67160705a779af4e67b6d4f07183f36d71896700958a1adf1acca"
     },
     {
       "bytes": 333,
@@ -587,19 +3382,19 @@
       "sha256": "ab1d36050d4ad1ad56972eabdcbee14a710c0362e0c642b11022e843754e90f1"
     },
     {
-      "bytes": 13931,
+      "bytes": 13957,
       "path": "crates/gnosix-application-launch/src/execution.rs",
-      "sha256": "6a92777023f8072fe77f392b2cb16112a5982c748f14232104f06303f2827f36"
+      "sha256": "56a7d5600f50b3c94eacd60d657ffdfe33f03d23c67419848715a5937dd9f3fb"
     },
     {
-      "bytes": 25179,
+      "bytes": 27200,
       "path": "crates/gnosix-application-launch/src/lib.rs",
-      "sha256": "f10fc2adb494b381fe8509ebb56138d38c5074c9ada314efae0732c5014e02b7"
+      "sha256": "6797bdffdfee179d9f200976e3a3f50c9b2be92f592be324e08a5dab77c66036"
     },
     {
-      "bytes": 25451,
+      "bytes": 28480,
       "path": "crates/gnosix-application-launch/src/tests.rs",
-      "sha256": "6c4624a27b985c36236aa27a370f7aa5d7353eb4fdb77a55373a39ab5192841e"
+      "sha256": "a400e82ef6ddbb5a2a5a489ad54342e8b1cc410816ba7b773bdfb8d4bf756d2b"
     },
     {
       "bytes": 207,
@@ -642,9 +3437,9 @@
       "sha256": "cd9f148ea6fb95626ab552d4e4cd03c5124addf10fd3ac2fada6a8eb9bb44316"
     },
     {
-      "bytes": 5358,
+      "bytes": 5593,
       "path": "crates/gnosix-desktop-model/src/surface.rs",
-      "sha256": "f0385274e00d87ab0b8c2ff2a8dcf00a328431b6fe6a165c0d7d6e0d34d08547"
+      "sha256": "8944f9c3074bd697cfca7fb4aef2167a5fbfc895fd0ea4d314f3bc5e6bb303de"
     },
     {
       "bytes": 2552,
@@ -682,9 +3477,9 @@
       "sha256": "5cc8a122d69e2ff92530bae4f6873384d7dda57593d768bcf99c14a8c2173be5"
     },
     {
-      "bytes": 6003,
+      "bytes": 6033,
       "path": "crates/gnosix-desktop-model/tests/projection_tests.rs",
-      "sha256": "44dada9d20d25a35e92d82b39add4402c4cf06ec425fdfbd60d0518bc08f0179"
+      "sha256": "7bfc8ed0fd3f0bc8bc85ff99114fe0e134b0b05a1de942a76aa05f816f801ec7"
     },
     {
       "bytes": 2302,
@@ -692,14 +3487,14 @@
       "sha256": "7666396a85b75b62f63f6b5a0ded5810cbb4bd71be4d17826dd1e165515c2add"
     },
     {
-      "bytes": 11405,
+      "bytes": 11431,
       "path": "crates/gnosix-desktop-model/tests/topology_tests.rs",
-      "sha256": "2dcab11402ce98a7a10e605997ab592af8e238cf0c17abdefc5284033b4ef4e3"
+      "sha256": "36c6d3496e4eded45ed623f71cd93b88526f5f4f54da3efa2c2ab64feb794eff"
     },
     {
-      "bytes": 10739,
+      "bytes": 10765,
       "path": "crates/gnosix-desktop-model/tests/transition_tests.rs",
-      "sha256": "a7097304aba41a48ff088f558acb64ec966beece07f768b20bf8540d718ef4b2"
+      "sha256": "b941425f96b2a8d5316e0f2c624f6d8b2ec4afc7cdeac0ad4e05bca276742af1"
     },
     {
       "bytes": 1098,
@@ -707,14 +3502,19 @@
       "sha256": "2254d378e67eacc9e25c3e9536002db28458de0760328504f0527e47abf13233"
     },
     {
-      "bytes": 11556,
+      "bytes": 13368,
       "path": "crates/gnosix-hyprland/src/activation_execution.rs",
-      "sha256": "671797b8bcad24d6f302acde5cba84e79b1990a0e177477613e9f89d7aff7612"
+      "sha256": "423111913ffb98c8848cb3b0dd68849d55f74c227cf0eeb9a842f48c20b4d560"
     },
     {
-      "bytes": 14676,
+      "bytes": 14857,
       "path": "crates/gnosix-hyprland/src/activation_execution/live_qualification.rs",
-      "sha256": "d24fd7ad95ee3bf4aa3da2e65e26daaffe096a6db80433482198d1f8bacfc06d"
+      "sha256": "d75bb2296e01a8b3f660ee1637112d80c5016ecdf20121e7e173c0ad36fdafee"
+    },
+    {
+      "bytes": 763,
+      "path": "crates/gnosix-hyprland/src/bin/gnos-keyboard-lock-observe.rs",
+      "sha256": "816ca50dadde59b50df01b10a836d0fdda655889aeea458d59f2e39f7719a99d"
     },
     {
       "bytes": 84,
@@ -727,19 +3527,24 @@
       "sha256": "1a57ae8665a3dea143a59aabd3f5c254afbddc384e7bac42f0826f279f5721aa"
     },
     {
-      "bytes": 27712,
+      "bytes": 7809,
+      "path": "crates/gnosix-hyprland/src/keyboard_lock.rs",
+      "sha256": "150032a49c7f96801cd8bf31e9d7ae07010056621de47b800462f9f5444f0557"
+    },
+    {
+      "bytes": 27735,
       "path": "crates/gnosix-hyprland/src/lib.rs",
-      "sha256": "1047fcbd1c346643729284175fdd50dd263ace85828277e665736b347618d6a3"
+      "sha256": "1350ae45a8abd13558fb137289f7372992ffe7bb5144b80a07cb36056792d8c0"
     },
     {
-      "bytes": 10179,
+      "bytes": 10724,
       "path": "crates/gnosix-hyprland/src/observation_transport.rs",
-      "sha256": "710b9ca602d460d982c23975a78fd59b39436f3f5f9a21bf5e8f1125ca648a32"
+      "sha256": "07d3e52553705f80895c31a03af4f84e29ed047ad3e3bd5013238e432980131a"
     },
     {
-      "bytes": 30305,
+      "bytes": 31381,
       "path": "crates/gnosix-hyprland/src/production_dbus.rs",
-      "sha256": "936406d09be2caae164a199a54cfd5733349c6148c06a79e418c5885fe4faed4"
+      "sha256": "3ecd7a5f27e29fcabac893e8a5a4a39baf525d00c259085fa20174cf8b7d0767"
     },
     {
       "bytes": 7853,
@@ -747,14 +3552,29 @@
       "sha256": "408514fe595aa0a1662dd6e58239e0081c16c8f8a1082991a17d1fea0860aa14"
     },
     {
-      "bytes": 66308,
+      "bytes": 69980,
       "path": "crates/gnosix-hyprland/src/semantic.rs",
-      "sha256": "dc5039c6347b2f5b041758f67799afcafc5a611bd462a7b97b1c2a0f7ff2f843"
+      "sha256": "8ba1dd36985255b4695ca8918f99f0eb6da3829217b26cb36482f910b74dd432"
     },
     {
       "bytes": 35688,
       "path": "crates/gnosix-hyprland/src/topology.rs",
       "sha256": "762b744b5effe0fd4484e06ff5b8c539b2c5a917a3343824a3395e40e3e3c548"
+    },
+    {
+      "bytes": 4163,
+      "path": "crates/gnosix-hyprland/tests/keyboard_lock_socket.rs",
+      "sha256": "2fe2dfdf16ad23bad0fc9e7a79818a9985f5adfbe892a31b4530de929c3fb86d"
+    },
+    {
+      "bytes": 129,
+      "path": "crates/gnosix-icon-theme/Cargo.toml",
+      "sha256": "14e63a3970c987229d423aeb3019e964c616d7a7e04b14d4d60873f5a719f4e4"
+    },
+    {
+      "bytes": 30971,
+      "path": "crates/gnosix-icon-theme/src/lib.rs",
+      "sha256": "3bd7a71197a79f9ab68de738023defd4e81a274a608f424713e4b9b2abcbd925"
     },
     {
       "bytes": 407,
@@ -887,14 +3707,14 @@
       "sha256": "6334d81df03485708bd54bfeb911f63bf5aabfa06c53dc3639775a277334f3f8"
     },
     {
-      "bytes": 20014,
+      "bytes": 23145,
       "path": "crates/in-gnu-os-activation/src/execution.rs",
-      "sha256": "ac500a46865f308e955d8649661946f2c69076e0e727502bb8b4f5bc3a5aa4eb"
+      "sha256": "edb21995f797b07001ee757f7cf277bd57e078b56d5eb22294c7da055c6243fb"
     },
     {
-      "bytes": 54166,
+      "bytes": 62765,
       "path": "crates/in-gnu-os-activation/src/lib.rs",
-      "sha256": "3c92c92dfd336b2ce1ead289808b14c08be59804a18bf2be177c3a4d5e28df68"
+      "sha256": "64517b76b52e1dcf142df3ccc50df16fdf33af3060eda4011011d7f5f92df5d3"
     },
     {
       "bytes": 161,
@@ -907,14 +3727,19 @@
       "sha256": "a508767cc9cec7b5a5da8cf26f3ea4f3b8ee85c8ebefc4e1a1b4e9b07f9d69d5"
     },
     {
-      "bytes": 669,
+      "bytes": 766,
       "path": "crates/in-gnu-os-desktop-profiles/Cargo.toml",
-      "sha256": "3e95c23afcd10501bec08542fe8e841c054b899758eaefdb4c1d46a3f0ee1566"
+      "sha256": "d6aedb4885ff4b61b97970f70b088abf4030eb5f572e76bcb94d386756e9a26e"
     },
     {
-      "bytes": 8230,
+      "bytes": 9005,
       "path": "crates/in-gnu-os-desktop-profiles/README.md",
-      "sha256": "0ae8d3e4006ac55d9eccae8c6c63211c21cfc5fb4bc6d6418224fd2d8568271b"
+      "sha256": "9186f521b1be3a7b64c736a4d3191aaf230f039047bde0171d8b0d1dc4c7ed4f"
+    },
+    {
+      "bytes": 2154,
+      "path": "crates/in-gnu-os-desktop-profiles/examples/private_fixture_profile.rs",
+      "sha256": "e20de7e912c303b28a17f58aaeba04443d7a32cd8fd8652289f8e6896a33e542"
     },
     {
       "bytes": 22767,
@@ -922,9 +3747,9 @@
       "sha256": "638078fe9c037c24f6bf84020b10f4d92010377d70ad35987a965052c02dbe0f"
     },
     {
-      "bytes": 30427,
+      "bytes": 30464,
       "path": "crates/in-gnu-os-desktop-profiles/src/authority_tests.rs",
-      "sha256": "bbf5b1d3500d3242397ee07bfadff598449d1e52a867d6a3065611d55da1d0b6"
+      "sha256": "2f1f9f185e7ff4f3b0309313e1182ce585c0734cd4f1dc911f68572dca419e11"
     },
     {
       "bytes": 2389,
@@ -932,24 +3757,29 @@
       "sha256": "bc4e3aeaea45ab94cd7396c5055114bd07eca0ddc5eb22f0f1389c0f7ef7f52c"
     },
     {
-      "bytes": 6933,
+      "bytes": 6980,
       "path": "crates/in-gnu-os-desktop-profiles/src/bar_writer.rs",
-      "sha256": "8388ff5fd267a7897e0351bc63d52a333950a7e68c34bb4b6c9c363d2099549c"
+      "sha256": "ca81b154047f4fb56fcafc0705a7eb7c04a7797ae7ba2be2a222f0709c942b3f"
     },
     {
-      "bytes": 24714,
+      "bytes": 28824,
       "path": "crates/in-gnu-os-desktop-profiles/src/lib.rs",
-      "sha256": "e436f0d1415494ef0a75864ed4c22bb26b8f0594164e116892fc98f79410fe9f"
+      "sha256": "3dc1113c30faa7461a18e5e5512e0131affd798d24bd14082890155a20388e19"
     },
     {
-      "bytes": 39953,
+      "bytes": 17255,
+      "path": "crates/in-gnu-os-desktop-profiles/src/shell_preferences.rs",
+      "sha256": "4465f741a670554ba47ac8f7cfe111ad6d61c8dc4a24d6268601683241a11aed"
+    },
+    {
+      "bytes": 43450,
       "path": "crates/in-gnu-os-desktop-profiles/src/store.rs",
-      "sha256": "fc928b26e3442b9137e2f9a7e348c4d20239a969b5eab5621822366a402af6ca"
+      "sha256": "5f18ea21659cca963b69ac38f14d4fda5a6cf26f005a31eab8726b0def53c8ee"
     },
     {
-      "bytes": 27879,
+      "bytes": 35379,
       "path": "crates/in-gnu-os-desktop-profiles/src/store_tests.rs",
-      "sha256": "d44fa3b9833bee1c616f7be421670459435e9f87d05f11d93af1db63cde3ec22"
+      "sha256": "fe187ffb3ddc50f1eb40894c20e1af78f2e44ce2044fcea4768189e4d7ef0975"
     },
     {
       "bytes": 408,
@@ -1032,9 +3862,9 @@
       "sha256": "f3823620ca7e60b6aa31a4cc7abbebe1609b460c037a4f270ed6e22f896fef88"
     },
     {
-      "bytes": 614,
+      "bytes": 643,
       "path": "crates/in-gnu-os-settings-core/README.md",
-      "sha256": "ed0fc140549a24d1092d66a5169991267d2d91e438ad79bee2be652f39e3486d"
+      "sha256": "09b15766f4373b76d08f7f4b12f6d80f765dc3c3c24a2d34f46d8f38bbe69b8b"
     },
     {
       "bytes": 16288,
@@ -1047,9 +3877,9 @@
       "sha256": "a78a981764a2c205f5dbf73c58936813c96b10562b732be183dfdff7a40c10ec"
     },
     {
-      "bytes": 27866,
+      "bytes": 28304,
       "path": "crates/in-gnu-os-settings-read-model/src/lib.rs",
-      "sha256": "77e6bd4fd4cd706aaee94459a7f1a886ab31ce7bda8a91911bf6a4643b5317a6"
+      "sha256": "0732b798eb128cc43e34b78327ae30bd1c389bba8b086e2836805f3d5c00de49"
     },
     {
       "bytes": 103,
@@ -1067,14 +3897,29 @@
       "sha256": "7c348189323f2271a28c03893624d20d83d058e5bd0e555a1014ccbe6f083c3e"
     },
     {
-      "bytes": 1669,
-      "path": "docs/status/ROADMAP.md",
-      "sha256": "e9afdeea901f8b3a998ec701c34075555e3a8ee9fbbc006e862b8fea709b63eb"
+      "bytes": 3187,
+      "path": "docs/reference/RELEASE-POLICY.md",
+      "sha256": "b228a86a3ae38323bc70e74ebbaa3e59cbca4c4d47bd5bd1c1c56120b9dda411"
     },
     {
-      "bytes": 5164,
+      "bytes": 1272,
+      "path": "docs/reference/baselines/baseline-0.md",
+      "sha256": "6e10c7421a04f00b148e324f3165609c40a401c1bec31526e361441fd18d68d0"
+    },
+    {
+      "bytes": 926,
+      "path": "docs/reference/context/product-language.md",
+      "sha256": "7e68de35d9300fac6c6a73871d2ef7123c6051b77207d28611384a9b6c0e7507"
+    },
+    {
+      "bytes": 1616,
+      "path": "docs/status/ROADMAP.md",
+      "sha256": "3fce5d873b01bef835320ed4e6a247c106c6ce5d874f5c7669e478862bafb280"
+    },
+    {
+      "bytes": 5272,
       "path": "docs/status/STATUS.md",
-      "sha256": "3a98c46c7a418e7ade4852e655ef7486ad86d5d44ea9560aa25694585067fa81"
+      "sha256": "6ea53780283bf7ecd295c1d26be5ca69a8ea6749fb31f14e459b4a7a301d494b"
     },
     {
       "bytes": 533,
@@ -1122,14 +3967,19 @@
       "sha256": "fb90021a9f08b20bfc6c89a7cdd8d1b74dd2f23b039ca215d50dd5c5daae662f"
     },
     {
-      "bytes": 7910,
-      "path": "tools/public_cut.py",
-      "sha256": "15340d5f3c88137c7d8942e0eeec9e33b707ca11e1b8d6bc9214b2fcd7df20b3"
+      "bytes": 3077,
+      "path": "tools/i18n.py",
+      "sha256": "2d68cce801685c35bba3fa005129f271ffb54e5af2850f3c2ee05cb70f2597ac"
     },
     {
-      "bytes": 4742,
+      "bytes": 8944,
+      "path": "tools/public_cut.py",
+      "sha256": "726ccbc13d04de14763d8ab8a01aef6639d35f0be7bc9040aec8cbe22805f75d"
+    },
+    {
+      "bytes": 4908,
       "path": "tools/publication_lint.py",
-      "sha256": "7def4e8136d3343910b32e997848c2901ba7a66251992bb1851ceaab20eba27a"
+      "sha256": "a54e1b528d31a30774133bc5c3663d9bfd50b6263a74fb1bfc323e3e15fcf896"
     },
     {
       "bytes": 65,
@@ -1142,19 +3992,879 @@
       "sha256": "008a74aa09cddcb678be8d5bcdde28d6322f2f7986256a697d60bd0290880002"
     },
     {
-      "bytes": 7598,
+      "bytes": 8428,
       "path": "tools/test_public_cut.py",
-      "sha256": "7df47ff65c1c38d7f2c4f7244ded890cac15e5f90cefab77dbfb6492ec7a05eb"
+      "sha256": "4851c0f2e855f1a09d01a2fb3231fdabf902e7d1f66bce13fb4d22557f3787e0"
     },
     {
-      "bytes": 4525,
+      "bytes": 4545,
       "path": "tools/test_publication_lint.py",
-      "sha256": "d74a0feea5f4f410c846cae7179a9c16f6f0b302f4e0e0ba21510758c6ebf728"
+      "sha256": "53fe2e5edb68a7f04c4cfc56655573adc3a98e53e2077849f8a191d596b26c1b"
     },
     {
       "bytes": 8037,
       "path": "tools/test_stage_r13_production_caller.py",
       "sha256": "4d43a77022e34055242c88755ec5ed308ab086d3b9110281336efc28d1b81b81"
+    },
+    {
+      "bytes": 231,
+      "path": "vendor/blobin-ui-core/Cargo.toml",
+      "sha256": "6fec1d3640e1cb92c62dc9f5551aadfa85e8d10ab0ef2863088be8870d1a3053"
+    },
+    {
+      "bytes": 1625,
+      "path": "vendor/blobin-ui-core/README.md",
+      "sha256": "806b29b4d4d2d3d4f0f074a178cd9354a6d4e7a194c183f4c0664dce1c24f299"
+    },
+    {
+      "bytes": 1028,
+      "path": "vendor/blobin-ui-core/VENDORED.md",
+      "sha256": "e8b1d6c45a85bf92fbc9c9cf9084e41bf2239842f08b3e8e96bc4c81317c589e"
+    },
+    {
+      "bytes": 15061,
+      "path": "vendor/blobin-ui-core/src/gestures.rs",
+      "sha256": "8f8b5a529af7ef4b990093c59afb2bb425e57892f32a236cc6b0a8b14c2ee786"
+    },
+    {
+      "bytes": 16070,
+      "path": "vendor/blobin-ui-core/src/input.rs",
+      "sha256": "acff8d9cdb3f9063f3a34f0dd86f6b0a70a76a610b7b72bd279b1ce56a5f1ff4"
+    },
+    {
+      "bytes": 20339,
+      "path": "vendor/blobin-ui-core/src/layout.rs",
+      "sha256": "5267a5014dc8c140492db979143bb74053aa3414f97c21c1310e66a32782bd36"
+    },
+    {
+      "bytes": 25353,
+      "path": "vendor/blobin-ui-core/src/lib.rs",
+      "sha256": "684c00919ec72786ed2de9bb23027844370deac9242b285b21c96a83605fe1fd"
+    },
+    {
+      "bytes": 6152,
+      "path": "vendor/blobin-ui-core/src/list.rs",
+      "sha256": "f3f447507d339c56bae2130048ff589601d0c79857df17d449243c01e84e946c"
+    },
+    {
+      "bytes": 10400,
+      "path": "vendor/blobin-ui-core/tests/component_tree.rs",
+      "sha256": "a7d10ac1756b7d943a8aff10b3bf9cee1a6c662b147e7bffc963abcaf8bcc534"
+    },
+    {
+      "bytes": 14292,
+      "path": "vendor/blobin-ui-core/tests/gestures.rs",
+      "sha256": "5ea986a1f7c1fb93da558eba2434f9f22126906bbf477a4b65d2245f35c05855"
+    },
+    {
+      "bytes": 13997,
+      "path": "vendor/blobin-ui-core/tests/incremental_reconciliation.rs",
+      "sha256": "0a5a7d611c95012eb7c1780790963d497a1c6362cddf453f5548adf7eb810c33"
+    },
+    {
+      "bytes": 20326,
+      "path": "vendor/blobin-ui-core/tests/input_routing.rs",
+      "sha256": "b32b187bd0125539687d9436c3b473ad89a2a0d4c48b8cc8ba2f604de8c1ed3d"
+    },
+    {
+      "bytes": 17326,
+      "path": "vendor/blobin-ui-core/tests/layout_matrix.rs",
+      "sha256": "b95f66a2e4f0fa1e59d9db3abb709c6977a1137d0182d0a30b9be76f62561b3a"
+    },
+    {
+      "bytes": 4773,
+      "path": "vendor/blobin-ui-core/tests/list.rs",
+      "sha256": "5f7d2ddc9df593bb3c10f22ed0b10bdcd9a93d266028810a757ddcfaab0278b2"
+    },
+    {
+      "bytes": 5740,
+      "path": "vendor/blobin-ui-core/tests/transaction_adversarial.rs",
+      "sha256": "afe05d07d410e0c406159d3a64dd49c982cea0113cf314d9d3863ea09bc24a53"
+    },
+    {
+      "bytes": 7,
+      "path": "vendor/gpui-pre-0.3.5/.cargo-ok",
+      "sha256": "afbf9d0f3560b0fd7795e81c42a0a79ee6b6fc67e064f77826aee642cad28d91"
+    },
+    {
+      "bytes": 128510,
+      "path": "vendor/gpui-pre-0.3.5/Cargo.lock",
+      "sha256": "757ebf9f1510d380bbea7b8997d3758231a9d19011bcdc89e531669de59724a7"
+    },
+    {
+      "bytes": 12432,
+      "path": "vendor/gpui-pre-0.3.5/Cargo.toml",
+      "sha256": "580b0b63be6faef1844b3e6f72fe119c29743ef45a5791b69120c1596c7d21e4"
+    },
+    {
+      "bytes": 5978,
+      "path": "vendor/gpui-pre-0.3.5/Cargo.toml.orig",
+      "sha256": "674d5106220e6697833e31c6e1b1e4866b508bb62d19edf17cf78d58bad15e89"
+    },
+    {
+      "bytes": 10768,
+      "path": "vendor/gpui-pre-0.3.5/LICENSE-APACHE",
+      "sha256": "752daf2fb234ca4a1fa372c073fe127f44b7b90fd2529ae44273a64f9d53da7a"
+    },
+    {
+      "bytes": 5723,
+      "path": "vendor/gpui-pre-0.3.5/README.md",
+      "sha256": "989b10e5914dcc8a1f2568303849aeab2d6aa26f2c5dfead96de0491330ada79"
+    },
+    {
+      "bytes": 772,
+      "path": "vendor/gpui-pre-0.3.5/build.rs",
+      "sha256": "b90eba40b438c7de5d991969f2f685de3873cce4f070c28e4a389cc48e2b939b"
+    },
+    {
+      "bytes": 2246,
+      "path": "vendor/gpui-pre-0.3.5/docs/contexts.md",
+      "sha256": "2688efb86472685cf2ea1af254c7c4bc70d53dd369c3d30118bf5e356fe86574"
+    },
+    {
+      "bytes": 2528,
+      "path": "vendor/gpui-pre-0.3.5/docs/key_dispatch.md",
+      "sha256": "56189467c43ca57c7cfa507f6ed7cdc31516144cbe648ef1f5fd97696862fe1a"
+    },
+    {
+      "bytes": 5422,
+      "path": "vendor/gpui-pre-0.3.5/examples/README.md",
+      "sha256": "cf95e2d6a1b67d150a193ff51b73c0db92e909839656050983dad456d6bfb618"
+    },
+    {
+      "bytes": 10681,
+      "path": "vendor/gpui-pre-0.3.5/examples/a11y.rs",
+      "sha256": "136308b44a36f7a0dbee5269b2434d8476cec42beb7f8b46e4e38e864d4cc805"
+    },
+    {
+      "bytes": 1404,
+      "path": "vendor/gpui-pre-0.3.5/examples/active_state_bug.rs",
+      "sha256": "94230a37b899e1c56fe34ac249c081113a0a1446f568c6cf0372905a3816b9ae"
+    },
+    {
+      "bytes": 7854,
+      "path": "vendor/gpui-pre-0.3.5/examples/anchor.rs",
+      "sha256": "5be423ce91b36db94857a8f7758f7f5967d0103b77941fa7bc7c5a64e3c4fe72"
+    },
+    {
+      "bytes": 18713,
+      "path": "vendor/gpui-pre-0.3.5/examples/animation.rs",
+      "sha256": "0c36449cf96c897e0520cef592933e86759471108c77f53a00cda4e21969df4b"
+    },
+    {
+      "bytes": 17006,
+      "path": "vendor/gpui-pre-0.3.5/examples/data_table.rs",
+      "sha256": "da44c6782a63d7d5e6ef349612cb263a32e930ec1247aad9eff6bf712ec4e341"
+    },
+    {
+      "bytes": 4604,
+      "path": "vendor/gpui-pre-0.3.5/examples/drag_drop.rs",
+      "sha256": "4011afde7c64fac2559b78918e6fdabdc563fe9f7591c74425d72da906dcc47a"
+    },
+    {
+      "bytes": 1540,
+      "path": "vendor/gpui-pre-0.3.5/examples/example_support/fonts.rs",
+      "sha256": "150804a20e31ecf9d82c9ae7d47fdc9cb5b7bc4ea306ff1ab4199dd597a23051"
+    },
+    {
+      "bytes": 8808,
+      "path": "vendor/gpui-pre-0.3.5/examples/focus_visible.rs",
+      "sha256": "533c5101ae1727d33b3b7c339efdb2e5dd4c1e1343d6b0ffaa8babc92a8f908b"
+    },
+    {
+      "bytes": 1458,
+      "path": "vendor/gpui-pre-0.3.5/examples/gif_viewer.rs",
+      "sha256": "8051774dbf4cab1503ac5938a25932409c0701c66ba36d00b5e0ee11838b2a4c"
+    },
+    {
+      "bytes": 10370,
+      "path": "vendor/gpui-pre-0.3.5/examples/gradient.rs",
+      "sha256": "620dbeccd4daa80f71cb1c67f1628508cb397e9aeb4b5a5d0abe0a2a45aad193"
+    },
+    {
+      "bytes": 3234,
+      "path": "vendor/gpui-pre-0.3.5/examples/grid_layout.rs",
+      "sha256": "c82663a8c48340464f70f96dfa60135f4cd3b48670882b7bc23a9ca787fb261e"
+    },
+    {
+      "bytes": 3906,
+      "path": "vendor/gpui-pre-0.3.5/examples/hello_world.rs",
+      "sha256": "7e9d145d93470b02ce5641290ed7b444776813de580fe1d613b45443cc890aa0"
+    },
+    {
+      "bytes": 168173,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/app-icon.png",
+      "sha256": "77453d98d46494b3b34b94aa863b686ea299e0190030a5c7ca5377b238332522"
+    },
+    {
+      "bytes": 748,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/arrow_circle.svg",
+      "sha256": "1dc122d8c7f8f346e6e7b838594f9718e5670fc32a5d5024aaa5e7f28a3aa8c8"
+    },
+    {
+      "bytes": 4471092,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/black-cat-typing.gif",
+      "sha256": "b50a33262f84725f9c922fcbf0bb616270a2cb611a5ea4e280c2dca46cea9622"
+    },
+    {
+      "bytes": 746,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/color.svg",
+      "sha256": "d0949465578c8223c7124ff1f66ce308e07e6eb303fdf26c2814715332d88f3b"
+    },
+    {
+      "bytes": 378,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/exif-orientation-rotate-180.jpg",
+      "sha256": "cb6c28e3e6065d62790ba38662d14f3f1510180375cacba18547720e8b48d9d5"
+    },
+    {
+      "bytes": 7206,
+      "path": "vendor/gpui-pre-0.3.5/examples/image/image.rs",
+      "sha256": "5e962dc29772bc59cdab236d8adf1a8335475ce045a7beda1d5a04864dd7faea"
+    },
+    {
+      "bytes": 9837,
+      "path": "vendor/gpui-pre-0.3.5/examples/image_gallery.rs",
+      "sha256": "aa6bd497f4362a74e99c2840233cf1f56bc84d70dd4f86cae76fb17856203891"
+    },
+    {
+      "bytes": 8522,
+      "path": "vendor/gpui-pre-0.3.5/examples/image_loading.rs",
+      "sha256": "1bbb69d71fcfc20f76cc677fc44b8ae611ec6e2bba1b769f5ad16a6bcd0818e4"
+    },
+    {
+      "bytes": 24964,
+      "path": "vendor/gpui-pre-0.3.5/examples/input.rs",
+      "sha256": "bdc741098f42201ec7c3324d70e482b8cfffe753123ddf042c26ee13542fb5b4"
+    },
+    {
+      "bytes": 3319,
+      "path": "vendor/gpui-pre-0.3.5/examples/layer_shell.rs",
+      "sha256": "c6d78b271eb00c26869e4e54f705c9dc3a9ab84636840e6b3413b6130d85cb33"
+    },
+    {
+      "bytes": 5945,
+      "path": "vendor/gpui-pre-0.3.5/examples/list_example.rs",
+      "sha256": "536e2527e4469ffe3203778e24c3af875ec3b57f88708fc096094077b5e72203"
+    },
+    {
+      "bytes": 2290,
+      "path": "vendor/gpui-pre-0.3.5/examples/mouse_pressure.rs",
+      "sha256": "c7edbfecdccafbcaf338bf1c0ec3d23282138a84445bac3008cb96f1cb9c6aba"
+    },
+    {
+      "bytes": 5198,
+      "path": "vendor/gpui-pre-0.3.5/examples/move_entity_between_windows.rs",
+      "sha256": "1b633fa89cf9382197b855cfb133319268b6c86f5bbcfc98fc2140773dee0a2f"
+    },
+    {
+      "bytes": 2815,
+      "path": "vendor/gpui-pre-0.3.5/examples/on_window_close_quit.rs",
+      "sha256": "b67e9242e1eca361e572cf8057e3cc2a2f7b9e790ecaae92f1e2ff0de305e8f6"
+    },
+    {
+      "bytes": 6617,
+      "path": "vendor/gpui-pre-0.3.5/examples/opacity.rs",
+      "sha256": "dffb0dbb32ca28e113def0502688483ee91f04bd373420602f6c14ec444824f7"
+    },
+    {
+      "bytes": 1295,
+      "path": "vendor/gpui-pre-0.3.5/examples/ownership_post.rs",
+      "sha256": "9f7fca12bd9109634722139e72640af5338f9358246870cac1242f1b49e89644"
+    },
+    {
+      "bytes": 16835,
+      "path": "vendor/gpui-pre-0.3.5/examples/painting.rs",
+      "sha256": "fa856d8218217acfc6fc48a1c4c92883faca2f0b0cbf0b9e842d3d59bab558c2"
+    },
+    {
+      "bytes": 3461,
+      "path": "vendor/gpui-pre-0.3.5/examples/paths_bench.rs",
+      "sha256": "936a02d1e82c1612abfcedbdd6c39596481d72e0179c79b021a182400afe28bd"
+    },
+    {
+      "bytes": 4370,
+      "path": "vendor/gpui-pre-0.3.5/examples/pattern.rs",
+      "sha256": "5aff341ee70f8cd2ae08d69d70690b88a7256cd68097fe665725e764cb4b294d"
+    },
+    {
+      "bytes": 7132,
+      "path": "vendor/gpui-pre-0.3.5/examples/popover.rs",
+      "sha256": "ee87c93b159cddaa1ae913c39ccac39cd89653e3ca2a3b9b42263b970ecc56c7"
+    },
+    {
+      "bytes": 2444,
+      "path": "vendor/gpui-pre-0.3.5/examples/scrollable.rs",
+      "sha256": "20074e207ce78efec9e7c11a6d2532227ce57a8d3c6b18055b0504e1457fdcb1"
+    },
+    {
+      "bytes": 3545,
+      "path": "vendor/gpui-pre-0.3.5/examples/set_menus.rs",
+      "sha256": "4f2e8034e9eb3b9871f9330cd95c3fb82858c0b7cbe60ef89723be5e75a4644e"
+    },
+    {
+      "bytes": 28153,
+      "path": "vendor/gpui-pre-0.3.5/examples/shadow.rs",
+      "sha256": "ef3b84f66ae520ba2b44e590d7284d7dbe4746ade50a4a6d1f300e4662546fd0"
+    },
+    {
+      "bytes": 20111,
+      "path": "vendor/gpui-pre-0.3.5/examples/svg/dragon.svg",
+      "sha256": "a66278ec0c72d70152ab05fc9dd122ad094a262d96fa6f61fba6b12e128e0e47"
+    },
+    {
+      "bytes": 2936,
+      "path": "vendor/gpui-pre-0.3.5/examples/svg/svg.rs",
+      "sha256": "5ee96bdb68e3a076bbb5b1d0d2729b19317772289ed3121f8d620585af0d48c2"
+    },
+    {
+      "bytes": 5740,
+      "path": "vendor/gpui-pre-0.3.5/examples/system_notifications.rs",
+      "sha256": "692166db2266fb434f565efe2bc2f8da8f2baa8b6ab75ebc027f1e3d4722d474"
+    },
+    {
+      "bytes": 7349,
+      "path": "vendor/gpui-pre-0.3.5/examples/tab_stop.rs",
+      "sha256": "be187a56c091ee0b609fa396cae4a13b49dcf98ff9e602d8caed3126de3f6a8e"
+    },
+    {
+      "bytes": 19659,
+      "path": "vendor/gpui-pre-0.3.5/examples/testing.rs",
+      "sha256": "95b15f220b4a37ac02bc6ba42108721ba00fab3e94dbd8ae6cd3d0a0ef787b3c"
+    },
+    {
+      "bytes": 13730,
+      "path": "vendor/gpui-pre-0.3.5/examples/text.rs",
+      "sha256": "3883e127027adf7b99a8c909eaba3cac4b31f1afd1f6591ab520918b3f9fa25e"
+    },
+    {
+      "bytes": 3683,
+      "path": "vendor/gpui-pre-0.3.5/examples/text_layout.rs",
+      "sha256": "07e4ab7a1286374a21b5bc541ef327c3473cecf361d172f3d62401b473e6cbdd"
+    },
+    {
+      "bytes": 4866,
+      "path": "vendor/gpui-pre-0.3.5/examples/text_wrapper.rs",
+      "sha256": "db28861bc1f606d125ab696d67f26b4bf69de8c7a4b3de42bc103dba1edc9481"
+    },
+    {
+      "bytes": 1873,
+      "path": "vendor/gpui-pre-0.3.5/examples/tree.rs",
+      "sha256": "217e1e750cdeb736c68ee5c7d45fa6a0f8e44fc222fbf78f1f24d39dcda6a278"
+    },
+    {
+      "bytes": 2029,
+      "path": "vendor/gpui-pre-0.3.5/examples/uniform_list.rs",
+      "sha256": "939b065c2db96ce38400c0ea79a0dd74803aa27793698bb5d00f6652a58f4e3a"
+    },
+    {
+      "bytes": 17648,
+      "path": "vendor/gpui-pre-0.3.5/examples/view_example/example_editor.rs",
+      "sha256": "564c01431356cb878e60512858fa4b86143681a4a07198fae2a02b6dade57c5f"
+    },
+    {
+      "bytes": 3889,
+      "path": "vendor/gpui-pre-0.3.5/examples/view_example/example_input.rs",
+      "sha256": "18751cd2746a1c25e6b8af052b67dd4d382e70f97baebcad8eba34e6e55b2803"
+    },
+    {
+      "bytes": 4424,
+      "path": "vendor/gpui-pre-0.3.5/examples/view_example/example_tests.rs",
+      "sha256": "799582680b19888a0258a865d2649bc9076ee18cad3b40568e2301be98c90492"
+    },
+    {
+      "bytes": 3758,
+      "path": "vendor/gpui-pre-0.3.5/examples/view_example/example_text_area.rs",
+      "sha256": "c852878e5b4c6c9006059ba2b4b88fbfe9cd737945a9a5234e0421b9f003b2a8"
+    },
+    {
+      "bytes": 5859,
+      "path": "vendor/gpui-pre-0.3.5/examples/view_example/view_example_main.rs",
+      "sha256": "032a61e146623470cbf19a5aa565b623b075a7430e5ac87e69e10de447423bc9"
+    },
+    {
+      "bytes": 12003,
+      "path": "vendor/gpui-pre-0.3.5/examples/window.rs",
+      "sha256": "791ec50ee1e824c224da8609ff72241518ddeb4a38b80fb50bc46498283dd1da"
+    },
+    {
+      "bytes": 3679,
+      "path": "vendor/gpui-pre-0.3.5/examples/window_movable.rs",
+      "sha256": "b67243c58182b84f07fe531033d5cd140d1111d433e57a2c37de0dc1c34ae27c"
+    },
+    {
+      "bytes": 7760,
+      "path": "vendor/gpui-pre-0.3.5/examples/window_positioning.rs",
+      "sha256": "2e029ffe40bbb4ef64d9e3bdb72660c41376ef8f2b88d7c25d05bfd29a32a5f1"
+    },
+    {
+      "bytes": 11336,
+      "path": "vendor/gpui-pre-0.3.5/examples/window_shadow.rs",
+      "sha256": "2dd7cd7076b31bbdf2f83d11bc70b8a283e51902021df12bc879267b3d76eb41"
+    },
+    {
+      "bytes": 1394,
+      "path": "vendor/gpui-pre-0.3.5/resources/windows/gpui.manifest.xml",
+      "sha256": "00bce21693c57d15d1a15f1d8814206d9dd80389bbf63ce5a8f3b364891232b6"
+    },
+    {
+      "bytes": 74,
+      "path": "vendor/gpui-pre-0.3.5/resources/windows/gpui.rc",
+      "sha256": "a95a44287cb6b30922eccff9b5ad24f7000604d84bf6d96a6d9386395f65c8e0"
+    },
+    {
+      "bytes": 11011,
+      "path": "vendor/gpui-pre-0.3.5/src/_accessibility.rs",
+      "sha256": "bcdeb209fa6309f5c507d9e8918235e75c18751c1985d0ebed632de643d7ea2e"
+    },
+    {
+      "bytes": 7413,
+      "path": "vendor/gpui-pre-0.3.5/src/_ownership_and_data_flow.rs",
+      "sha256": "4edbde237dc322ceac8969028811fd30d87a8bd108475a642c4fb961b2770258"
+    },
+    {
+      "bytes": 16166,
+      "path": "vendor/gpui-pre-0.3.5/src/action.rs",
+      "sha256": "fc4b2184512f824a827e620f424507752a8ef5c4807386f858286ce6c233e524"
+    },
+    {
+      "bytes": 118037,
+      "path": "vendor/gpui-pre-0.3.5/src/app.rs",
+      "sha256": "82951c069b02f8a257e6301e85089e697e024964a403b5b73d018a6452d2cb3e"
+    },
+    {
+      "bytes": 17172,
+      "path": "vendor/gpui-pre-0.3.5/src/app/async_context.rs",
+      "sha256": "51f50649215452f678f9c867f5be4c89b1959158c3c2a0c398594c0688ef65ec"
+    },
+    {
+      "bytes": 55992,
+      "path": "vendor/gpui-pre-0.3.5/src/app/bench_context.rs",
+      "sha256": "288a9a9072c876a5dfb113e56ca0159b47f34e850e8c4a2c0205207753a53cde"
+    },
+    {
+      "bytes": 31145,
+      "path": "vendor/gpui-pre-0.3.5/src/app/context.rs",
+      "sha256": "12f33b0d2d43982722390c6f99889eb1dcc613d7ce25454b07bf9e7baa03fcb8"
+    },
+    {
+      "bytes": 40829,
+      "path": "vendor/gpui-pre-0.3.5/src/app/entity_map.rs",
+      "sha256": "9e89ba8858008a30bd6351470f325a837282676730970ac673b51c0fb5328ce1"
+    },
+    {
+      "bytes": 9435,
+      "path": "vendor/gpui-pre-0.3.5/src/app/headless_app_context.rs",
+      "sha256": "9b85f6de4a29d6d0fb813d978d7958659062858cf20bedef44972c89cc4a0319"
+    },
+    {
+      "bytes": 19985,
+      "path": "vendor/gpui-pre-0.3.5/src/app/test_app.rs",
+      "sha256": "ea41a502634c8eb8011a0f499b8a3900939228e6f6260bf8857766c799633316"
+    },
+    {
+      "bytes": 46649,
+      "path": "vendor/gpui-pre-0.3.5/src/app/test_context.rs",
+      "sha256": "2dd3238f2f7dd6944b9cc89bd7a3fc86e24f313def7e42856c53f96d0c4b8efb"
+    },
+    {
+      "bytes": 16045,
+      "path": "vendor/gpui-pre-0.3.5/src/app/visual_test_context.rs",
+      "sha256": "b6e0399349417b70cf067a90cf46a385a0b2efc999e30fd4a037d0ecdd87ff1c"
+    },
+    {
+      "bytes": 11488,
+      "path": "vendor/gpui-pre-0.3.5/src/arena.rs",
+      "sha256": "2f538d364e0ee831a4f6ea41cd1bc5927570628c0527c8373b7aa87c2203f7d6"
+    },
+    {
+      "bytes": 11806,
+      "path": "vendor/gpui-pre-0.3.5/src/asset_cache.rs",
+      "sha256": "cc1eb306523094d2d9a0e15538ce9a4fe29408288bd73e27781ea9a92c1b059e"
+    },
+    {
+      "bytes": 3813,
+      "path": "vendor/gpui-pre-0.3.5/src/assets.rs",
+      "sha256": "44e116678b8b351ecb7fb45a3163b58288d551fbc72049ddc7a8d255d589bcff"
+    },
+    {
+      "bytes": 16419,
+      "path": "vendor/gpui-pre-0.3.5/src/bounds_tree.rs",
+      "sha256": "c3da5abcd110191eea8b7b73a88bb8d1fd89251549e889c9cd42d1a7857a1b4c"
+    },
+    {
+      "bytes": 30454,
+      "path": "vendor/gpui-pre-0.3.5/src/color.rs",
+      "sha256": "4292aa1a2bbc56b653aaef0702726325f8efb93f16226320519e257c3ba8a839"
+    },
+    {
+      "bytes": 3302,
+      "path": "vendor/gpui-pre-0.3.5/src/colors.rs",
+      "sha256": "bd7d022046e8ff2303761168f70a473738abbe200f3b40b7f216d16ca05d187b"
+    },
+    {
+      "bytes": 15300,
+      "path": "vendor/gpui-pre-0.3.5/src/debug_overlay.rs",
+      "sha256": "c5bdef757b2ce28d4b1e584ba2dbaf988df106057bedab23c185b61451425cf4"
+    },
+    {
+      "bytes": 28911,
+      "path": "vendor/gpui-pre-0.3.5/src/element.rs",
+      "sha256": "53fb2ecd9e67134d7fb8193504d1c67c183cd18afe911d5170ceba2bafdbcf9e"
+    },
+    {
+      "bytes": 13364,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/anchored.rs",
+      "sha256": "1c649ab428e36a9502dca7d9b5c530acccd70f5a8500588c2e400e85d2a15f52"
+    },
+    {
+      "bytes": 35832,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/animation.rs",
+      "sha256": "117a4b1a580382b21accce30308f0480853c1e9372220566748dcb5f74d5793e"
+    },
+    {
+      "bytes": 2752,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/canvas.rs",
+      "sha256": "3e09646e725d31c10a88be290c146d6a6e829e0be173e6bc82c138461668e646"
+    },
+    {
+      "bytes": 3760,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/container_query.rs",
+      "sha256": "7e72aab18967e7e16ebbe38c535caf2ac6f881a62cf9f6045922fbeb8a06df07"
+    },
+    {
+      "bytes": 6862,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/deferred.rs",
+      "sha256": "0501cd9c0f041b849e51ea78a69abeb24781e5b5488311c0b87f4cf1ed01f451"
+    },
+    {
+      "bytes": 224715,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/div.rs",
+      "sha256": "ffa4d114ec38e6c311c16423c5c8e9f2020ee863ed577a5689f9dd972cbb3486"
+    },
+    {
+      "bytes": 10665,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/image_cache.rs",
+      "sha256": "e4540d7e92bc63bbaaf703df42338bbfabca764e34b7244880460d38962e14c4"
+    },
+    {
+      "bytes": 35463,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/img.rs",
+      "sha256": "c196cb1ed3db30ab3141b036c84288a22e04de2b53b687e1d86fe732420374e3"
+    },
+    {
+      "bytes": 111335,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/list.rs",
+      "sha256": "42704328bf8f1f5c75b0129dfaf4052e475f2de1bcfec3a2c6f92f518c6cb573"
+    },
+    {
+      "bytes": 434,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/mod.rs",
+      "sha256": "447ab5d960591744b9f193bbf9af562b5fbf9d8fd156e179584031e6f464d632"
+    },
+    {
+      "bytes": 3356,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/surface.rs",
+      "sha256": "b72696ba0a043fdcddcad5536c7cde2e1703a4fc185f6a5449b86b62cee20819"
+    },
+    {
+      "bytes": 9044,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/svg.rs",
+      "sha256": "ab5412945c36fd0087e95a1544d610cf9308e906b3059835b4c49f98f4b9279e"
+    },
+    {
+      "bytes": 45913,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/text.rs",
+      "sha256": "b2fbf9c8006db053b63035e5b9d1193f37cd91c93e8945940f76bffc06d2003a"
+    },
+    {
+      "bytes": 33672,
+      "path": "vendor/gpui-pre-0.3.5/src/elements/uniform_list.rs",
+      "sha256": "04221d6daf31f1bd994fb4649a19df3184b56de293301c0306183bd642e09e03"
+    },
+    {
+      "bytes": 20747,
+      "path": "vendor/gpui-pre-0.3.5/src/executor.rs",
+      "sha256": "6047eea975fb8d0b3cfd170a07a73d72a27b80b91830c272e8c84ec49ffde52c"
+    },
+    {
+      "bytes": 120042,
+      "path": "vendor/gpui-pre-0.3.5/src/geometry.rs",
+      "sha256": "e4841901151cd2ce42f8599754671bd7ec45ab49ce88e9d0708ba93ee32b7a39"
+    },
+    {
+      "bytes": 91013,
+      "path": "vendor/gpui-pre-0.3.5/src/gestures.rs",
+      "sha256": "0a1db91af00d98d35799bd2c82f65ec8d39e026dc58c66b78623368b367dbb7e"
+    },
+    {
+      "bytes": 2542,
+      "path": "vendor/gpui-pre-0.3.5/src/global.rs",
+      "sha256": "c52ddc647f712282a3a1f3629f864d0868966169fee7aff5f1f8d27e67f3f077"
+    },
+    {
+      "bytes": 10463,
+      "path": "vendor/gpui-pre-0.3.5/src/gpui.rs",
+      "sha256": "9872db89baceac714a7f055eed8249f65287346dd5fe4a8c5c845334bc7d3d70"
+    },
+    {
+      "bytes": 15038,
+      "path": "vendor/gpui-pre-0.3.5/src/input.rs",
+      "sha256": "212ab29d9ac70756d2e480a246b56c5028257746cd5f1b49a3a59a12b7a19db9"
+    },
+    {
+      "bytes": 8682,
+      "path": "vendor/gpui-pre-0.3.5/src/inspector.rs",
+      "sha256": "cb3bd84aeb5b207b1a3545c7a3bd5f4b684fecd8ea3ecbd5dbd8a95953cf2a5c"
+    },
+    {
+      "bytes": 31608,
+      "path": "vendor/gpui-pre-0.3.5/src/interactive.rs",
+      "sha256": "443b41c4f7d6d31ba288a49a151dc2280ec1e1e20df2f558551dc07009672087"
+    },
+    {
+      "bytes": 61377,
+      "path": "vendor/gpui-pre-0.3.5/src/key_dispatch.rs",
+      "sha256": "620f15597ad2c86cf370b543e36756c41215be716a61f7b55784f2f009d6df09"
+    },
+    {
+      "bytes": 34828,
+      "path": "vendor/gpui-pre-0.3.5/src/keymap.rs",
+      "sha256": "7b007c96f748b0593ce56f9ea1520422b3b9401919cc442f2ef4a2b374e203be"
+    },
+    {
+      "bytes": 4741,
+      "path": "vendor/gpui-pre-0.3.5/src/keymap/binding.rs",
+      "sha256": "7306cd42de8bd0dbbf111c7b1c9d30b2a814251ad0f00b7f7cb3bf042925f895"
+    },
+    {
+      "bytes": 32639,
+      "path": "vendor/gpui-pre-0.3.5/src/keymap/context.rs",
+      "sha256": "dd3cf2e883caed26e201a8aed39fbc51de782e7f806ecc22fde617929ca223cf"
+    },
+    {
+      "bytes": 10513,
+      "path": "vendor/gpui-pre-0.3.5/src/path_builder.rs",
+      "sha256": "07fa0b21e5493cf46ce54976d77ffea3a430ddbbc369c4d4e247a3bc68854e35"
+    },
+    {
+      "bytes": 113519,
+      "path": "vendor/gpui-pre-0.3.5/src/platform.rs",
+      "sha256": "c704f8a179019284b7f8378b5c471d497746f344e8f83a69062bae6eb7bd5718"
+    },
+    {
+      "bytes": 11423,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/app_menu.rs",
+      "sha256": "c751e70bf50cf2366dad9d6b2a66fc3a8e9cd1547128173dbfc59520feb454cc"
+    },
+    {
+      "bytes": 1225,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/keyboard.rs",
+      "sha256": "8de8d585f4238204fd14113abded703afa6bb0a532dacabdf400df8249390376"
+    },
+    {
+      "bytes": 23052,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/keystroke.rs",
+      "sha256": "35515a9d079060667e99851f09227d0ff2204b2d0d951bd96d8297f3bc3f9115"
+    },
+    {
+      "bytes": 2987,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/layer_shell.rs",
+      "sha256": "cdb4822c6589461045f09829640da3961e957d782c8e4763050b65701c90d305"
+    },
+    {
+      "bytes": 5650,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/popup.rs",
+      "sha256": "18a8aa2aaf3739c71d34233e7b2dabb4e902e5e27f9e1dcb362acd110478bb1a"
+    },
+    {
+      "bytes": 11934,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/scap_screen_capture.rs",
+      "sha256": "b6492678395e5a9a3335fd6babaa60192dc5b971efd32f896e33fb8fbbd7e484"
+    },
+    {
+      "bytes": 275,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/test.rs",
+      "sha256": "52861874bfdd1433728d61bd7be3a40b1f8c27aae4e4cc9d31b311ef13bda994"
+    },
+    {
+      "bytes": 4204,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/test/dispatcher.rs",
+      "sha256": "dea03a78a0c64d486f2c5b7bc669ba281638a0f8ee53316a52993a0e5b5cabd0"
+    },
+    {
+      "bytes": 723,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/test/display.rs",
+      "sha256": "1cbb36acb34c98fefdebf9c3676ff6b2dad93ef9e51ed7729ccdfa34f8b6ceb4"
+    },
+    {
+      "bytes": 24072,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/test/platform.rs",
+      "sha256": "7132adab4bf0e9c4f8f0a2a503744ad464f1de54ed2dd3e9d40889c076859355"
+    },
+    {
+      "bytes": 20935,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/test/window.rs",
+      "sha256": "811b043a57615fba387a09aa6773fc21b394cabf89a21356c9f4f50d2c011690"
+    },
+    {
+      "bytes": 26946,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/threaded_dispatcher.rs",
+      "sha256": "aff57da6e74ddb0dbdb57f2c58b08236c1b78a4971e0c6d2f095f0746096f09c"
+    },
+    {
+      "bytes": 8114,
+      "path": "vendor/gpui-pre-0.3.5/src/platform/visual_test.rs",
+      "sha256": "71265c50863bfb9eb0dd5e103d1bbbb5d612e73cee1614662c26ac538db28124"
+    },
+    {
+      "bytes": 16772,
+      "path": "vendor/gpui-pre-0.3.5/src/platform_scheduler.rs",
+      "sha256": "db193099a1b790d8658e1f056b393bb03df5b97f2c89f60c0ebca7186bdc0a51"
+    },
+    {
+      "bytes": 489,
+      "path": "vendor/gpui-pre-0.3.5/src/prelude.rs",
+      "sha256": "cbbef2e02b205044bb46dbe0e5353af35dfa466bcecb45078947994958ef133d"
+    },
+    {
+      "bytes": 53617,
+      "path": "vendor/gpui-pre-0.3.5/src/profiler.rs",
+      "sha256": "9e5c92f10f6565440ca79f97388756d8101fbb31f55c34a6cd0f92965ac2f7fc"
+    },
+    {
+      "bytes": 6202,
+      "path": "vendor/gpui-pre-0.3.5/src/profiler/actions.rs",
+      "sha256": "1907458a07d8370f19652fb60bb0bf1ef8ee8baf3e5fe4d04fc54f380e586d8f"
+    },
+    {
+      "bytes": 53106,
+      "path": "vendor/gpui-pre-0.3.5/src/profiler/hang.rs",
+      "sha256": "c9e75c8b4d56fb634186acc386df508d00fd7f020ef76a829f5a30ffad3bca10"
+    },
+    {
+      "bytes": 103442,
+      "path": "vendor/gpui-pre-0.3.5/src/profiler/journal.rs",
+      "sha256": "f01e060b7a556f3a473a3060c01dc30a5982d69fe09fe920ff410d5d0ca7c2ef"
+    },
+    {
+      "bytes": 12415,
+      "path": "vendor/gpui-pre-0.3.5/src/queue.rs",
+      "sha256": "b793b27ec6c5acd462e0f87846398fe1a1aff9d34f3b2e9e3e2a5d109dde29f1"
+    },
+    {
+      "bytes": 31085,
+      "path": "vendor/gpui-pre-0.3.5/src/scene.rs",
+      "sha256": "2162c7da284ca995e5a84a3c9b66fbd65abb63d96858c0cc76c25efd4ba1d66e"
+    },
+    {
+      "bytes": 627,
+      "path": "vendor/gpui-pre-0.3.5/src/shared_uri.rs",
+      "sha256": "7a0a4feb3e290bb3f2c15fd4c8ee4c8ca3a9a5974e04ec084c4f8f0f3fc89248"
+    },
+    {
+      "bytes": 27610,
+      "path": "vendor/gpui-pre-0.3.5/src/spring.rs",
+      "sha256": "1cdc32dc3fd2d2b8cbdc7809e51c276ced938592dd08083fe7cc063a02086663"
+    },
+    {
+      "bytes": 54147,
+      "path": "vendor/gpui-pre-0.3.5/src/style.rs",
+      "sha256": "b4a0e838fc7050cef25f71aae623cf86010c2ec361600479d24ce1aaff91bdc1"
+    },
+    {
+      "bytes": 33010,
+      "path": "vendor/gpui-pre-0.3.5/src/styled.rs",
+      "sha256": "c6e62fe136bedf887ee755c886df5466d5fe0b398a004b35d1a3530fef809c8d"
+    },
+    {
+      "bytes": 11066,
+      "path": "vendor/gpui-pre-0.3.5/src/subscription.rs",
+      "sha256": "cca3b5138cb23084932772c8e009cce8a08562c2c00b69f3e0d4b1676b88087a"
+    },
+    {
+      "bytes": 18641,
+      "path": "vendor/gpui-pre-0.3.5/src/svg_renderer.rs",
+      "sha256": "f15072306658254d52e180d75a379c424b3cb365039bc1d0f1940470e17b7241"
+    },
+    {
+      "bytes": 18973,
+      "path": "vendor/gpui-pre-0.3.5/src/tab_stop.rs",
+      "sha256": "7f742d6d6b7e5cd6fc634f2764fc3937e1cdebcf086d4b7c166379724edd1881"
+    },
+    {
+      "bytes": 28113,
+      "path": "vendor/gpui-pre-0.3.5/src/taffy.rs",
+      "sha256": "dd561fcc6b693cfcd15b343b5e2935b9cff2ee8fb373d5e7166ca71ff1f74880"
+    },
+    {
+      "bytes": 7717,
+      "path": "vendor/gpui-pre-0.3.5/src/test.rs",
+      "sha256": "3898a57d360edf65a9388ee005837f3d3b84102911cf79590352d12542f69a9c"
+    },
+    {
+      "bytes": 42099,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system.rs",
+      "sha256": "d9ce724e1a5f4f3439c873c9ba2f41217293bb1c9f3b18f1455bf54fd65551d1"
+    },
+    {
+      "bytes": 635,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system/font_fallbacks.rs",
+      "sha256": "8451a6f069fe78c76da11377ee17b01aabd3c35aaa494fb329f2ae5a5bf9736f"
+    },
+    {
+      "bytes": 4756,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system/font_features.rs",
+      "sha256": "85f901df313e3b8379e65b70a0e69e5dfc7d8280a761e568d1f4293edc4c4834"
+    },
+    {
+      "bytes": 37159,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system/line.rs",
+      "sha256": "1d2df751b17f0eeed5ae322fdc9ffe34309e5965e15f126c44af773cb5801eda"
+    },
+    {
+      "bytes": 37970,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system/line_layout.rs",
+      "sha256": "083c715fe5ede17c853d3d40b668abbb7693dbbf6e24d834674eb6728a9c5e92"
+    },
+    {
+      "bytes": 54368,
+      "path": "vendor/gpui-pre-0.3.5/src/text_system/line_wrapper.rs",
+      "sha256": "bb3ab3fa326466850816452fcf0ec82e3939a4dde5cb5f0515d771df922501e7"
+    },
+    {
+      "bytes": 8167,
+      "path": "vendor/gpui-pre-0.3.5/src/util.rs",
+      "sha256": "04397f667bf5d890cce690b96441cd5b8f5eb0a5dd2942ce27b0314be38fa636"
+    },
+    {
+      "bytes": 18534,
+      "path": "vendor/gpui-pre-0.3.5/src/view.rs",
+      "sha256": "611a0689a6c4e3905d106e314d0b769ff0f8d5b25b13d2d583d7bc771bec166d"
+    },
+    {
+      "bytes": 334388,
+      "path": "vendor/gpui-pre-0.3.5/src/window.rs",
+      "sha256": "f4861c4f0c96face733263cd51c49277e9a8ec60a347bd808619f2b706ab71b8"
+    },
+    {
+      "bytes": 34423,
+      "path": "vendor/gpui-pre-0.3.5/src/window/a11y.rs",
+      "sha256": "048dcfb31e77ee5c5c3d7d9e17efcbec33add31b746b57dbc52c5ad6e21a0894"
+    },
+    {
+      "bytes": 11527,
+      "path": "vendor/gpui-pre-0.3.5/src/window/a11y/debug.rs",
+      "sha256": "2055ed9e63900a601a973191ff82ebbd91557178036826a4d2c04b09f5cf4dc2"
+    },
+    {
+      "bytes": 6719,
+      "path": "vendor/gpui-pre-0.3.5/src/window/prompts.rs",
+      "sha256": "0d58ec14e8139af53b50f4ad67690f01959ed59ffafc4adb2cf522f3f6197164"
+    },
+    {
+      "bytes": 1285,
+      "path": "vendor/gpui-pre-0.3.5/tests/action_macros.rs",
+      "sha256": "47b69024f403feb6cb63c9990a6993b8582856146f5a6ae16984714321956a84"
     },
     {
       "bytes": 7732,
@@ -1202,9 +4912,9 @@
       "sha256": "9d25b21ec5530c3e66e40196a924f12aa89cfe6075b5a769feff65dfcfde0a88"
     },
     {
-      "bytes": 57545,
+      "bytes": 58231,
       "path": "vendor/gpui-pre-linux-0.3.5/src/linux/platform.rs",
-      "sha256": "53716640ae3537282d704cf02bdf4930e0e0373f6bca1810ca4bb548e67d8d9c"
+      "sha256": "944c6e2d0aefc8a0ef011ca4e8f2a8eba349ae4931cb65c0bf052cf77d970f05"
     },
     {
       "bytes": 5869,
@@ -1217,14 +4927,14 @@
       "sha256": "afc6712696eed6749cc277b800cfb62690af9cbfe275961ad1df1c8d190d4028"
     },
     {
-      "bytes": 1518,
+      "bytes": 1970,
       "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland.rs",
-      "sha256": "d8b52fcd37912d441ad1c9be3687422ccda2765e41ddc942b25400c89fd3cfe7"
+      "sha256": "f1db6c1338a7f19a27a467a2a2ddbf0100bef2c51be4c8e107e80115e0951880"
     },
     {
-      "bytes": 125340,
+      "bytes": 127190,
       "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/client.rs",
-      "sha256": "4c7e8c3848c4ad20c69aa2700e9b9fe012f2088528e44d3b3da4048b1bdf7d42"
+      "sha256": "241d3e5bc0d4a859609d23ab94958ae5d58872f20a7c04d4f29be7c2b018d0a7"
     },
     {
       "bytes": 8338,
@@ -1257,9 +4967,9 @@
       "sha256": "e45add908e937b0af6897e1a462357e0fc99dcc0c53c802d912c5659ffedc72c"
     },
     {
-      "bytes": 86448,
+      "bytes": 92551,
       "path": "vendor/gpui-pre-linux-0.3.5/src/linux/wayland/window.rs",
-      "sha256": "03e34b5d95c2d84436b854a52931868e75e49c8fe0037144f275e57b89d48c8e"
+      "sha256": "c0559398ac8d46c6a347fcc4bba7f7f759b2415768a17bb6a14c7030d183def3"
     },
     {
       "bytes": 216,
@@ -1307,9 +5017,9 @@
       "sha256": "a3de4fe196aa60b7305cf9380af47fa1947e543d518661dfeb04525aa235c5b3"
     },
     {
-      "bytes": 11548,
+      "bytes": 14389,
       "path": "xtask/src/checks.rs",
-      "sha256": "d0558375396895070274c8c6b63e4dbf2b67efb57ceb5ee5357dad4fa70957ea"
+      "sha256": "fb13e9315dfcd1b6fe1e8edc4f9cb613ea35062bc45739766db84f98f09f1927"
     },
     {
       "bytes": 6306,
@@ -1322,14 +5032,14 @@
       "sha256": "498d474e7a7eacb396289e26bfde738adb82661b7f5e3c6e36a522cf274da9f1"
     },
     {
-      "bytes": 19304,
+      "bytes": 19551,
       "path": "xtask/src/main.rs",
-      "sha256": "adbac5bfe5b730680ebc10e652b5b6c17bfdd36740ef36a2e4e82ab2730bc95d"
+      "sha256": "77a71ce626ce9e3f8d11cd3f0a3bf8da262dc94ebd8e120295e803941caa2a78"
     },
     {
-      "bytes": 10622,
+      "bytes": 11027,
       "path": "xtask/src/model.rs",
-      "sha256": "a5a7b59f970593d084db35efc9aad6a59c5caa2114a574d62fd8bfb356939ff1"
+      "sha256": "1043feb019eff3ac1f4348b8064e49e1cb438ae91b0ca507ef127ced98ca8f4a"
     },
     {
       "bytes": 12937,
@@ -1347,13 +5057,26 @@
       "sha256": "7297169881e29aacbdd265c9d7b9dfe3b971e0c1b9e4cdea9e222e8069340dfb"
     },
     {
-      "bytes": 48669,
+      "bytes": 53278,
       "path": "xtask/src/tests.rs",
-      "sha256": "a46bec4714d2fb872e370426d4b97af8d375afe2210c52d90dbd80c370d565bb"
+      "sha256": "1cb1266e419d8df61a660fb2dfd0eb339a1c3a30c8cf63da0445d3aa37abcdbc"
     }
   ],
   "history_model": "fresh-public-root",
   "license_present": true,
+  "overlaid": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "AUTHORITY.md",
+    "CONTRIBUTING.md",
+    "NAMING.md",
+    "README.md",
+    "SECURITY.md",
+    "docs/evidence/CURRENT.md",
+    "docs/evidence/README.md",
+    "docs/status/ROADMAP.md",
+    "docs/status/STATUS.md"
+  ],
   "private_paths_excluded": [
     "crates/in-gnu-os-personal-profile-provision/"
   ],
@@ -1362,12 +5085,12 @@
     "evidence/fixtures/gnosix-r12-b2-r11-identity-current-v1.json",
     "evidence/fixtures/gnosix-r12-b2-r11-issued-v1.json"
   ],
-  "publication_commit": "785028a87114b9f484fbcd67029afd0565f9a232",
+  "publication_commit": "fd995c3cfa00a8c77ba8865f6ce5ee5b13208361",
   "raw_evidence_included": false,
   "schema": "gnosix-public-cut-v1",
-  "source_commit": "66e8237bb84dc7912e6f51cba65b215e4856b54a",
+  "source_commit": "fd995c3cfa00a8c77ba8865f6ce5ee5b13208361",
   "third_party_notices_present": true,
-  "total_bytes": 4431904,
+  "total_bytes": 19037180,
   "workspace_members_removed": [
     "crates/in-gnu-os-personal-profile-provision"
   ]

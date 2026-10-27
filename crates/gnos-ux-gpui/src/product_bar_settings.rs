@@ -117,7 +117,7 @@ impl BarEdgeSettingsView {
             .snapshot
             .as_ref()
             .map_or_else(BarPreferenceOverrides::default, |snapshot| {
-                snapshot.preferences
+                snapshot.preferences.clone()
             });
         let Ok(preferences) = apply_preference_edit(current, edit) else {
             return;
@@ -184,12 +184,12 @@ impl Render for BarEdgeSettingsView {
             };
             let shown_overrides =
                 if session.status == crate::product_profile::ProfileStatus::Pending {
-                    session
-                        .last_preferences_request
-                        .as_ref()
-                        .map_or(effective.bar_overrides, |request| request.preferences)
+                    session.last_preferences_request.as_ref().map_or_else(
+                        || effective.bar_overrides.clone(),
+                        |request| request.preferences.clone(),
+                    )
                 } else {
-                    effective.bar_overrides
+                    effective.bar_overrides.clone()
                 };
             (
                 crate::product_preferences::bar_edge_settings_projection(&effective),
@@ -593,6 +593,7 @@ mod donor11_settings_tests {
             workspace_count: Some(WorkspaceDisplayCount::try_from(5_i64).unwrap()),
             workspace_display: Some(WorkspaceDisplayMode::Shapes),
             tray_compact: Some(true),
+            ..Default::default()
         }
     }
 
@@ -600,7 +601,8 @@ mod donor11_settings_tests {
     fn one_settings_edit_preserves_the_other_four_durable_overrides() {
         let before = baseline();
         let after =
-            apply_preference_edit(before, BarPreferenceEdit::ShowOnHover(Some(true))).unwrap();
+            apply_preference_edit(before.clone(), BarPreferenceEdit::ShowOnHover(Some(true)))
+                .unwrap();
         assert_eq!(after.show_on_hover, Some(true));
         assert_eq!(after.persistent, before.persistent);
         assert_eq!(after.workspace_count, before.workspace_count);
@@ -611,16 +613,21 @@ mod donor11_settings_tests {
     #[test]
     fn unset_is_explicit_absence_and_invalid_workspace_count_is_refused() {
         let before = baseline();
-        let after = apply_preference_edit(before, BarPreferenceEdit::Persistent(None)).unwrap();
+        let after =
+            apply_preference_edit(before.clone(), BarPreferenceEdit::Persistent(None)).unwrap();
         assert_eq!(after.persistent, None);
         assert_eq!(after.show_on_hover, before.show_on_hover);
 
-        assert!(apply_preference_edit(before, BarPreferenceEdit::WorkspaceCount(Some(0))).is_err());
         assert!(
-            apply_preference_edit(before, BarPreferenceEdit::WorkspaceCount(Some(21))).is_err()
+            apply_preference_edit(before.clone(), BarPreferenceEdit::WorkspaceCount(Some(0)))
+                .is_err()
+        );
+        assert!(
+            apply_preference_edit(before.clone(), BarPreferenceEdit::WorkspaceCount(Some(21)))
+                .is_err()
         );
         let cleared =
-            apply_preference_edit(before, BarPreferenceEdit::WorkspaceCount(None)).unwrap();
+            apply_preference_edit(before.clone(), BarPreferenceEdit::WorkspaceCount(None)).unwrap();
         assert_eq!(cleared.workspace_count, None);
     }
 }

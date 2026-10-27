@@ -28,7 +28,7 @@ class PublicationLintTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("# gnosix\n", encoding="utf-8")
         (root / "README.md").write_text(
-            "# gnosix\n\nExperimental / pre-release\n\n"
+            "# gnosix\n\n**Development state:** Experimental.\n\n"
             "## What gnosix is\n\n## Current status\n\n"
             "## Architecture\n\n## Build and inspect\n\n## Evidence\n\n## License\n",
             encoding="utf-8",
@@ -107,7 +107,7 @@ class PublicationLintTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.make_surface(root)
-            (root / "README.md").write_text("# gnosix\n\nExperimental / pre-release\n", encoding="utf-8")
+            (root / "README.md").write_text("# gnosix\n\n**Development state:** Experimental.\n", encoding="utf-8")
             findings = lint_repository(root)
             self.assertTrue(any(f.rule == "required-section" for f in findings))
 

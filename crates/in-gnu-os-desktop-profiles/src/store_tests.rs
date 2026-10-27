@@ -722,7 +722,7 @@ fn validated_load_rejects_a_dangling_id_after_identity_recovery() {
 }
 
 #[test]
-fn legacy_v1_profile_loads_as_schema2_compat_view_and_first_commit_upgrades() {
+fn legacy_v1_profile_loads_as_current_compat_view_and_first_commit_upgrades() {
     let temp = TempDir::new("gnosix-r12-profile-store-v1-upgrade");
     let store = store(&temp);
     fs::create_dir_all(temp.0.join("profiles")).unwrap();
@@ -743,7 +743,10 @@ fn legacy_v1_profile_loads_as_schema2_compat_view_and_first_commit_upgrades() {
         ProfileLoadOutcome::Current { document, version } => (document, version),
         other => panic!("legacy v1 did not load: {other:?}"),
     };
-    assert_eq!(document.schema_version, 2);
+    assert_eq!(
+        document.schema_version,
+        crate::DESKTOP_PROFILE_SCHEMA_VERSION
+    );
     assert_eq!(document.revision, 7);
     assert_eq!(
         document.profiles[0].preferences.bar.edge,
@@ -760,11 +763,211 @@ fn legacy_v1_profile_loads_as_schema2_compat_view_and_first_commit_upgrades() {
     store.open_writer().commit(&version, &document).unwrap();
     let persisted: serde_json::Value =
         serde_json::from_slice(&fs::read(store.current_path()).unwrap()).unwrap();
-    assert_eq!(persisted["schema_version"], 2);
+    assert_eq!(
+        persisted["schema_version"],
+        crate::DESKTOP_PROFILE_SCHEMA_VERSION
+    );
     assert_eq!(
         persisted["profiles"][0]["preferences"]["bar"]["persistent"],
         true
     );
+}
+
+#[test]
+fn a_schema2_profile_loads_and_upgrades_and_cannot_carry_shell_preferences() {
+    let temp = TempDir::new("gnosix-r12-profile-store-v2-upgrade");
+    let store = store(&temp);
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let v2 = br#"{
+      "schema_version": 2,
+      "revision": 3,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "edge": "left", "tray_compact": true } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), v2).unwrap();
+    fs::write(store.initialized_path(), b"v2\n").unwrap();
+    let (mut document, version) = match store.load().unwrap() {
+        ProfileLoadOutcome::Current { document, version } => (document, version),
+        other => panic!("v2 did not load: {other:?}"),
+    };
+    assert_eq!(
+        document.schema_version,
+        crate::DESKTOP_PROFILE_SCHEMA_VERSION
+    );
+    assert_eq!(
+        document.profiles[0].preferences.bar.tray_compact,
+        Some(true)
+    );
+    document.revision = 4;
+    document.profiles[0].preferences.bar.thickness =
+        Some(crate::BarThickness::try_from(64).unwrap());
+    store.open_writer().commit(&version, &document).unwrap();
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(store.current_path()).unwrap()).unwrap();
+    assert_eq!(
+        persisted["schema_version"],
+        crate::DESKTOP_PROFILE_SCHEMA_VERSION
+    );
+    assert_eq!(
+        persisted["profiles"][0]["preferences"]["bar"]["thickness"],
+        64
+    );
+
+    let temp = TempDir::new("gnosix-r12-profile-store-v2-smuggle");
+    let store = DesktopProfileStore::new(
+        temp.0.join("profiles"),
+        FilesystemOutputIdentityStore::new(temp.0.join("identity")),
+    );
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let smuggled = br#"{
+      "schema_version": 2,
+      "revision": 1,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "thickness": 64 } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), smuggled).unwrap();
+    fs::write(store.initialized_path(), b"v2\n").unwrap();
+    assert!(matches!(
+        store.load().unwrap(),
+        ProfileLoadOutcome::Unrecoverable { .. }
+    ));
+}
+
+#[test]
+fn a_schema3_profile_loads_and_upgrades_and_cannot_carry_deck_pins() {
+    let temp = TempDir::new("gnosix-r12-profile-store-v3-upgrade");
+    let store = store(&temp);
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let v3 = br#"{
+      "schema_version": 3,
+      "revision": 5,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "edge": "top", "thickness": 64 } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), v3).unwrap();
+    fs::write(store.initialized_path(), b"v3\n").unwrap();
+    let (mut document, version) = match store.load().unwrap() {
+        ProfileLoadOutcome::Current { document, version } => (document, version),
+        other => panic!("v3 did not load: {other:?}"),
+    };
+    assert_eq!(document.profiles[0].preferences.bar.pins, None);
+    document.revision = 6;
+    document.profiles[0].preferences.bar.pins = Some(
+        crate::DeckPinList::from_ids(["firefox.desktop", "org.gnome.Nautilus.desktop"]).unwrap(),
+    );
+    store.open_writer().commit(&version, &document).unwrap();
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(store.current_path()).unwrap()).unwrap();
+    assert_eq!(
+        persisted["schema_version"],
+        crate::DESKTOP_PROFILE_SCHEMA_VERSION
+    );
+    assert_eq!(
+        persisted["profiles"][0]["preferences"]["bar"]["pins"],
+        serde_json::json!(["firefox.desktop", "org.gnome.Nautilus.desktop"])
+    );
+
+    let temp = TempDir::new("gnosix-r12-profile-store-v3-smuggle");
+    let store = DesktopProfileStore::new(
+        temp.0.join("profiles"),
+        FilesystemOutputIdentityStore::new(temp.0.join("identity")),
+    );
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let smuggled = br#"{
+      "schema_version": 3,
+      "revision": 1,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "pins": ["firefox.desktop"] } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), smuggled).unwrap();
+    fs::write(store.initialized_path(), b"v3\n").unwrap();
+    assert!(matches!(
+        store.load().unwrap(),
+        ProfileLoadOutcome::Unrecoverable { .. }
+    ));
+}
+
+#[test]
+fn a_schema4_profile_loads_and_upgrades_and_cannot_carry_desktop_widgets() {
+    let temp = TempDir::new("gnosix-r12-profile-store-v4-upgrade");
+    let store = store(&temp);
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let v4 = br#"{
+      "schema_version": 4,
+      "revision": 5,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "edge": "top", "pins": ["firefox.desktop"] } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), v4).unwrap();
+    fs::write(store.initialized_path(), b"v4\n").unwrap();
+    let (mut document, version) = match store.load().unwrap() {
+        ProfileLoadOutcome::Current { document, version } => (document, version),
+        other => panic!("v4 did not load: {other:?}"),
+    };
+    assert_eq!(document.profiles[0].preferences.bar.desktop_modules, None);
+    document.revision = 6;
+    let place = |x: i64, y: i64| crate::DesktopModulePlace {
+        x: crate::DesktopFraction::try_from(x).unwrap(),
+        y: crate::DesktopFraction::try_from(y).unwrap(),
+    };
+    document.profiles[0].preferences.bar.desktop_modules = Some(crate::DesktopModuleLayout {
+        clock: Some(place(316, 479)),
+        visualiser: None,
+        dictation: None,
+    });
+    store.open_writer().commit(&version, &document).unwrap();
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(store.current_path()).unwrap()).unwrap();
+    assert_eq!(persisted["schema_version"], 5);
+    assert_eq!(
+        persisted["profiles"][0]["preferences"]["bar"]["desktop_widgets"],
+        serde_json::json!({ "clock": { "x": 316, "y": 479 } })
+    );
+    // A place out of range never decodes.
+    assert!(crate::DesktopFraction::try_from(1001).is_err());
+
+    let temp = TempDir::new("gnosix-r12-profile-store-v4-smuggle");
+    let store = DesktopProfileStore::new(
+        temp.0.join("profiles"),
+        FilesystemOutputIdentityStore::new(temp.0.join("identity")),
+    );
+    fs::create_dir_all(temp.0.join("profiles")).unwrap();
+    let smuggled = br#"{
+      "schema_version": 4,
+      "revision": 1,
+      "profiles": [{
+        "id": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        "name": "Personal",
+        "preferences": { "bar": { "desktop_widgets": { "clock": { "x": 1, "y": 2 } } } }
+      }],
+      "output_profile_selections": []
+    }"#;
+    fs::write(store.current_path(), smuggled).unwrap();
+    fs::write(store.initialized_path(), b"v4\n").unwrap();
+    assert!(matches!(
+        store.load().unwrap(),
+        ProfileLoadOutcome::Unrecoverable { .. }
+    ));
 }
 
 #[test]

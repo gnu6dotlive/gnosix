@@ -182,7 +182,7 @@ pub fn apply_bar_projection(
         } else {
             PreferenceValueSource::ProductDefault
         });
-        effective.bar_overrides = snapshot.preferences;
+        effective.bar_overrides = snapshot.preferences.clone();
         effective.identity_revision = Some(snapshot.identity_revision);
         effective.profile_revision = match snapshot.version {
             ProfileVersion::Current { revision, .. } => Some(revision),
@@ -300,6 +300,7 @@ mod donor11_tests {
             workspace_count: Some(WorkspaceDisplayCount::try_from(8_i64).unwrap()),
             workspace_display: Some(WorkspaceDisplayMode::Icons),
             tray_compact: Some(false),
+            ..Default::default()
         };
         let mut preferences = EffectiveProductPreferences::default();
         let snapshot = BarProfileSnapshot {
@@ -311,7 +312,7 @@ mod donor11_tests {
             },
             identity_revision: 4,
             edge: None,
-            preferences: overrides,
+            preferences: overrides.clone(),
         };
         apply_bar_projection(&mut preferences, Some(&snapshot));
         assert_eq!(preferences.bar_overrides, overrides);
@@ -336,7 +337,7 @@ mod donor11_tests {
             persistent: Some(true),
             ..Default::default()
         };
-        let request = preference_request_from_snapshot([11; 16], &snapshot, desired);
+        let request = preference_request_from_snapshot([11; 16], &snapshot, desired.clone());
         assert_eq!(request.request_id, [11; 16]);
         assert_eq!(request.epoch, snapshot.epoch);
         assert_eq!(request.profile_id, snapshot.profile_id);

@@ -199,6 +199,22 @@ fn native_lua_for_pair(
         ) if !stable_id.is_empty() && stable_id.bytes().all(|byte| byte.is_ascii_hexdigit()) => Ok(
             format!("hl.dispatch(hl.dsp.focus({{ window = \"stableid:{stable_id}\" }}))"),
         ),
+        // WS-02B: the exact window onto the exact workspace, without
+        // following it there.
+        (
+            ActivationOperation::MoveObservedApplicationToWorkspace(..),
+            NativeExecutionTarget::ApplicationToWorkspace {
+                stable_id,
+                workspace,
+            },
+        ) if !stable_id.is_empty()
+            && stable_id.bytes().all(|byte| byte.is_ascii_hexdigit())
+            && (1..=i32::MAX as i64).contains(workspace) =>
+        {
+            Ok(format!(
+                "hl.dispatch(hl.dsp.window.move({{ workspace = \"{workspace}\", window = \"stableid:{stable_id}\", follow = false }}))"
+            ))
+        }
         _ => Err(BackendAttemptError::Rejected),
     }
 }
@@ -253,7 +269,7 @@ mod tests {
     }
 
     #[test]
-    fn exact_native_lua_has_only_two_typed_forms() {
+    fn exact_native_lua_has_only_three_typed_forms() {
         use gnosix_desktop_model::{SurfaceId, WorkspaceId};
         let workspace =
             ActivationOperation::ActivateObservedWorkspace(WorkspaceId::from_bytes([1; 16]));
@@ -290,6 +306,34 @@ mod tests {
                 application,
                 &NativeExecutionTarget::ApplicationStableId("aabb\"; hl.dsp.exit()".into())
             ),
+            Err(BackendAttemptError::Rejected)
+        );
+        // WS-02B: the exact window onto the exact workspace, nothing else.
+        let movement = ActivationOperation::MoveObservedApplicationToWorkspace(
+            SurfaceId::from_bytes([2; 16]),
+            WorkspaceId::from_bytes([1; 16]),
+        );
+        let target =
+            |stable_id: &str, workspace: i64| NativeExecutionTarget::ApplicationToWorkspace {
+                stable_id: stable_id.into(),
+                workspace,
+            };
+        assert_eq!(
+            native_lua_for_pair(movement, &target("aabb", 3)),
+            Ok("hl.dispatch(hl.dsp.window.move({ workspace = \"3\", window = \"stableid:aabb\", follow = false }))".into())
+        );
+        for bad in [
+            target("aabb", 0),
+            target("", 3),
+            target("aabb\"; hl.dsp.exit()", 3),
+        ] {
+            assert_eq!(
+                native_lua_for_pair(movement, &bad),
+                Err(BackendAttemptError::Rejected)
+            );
+        }
+        assert_eq!(
+            native_lua_for_pair(movement, &NativeExecutionTarget::WorkspaceNumericId(3)),
             Err(BackendAttemptError::Rejected)
         );
     }

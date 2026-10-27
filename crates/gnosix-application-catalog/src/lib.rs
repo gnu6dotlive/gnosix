@@ -9,6 +9,8 @@
 // (`ApplicationCatalog::get`, `InstalledApplication::id`), so a consumer
 // cannot name what it must pass without reaching into another crate.
 pub use in_gnu_os_settings_core::DesktopEntryId;
+
+pub mod defaults;
 use sha2::{Digest, Sha256};
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -220,6 +222,10 @@ pub struct InstalledApplication {
     pub exec: Option<ExecTemplate>,
     pub try_exec: Option<String>,
     pub startup_wm_class: Option<String>,
+    /// Desktop-entry search metadata. These are presentation/indexing facts,
+    /// never execution authority.
+    pub categories: Vec<String>,
+    pub keywords: Vec<String>,
     pub terminal: bool,
     pub no_display: bool,
     pub hidden: bool,
@@ -227,9 +233,28 @@ pub struct InstalledApplication {
     pub not_show_in: Vec<String>,
     pub mime_types: Vec<String>,
     pub actions: Vec<String>,
+    /// The `[Desktop Action <id>]` groups `Actions=` lists, in that order.
+    /// An action without a group, a name or a valid `Exec` is left out: the
+    /// entry itself stays launchable.
+    pub desktop_actions: Vec<DesktopAction>,
+}
+
+/// One additional way to start an entry (freedesktop "Desktop Action"),
+/// such as a new window or a private window. Like the entry's own `Exec`,
+/// the template is execution data for the launch capability only.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct DesktopAction {
+    pub id: String,
+    pub name: String,
+    pub icon: Option<String>,
+    pub exec: ExecTemplate,
 }
 
 impl InstalledApplication {
+    pub fn desktop_action(&self, id: &str) -> Option<&DesktopAction> {
+        self.desktop_actions.iter().find(|action| action.id == id)
+    }
+
     pub fn normally_visible(&self) -> bool {
         !self.hidden && !self.no_display
     }
@@ -499,6 +524,26 @@ fn parse_desktop_entry(
     };
     let id = DesktopEntryId::parse(id.to_owned())
         .map_err(|_| CatalogIssueKind::InvalidDesktopEntryId)?;
+    let actions = parse_list(section.get("Actions"));
+    let groups = desktop_action_sections(text);
+    let desktop_actions = actions
+        .iter()
+        .filter_map(|action| {
+            let group = groups.get(action)?;
+            let name =
+                localized_value(group, "Name", locale).filter(|value| !value.trim().is_empty())?;
+            let exec = group
+                .get("Exec")
+                .filter(|value| !value.trim().is_empty())
+                .and_then(|raw| parse_exec(raw).ok())?;
+            Some(DesktopAction {
+                id: action.clone(),
+                name,
+                icon: group.get("Icon").cloned().filter(|value| !value.is_empty()),
+                exec,
+            })
+        })
+        .collect();
 
     Ok(InstalledApplication {
         id,
@@ -521,14 +566,52 @@ fn parse_desktop_entry(
             .get("StartupWMClass")
             .cloned()
             .filter(|value| !value.is_empty()),
+        categories: parse_list(section.get("Categories")),
+        keywords: parse_list(section.get("Keywords")),
         terminal: parse_bool(section.get("Terminal")),
         no_display: parse_bool(section.get("NoDisplay")),
         hidden: parse_bool(section.get("Hidden")),
         only_show_in: parse_list(section.get("OnlyShowIn")),
         not_show_in: parse_list(section.get("NotShowIn")),
         mime_types: parse_list(section.get("MimeType")),
-        actions: parse_list(section.get("Actions")),
+        actions,
+        desktop_actions,
     })
+}
+
+/// Every `[Desktop Action <id>]` group, by id. A repeated group keeps its
+/// first occurrence.
+fn desktop_action_sections(text: &str) -> BTreeMap<String, BTreeMap<String, String>> {
+    let mut groups = BTreeMap::<String, BTreeMap<String, String>>::new();
+    let mut current: Option<String> = None;
+    for raw_line in text.lines() {
+        let line = raw_line.trim_end_matches(char::from(13_u8));
+        if line.starts_with('[') && line.ends_with(']') {
+            let section = &line[1..line.len() - 1];
+            current = section
+                .strip_prefix("Desktop Action ")
+                .filter(|id| !id.is_empty() && !groups.contains_key(*id))
+                .map(ToOwned::to_owned);
+            if let Some(id) = &current {
+                groups.insert(id.clone(), BTreeMap::new());
+            }
+            continue;
+        }
+        let Some(group) = current.as_ref().and_then(|id| groups.get_mut(id)) else {
+            continue;
+        };
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+        let Some((key, value)) = line.split_once('=') else {
+            continue;
+        };
+        if key.is_empty() || key.chars().any(char::is_whitespace) {
+            continue;
+        }
+        group.insert(key.to_owned(), unescape_value(value));
+    }
+    groups
 }
 
 fn desktop_entry_section(text: &str) -> Option<BTreeMap<String, String>> {
@@ -788,6 +871,44 @@ mod tests {
     }
 
     #[test]
+    fn desktop_actions_follow_the_actions_key_and_drop_what_they_cannot_honour() {
+        let tree = TempTree::new();
+        let apps = tree.applications("one");
+        write(
+            &apps.join("term.desktop"),
+            "[Desktop Entry]\nType=Application\nName=Term\nExec=term\nActions=new-tab;unlisted-name;bad-exec;missing;window;\n\
+             \n[Desktop Action window]\nName=New Window\nName[fr]=Nouvelle fenêtre\nExec=term --window\nIcon=window-new\n\
+             \n[Desktop Action new-tab]\nName=New Tab\nExec=term --tab %u\n\
+             \n[Desktop Action unlisted-name]\nExec=term --x\n\
+             \n[Desktop Action bad-exec]\nName=Bad\nExec=term %Z\n\
+             \n[Desktop Action stray]\nName=Stray\nExec=term --stray\n",
+        );
+        let catalog = ApplicationCatalog::discover(
+            &ApplicationCatalogRoots::from_application_dirs(vec![apps]),
+            &LocalePreferences::from_locale("fr_FR.UTF-8"),
+            DesktopEnvironment::default(),
+        );
+        let entry = &catalog.entries()[0];
+        assert_eq!(entry.name, "Term", "the entry group is not polluted");
+        let ids: Vec<_> = entry
+            .desktop_actions
+            .iter()
+            .map(|a| a.id.as_str())
+            .collect();
+        assert_eq!(
+            ids,
+            ["new-tab", "window"],
+            "Actions= order; the rest dropped"
+        );
+        let window = entry.desktop_action("window").unwrap();
+        assert_eq!(window.name, "Nouvelle fenêtre");
+        assert_eq!(window.icon.as_deref(), Some("window-new"));
+        assert_eq!(window.exec.argv, ["term", "--window"]);
+        assert!(entry.desktop_action("stray").is_none());
+        assert_eq!(entry.exec.as_ref().unwrap().argv, ["term"]);
+    }
+
+    #[test]
     fn exec_is_tokenized_without_shell_and_unknown_field_codes_fail() {
         let parsed = parse_exec(r#"browser --profile "Work Profile" %U %%done"#).unwrap();
         assert_eq!(
@@ -850,6 +971,24 @@ mod tests {
             .map(|entry| entry.id.as_str().to_owned())
             .collect::<Vec<_>>();
         assert_eq!(visible, vec!["generic.desktop"]);
+    }
+
+    #[test]
+    fn categories_and_keywords_are_preserved_as_search_metadata() {
+        let tree = TempTree::new();
+        let apps = tree.applications("search-metadata");
+        write(
+            &apps.join("org.example.Editor.desktop"),
+            "[Desktop Entry]\nType=Application\nName=Editor\nExec=editor\nCategories=Development;IDE;\nKeywords=code;rust;workspace;\n",
+        );
+        let catalog = ApplicationCatalog::discover(
+            &ApplicationCatalogRoots::from_application_dirs(vec![apps]),
+            &LocalePreferences::neutral(),
+            DesktopEnvironment::default(),
+        );
+        let entry = &catalog.entries()[0];
+        assert_eq!(entry.categories, ["Development", "IDE"]);
+        assert_eq!(entry.keywords, ["code", "rust", "workspace"]);
     }
 
     #[test]

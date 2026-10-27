@@ -509,6 +509,7 @@ mod donor11_tests {
                 workspace_count: Some(WorkspaceDisplayCount::try_from(7_i64).unwrap()),
                 workspace_display: Some(WorkspaceDisplayMode::Text),
                 tray_compact: Some(true),
+                ..Default::default()
             },
         }
     }
@@ -531,7 +532,7 @@ mod donor11_tests {
     fn preference_batch_requires_matching_fresh_projection_after_receipt() {
         let request = request();
         let transport = PreferenceTransport {
-            fresh: fresh(request.preferences),
+            fresh: fresh(request.preferences.clone()),
             code: BarWriteCode::Applied,
             lose_receipt: false,
         };
@@ -555,7 +556,7 @@ mod donor11_tests {
     fn lost_preference_receipt_is_never_inferred_from_matching_value() {
         let request = request();
         let transport = PreferenceTransport {
-            fresh: fresh(request.preferences),
+            fresh: fresh(request.preferences.clone()),
             code: BarWriteCode::Applied,
             lose_receipt: true,
         };

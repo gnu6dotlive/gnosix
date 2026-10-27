@@ -15,13 +15,18 @@ const MAX_REPLY_BYTES: usize = 8 * 1024 * 1024;
 #[derive(Clone, Copy)]
 pub(crate) enum ReadQuery {
     Outputs,
+    Devices,
     SemanticSnapshot,
+    /// WS-04: the client windows alone (address and stable id).
+    Clients,
 }
 
 impl ReadQuery {
     fn wire(self) -> &'static str {
         match self {
             Self::Outputs => "j/monitors",
+            Self::Devices => "j/devices",
+            Self::Clients => "j/clients",
             Self::SemanticSnapshot => {
                 "[[BATCH]]j/monitors ; j/workspaces ; j/clients ; j/activeworkspace ; j/activewindow ; j/layers ; j/monitors ; j/workspaces ; j/clients ; j/activeworkspace ; j/activewindow ; j/layers"
             }
@@ -35,7 +40,11 @@ pub(crate) fn read_observation(instance: &str, query: ReadQuery) -> io::Result<V
     read_observation_at(Path::new(&root), instance, query)
 }
 
-fn read_observation_at(runtime: &Path, instance: &str, query: ReadQuery) -> io::Result<Vec<u8>> {
+pub(crate) fn read_observation_at(
+    runtime: &Path,
+    instance: &str,
+    query: ReadQuery,
+) -> io::Result<Vec<u8>> {
     read_bounded(runtime, instance, query, QUERY_TIMEOUT, MAX_REPLY_BYTES)
 }
 
@@ -216,6 +225,20 @@ mod tests {
         peer.join().unwrap();
         fs::remove_dir_all(&root).unwrap();
         result
+    }
+
+    #[test]
+    fn devices_observation_is_one_fixed_read_only_query() {
+        assert_eq!(
+            with_peer(
+                ReadQuery::Devices,
+                br#"{"keyboards":[]}"#.to_vec(),
+                1024,
+                Duration::ZERO,
+            )
+            .unwrap(),
+            br#"{"keyboards":[]}"#
+        );
     }
 
     #[test]

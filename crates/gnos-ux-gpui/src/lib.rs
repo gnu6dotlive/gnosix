@@ -1,7 +1,13 @@
 #![deny(dead_code, unused_variables, unused_imports, unused_must_use)]
 
+#[cfg(feature = "component-lab")]
+pub mod attention;
+pub mod cursor;
 pub mod geometry_lab;
+#[cfg(feature = "qualification-surfaces")]
+pub mod hull_input_qualification;
 pub mod hyprland_live;
+pub mod interaction_lease;
 #[cfg(feature = "component-lab")]
 pub mod lab_appstack_surface;
 #[cfg(feature = "component-lab")]
@@ -10,11 +16,19 @@ pub mod lab_topology_compare;
 pub mod lab_topology_view;
 pub mod lifecycle;
 mod motion_preference;
+pub mod product_anchor;
+pub mod product_application_search;
 pub mod product_appstack;
+pub mod product_appstack_search_input;
 pub mod product_appstack_view;
+pub mod product_audio;
+pub mod product_audio_action;
+pub mod product_audio_osd;
+pub mod product_audio_session;
 pub mod product_bar;
 pub mod product_bar_interaction;
 pub mod product_bar_settings;
+pub mod product_clock;
 #[cfg(feature = "r13-production-client")]
 pub mod product_controller;
 pub mod product_design;
@@ -22,18 +36,48 @@ pub mod product_diagnostics;
 pub mod product_focus;
 pub mod product_focus_coordinator;
 pub mod product_hull;
+pub mod product_indicator;
 pub mod product_keyboard;
 #[cfg(feature = "component-lab")]
 pub mod product_lab;
 pub mod product_launch;
+pub mod product_mpris;
+pub mod product_mpris_ownership;
+pub mod product_mpris_relay;
+pub mod product_mpris_session;
+pub mod product_mpris_transport;
+pub mod product_network;
+pub mod product_network_session;
+pub mod product_now_playing;
 pub mod product_preferences;
 #[cfg(feature = "r12-production-client")]
 pub mod product_profile;
+#[cfg(feature = "component-lab")]
+pub mod product_reference_consumer;
 pub mod product_runtime;
 pub mod product_scene;
 pub mod product_shared_envelope;
+pub mod product_shell_blur;
+pub mod product_status_session;
+pub mod product_tray;
+pub mod product_tray_action;
+pub mod product_tray_controller;
+pub mod product_tray_geometry;
+pub mod product_tray_icon;
+pub mod product_tray_menu;
+pub mod product_tray_menu_render;
+pub mod product_tray_menu_surface;
+pub mod product_tray_menu_wire;
+pub mod product_tray_ownership;
+pub mod product_tray_presentation;
+pub mod product_tray_relay;
+pub mod product_tray_transport;
 mod product_typography;
 pub mod product_workspace_presentation;
+#[cfg(feature = "component-lab")]
+pub mod reference_status_fixture;
+#[cfg(feature = "component-lab")]
+pub mod reference_tray_fixture;
 pub mod scene_runtime;
 
 use gnos_ux_surface::SurfaceRole;
@@ -195,7 +239,64 @@ mod tests {
     }
 }
 
+pub mod bar_audio_popout;
+pub mod bar_osd;
+pub mod bar_osd_view;
 #[cfg(feature = "component-lab")]
 pub mod bar_placement_lab;
+pub mod bar_pointer_routing;
+pub mod bar_popout_host;
+pub mod bar_popout_view;
+pub mod bar_status_popout_view;
+pub mod bar_status_popouts;
+pub mod bar_strip;
+pub mod compositor_blur;
+pub mod dashboard_panel;
+#[cfg(feature = "component-lab")]
+pub mod dashboard_view;
+#[cfg(feature = "component-lab")]
+pub mod deck;
+#[cfg(feature = "component-lab")]
+pub mod desktop_layer;
+pub mod desktop_modules;
+pub mod icons;
+pub mod identity;
+pub mod modules;
+pub mod notification_centre;
+pub mod notification_centre_view;
+pub mod notification_toasts;
+pub mod notification_view;
+pub mod overflow_panel;
+#[cfg(feature = "component-lab")]
+pub mod overflow_view;
+pub mod product_icon;
+pub mod product_notification_session;
+pub mod product_shell_material;
+pub mod product_status_glyph;
+#[cfg(feature = "component-lab")]
+pub mod product_thumbnails;
+pub mod rail_topology;
+pub mod receipt_hold;
+pub mod reference_active_window;
+pub mod reference_bar;
+pub mod session_panel;
+#[cfg(feature = "component-lab")]
+pub mod session_view;
+pub mod settings_pages;
+pub mod settings_panel;
+pub mod settings_view;
+#[cfg(feature = "component-lab")]
+pub mod shell_field_paint;
+#[cfg(feature = "component-lab")]
+pub mod surface_prefs;
+#[cfg(feature = "component-lab")]
+pub mod tray_menu_extrusion;
+pub mod utilities_panel;
+pub mod utilities_view;
+#[cfg(feature = "component-lab")]
+pub mod wallpaper;
+pub mod workspace_panel;
+#[cfg(feature = "component-lab")]
+pub mod workspace_view;
 
 mod topology_wake;

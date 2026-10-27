@@ -1,0 +1,20 @@
+[package]
+name = "gnos-network"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Native NetworkManager observation substrate for Gnosix"
+
+[dependencies]
+futures = "0.3.34"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["rt", "macros"] }
+zbus = { version = "5.19.0", default-features = false, features = ["tokio"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
+
+[lints.rust]
+unsafe_code = "forbid"

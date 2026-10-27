@@ -83,6 +83,9 @@ fn exercise(
     let selected_target = match operation {
         ActivationOperation::ActivateObservedWorkspace(id) => hex(id.as_bytes()),
         ActivationOperation::FocusObservedApplication(id) => hex(id.as_bytes()),
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface, workspace) => {
+            format!("{}->{}", hex(surface.as_bytes()), hex(workspace.as_bytes()))
+        }
     };
     let admitted_target = format!("{:?}", admitted.operation());
     let native_target = format!("{:?}", target.native_target());

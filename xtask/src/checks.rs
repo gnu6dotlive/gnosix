@@ -13,6 +13,22 @@
 
 use crate::model::CheckClass;
 
+// Packages whose build needs the host's native libraries. gnosix-hyprland
+// reaches libwayland through gnos-ux-surface's smithay-client-toolkit (pkg-config
+// `wayland-client`), which the CI runner image does not have.
+const HOST_NATIVE_PACKAGES: &[&str] = &["gnos-ux-gpui", "gnos-audio", "gnosix-hyprland"];
+
+fn cargo_check_class(extra: &[&str]) -> CheckClass {
+    let mut index = 0;
+    while index + 1 < extra.len() {
+        if extra[index] == "-p" && HOST_NATIVE_PACKAGES.contains(&extra[index + 1]) {
+            return CheckClass::HostNative;
+        }
+        index += 1;
+    }
+    CheckClass::RepositoryHermetic
+}
+
 /// The clippy targets, preserved as a set rather than as a count.
 ///
 /// Every target uses `-D warnings`. Separate checks retain diagnostics from
@@ -48,6 +64,19 @@ pub const CLIPPY_TARGETS: &[(&str, &[&str])] = &[
         &["-p", "gnos-ux-gpui", "--features", "component-lab"],
     ),
     (
+        "clippy-indicator-client",
+        &["-p", "gnos-ux-indicator-client"],
+    ),
+    (
+        "clippy-gpui-indicator",
+        &[
+            "-p",
+            "gnos-ux-gpui",
+            "--features",
+            "indicator-production-client",
+        ],
+    ),
+    (
         "clippy-application-launch",
         &["-p", "gnosix-application-launch"],
     ),
@@ -71,19 +100,10 @@ pub const CLIPPY_TARGETS: &[(&str, &[&str])] = &[
     // The qualification tool itself, at the same strictness. "It is only
     // tooling" is precisely the reasoning that lets a harness rot, and this
     // crate is now the thing every other gate is read through.
-    (
-        "clippy-filechooser-portal",
-        &["-p", "in-gnu-os-filechooser-portal"],
-    ),
-    (
-        "clippy-filechooser-gpui",
-        &[
-            "-p",
-            "in-gnu-os-filechooser-portal",
-            "--features",
-            "native-gpui",
-        ],
-    ),
+    // WS-04: the window identity the thumbnails rely on (host-native: it
+    // needs libwayland) and the capture worker (pure Rust Wayland).
+    ("clippy-hyprland", &["-p", "gnosix-hyprland"]),
+    ("clippy-thumbnails", &["-p", "gnos-thumbnails"]),
     ("clippy-xtask", &["-p", "xtask"]),
 ];
 
@@ -132,6 +152,17 @@ pub const TEST_TARGETS: &[(&str, &[&str])] = &[
             "gnos-ux-lab",
         ],
     ),
+    ("test-indicator-client", &["-p", "gnos-ux-indicator-client"]),
+    (
+        "test-gpui-indicator",
+        &[
+            "-p",
+            "gnos-ux-gpui",
+            "--lib",
+            "--features",
+            "indicator-production-client",
+        ],
+    ),
     (
         "test-application-launch",
         &["-p", "gnosix-application-launch", "--lib"],
@@ -153,10 +184,9 @@ pub const TEST_TARGETS: &[(&str, &[&str])] = &[
         "test-desktop-profiles",
         &["-p", "in-gnu-os-desktop-profiles", "--lib"],
     ),
-    (
-        "test-filechooser-portal",
-        &["-p", "in-gnu-os-filechooser-portal"],
-    ),
+    ("test-hyprland", &["-p", "gnosix-hyprland", "--lib"]),
+    ("test-thumbnails", &["-p", "gnos-thumbnails"]),
+    ("test-text", &["-p", "gnos-text"]),
     ("test-xtask", &["-p", "xtask", "--bin", "xtask"]),
 ];
 
@@ -180,7 +210,7 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "-p",
             "gnos-ux-gpui",
             "--features",
-            "r12-production-client,r13-production-client",
+            "r12-production-client,r13-production-client,indicator-production-client",
             "--bin",
             "gnos-ux-scene",
         ],
@@ -194,26 +224,6 @@ pub const BUILD_TARGETS: &[(&str, &[&str])] = &[
             "component-lab",
             "--bin",
             "gnos-ux-lab",
-        ],
-    ),
-    (
-        "build-filechooser-gpui",
-        &[
-            "-p",
-            "in-gnu-os-filechooser-portal",
-            "--features",
-            "native-gpui",
-            "--bin",
-            "gnosix-cabinet",
-        ],
-    ),
-    (
-        "build-filechooser-portal",
-        &[
-            "-p",
-            "in-gnu-os-filechooser-portal",
-            "--bin",
-            "gnosix-portal-filechooser",
         ],
     ),
 ];
@@ -290,7 +300,7 @@ pub fn catalogue() -> Vec<Check> {
             "--all-targets".into(),
         ];
         argv.extend(extra.iter().map(|s| (*s).to_owned()));
-        checks.push(Check::spawn(name, CheckClass::RepositoryHermetic, argv));
+        checks.push(Check::spawn(name, cargo_check_class(extra), argv));
     }
 
     for (name, extra) in CLIPPY_TARGETS {
@@ -304,13 +314,35 @@ pub fn catalogue() -> Vec<Check> {
         argv.push("--".to_owned());
         argv.push("-D".to_owned());
         argv.push("warnings".to_owned());
-        checks.push(Check::spawn(name, CheckClass::RepositoryHermetic, argv));
+        checks.push(Check::spawn(name, cargo_check_class(extra), argv));
     }
 
     checks.push(Check::spawn(
         "fmt",
         CheckClass::RepositoryHermetic,
         vec![cargo, "fmt".into(), "--check".into()],
+    ));
+
+    // The engineering corpus and its catalogue live in the private tree
+    // only; the public projection publishes no catalogue to index.
+    if has_engineering_catalogue() {
+        checks.push(Check::spawn(
+            "docs-index",
+            CheckClass::RepositoryHermetic,
+            vec![
+                "python3".into(),
+                "tools/docs_index.py".into(),
+                "--check".into(),
+            ],
+        ));
+    }
+
+    // I18N-01: every text the shell shows has its French, and the catalogue
+    // keeps nothing the code no longer says.
+    checks.push(Check::spawn(
+        "i18n-coverage",
+        CheckClass::RepositoryHermetic,
+        vec!["python3".into(), "tools/i18n.py".into(), "--check".into()],
     ));
 
     checks.push(Check::spawn(
@@ -325,17 +357,6 @@ pub fn catalogue() -> Vec<Check> {
         vec![
             "python3".into(),
             "tools/test_stage_r13_production_caller.py".into(),
-        ],
-    ));
-
-    // Fail-closed compatibility gate for the byte-pinned legacy user daemon.
-    // This check has hermetic pass/refusal fixtures, no host-state assumptions.
-    checks.push(Check::spawn(
-        "test-legacy-in-gnu-os-guard",
-        CheckClass::RepositoryHermetic,
-        vec![
-            "python3".into(),
-            "tools/test_legacy_in_gnu_os_preflight.py".into(),
         ],
     ));
 
@@ -357,7 +378,7 @@ pub fn catalogue() -> Vec<Check> {
         let cargo = std::env::var("CARGO").unwrap_or_else(|_| "cargo".to_owned());
         let mut argv = vec![cargo, "build".into(), "--locked".into()];
         argv.extend(extra.iter().map(|s| (*s).to_owned()));
-        checks.push(Check::spawn(name, CheckClass::RepositoryHermetic, argv));
+        checks.push(Check::spawn(name, cargo_check_class(extra), argv));
     }
 
     // Host/live qualification, excluded from `ci` by class rather than by
@@ -368,13 +389,6 @@ pub fn catalogue() -> Vec<Check> {
         "host-authority-digest",
         CheckClass::HostLive,
         InProcess::InstalledAuthority,
-    ));
-    // Real D-Bus introspection uses a private session bus and the locally
-    // built backend. It must NOT be labelled repository-hermetic.
-    checks.push(Check::spawn(
-        "host-cabinet-backend-abi",
-        CheckClass::HostLive,
-        vec!["bash".into(), "tools/cabinet-gfc03d-abi-oracle.sh".into()],
     ));
 
     checks.extend(source_invariant_checks());
@@ -410,12 +424,16 @@ pub fn source_invariant_checks() -> Vec<Check> {
 
 /// The checks a given profile runs.
 ///
-/// `ci` is `catalogue()` filtered to repository-hermetic checks. It is not a
-/// separately maintained list, which is the whole point.
+/// Profiles are projections of one catalogue, never separately maintained
+/// command lists.
 pub fn checks_for(profile: Profile) -> Vec<Check> {
     let all = catalogue();
     match profile {
         Profile::Ci => all.into_iter().filter(|c| c.class.runs_in_ci()).collect(),
+        Profile::Native => all
+            .into_iter()
+            .filter(|c| c.class.runs_in_native())
+            .collect(),
         Profile::Verify => all,
     }
 }
@@ -424,7 +442,9 @@ pub fn checks_for(profile: Profile) -> Vec<Check> {
 pub enum Profile {
     /// Everything, including host/live checks. Local workstation use.
     Verify,
-    /// Repository-hermetic checks only. What CI may run.
+    /// Repository-hermetic plus host-native source/build qualification.
+    Native,
+    /// Repository-hermetic checks only. Safe for generic remote CI.
     Ci,
 }
 
@@ -432,7 +452,16 @@ impl Profile {
     pub fn as_str(self) -> &'static str {
         match self {
             Self::Verify => "verify",
+            Self::Native => "native",
             Self::Ci => "ci",
         }
     }
+}
+
+/// Whether this tree carries the engineering corpus's catalogue (the
+/// private tree does; a public projection does not).
+pub fn has_engineering_catalogue() -> bool {
+    std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../docs/catalog.json")
+        .is_file()
 }

@@ -7,6 +7,7 @@
 pub mod activation_execution;
 #[cfg(feature = "r13-production-dbus")]
 pub mod caller_auth;
+pub mod keyboard_lock;
 mod observation_transport;
 #[cfg(feature = "r13-production-dbus")]
 pub mod production_dbus;

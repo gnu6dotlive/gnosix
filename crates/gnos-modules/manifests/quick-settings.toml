@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.quick-settings"
+name = "Quick settings"
+description = "Network, Bluetooth, sound and battery at a glance; Utilities opens out of it."
+icon = "adjustments-horizontal"
+version = "1.0.0"
+places = ["bar"]
+needs = ["network", "bluetooth", "audio", "power", "backlight"]
+
+[provider]
+kind = "native"
+entry = "status_icons"

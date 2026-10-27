@@ -85,8 +85,10 @@ def lint_repository(root: Path) -> list[Finding]:
     readme = root / "README.md"
     if readme.is_file():
         text = readme.read_text(encoding="utf-8")
-        if "Experimental / pre-release" not in text:
-            findings.append(Finding("README.md", 0, "release-status", "missing Experimental / pre-release marker"))
+        # The README states its development state plainly (a release may be
+        # public and still experimental; it never reads as finished).
+        if "**Development state:** Experimental" not in text:
+            findings.append(Finding("README.md", 0, "release-status", "missing '**Development state:** Experimental' marker"))
         for heading in README_SECTIONS:
             if heading not in text:
                 findings.append(Finding("README.md", 0, "required-section", f"missing section {heading!r}"))

@@ -147,6 +147,62 @@ impl SharedDockEnvelope {
             material_owner: MaterialOwner::SharedDockEnvelope,
         })
     }
+    /// TOPO-01C2b: the same owner hanging from the top of the output (a
+    /// bottom Bar sends the Dock to the top). `structural` and `safe` are
+    /// top-anchored; the bottom-anchored grammar resolves their mirror image
+    /// and the result is mirrored back, so the AppStack opens downward. The
+    /// list is revealed from the Dock outward, as it is from the Dock upward
+    /// at the bottom.
+    pub fn resolve_top_anchored(
+        viewport: SurfaceViewport,
+        structural: GeometryRect,
+        motion: SharedMotion,
+        safe: GeometryRect,
+    ) -> Result<Self, GeometryError> {
+        let h = viewport.height;
+        let flipped = Self::resolve_with_safe(
+            viewport,
+            mirror(structural, h)?,
+            mirror(structural, h)?,
+            motion,
+            mirror(safe, h)?,
+        )?;
+        let mut out = flipped.mirrored(h)?;
+        // Reveal from the Dock side: keep the revealed height, anchored at the
+        // allocation's edge nearest the Dock.
+        let clip = out.content_clip;
+        let top = out.content_allocation.top();
+        let bottom = (top + clip.height())
+            .min(out.geometry.content.bottom())
+            .max(top);
+        out.content_clip = GeometryRect::try_new(clip.left(), top, clip.right(), bottom, 0.0)?;
+        out.appstack.clip = out.content_clip;
+        Ok(out)
+    }
+
+    fn mirrored(self, height: f32) -> Result<Self, GeometryError> {
+        let m = |r: GeometryRect| mirror(r, height);
+        let mut geometry = self.geometry;
+        geometry.outer = m(geometry.outer)?;
+        geometry.compact = m(geometry.compact)?;
+        geometry.content = m(geometry.content)?;
+        geometry.structural = m(geometry.structural)?;
+        geometry.painted_request = m(geometry.painted_request)?;
+        let inner = |mut i: InnerSurface| -> Result<InnerSurface, GeometryError> {
+            i.bounds = m(i.bounds)?;
+            i.clip = m(i.clip)?;
+            Ok(i)
+        };
+        Ok(Self {
+            geometry,
+            dock: inner(self.dock)?,
+            appstack: inner(self.appstack)?,
+            content_allocation: m(self.content_allocation)?,
+            content_clip: m(self.content_clip)?,
+            ..self
+        })
+    }
+
     pub fn endpoint(
         viewport: SurfaceViewport,
         dock: GeometryRect,
@@ -185,6 +241,17 @@ impl SharedDockEnvelope {
     pub fn contains_input(self, x: f32, y: f32) -> bool {
         self.input_regions().iter().any(|r| r.contains_point(x, y))
     }
+}
+
+/// The rectangle mirrored about the output's horizontal centre line.
+fn mirror(r: GeometryRect, height: f32) -> Result<GeometryRect, GeometryError> {
+    GeometryRect::try_new(
+        r.left(),
+        height - r.bottom(),
+        r.right(),
+        height - r.top(),
+        r.radius(),
+    )
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -427,6 +494,50 @@ mod tests {
 #[cfg(test)]
 mod available_region_tests {
     use super::*;
+    #[test]
+    fn a_top_anchored_owner_opens_downward_and_reveals_from_the_dock() {
+        let viewport = SurfaceViewport::try_new(1280.0, 800.0).unwrap();
+        let dock = GeometryRect::try_new(380.0, 16.0, 900.0, 80.0, 32.0).unwrap();
+        let safe = GeometryRect::try_new(16.0, 16.0, 1264.0, 724.0, 0.0).unwrap();
+        let open = SharedDockEnvelope::resolve_top_anchored(
+            viewport,
+            dock,
+            SharedMotion::endpoint(true),
+            safe,
+        )
+        .unwrap();
+        let g = open.geometry;
+        assert_eq!(g.outer.top(), dock.top(), "hangs from the Dock's place");
+        assert!(g.outer.bottom() > dock.bottom() + 100.0, "opens downward");
+        assert!(
+            g.content.top() >= dock.bottom() - 0.01,
+            "the list lies below the Dock"
+        );
+        assert_eq!(open.dock.bounds, g.compact);
+        assert!(open.appstack.interactable);
+        let mid = SharedDockEnvelope::resolve_top_anchored(
+            viewport,
+            dock,
+            SharedMotion::opening_sample(0.5).unwrap(),
+            safe,
+        )
+        .unwrap();
+        assert_eq!(
+            mid.content_clip.top(),
+            mid.content_allocation.top(),
+            "revealed from the Dock side"
+        );
+        let closed = SharedDockEnvelope::resolve_top_anchored(
+            viewport,
+            dock,
+            SharedMotion::endpoint(false),
+            safe,
+        )
+        .unwrap();
+        assert_eq!(closed.geometry.outer.top(), dock.top());
+        assert!(!closed.appstack.interactable);
+    }
+
     #[test]
     fn scene_constraint_cannot_escape_the_viewport() {
         let viewport = SurfaceViewport::try_new(1280., 800.).unwrap();

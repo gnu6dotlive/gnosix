@@ -1,0 +1,15 @@
+[package]
+name = "gnos-power"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Typed read-only UPower and power profile observation for Gnosix"
+
+[dependencies]
+zbus = { version = "5.19.0", default-features = false, features = ["tokio"] }
+tokio = { version = "1", features = ["rt", "macros", "time"] }
+futures = "0.3.34"
+
+[lints.rust]
+unsafe_code = "forbid"

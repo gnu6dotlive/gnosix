@@ -139,6 +139,8 @@ impl DesktopExecutionBindingSnapshot {
                     self.application_stable_id(surface.surface_id),
                     surface.focus == SurfaceFocus::Focused,
                 )
+                // WS-02B: a move's postcondition reads where the window is.
+                .on_workspace(surface.workspace_id)
             })
             .collect();
         Ok(ExecutionObservation::new(
@@ -303,6 +305,7 @@ fn semantic_digest_sha256(baseline: &DesktopContextBaseline) -> String {
                     app.initial_class,
                     app.title,
                     app.initial_title,
+                    app.tags,
                     app.process_id,
                     app.xwayland,
                 ])),
@@ -823,6 +826,7 @@ fn parse_clients(
                 initial_class: required_string(client, "initialClass")?.to_owned(),
                 title: required_string(client, "title")?.to_owned(),
                 initial_title: required_string(client, "initialTitle")?.to_owned(),
+                tags: optional_string_list(client, "tags")?,
                 process_id: nonnegative_i64_to_u32(required_i64(client, "pid")?)?,
                 xwayland: required_bool(client, "xwayland")?,
             }),
@@ -918,6 +922,44 @@ fn workspace_id(session: &str, runtime_id: i64) -> WorkspaceId {
 fn surface_id(session: &str, kind: &str, address: &str) -> SurfaceId {
     SurfaceId::from_bytes(scoped_uuid(session, kind, address))
 }
+
+/// WS-04: each client window's semantic identity (the `SurfaceId` the
+/// desktop model gives it) with its Hyprland address, read now. The live
+/// thumbnails name a window by its address (`hyprland-toplevel-mapping-v1`);
+/// the shell names it by its `SurfaceId`. The identity is derived exactly as
+/// `parse_clients` derives it: the stable id when Hyprland gives one, else
+/// the address. Read-only: one fixed `j/clients` query.
+pub fn client_window_addresses(
+    instance: &str,
+) -> Result<Vec<(SurfaceId, u64)>, SemanticObservationError> {
+    let output = crate::observation_transport::read_observation(
+        instance,
+        crate::observation_transport::ReadQuery::Clients,
+    )
+    .map_err(|_| SemanticObservationError::Transport)?;
+    let value: Value =
+        serde_json::from_slice(&output).map_err(|_| SemanticObservationError::Parse)?;
+    window_addresses(instance, &value)
+}
+
+fn window_addresses(
+    session: &str,
+    clients: &Value,
+) -> Result<Vec<(SurfaceId, u64)>, SemanticObservationError> {
+    let clients = clients.as_array().ok_or(SemanticObservationError::Parse)?;
+    let mut out = Vec::with_capacity(clients.len());
+    for client in clients {
+        let address = required_string(client, "address")?;
+        let hex = address
+            .strip_prefix("0x")
+            .ok_or(SemanticObservationError::Parse)?;
+        let native = u64::from_str_radix(hex, 16).map_err(|_| SemanticObservationError::Parse)?;
+        let stable_id = optional_string(client, "stableId")?;
+        let id = surface_id(session, "client", stable_id.as_deref().unwrap_or(address));
+        out.push((id, native));
+    }
+    Ok(out)
+}
 fn output_transform(value: i64) -> Result<OutputTransform, SemanticObservationError> {
     match value {
         0 => Ok(OutputTransform::Normal),
@@ -946,6 +988,22 @@ fn optional_string(value: &Value, key: &str) -> Result<Option<String>, SemanticO
             .as_str()
             .map(|value| Some(value.to_owned()))
             .ok_or(SemanticObservationError::Parse),
+    }
+}
+
+fn optional_string_list(value: &Value, key: &str) -> Result<Vec<String>, SemanticObservationError> {
+    match value.get(key) {
+        None | Some(Value::Null) => Ok(Vec::new()),
+        Some(Value::Array(values)) => values
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .map(ToOwned::to_owned)
+                    .ok_or(SemanticObservationError::Parse)
+            })
+            .collect(),
+        Some(_) => Err(SemanticObservationError::Parse),
     }
 }
 
@@ -1103,7 +1161,8 @@ mod tests {
                     "stableId": "18000001",
                     "at": [10, 20], "size": [800, 600], "workspace": {"id": 1, "name": "1"},
                     "monitor": 0, "class": "org.example.App", "initialClass": "org.example.App",
-                    "title": "Document A", "initialTitle": "Document A", "pid": 101, "xwayland": false
+                    "title": "Document A", "initialTitle": "Document A",
+                    "tags": ["project", "hide_in_bar*"], "pid": 101, "xwayland": false
                 },
                 {
                     "address": "0xdef", "mapped": true, "hidden": true, "visible": false,
@@ -1164,6 +1223,7 @@ mod tests {
             .expect("application descriptors");
         assert_eq!(application.class, "org.example.App");
         assert_eq!(application.title, "Document A");
+        assert_eq!(application.tags, ["project", "hide_in_bar*"]);
         assert_eq!(application.process_id, 101);
         assert!(!application.xwayland);
         assert_eq!(focused[0].visibility, SurfaceVisibility::Visible);
@@ -1233,6 +1293,38 @@ mod tests {
             snapshot.application_stable_id(surface_id("session-b", "client", "18000001")),
             None
         );
+    }
+
+    #[test]
+    fn window_addresses_name_each_window_as_the_semantic_model_does() {
+        let values = fixture();
+        let candidate = build_candidate(
+            "session-a",
+            &values[0],
+            &values[1],
+            &values[2],
+            &values[3],
+            &values[4],
+            &values[5],
+        )
+        .expect("candidate");
+        let pairs = window_addresses("session-a", &values[2]).expect("addresses");
+        assert_eq!(pairs.len(), 2);
+        for (id, address) in &pairs {
+            assert!(
+                candidate.surfaces.iter().any(|s| s.surface_id == *id),
+                "{address:#x} has the model's identity"
+            );
+        }
+        assert_eq!(pairs[0].1, 0xabc);
+        assert_eq!(pairs[1].1, 0xdef);
+        // Without a stable id, the address is the identity, as in the model.
+        let bare = json!([{"address": "0x55aa"}]);
+        assert_eq!(
+            window_addresses("s", &bare).unwrap(),
+            vec![(surface_id("s", "client", "0x55aa"), 0x55aa)]
+        );
+        assert!(window_addresses("s", &json!([{"address": "abc"}])).is_err());
     }
 
     #[test]

@@ -1,28 +1,36 @@
 # gnosix roadmap
 
-The roadmap is gate-driven rather than date-driven. Items move when their bounded evidence is complete and, where required, explicitly accepted by the operator.
+The roadmap is gate-driven: an item moves when its evidence is complete and,
+where required, the author has accepted it. Releases ship twice a year (May and
+November) with what is ready.
 
-## Public-source readiness
+## After 26.11 « Ardoise »
 
-- Normalize the public documentation surface and canonical naming.
-- Curate public evidence instead of publishing the raw engineering corpus as the product interface.
-- Ratify and publish the repository-wide license.
-- Verify a fresh clone against the same `cargo xtask ci` contract used in GitHub CI.
-- Complete public visual assets/social preview from the current gnosix design system.
-
-## Product integration
-
-- Finish default personal-profile provisioning/selection without widening the existing profile authority.
-- Continue provider/status projections with truthful unavailable/stale semantics and separate read/observe from mutation authority.
-- Keep global keybinding/input work behind its typed arbitration and producer qualification gates.
-- Integrate `gnoshow` only through its independent rendering/control boundary.
+- **The author's review** of every surface 26.11 carries as QUALIFIED, each
+  confirmed or reopened.
+- **Module cards**: every Bar module gains a card state, the Deck's appcard,
+  so a module never loses material at a corner and can be carried and placed.
+- **The scene in layers**: one layer builder per surface, ordered by
+  attention — the clean slot a hosted module needs.
+- **A threat model** before mods: the authorities, D-Bus caller
+  authentication, the keyboard, notifications on the lock screen, thumbnail
+  capture.
+- **Keyboard on the Bar**: focus, arrows between modules, Enter to open,
+  moving a module from the keyboard.
+- **One shape for the shell**: one signed distance field for the frame, the
+  Bar, every extruded surface and the Deck.
+- **Mods**: third-party modules as confined processes that describe their
+  interface, drawn by the shell in its own material, with declared needs and
+  per-permission grants.
 
 ## Release acceptance
 
-Repository visibility does not close the release gate. A stable end-user release is not claimed until the current whole-product acceptance obligation receives an explicit disposition, including the required end-user accessibility review.
-
-Public source, experimental builds, and contributor inspection may exist before that stable-release gate closes; they must remain labelled accordingly.
+A stable release for others is not claimed until whole-product acceptance has
+an explicit disposition, including the end-user accessibility review. Public
+experimental releases ship before that gate closes and say so.
 
 ## Non-goals
 
-The roadmap does not authorize a generic shell-command executor, a monolithic settings daemon, inferred durable identity from compositor geometry/tokens, or silent adoption of research-donor authority.
+No generic shell-command executor, no monolithic settings daemon, no durable
+identity inferred from compositor geometry or tokens, and no silent adoption of
+a research donor's authority.

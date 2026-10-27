@@ -1,0 +1,12 @@
+schema = "gnosix.module.v1"
+id = "gnosix.workspaces"
+name = "Workspaces"
+description = "The workspaces of the output; the workspace manager opens out of it."
+icon = "layout-grid"
+version = "1.0.0"
+places = ["bar", "workspace_manager"]
+needs = ["workspaces", "windows"]
+
+[provider]
+kind = "native"
+entry = "workspaces"

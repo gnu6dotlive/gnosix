@@ -18,5 +18,5 @@ that would later conflict with the settings service.
 
 See:
 
-- `GNOSIX_PRE_PHASE2_XDG_SETTINGS_RESEARCH.md`
-- `GNOSIX_SETTINGS_AUTHORITY_SCAFFOLD.md`
+- `../../docs/research/xdg-settings/pre-phase2-research.md`
+- `../../docs/workstreams/settings/authority-scaffold.md`

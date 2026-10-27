@@ -1,0 +1,11 @@
+[package]
+name = "gnos-icons"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Gnosix's icons: Tabler Icons and Tabler Flags as path data (ICONS-01)"
+license.workspace = true
+[dependencies]
+
+[lints.rust]
+unsafe_code = "forbid"

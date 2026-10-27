@@ -41,6 +41,11 @@ pub struct ApplicationSurfaceDescriptors {
     pub initial_class: String,
     pub title: String,
     pub initial_title: String,
+    /// Passive compositor tags attached to this toplevel.
+    ///
+    /// Tags are observation metadata only. The generic desktop model assigns
+    /// them no presentation, routing, or authority semantics.
+    pub tags: Vec<String>,
     pub process_id: u32,
     pub xwayland: bool,
 }

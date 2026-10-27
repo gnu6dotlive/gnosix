@@ -1,0 +1,20 @@
+[package]
+name = "gnos-utilities"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Typed Utilities powers for Gnosix: idle inhibitor, backlight and display brightness, session and power, and the dashboard's read-only facts"
+
+[dependencies]
+rustix = { version = "1", features = ["fs"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+zbus = { version = "5.19.0", default-features = false, features = ["tokio"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
+
+[lints.rust]
+unsafe_code = "forbid"

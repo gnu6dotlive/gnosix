@@ -1,4 +1,0 @@
-# GFC-01 staging template, NOT INSTALLED
-[portal]
-DBusName=org.freedesktop.impl.portal.desktop.gnosix
-Interfaces=org.freedesktop.impl.portal.FileChooser;

@@ -66,6 +66,86 @@ impl ProductController {
         )
     }
 
+    /// WS-02B: move an observed window onto an observed workspace, through
+    /// the activation authority (it checks the window lands there).
+    pub fn move_application(
+        &self,
+        runtime: &mut ProductRuntime,
+        window: ProductApplicationContent,
+        destination: ProductWorkspaceContent,
+    ) -> ProductActionRecord {
+        self.move_application_with(
+            runtime,
+            window,
+            destination,
+            ProductIntentRequestId::from_bytes(*Uuid::new_v4().as_bytes()),
+            ActivationClient::session,
+        )
+    }
+
+    fn move_application_with<S, F>(
+        &self,
+        runtime: &mut ProductRuntime,
+        window: ProductApplicationContent,
+        destination: ProductWorkspaceContent,
+        request_id: ProductIntentRequestId,
+        sender_factory: F,
+    ) -> ProductActionRecord
+    where
+        S: ProductActivationSender,
+        F: FnOnce() -> Result<S, ActivationClientRefusal>,
+    {
+        let current_generation = runtime.current_generation();
+        runtime.begin_application_action(&window, current_generation);
+        let Some(current_generation) = current_generation else {
+            let record = runtime.finish_action(
+                ProductActionTerminal::SemanticUnavailable,
+                "current product semantics unavailable",
+            );
+            emit_product_activation(&record);
+            return record;
+        };
+        // One view of the desktop: both from the current observation.
+        let Some(intent) = ProductIntent::move_observed_application(
+            request_id,
+            window.reference,
+            destination.reference,
+        )
+        .filter(|_| window.reference.observed_generation() == current_generation) else {
+            let record = runtime.finish_action(
+                ProductActionTerminal::LocalStale,
+                format!(
+                    "window generation {} / destination generation {} differ from current generation {}",
+                    window.reference.observed_generation().0,
+                    destination.reference.observed_generation().0,
+                    current_generation.0
+                ),
+            );
+            emit_product_activation(&record);
+            return record;
+        };
+        let sender = match sender_factory() {
+            Ok(sender) => sender,
+            Err(refusal) => {
+                let terminal = terminal_from_client_refusal(&refusal);
+                let record = runtime.finish_action(terminal, format!("{refusal:?}"));
+                emit_product_activation(&record);
+                return record;
+            }
+        };
+        let record = match sender.send_if_current(intent, current_generation) {
+            Ok(receipt) => {
+                runtime.finish_action(terminal_from_receipt(receipt.code), receipt.detail)
+            }
+            Err(refusal) => runtime.finish_action(
+                terminal_from_client_refusal(&refusal),
+                format!("{refusal:?}"),
+            ),
+        };
+        emit_product_activation(&record);
+        record
+    }
+
     fn focus_application_with<S, F>(
         &self,
         runtime: &mut ProductRuntime,
@@ -318,6 +398,7 @@ mod tests {
         let mut runtime = ProductRuntime::default();
         runtime.refresh_semantic_for_test(ProductSemanticState::Current(Box::new(
             crate::product_scene::ProductContent {
+                output_area: None,
                 generation: DesktopContextGeneration(generation),
                 connector: "HDMI-A-1".to_owned(),
                 active_workspace: None,
@@ -391,11 +472,51 @@ mod tests {
         );
     }
 
+    #[test]
+    fn a_move_sends_one_intent_only_from_one_current_observation() {
+        let controller = ProductController;
+        let sends = Rc::new(Cell::new(0));
+        let sender = |sends: &Rc<Cell<u64>>| {
+            let sends = Rc::clone(sends);
+            move || {
+                Ok(FakeSender {
+                    sends,
+                    result: Ok(ActivationClientReceipt {
+                        code: ActivationReceiptCode::Applied,
+                        detail: "moved".to_owned(),
+                    }),
+                })
+            }
+        };
+        // Window and destination from the current observation: one send.
+        let mut runtime = runtime_with_generation(7);
+        let record = controller.move_application_with(
+            &mut runtime,
+            application(7, 3),
+            selected(7),
+            ProductIntentRequestId::from_bytes([9; 16]),
+            sender(&sends),
+        );
+        assert_eq!(sends.get(), 1);
+        assert_eq!(record.terminal, Some(ProductActionTerminal::Applied));
+        // A destination from an older observation: refused before sending.
+        let record = controller.move_application_with(
+            &mut runtime,
+            application(7, 3),
+            selected(6),
+            ProductIntentRequestId::from_bytes([10; 16]),
+            sender(&sends),
+        );
+        assert_eq!(sends.get(), 1, "nothing more sent");
+        assert_eq!(record.terminal, Some(ProductActionTerminal::LocalStale));
+    }
+
     fn application(generation: u64, surface_byte: u8) -> ProductApplicationContent {
         use gnos_ux_product_intent::ObservedSurfaceReference;
         use gnosix_desktop_model::{SurfaceFocus, SurfaceId, SurfaceVisibility};
 
         ProductApplicationContent {
+            bounds: None,
             reference: ObservedSurfaceReference::new(
                 SurfaceId::from_bytes([surface_byte; 16]),
                 DesktopContextGeneration(generation),
@@ -404,6 +525,7 @@ mod tests {
             title: "Terminal".to_owned(),
             class: "com.example.Terminal".to_owned(),
             initial_class: "com.example.Terminal".to_owned(),
+            tags: Vec::new(),
             process_id: 4242,
             xwayland: false,
             visibility: SurfaceVisibility::Visible,

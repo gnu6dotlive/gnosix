@@ -11,13 +11,16 @@
 //! exact ordering instead of whatever the test machine happens to have
 //! installed.
 
-use std::sync::Arc;
+use std::{collections::BTreeSet, sync::Arc};
 
 use gnosix_application_catalog::{
     ApplicationCatalog, ApplicationCatalogRoots, DesktopEnvironment, LocalePreferences,
 };
 
-use super::{AppStackRow, appstack_rows, launch_feedback};
+use super::{
+    AppStackPreferenceProjection, AppStackQuery, AppStackRow, AppStackSearchMode, appstack_rows,
+    appstack_rows_for, launch_feedback,
+};
 use crate::product_focus::{installed_application_control_identity, panel_control_identity};
 use crate::product_runtime::{ProductInstalledApplicationContent, ProductRuntime};
 
@@ -70,6 +73,31 @@ fn entry(name: &str) -> String {
 
 fn terminal_entry(name: &str) -> String {
     format!("[Desktop Entry]\nType=Application\nName={name}\nExec=/usr/bin/true\nTerminal=true\n")
+}
+
+struct RichEntrySpec<'a> {
+    name: &'a str,
+    generic: &'a str,
+    comment: &'a str,
+    command: &'a str,
+    startup_class: &'a str,
+    categories: &'a str,
+    keywords: &'a str,
+    terminal: bool,
+}
+
+fn rich_entry(spec: RichEntrySpec<'_>) -> String {
+    format!(
+        "[Desktop Entry]\nType=Application\nName={}\nGenericName={}\nComment={}\nExec={}\nStartupWMClass={}\nCategories={}\nKeywords={}\nTerminal={}\n",
+        spec.name,
+        spec.generic,
+        spec.comment,
+        spec.command,
+        spec.startup_class,
+        spec.categories,
+        spec.keywords,
+        spec.terminal,
+    )
 }
 
 fn content_for(runtime: &ProductRuntime, id: &str) -> Option<ProductInstalledApplicationContent> {
@@ -168,6 +196,167 @@ fn ordering_does_not_depend_on_the_filesystem_enumeration_order() {
             .collect()
     };
     assert_eq!(names(&forward.runtime()), names(&backward.runtime()));
+}
+
+// --- M03 search and preference projection -------------------------------
+
+#[test]
+fn donor_search_prefixes_parse_to_typed_modes() {
+    for (input, mode, text) in [
+        ("alpha", AppStackSearchMode::Name, "alpha"),
+        ("@i firefox", AppStackSearchMode::Id, "firefox"),
+        (
+            "@c development",
+            AppStackSearchMode::Categories,
+            "development",
+        ),
+        ("@d editing", AppStackSearchMode::Description, "editing"),
+        ("@e unity", AppStackSearchMode::Exec, "unity"),
+        ("@w firefox", AppStackSearchMode::StartupClass, "firefox"),
+        ("@g browser", AppStackSearchMode::GenericName, "browser"),
+        ("@k www", AppStackSearchMode::Keywords, "www"),
+        ("@t foot", AppStackSearchMode::TerminalOnly, "foot"),
+    ] {
+        let query = AppStackQuery::parse(input);
+        assert_eq!(query.mode, mode, "{input}");
+        assert_eq!(query.text, text, "{input}");
+    }
+}
+
+#[test]
+fn specialized_search_uses_catalog_metadata_without_changing_launch_identity() {
+    let fixture = CatalogFixture::new(
+        "m03-search",
+        &[
+            (
+                "org.mozilla.firefox.desktop",
+                &rich_entry(RichEntrySpec {
+                    name: "Firefox",
+                    generic: "Web Browser",
+                    comment: "Browse the Web",
+                    command: "/usr/bin/firefox %U",
+                    startup_class: "firefox",
+                    categories: "Network;WebBrowser;",
+                    keywords: "internet;www;browser;",
+                    terminal: false,
+                }),
+            ),
+            (
+                "com.visualstudio.code.desktop",
+                &rich_entry(RichEntrySpec {
+                    name: "Visual Studio Code",
+                    generic: "Text Editor",
+                    comment: "Code editing",
+                    command: "/usr/bin/code --unity-launch %F",
+                    startup_class: "code",
+                    categories: "Development;IDE;",
+                    keywords: "code;development;editor;",
+                    terminal: false,
+                }),
+            ),
+            (
+                "foot.desktop",
+                &rich_entry(RichEntrySpec {
+                    name: "Foot",
+                    generic: "Terminal Emulator",
+                    comment: "Wayland terminal",
+                    command: "/usr/bin/foot",
+                    startup_class: "foot",
+                    categories: "System;TerminalEmulator;",
+                    keywords: "terminal;shell;",
+                    terminal: true,
+                }),
+            ),
+        ],
+    );
+    let runtime = fixture.runtime();
+    let generation = runtime.application_catalog().generation().clone();
+    let preferences = AppStackPreferenceProjection::default();
+
+    for (query, expected) in [
+        ("@i mozilla", "org.mozilla.firefox.desktop"),
+        ("@c development", "com.visualstudio.code.desktop"),
+        ("@d editing", "com.visualstudio.code.desktop"),
+        ("@e unity", "com.visualstudio.code.desktop"),
+        ("@w firefox", "org.mozilla.firefox.desktop"),
+        ("@g browser", "org.mozilla.firefox.desktop"),
+        ("@k www", "org.mozilla.firefox.desktop"),
+        ("@t foot", "foot.desktop"),
+    ] {
+        let rows = appstack_rows_for(&runtime, AppStackQuery::parse(query), &preferences);
+        assert_eq!(rows.len(), 1, "{query}: {rows:?}");
+        assert_eq!(rows[0].entry.as_str(), expected, "{query}");
+        assert_eq!(
+            rows[0].generation, generation,
+            "search must preserve the exact catalog generation"
+        );
+    }
+
+    assert!(
+        appstack_rows_for(&runtime, AppStackQuery::parse("editor"), &preferences).is_empty(),
+        "ordinary search is name-only; specialized metadata must require its explicit mode"
+    );
+}
+
+#[test]
+fn fuzzy_name_search_is_deterministic_and_identity_preserving() {
+    let fixture = CatalogFixture::new(
+        "m03-fuzzy",
+        &[
+            ("code.desktop", &entry("Visual Studio Code")),
+            ("calendar.desktop", &entry("Calendar")),
+        ],
+    );
+    let runtime = fixture.runtime();
+    let preferences = AppStackPreferenceProjection::default();
+    let first = appstack_rows_for(&runtime, AppStackQuery::parse("vsc"), &preferences);
+    let second = appstack_rows_for(&runtime, AppStackQuery::parse("vsc"), &preferences);
+    assert_eq!(first, second);
+    assert_eq!(first.len(), 1);
+    assert_eq!(first[0].entry.as_str(), "code.desktop");
+}
+
+#[test]
+fn exact_favourites_precede_matches_and_exact_hidden_ids_disappear() {
+    let fixture = CatalogFixture::new(
+        "m03-preferences",
+        &[
+            ("alpha.desktop", &entry("Alpha")),
+            ("alpine.desktop", &entry("Alpine")),
+            ("atlas.desktop", &entry("Atlas")),
+        ],
+    );
+    let runtime = fixture.runtime();
+    let favourite = gnosix_application_catalog::DesktopEntryId::parse("atlas.desktop").unwrap();
+    let hidden = gnosix_application_catalog::DesktopEntryId::parse("alpha.desktop").unwrap();
+    let preferences = AppStackPreferenceProjection {
+        favourites: BTreeSet::from([favourite]),
+        hidden: BTreeSet::from([hidden]),
+    };
+    let rows = appstack_rows_for(&runtime, AppStackQuery::parse("a"), &preferences);
+    let ids: Vec<&str> = rows.iter().map(|row| row.entry.as_str()).collect();
+    assert_eq!(ids, ["atlas.desktop", "alpine.desktop"]);
+    assert!(rows[0].favourite);
+    assert!(!rows[1].favourite);
+}
+
+#[test]
+fn terminal_mode_filters_without_changing_the_launch_reference() {
+    let fixture = CatalogFixture::new(
+        "m03-terminal",
+        &[
+            ("gui.desktop", &entry("Terminal Viewer")),
+            ("term.desktop", &terminal_entry("Terminal")),
+        ],
+    );
+    let runtime = fixture.runtime();
+    let preferences = AppStackPreferenceProjection::default();
+    let rows = appstack_rows_for(&runtime, AppStackQuery::parse("@t terminal"), &preferences);
+    assert_eq!(rows.len(), 1);
+    assert_eq!(rows[0].entry.as_str(), "term.desktop");
+    let selected = content_for(&runtime, rows[0].entry.as_str()).unwrap();
+    assert_eq!(selected.reference.entry(), &rows[0].entry);
+    assert_eq!(selected.reference.generation(), &rows[0].generation);
 }
 
 // --- identity ------------------------------------------------------------

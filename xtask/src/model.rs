@@ -84,17 +84,19 @@ impl fmt::Display for Disposition {
 
 /// What kind of check this is.
 ///
-/// The distinction is not cosmetic. It decides which checks CI is allowed to
-/// run at all. A repository-hermetic check is one whose answer does not depend
-/// on the machine; a host check is about *this* workstation's installed
-/// state; a human check cannot be automated at all and must never appear in a
-/// machine gate.
+/// The distinction is not cosmetic. It decides which checks a generic remote
+/// runner is allowed to claim. Repository-hermetic checks depend only on the
+/// repository and toolchain. Host-native checks compile or test code against
+/// the Gnosix workstation's native development ABI. Host-live checks inspect
+/// this workstation. Human checks cannot be automated.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum CheckClass {
-    /// Answerable anywhere: tests, clippy, format, builds, source invariants.
-    /// Suitable for local use and for CI.
+    /// Answerable on a generic runner without reproducing the Gnosix host ABI.
     RepositoryHermetic,
+    /// Source/build qualification that depends on the native Gnosix development
+    /// habitat (for example GPUI, PipeWire or Wayland development ABI).
+    HostNative,
     /// About one installed workstation: installed binary digests, systemd
     /// user units, compositor state, live accessibility behaviour, privilege
     /// elevation, real launches and real persistence.
@@ -109,16 +111,22 @@ pub enum CheckClass {
 }
 
 impl CheckClass {
-    /// Whether this class belongs in a repository-hermetic CI profile.
+    /// Whether this class belongs in the portable remote-CI profile.
     pub fn runs_in_ci(self) -> bool {
         matches!(self, Self::RepositoryHermetic)
+    }
+
+    /// Whether this class belongs in local source/native qualification.
+    pub fn runs_in_native(self) -> bool {
+        matches!(self, Self::RepositoryHermetic | Self::HostNative)
     }
 
     pub fn as_str(self) -> &'static str {
         match self {
             Self::RepositoryHermetic => "A_REPOSITORY_HERMETIC",
-            Self::HostLive => "B_HOST_LIVE",
-            Self::HumanAcceptance => "C_HUMAN_ACCEPTANCE",
+            Self::HostNative => "B_HOST_NATIVE",
+            Self::HostLive => "C_HOST_LIVE",
+            Self::HumanAcceptance => "D_HUMAN_ACCEPTANCE",
         }
     }
 }

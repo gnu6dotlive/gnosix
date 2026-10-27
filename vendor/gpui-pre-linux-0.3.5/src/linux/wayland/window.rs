@@ -27,6 +27,7 @@ use wayland_protocols::{
     wp::fractional_scale::v1::client::wp_fractional_scale_v1,
     xdg::dialog::v1::client::xdg_dialog_v1::XdgDialogV1,
 };
+use wayland_protocols::ext::background_effect::v1::client::ext_background_effect_surface_v1;
 use wayland_protocols_plasma::blur::client::org_kde_kwin_blur;
 use wayland_protocols_wlr::layer_shell::v1::client::zwlr_layer_surface_v1;
 
@@ -38,7 +39,7 @@ use gpui::{
     PlatformWindow, Point, PromptButton, PromptLevel, RequestFrameOptions, ResizeEdge, Scene, Size,
     Tiling, WindowAppearance, WindowBackgroundAppearance, WindowBounds, WindowControlArea,
     WindowControls, WindowDecorations, WindowKind, WindowParams, WindowVisibility,
-    layer_shell::{Anchor, LayerShellNotSupportedError},
+    layer_shell::{Anchor, KeyboardInteractivity, LayerShellNotSupportedError},
     popup::PopupOptions,
     px, size,
 };
@@ -106,6 +107,10 @@ pub struct WaylandWindowState {
     app_id: Option<String>,
     appearance: WindowAppearance,
     blur: Option<org_kde_kwin_blur::OrgKdeKwinBlur>,
+    background_effect: Option<ext_background_effect_surface_v1::ExtBackgroundEffectSurfaceV1>,
+    /// None preserves GPUI's historical full-window Blurred default.
+    /// Some([]) means explicitly no backdrop effect, even if Blurred.
+    blur_regions: Option<Vec<Bounds<Pixels>>>,
     viewport: Option<wp_viewport::WpViewport>,
     outputs: HashMap<ObjectId, Output>,
     display: Option<(ObjectId, Output)>,
@@ -513,6 +518,18 @@ impl WaylandSurfaceState {
         }
     }
 
+    /// GNOSIX BAR-02B: a layer surface's keyboard interactivity at runtime.
+    fn set_keyboard_interactivity(&self, value: KeyboardInteractivity) -> bool {
+        if let WaylandSurfaceState::LayerShell(WaylandLayerSurfaceState { layer_surface, .. }) = self {
+            layer_surface.set_keyboard_interactivity(
+                super::layer_shell::wayland_keyboard_interactivity(value),
+            );
+            true
+        } else {
+            false
+        }
+    }
+
     fn set_exclusive_edge(&self, edge: Anchor) -> bool {
         if let WaylandSurfaceState::LayerShell(WaylandLayerSurfaceState {
             layer_surface,
@@ -628,6 +645,8 @@ impl WaylandWindowState {
             surface,
             app_id: options.app_id,
             blur: None,
+            background_effect: None,
+            blur_regions: None,
             viewport,
             globals,
             outputs: HashMap::default(),
@@ -796,6 +815,9 @@ impl Drop for WaylandWindow {
         if let Some(blur) = &state.blur {
             blur.release();
         }
+        if let Some(effect) = state.background_effect.take() {
+            effect.destroy();
+        }
 
         // Decorations must be destroyed before the xdg state.
         // See https://wayland.app/protocols/xdg-decoration-unstable-v1#zxdg_toplevel_decoration_v1
@@ -899,6 +921,13 @@ impl WaylandWindow {
 impl WaylandWindowStatePtr {
     pub fn handle(&self) -> AnyWindowHandle {
         self.state.borrow().handle
+    }
+
+    pub(crate) fn refresh_background_effect(&self) {
+        if self.state.borrow().background_appearance == WindowBackgroundAppearance::Blurred {
+            update_window(self.state.borrow_mut());
+            self.request_redraw();
+        }
     }
 
     pub fn surface(&self) -> wl_surface::WlSurface {
@@ -1973,6 +2002,16 @@ impl PlatformWindow for WaylandWindow {
         self.borrow().background_appearance
     }
 
+    fn set_background_blur_regions(&self, regions: &[Bounds<Pixels>]) {
+        let mut state = self.borrow_mut();
+        if state.blur_regions.as_deref() == Some(regions) {
+            return;
+        }
+        state.blur_regions = Some(regions.to_vec());
+        update_window(state);
+        self.0.request_redraw();
+    }
+
     fn is_subpixel_rendering_supported(&self) -> bool {
         let client = self.borrow().client.get_client();
         let state = client.borrow();
@@ -2168,6 +2207,14 @@ impl PlatformWindow for WaylandWindow {
         }
     }
 
+    fn set_keyboard_interactivity(&self, value: KeyboardInteractivity) {
+        let state = self.borrow();
+        if state.surface_state.set_keyboard_interactivity(value) {
+            // Commit so the compositor applies it now (BAR-02B).
+            state.surface.commit();
+        }
+    }
+
     fn set_exclusive_edge(&self, edge: Anchor) {
         let state = self.borrow();
         if state.surface_state.set_exclusive_edge(edge) {
@@ -2332,6 +2379,43 @@ impl accesskit::DeactivationHandler for TrivialDeactivationHandler {
     }
 }
 
+/// Rectangle clipping occurs in surface-local *logical* coordinates,
+/// independent from paint, input and exclusive-zone reservation.
+fn blur_rectangles(
+    regions: Option<&[Bounds<Pixels>]>,
+    surface_size: Size<Pixels>,
+) -> Vec<(i32, i32, i32, i32)> {
+    let max_w = f32::from(surface_size.width);
+    let max_h = f32::from(surface_size.height);
+    if !max_w.is_finite() || !max_h.is_finite() || max_w <= 0.0 || max_h <= 0.0 {
+        return Vec::new();
+    }
+    let full = Bounds::new(
+        Point::default(),
+        size(surface_size.width, surface_size.height),
+    );
+    let rects = regions.unwrap_or(std::slice::from_ref(&full));
+    rects
+        .iter()
+        .filter_map(|rect| {
+            let x = f32::from(rect.origin.x);
+            let y = f32::from(rect.origin.y);
+            let width = f32::from(rect.size.width);
+            let height = f32::from(rect.size.height);
+            if ![x, y, width, height].iter().all(|v| v.is_finite())
+                || width <= 0.0 || height <= 0.0
+            {
+                return None;
+            }
+            let x0 = x.floor().clamp(0.0, max_w) as i32;
+            let y0 = y.floor().clamp(0.0, max_h) as i32;
+            let x1 = (x + width).ceil().clamp(0.0, max_w) as i32;
+            let y1 = (y + height).ceil().clamp(0.0, max_h) as i32;
+            (x1 > x0 && y1 > y0).then_some((x0, y0, x1 - x0, y1 - y0))
+        })
+        .collect()
+}
+
 fn update_window(mut state: RefMut<WaylandWindowState>) {
     let opaque = !state.is_transparent();
 
@@ -2363,20 +2447,59 @@ fn update_window(mut state: RefMut<WaylandWindowState>) {
         state.surface.set_opaque_region(None);
     }
 
+    let ext_supported = state.globals.background_blur_supported.get()
+        && state.globals.background_effect_manager.is_some();
+    let blur_rects = blur_rectangles(state.blur_regions.as_deref(), state.bounds.size);
+    let requested = state.background_appearance == WindowBackgroundAppearance::Blurred
+        && !blur_rects.is_empty();
+
+    // A region is a copy-on-request object: never retain it between commits.
+    let blur_region = if requested
+        && (ext_supported || state.globals.blur_manager.is_some())
+    {
+        let region = state.globals.compositor.create_region(&state.globals.qh, ());
+        for (x, y, width, height) in &blur_rects {
+            region.add(*x, *y, *width, *height);
+        }
+        Some(region)
+    } else {
+        None
+    };
+
+    if ext_supported && requested {
+        if state.background_effect.is_none() {
+            let manager = state.globals.background_effect_manager.as_ref().unwrap();
+            state.background_effect = Some(
+                manager.get_background_effect(&state.surface, &state.globals.qh, ()),
+            );
+        }
+        state
+            .background_effect
+            .as_ref()
+            .unwrap()
+            .set_blur_region(blur_region.as_ref());
+    } else if let Some(effect) = state.background_effect.take() {
+        effect.destroy();
+    }
+
+    // Preserve KDE support without duplicate requests when ext blur is active.
     if let Some(ref blur_manager) = state.globals.blur_manager {
-        if state.background_appearance == WindowBackgroundAppearance::Blurred {
+        if requested && !ext_supported {
             if state.blur.is_none() {
                 let blur = blur_manager.create(&state.surface, &state.globals.qh, ());
                 state.blur = Some(blur);
             }
+            state.blur.as_ref().unwrap().set_region(blur_region.as_ref());
             state.blur.as_ref().unwrap().commit();
         } else {
-            // It probably doesn't hurt to clear the blur for opaque windows
             blur_manager.unset(&state.surface);
             if let Some(b) = state.blur.take() {
-                b.release()
+                b.release();
             }
         }
+    }
+    if let Some(blur_region) = blur_region {
+        blur_region.destroy();
     }
 
     region.destroy();
@@ -2457,4 +2580,40 @@ fn inset_by_tiling(mut bounds: Bounds<Pixels>, inset: Pixels, tiling: Tiling) ->
     }
 
     bounds
+}
+
+#[cfg(test)]
+mod blur_region_tests {
+    use super::*;
+
+    #[test]
+    fn explicit_regions_are_clipped_in_surface_local_coordinates() {
+        let surface = size(px(100.0), px(80.0));
+        let rects = [
+            Bounds::new(gpui::point(px(-10.2), px(1.2)), size(px(35.4), px(10.1))),
+            Bounds::new(gpui::point(px(95.0), px(70.0)), size(px(100.0), px(100.0))),
+        ];
+        assert_eq!(
+            blur_rectangles(Some(&rects), surface),
+            vec![(0, 1, 26, 11), (95, 70, 5, 10)]
+        );
+    }
+
+    #[test]
+    fn empty_is_no_blur_and_none_preserves_original_full_region() {
+        let surface = size(px(100.0), px(80.0));
+        assert!(blur_rectangles(Some(&[]), surface).is_empty());
+        assert_eq!(blur_rectangles(None, surface), vec![(0, 0, 100, 80)]);
+    }
+
+    #[test]
+    fn invalid_or_non_finite_geometry_cannot_expand_effect_region() {
+        let surface = size(px(100.0), px(80.0));
+        let bad = [
+            Bounds::new(gpui::point(px(f32::NAN), px(0.0)), size(px(10.0), px(10.0))),
+            Bounds::new(gpui::point(px(5.0), px(0.0)), size(px(-4.0), px(5.0))),
+            Bounds::new(gpui::point(px(100.0), px(0.0)), size(px(1.0), px(5.0))),
+        ];
+        assert!(blur_rectangles(Some(&bad), surface).is_empty());
+    }
 }

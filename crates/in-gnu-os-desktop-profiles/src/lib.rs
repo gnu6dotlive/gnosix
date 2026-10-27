@@ -17,6 +17,8 @@ use thiserror::Error;
 mod authority;
 mod bar_write_contract;
 pub use bar_write_contract::*;
+mod shell_preferences;
+pub use shell_preferences::*;
 #[cfg(test)]
 mod authority_tests;
 #[cfg(any(test, feature = "r12-production-writer"))]
@@ -27,7 +29,7 @@ pub use store::*;
 
 /// Current logical schema. The generation filename remains stable so CAS/rotation
 /// history is not split across two authority files during the v1 -> v2 upgrade.
-pub const DESKTOP_PROFILE_SCHEMA_VERSION: u32 = 2;
+pub const DESKTOP_PROFILE_SCHEMA_VERSION: u32 = 5;
 
 /// The profile document has a distinct namespace from output-identities-v1.json.
 pub const DESKTOP_PROFILE_DOCUMENT_FILENAME: &str = "desktop-profiles-v1.json";
@@ -159,9 +161,10 @@ pub enum WorkspaceDisplayMode {
     Icons,
 }
 
-/// The five DONOR-02 Bar preference contracts. `None` always means no durable
+/// The five DONOR-02 Bar preference contracts, and BAR-01D's bounded shell
+/// preferences. `None` always means no durable
 /// override; no donor default is imported by this type.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct BarPreferenceOverrides {
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -174,6 +177,36 @@ pub struct BarPreferenceOverrides {
     pub workspace_display: Option<WorkspaceDisplayMode>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tray_compact: Option<bool>,
+    /// BAR-01D (B03): the bounded shell preferences beyond DONOR-02.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub modules: Option<BarModuleLayout>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub thickness: Option<BarThickness>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub density: Option<BarDensityPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub travel_tempo: Option<MotionTempoPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub spring_tempo: Option<MotionTempoPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clock: Option<ClockFormat>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub title_max: Option<TitleMaxWidth>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub status_icons: Option<StatusIconSet>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub deck: Option<DeckTuning>,
+    /// DECK-01F (B10): the Deck's pins, in order.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pins: Option<DeckPinList>,
+    /// SURF-04 (W02): the desktop modules' places. Stored under its first
+    /// name, `desktop_widgets` (TERM-01), so every profile keeps reading.
+    #[serde(
+        default,
+        rename = "desktop_widgets",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub desktop_modules: Option<DesktopModuleLayout>,
 }
 
 /// User-owned preferences only. System observations are supplied separately
@@ -206,16 +239,57 @@ pub struct BarPreferences {
     pub workspace_display: Option<WorkspaceDisplayMode>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tray_compact: Option<bool>,
+    /// BAR-01D (B03): the bounded shell preferences beyond DONOR-02.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub modules: Option<BarModuleLayout>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub thickness: Option<BarThickness>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub density: Option<BarDensityPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub travel_tempo: Option<MotionTempoPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub spring_tempo: Option<MotionTempoPercent>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clock: Option<ClockFormat>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub title_max: Option<TitleMaxWidth>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub status_icons: Option<StatusIconSet>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub deck: Option<DeckTuning>,
+    /// DECK-01F (B10): the Deck's pins, in order.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pins: Option<DeckPinList>,
+    /// SURF-04 (W02): the desktop modules' places. Stored under its first
+    /// name, `desktop_widgets` (TERM-01), so every profile keeps reading.
+    #[serde(
+        default,
+        rename = "desktop_widgets",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub desktop_modules: Option<DesktopModuleLayout>,
 }
 
 impl BarPreferences {
-    pub const fn overrides(&self) -> BarPreferenceOverrides {
+    pub fn overrides(&self) -> BarPreferenceOverrides {
         BarPreferenceOverrides {
             persistent: self.persistent,
             show_on_hover: self.show_on_hover,
             workspace_count: self.workspace_count,
             workspace_display: self.workspace_display,
             tray_compact: self.tray_compact,
+            modules: self.modules,
+            thickness: self.thickness,
+            density: self.density,
+            travel_tempo: self.travel_tempo,
+            spring_tempo: self.spring_tempo,
+            clock: self.clock,
+            title_max: self.title_max,
+            status_icons: self.status_icons,
+            deck: self.deck,
+            pins: self.pins.clone(),
+            desktop_modules: self.desktop_modules,
         }
     }
 
@@ -225,6 +299,17 @@ impl BarPreferences {
         self.workspace_count = overrides.workspace_count;
         self.workspace_display = overrides.workspace_display;
         self.tray_compact = overrides.tray_compact;
+        self.modules = overrides.modules;
+        self.thickness = overrides.thickness;
+        self.density = overrides.density;
+        self.travel_tempo = overrides.travel_tempo;
+        self.spring_tempo = overrides.spring_tempo;
+        self.clock = overrides.clock;
+        self.title_max = overrides.title_max;
+        self.status_icons = overrides.status_icons;
+        self.deck = overrides.deck;
+        self.pins = overrides.pins;
+        self.desktop_modules = overrides.desktop_modules;
     }
 }
 
@@ -684,6 +769,7 @@ mod donor_bar_preference_tests {
             workspace_count: Some(WorkspaceDisplayCount::try_from(20_i64).unwrap()),
             workspace_display: Some(WorkspaceDisplayMode::Icons),
             tray_compact: Some(false),
+            ..Default::default()
         };
         let json = serde_json::to_string(&explicit).unwrap();
         assert_eq!(
@@ -704,6 +790,7 @@ mod donor_bar_preference_tests {
             workspace_count: Some(WorkspaceDisplayCount::try_from(7_i64).unwrap()),
             workspace_display: Some(WorkspaceDisplayMode::Text),
             tray_compact: Some(true),
+            ..Default::default()
         };
         assert_eq!(
             bar.overrides(),
@@ -713,6 +800,7 @@ mod donor_bar_preference_tests {
                 workspace_count: Some(WorkspaceDisplayCount::try_from(7_i64).unwrap()),
                 workspace_display: Some(WorkspaceDisplayMode::Text),
                 tray_compact: Some(true),
+                ..Default::default()
             }
         );
         let encoded = serde_json::to_value(&bar).unwrap();

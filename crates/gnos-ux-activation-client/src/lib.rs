@@ -67,6 +67,21 @@ impl ActivationTransport for DbusTransport {
                     ),
                 )
                 .map_err(|error| error.to_string()),
+            ProductIntent::MoveObservedApplication {
+                request_id,
+                window,
+                destination,
+            } => proxy
+                .call(
+                    "MoveObservedApplication",
+                    &(
+                        request_id.as_bytes().to_vec(),
+                        window.observed_generation().0,
+                        window.surface_id().into_bytes().to_vec(),
+                        destination.workspace_id().into_bytes().to_vec(),
+                    ),
+                )
+                .map_err(|error| error.to_string()),
         }
     }
 }
@@ -100,6 +115,7 @@ fn intent_generation(intent: ProductIntent) -> DesktopContextGeneration {
     match intent {
         ProductIntent::ActivateObservedWorkspace { target, .. } => target.observed_generation(),
         ProductIntent::FocusObservedApplication { target, .. } => target.observed_generation(),
+        ProductIntent::MoveObservedApplication { window, .. } => window.observed_generation(),
     }
 }
 

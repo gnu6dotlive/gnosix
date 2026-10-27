@@ -1,0 +1,29 @@
+{
+  "source": "GoogleSansFlex-VariableFont.ttf",
+  "source_sha256": "2510a8b7a24beb1fe8163e9a49813ccfe96b5453444b9443d42665ca4fa320c9",
+  "license": "LICENSE-OFL-1.1.txt (SIL OFL 1.1, bundled by donor)",
+  "tool": "fontTools 4.66.1 varLib.instancer",
+  "axes": {
+    "opsz": 12,
+    "wdth": 100,
+    "wght": 400,
+    "GRAD": 0,
+    "ROND": 25,
+    "slnt": 0
+  },
+  "gpos": "default-location values; VariationIndex deltas removed",
+  "gpos_variation_tables_removed": 10179,
+  "internal_name_rewrite": {
+    "family": "Gnosix Reference Sans 01F",
+    "postscript": "GnosixReferenceSans01F-Regular",
+    "dropped_name_ids": [
+      16,
+      17,
+      21,
+      22,
+      25
+    ]
+  },
+  "derived": "GnosixReferenceSans01F-Regular.ttf",
+  "derived_sha256": "cfc83ca0e1b162277c8b0ddd9d788ff5536740fc2d91c99d6013b8d61ea3cf75"
+}

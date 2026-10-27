@@ -1,3 +1,9 @@
 /target/
 __pycache__/
 /.worktrees/
+
+# Local operator review binaries, runtime traces and mutable run state.
+/.review-local/
+
+# Build outputs and caches live here: the work belongs to the repository.
+.ci-cache/

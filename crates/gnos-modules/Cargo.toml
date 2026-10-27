@@ -1,0 +1,15 @@
+[package]
+name = "gnos-modules"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+publish = false
+description = "Gnosix's module manifests: what the hull boots, and the mods channel (MODS-01)"
+
+[dependencies]
+gnos-icons = { path = "../gnos-icons" }
+serde = { version = "1", features = ["derive"] }
+toml = { version = "0.8", default-features = false, features = ["parse"] }
+
+[lints.rust]
+unsafe_code = "forbid"

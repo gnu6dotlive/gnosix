@@ -96,6 +96,9 @@ pub enum ActivationSource {
 pub enum ActivationOperation {
     ActivateObservedWorkspace(WorkspaceId),
     FocusObservedApplication(SurfaceId),
+    /// WS-02B: move an observed application window onto an observed
+    /// workspace, without following it there.
+    MoveObservedApplicationToWorkspace(SurfaceId, WorkspaceId),
 }
 
 /// Product request, carrying typed intent and the exact observation fence.
@@ -246,12 +249,34 @@ pub struct ApplicationFocusCapability {
     _private: (),
 }
 
+/// WS-02B: application-move-only admission capability, scoped to one window
+/// and one destination workspace; it grants neither focus nor workspace
+/// activation. Its private constructor keeps downstream code from minting it:
+///
+/// ```compile_fail
+/// use gnosix_desktop_model::{SurfaceId, WorkspaceId};
+/// use in_gnu_os_activation::ApplicationMoveCapability;
+///
+/// let _capability = ApplicationMoveCapability {
+///     surface_id: SurfaceId::from_bytes([1; 16]),
+///     workspace_id: WorkspaceId::from_bytes([2; 16]),
+///     _private: (),
+/// };
+/// ```
+#[derive(Debug, Clone, Copy)]
+pub struct ApplicationMoveCapability {
+    surface_id: SurfaceId,
+    workspace_id: WorkspaceId,
+    _private: (),
+}
+
 /// Capability presented to the pure admission boundary. It cannot be widened
 /// into another operation scope.
 #[derive(Debug, Clone, Copy)]
 pub enum ActivationCapability<'a> {
     Workspace(&'a WorkspaceActivationCapability),
     ApplicationFocus(&'a ApplicationFocusCapability),
+    ApplicationMove(&'a ApplicationMoveCapability),
 }
 
 /// Exact operation and freshness admitted against one observation.
@@ -308,6 +333,10 @@ pub fn admit(
             ActivationOperation::FocusObservedApplication(surface_id),
             ActivationCapability::ApplicationFocus(capability),
         ) => surface_id == capability.surface_id,
+        (
+            ActivationOperation::MoveObservedApplicationToWorkspace(surface_id, workspace_id),
+            ActivationCapability::ApplicationMove(capability),
+        ) => surface_id == capability.surface_id && workspace_id == capability.workspace_id,
         _ => false,
     };
     if !authorized {
@@ -335,6 +364,26 @@ pub fn admit(
             };
             if surface.role != gnosix_desktop_model::DesktopSurfaceRole::Application {
                 return Err(ActivationRefusal::TargetMismatch);
+            }
+        }
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface_id, workspace_id) => {
+            let Some(surface) = observation
+                .baseline
+                .surfaces
+                .iter()
+                .find(|surface| surface.surface_id == surface_id)
+            else {
+                return Err(ActivationRefusal::UnknownTarget);
+            };
+            if surface.role != gnosix_desktop_model::DesktopSurfaceRole::Application {
+                return Err(ActivationRefusal::TargetMismatch);
+            }
+            if !observation
+                .baseline
+                .workspaces
+                .contains_workspace_id(workspace_id)
+            {
+                return Err(ActivationRefusal::UnknownTarget);
             }
         }
     }
@@ -415,6 +464,18 @@ fn issue_and_admit_exact(
                 ActivationCapability::ApplicationFocus(&capability),
             )
         }
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface_id, workspace_id) => {
+            let capability = ApplicationMoveCapability {
+                surface_id,
+                workspace_id,
+                _private: (),
+            };
+            admit(
+                request,
+                observation,
+                ActivationCapability::ApplicationMove(&capability),
+            )
+        }
     }
 }
 
@@ -468,6 +529,8 @@ pub struct ObservedSurfaceBinding {
     role: DesktopSurfaceRole,
     stable_id: Option<String>,
     focused: bool,
+    /// The semantic workspace holding the surface, when the observer saw one.
+    workspace_id: Option<WorkspaceId>,
 }
 
 impl ObservedSurfaceBinding {
@@ -477,6 +540,7 @@ impl ObservedSurfaceBinding {
             role,
             stable_id: stable_id.map(str::to_owned),
             focused: false,
+            workspace_id: None,
         }
     }
 
@@ -491,7 +555,20 @@ impl ObservedSurfaceBinding {
             role,
             stable_id: stable_id.map(str::to_owned),
             focused,
+            workspace_id: None,
         }
+    }
+
+    /// The workspace the observer saw the surface on (WS-02B).
+    pub fn on_workspace(self, workspace_id: Option<WorkspaceId>) -> Self {
+        Self {
+            workspace_id,
+            ..self
+        }
+    }
+
+    pub const fn workspace_id(&self) -> Option<WorkspaceId> {
+        self.workspace_id
     }
 
     pub const fn surface_id(&self) -> SurfaceId {
@@ -565,6 +642,11 @@ impl ExecutionObservation {
 pub enum NativeExecutionTarget {
     WorkspaceNumericId(i64),
     ApplicationStableId(String),
+    /// WS-02B: a window's stable ID and its destination's numeric ID.
+    ApplicationToWorkspace {
+        stable_id: String,
+        workspace: i64,
+    },
 }
 
 /// A freshly checked exact target. It retains both the original admission
@@ -748,6 +830,39 @@ pub fn revalidate_for_execution(
             }
             NativeExecutionTarget::ApplicationStableId(current.to_owned())
         }
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface, workspace) => {
+            let pair = |observation: &ExecutionObservation, missing| {
+                let window = observation.surface_binding(surface).ok_or(missing)?;
+                if window.role != DesktopSurfaceRole::Application {
+                    return Err(ExecutionRevalidationRefusal::TargetTypeChanged);
+                }
+                let stable_id = window
+                    .stable_id
+                    .clone()
+                    .ok_or(ExecutionRevalidationRefusal::ExecutionBindingUnavailable)?;
+                let destination = observation
+                    .workspace_binding(workspace)
+                    .ok_or(missing)?
+                    .native_id
+                    .ok_or(ExecutionRevalidationRefusal::ExecutionBindingUnavailable)?;
+                Ok(NativeExecutionTarget::ApplicationToWorkspace {
+                    stable_id,
+                    workspace: destination,
+                })
+            };
+            let original = pair(
+                admitted_observation,
+                ExecutionRevalidationRefusal::ExecutionBindingUnavailable,
+            )?;
+            let current = pair(
+                current_observation,
+                ExecutionRevalidationRefusal::TargetDisappeared,
+            )?;
+            if original != current {
+                return Err(ExecutionRevalidationRefusal::ExecutionBindingChanged);
+            }
+            current
+        }
     };
     Ok(CurrentExecutionTarget {
         request_id: admitted.request_id(),
@@ -799,6 +914,25 @@ pub fn revalidate_current_target(
                     .clone()
                     .ok_or(ExecutionRevalidationRefusal::ExecutionBindingUnavailable)?,
             )
+        }
+        ActivationOperation::MoveObservedApplicationToWorkspace(surface, workspace) => {
+            let window = current
+                .surface_binding(surface)
+                .ok_or(ExecutionRevalidationRefusal::TargetDisappeared)?;
+            if window.role != DesktopSurfaceRole::Application {
+                return Err(ExecutionRevalidationRefusal::TargetTypeChanged);
+            }
+            NativeExecutionTarget::ApplicationToWorkspace {
+                stable_id: window
+                    .stable_id
+                    .clone()
+                    .ok_or(ExecutionRevalidationRefusal::ExecutionBindingUnavailable)?,
+                workspace: current
+                    .workspace_binding(workspace)
+                    .ok_or(ExecutionRevalidationRefusal::TargetDisappeared)?
+                    .native_id
+                    .ok_or(ExecutionRevalidationRefusal::ExecutionBindingUnavailable)?,
+            }
         }
     };
     if actual != target.native_target {
@@ -901,6 +1035,7 @@ mod contract_tests {
             initial_class: "org.example.Editor".into(),
             title: title.into(),
             initial_title: title.into(),
+            tags: Vec::new(),
             process_id: 42,
             xwayland: false,
         };
@@ -1154,6 +1289,69 @@ mod contract_tests {
     }
 
     #[test]
+    fn a_move_needs_its_own_capability_for_that_window_and_destination() {
+        let baseline = baseline_with_targets(DesktopContextGeneration(9));
+        let window = SurfaceId::from_bytes([30; 16]);
+        let destination = WorkspaceId::from_bytes([20; 16]);
+        let operation =
+            ActivationOperation::MoveObservedApplicationToWorkspace(window, destination);
+        // A focus capability for the same window grants no move.
+        let focus = focus_capability(window);
+        assert_eq!(
+            admit(
+                request(operation, 9),
+                observation(&baseline),
+                ActivationCapability::ApplicationFocus(&focus),
+            ),
+            Err(ActivationRefusal::NotAuthorized)
+        );
+        // A move capability for another destination grants nothing here.
+        let elsewhere = ApplicationMoveCapability {
+            surface_id: window,
+            workspace_id: WorkspaceId::from_bytes([21; 16]),
+            _private: (),
+        };
+        assert_eq!(
+            admit(
+                request(operation, 9),
+                observation(&baseline),
+                ActivationCapability::ApplicationMove(&elsewhere),
+            ),
+            Err(ActivationRefusal::NotAuthorized)
+        );
+        // The exact capability is admitted.
+        let exact = ApplicationMoveCapability {
+            surface_id: window,
+            workspace_id: destination,
+            _private: (),
+        };
+        assert!(admit(
+            request(operation, 9),
+            observation(&baseline),
+            ActivationCapability::ApplicationMove(&exact),
+        )
+        .is_ok());
+        // An unknown destination is refused even with its capability.
+        let unknown = WorkspaceId::from_bytes([99; 16]);
+        let to_unknown = ApplicationMoveCapability {
+            surface_id: window,
+            workspace_id: unknown,
+            _private: (),
+        };
+        assert_eq!(
+            admit(
+                request(
+                    ActivationOperation::MoveObservedApplicationToWorkspace(window, unknown),
+                    9
+                ),
+                observation(&baseline),
+                ActivationCapability::ApplicationMove(&to_unknown),
+            ),
+            Err(ActivationRefusal::UnknownTarget)
+        );
+    }
+
+    #[test]
     fn workspace_capability_cannot_focus_an_application() {
         let baseline = baseline_with_targets(DesktopContextGeneration(9));
         let request = request(
@@ -1298,6 +1496,23 @@ mod contract_tests {
                 .unwrap();
             }
             ActivationOperation::FocusObservedApplication(id) => focus_capability(id),
+            ActivationOperation::MoveObservedApplicationToWorkspace(surface, workspace) => {
+                let capability = ApplicationMoveCapability {
+                    surface_id: surface,
+                    workspace_id: workspace,
+                    _private: (),
+                };
+                return admit(
+                    request(operation, 9),
+                    CurrentActivationObservation::with_runtime_session(
+                        ActivationSessionEpoch::from_bytes([80; 16]),
+                        &baseline,
+                        "hypr-session-a",
+                    ),
+                    ActivationCapability::ApplicationMove(&capability),
+                )
+                .unwrap();
+            }
         };
         admit(
             request(operation, 9),
