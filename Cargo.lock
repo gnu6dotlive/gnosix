@@ -3184,18 +3184,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "in-gnu-os-personal-profile-provision"
-version = "0.1.0"
-dependencies = [
- "in-gnu-os-desktop-profiles",
- "in-gnu-os-output-identity",
- "serde",
- "serde_json",
- "sha2",
- "thiserror 1.0.69",
-]
-
-[[package]]
 name = "in-gnu-os-profile-service"
 version = "0.1.0"
 dependencies = [

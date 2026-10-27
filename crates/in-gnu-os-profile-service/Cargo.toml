@@ -8,7 +8,7 @@ publish = false
 name = "in-gnu-os-profiled"
 path = "src/main.rs"
 [dependencies]
-in-gnu-os-desktop-profiles = { path = "../in-gnu-os-desktop-profiles", features = ["r12-production-writer"] }
+in-gnu-os-desktop-profiles = { path = "../in-gnu-os-desktop-profiles", features = ["r12-production-writer", "r12-production-provisioner"] }
 in-gnu-os-output-identity = { path = "../in-gnu-os-output-identity" }
 in-gnu-os-caller-auth = { path = "../in-gnu-os-caller-auth" }
 zbus = "5.19.0"

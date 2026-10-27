@@ -23,6 +23,10 @@ pub use shell_preferences::*;
 mod authority_tests;
 #[cfg(any(test, feature = "r12-production-writer"))]
 pub mod bar_writer;
+#[cfg(any(test, feature = "r12-production-provisioner"))]
+pub mod seed;
+#[cfg(any(test, feature = "r12-production-provisioner"))]
+pub use seed::*;
 mod store;
 pub use authority::*;
 pub use store::*;

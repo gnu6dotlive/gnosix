@@ -1,0 +1,42 @@
+{
+  "profile": {
+    "id": [
+      201,
+      120,
+      117,
+      59,
+      108,
+      239,
+      59,
+      38,
+      208,
+      93,
+      191,
+      182,
+      146,
+      130,
+      91,
+      46
+    ],
+    "name": "Personal",
+    "preferences": {
+      "visual": {},
+      "motion": {},
+      "accessibility": {},
+      "bar": {
+        "edge": "left",
+        "persistent": false,
+        "show_on_hover": true,
+        "thickness": 44,
+        "density": 50,
+        "title_max": 240,
+        "status_icons": {
+          "lock": true,
+          "network": true,
+          "bluetooth": true,
+          "battery": true
+        }
+      }
+    }
+  }
+}

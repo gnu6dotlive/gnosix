@@ -1,0 +1,23 @@
+{
+  "run_id": "gnosix-profile-bootstrap-20261027",
+  "timestamp": "2026-10-27T22:01:34Z",
+  "workstream": "DEFAULT-PROFILE-BOOTSTRAP (Track 2)",
+  "result": "PASS",
+  "checks_passed": 38,
+  "checks_total": 38,
+  "duration_ms": 9005,
+  "deliverables": [
+    "crates/in-gnu-os-desktop-profiles/src/seed.rs: Canonical DesktopProfileSeed, DEFAULT_PERSONAL_PROFILE_ID_BYTES, into_provision_plan, into_document",
+    "share/gnosix/profiles/default-profile-seed.json: Default ratified profile seed JSON",
+    "crates/in-gnu-os-profile-service/Cargo.toml: Enabled r12-production-provisioner feature",
+    "crates/in-gnu-os-profile-service/src/main.rs: Wired bootstrap_if_absent before writer.read(), with hermetic unit tests proving absent store bootstrap and idempotency"
+  ],
+  "invariants_enforced": [
+    "ANTI-GOAL 1: Presentation never persists; profile-service acts as sole bounded authority",
+    "ANTI-GOAL 2: No synthesized output identities; uses explicit DurableOutputHubId from R11",
+    "ANTI-GOAL 3: No fallback-on-conflict synthesis; CAS verification fails closed",
+    "ANTI-GOAL 4: Hermetic test roots used during qualification; ~/.config/gnosix untouched",
+    "profile-writer-crate-private: open_writer remains crate-private",
+    "capabilities-remain-separate: no universal execution or spawn authority"
+  ]
+}
