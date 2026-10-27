@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Display Setup &amp; Profile Persistence · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: process · State Lifecycle</p>
+    <h1>gnosix · Display Setup &amp; Profile Persistence</h1>
+    <p class="subtitle">Hotplug detection, durable output binding, and compare-and-swap profile restore.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Display Setup &amp; Profile Persistence</title>
+      <desc id="dia-desc">Hotplug detection, durable output binding, and compare-and-swap profile restore.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">DISPLAY SETUP &amp; PROFILE PERSISTENCE LIFECYCLE</text>
+
+      <g transform="translate(50, 70)">
+        <g transform="translate(0, 0)">
+          <rect width="180" height="270" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">PHASE 1 · HARDWARE</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Hotplug Detection</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Monitor connected</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">to DisplayPort / HDMI.</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">DRM uevent received.</text>
+
+          <rect x="12" y="160" width="156" height="85" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="180" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">TRIGGER</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#111418">udev DRM connector</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">hotplug wake-up</text>
+        </g>
+
+        <path d="M 180 135 L 205 135" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(205, 0)">
+          <rect width="180" height="270" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">PHASE 2 · EXTRACTION</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">EDID Fingerprint</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Extracts immutable</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">hardware properties:</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">vendor, model, serial.</text>
+
+          <rect x="12" y="160" width="156" height="85" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="180" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">HARDWARE ID</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#111418">sha256(edid_bytes)</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">modes &amp; frequencies</text>
+        </g>
+
+        <path d="M 385 135 L 410 135" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(410, 0)">
+          <rect width="180" height="270" rx="6" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.6"/>
+          <rect width="180" height="34" rx="6" fill="#FFE5D2"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">PHASE 3 · BINDING</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Logical Identity</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Maps transient DP-2</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">to persistent durable</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">logical output contract.</text>
+
+          <rect x="12" y="160" width="156" height="85" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="180" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">DURABLE ID</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#C95400">output://studio-4k</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">survives re-enumeration</text>
+        </g>
+
+        <path d="M 590 135 L 615 135" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(615, 0)">
+          <rect width="180" height="270" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">PHASE 4 · CAS STORE</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Profile Resolution</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Reads profiles in</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">~/.config/gnosix/</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">with atomic CAS.</text>
+
+          <rect x="12" y="160" width="156" height="85" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="180" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">ATOMIC CAS</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#111418">compare-and-swap</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">fail-closed recovery</text>
+        </g>
+
+        <path d="M 795 135 L 820 135" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(820, 0)">
+          <rect width="180" height="270" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">PHASE 5 · REALIGN</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Shell Adaptation</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">gnos-ux-scene spawns</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Bar on new screen,</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">restores workspaces.</text>
+
+          <rect x="12" y="160" width="156" height="85" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="180" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">SURFACES LIVE</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#2446A8">Multi-Head Active</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">0ms workspace loss</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 375)">
+        <rect width="1000" height="140" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="1000" height="32" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="21" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">FAIL-CLOSED INTEGRITY PRINCIPLE</text>
+
+        <g transform="translate(25, 50)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">No Hallucinated Monitor Profiles:</text>
+          <text x="0" y="34" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">• When a new monitor or cable is plugged in, gnosix never synthesizes an arbitrary layout or mutates existing configurations blindly.</text>
+          <text x="0" y="52" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">• If a stored profile does not match authenticated hardware fingerprints, gnosix safely defaults to single-output containment.</text>
+          <text x="0" y="70" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">Owned by: in-gnu-os-output-identity &amp; in-gnu-os-desktop-profiles</text>
+        </g>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

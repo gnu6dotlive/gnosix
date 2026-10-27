@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Explicit Authority Ledger · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: high-level · Authority Boundaries</p>
+    <h1>gnosix · Explicit Authority Ledger</h1>
+    <p class="subtitle">Mapping domain ownership vs non-implication invariants across all core subsystems.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Explicit Authority Ledger</title>
+      <desc id="dia-desc">Mapping domain ownership vs non-implication invariants across all core subsystems.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 02/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">Authoritative Matrix from AUTHORITY.md</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <g transform="translate(50, 85)">
+        <!-- Table Header -->
+        <rect width="1000" height="38" rx="6" fill="#111418"/>
+        <text x="25" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" letter-spacing="0.08em">DOMAIN SUBSYSTEM</text>
+        <text x="280" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#5F7F52" letter-spacing="0.08em">EXPLICITLY OWNS</text>
+        <text x="640" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#FF6A00" letter-spacing="0.08em">DOES NOT IMPLY (NON-TRANSFERABLE)</text>
+
+        <!-- Row 1: Hyprland -->
+        <g transform="translate(0, 44)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Hyprland Compositor</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Current compositor runtime reality</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Durable identity or profile ownership</text>
+        </g>
+
+        <!-- Row 2: desktop-model -->
+        <g transform="translate(0, 96)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnosix-desktop-model</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Pure desktop semantics &amp; reconciliation</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Observation, persistence, launch, or mutation</text>
+        </g>
+
+        <!-- Row 3: hyprland adapter -->
+        <g transform="translate(0, 148)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnosix-hyprland</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Bounded Hyprland observation/integration</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Generic shell-command authority</text>
+        </g>
+
+        <!-- Row 4: gnos.ux -->
+        <g transform="translate(0, 200)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnos.ux Presentation</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Product presentation &amp; interaction intent</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Durable writer, compositor-wide authority, exec</text>
+        </g>
+
+        <!-- Row 5: in.gnu.os profiles -->
+        <g transform="translate(0, 252)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">in.gnu.os Identity / Profiles</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Durable logical identity &amp; profile store</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Presentation ownership or generic config auth</text>
+        </g>
+
+        <!-- Row 6: in.gnu.os activation -->
+        <g transform="translate(0, 304)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">in.gnu.os Activation</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Typed admission &amp; bounded execution</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Arbitrary command execution or profile mutation</text>
+        </g>
+
+        <!-- Row 7: systemd user manager -->
+        <g transform="translate(0, 356)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">systemd User Manager</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Independent app process lifetime</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Semantic selection or launch-target authority</text>
+        </g>
+
+        <!-- Row 8: gnoshow -->
+        <g transform="translate(0, 408)">
+          <rect width="1000" height="46" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnoshow Substrate</text>
+          <text x="280" y="28" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#455F3D">Rear-plane wallpaper &amp; shader rendering</text>
+          <rect x="635" y="12" width="345" height="24" rx="4" fill="#F7F3ED"/>
+          <text x="645" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Desktop semantics, activation, or profile mutation</text>
+        </g>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

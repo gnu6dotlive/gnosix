@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Input Observation &amp; Arbitration Architecture · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: data-flow · Input Isolation</p>
+    <h1>gnosix · Input Observation &amp; Arbitration Architecture</h1>
+    <p class="subtitle">Passive evdev tap without synthetic event injection authority.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Input Observation &amp; Arbitration Architecture</title>
+      <desc id="dia-desc">Passive evdev tap without synthetic event injection authority.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 10/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">gnosix-input-core · Passive Tap vs Zero Synthetic Injection</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <!-- Device Hardware -->
+      <g transform="translate(60, 110)">
+        <rect width="240" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="240" height="36" rx="8" fill="#E8EDFF"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#2446A8">HARDWARE INPUT LAYER</text>
+        <text x="18" y="62" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Kernel evdev Subsystem</text>
+
+        <rect x="15" y="85" width="210" height="120" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="108" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Physical Input Devices:</text>
+        <text x="25" y="128" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● /dev/input/event0 [Keyboard]</text>
+        <text x="25" y="146" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● /dev/input/event1 [Trackpad]</text>
+        <text x="25" y="164" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● /dev/input/event2 [Pointer]</text>
+        <text x="25" y="185" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#2446A8">libinput driver arbitration</text>
+
+        <rect x="15" y="220" width="210" height="135" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="242" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">PRIMARY EVENT ROUTING:</text>
+        <text x="25" y="262" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Events deliver directly to the</text>
+        <text x="25" y="280" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Wayland Compositor for active</text>
+        <text x="25" y="298" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">surface window focus.</text>
+        <text x="25" y="325" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#455F3D">✔ Standard Wayland Focus Path</text>
+      </g>
+
+      <!-- Fork Lines -->
+      <line x1="300" y1="210" x2="390" y2="180" stroke="#5F7F52" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <line x1="300" y1="290" x2="390" y2="340" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+      <!-- Top Path: Compositor Normal Focus -->
+      <g transform="translate(390, 110)">
+        <rect width="320" height="160" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="320" height="32" rx="8" fill="#E8EFE5"/>
+        <text x="18" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#455F3D">WAYLAND COMPOSITOR DISPATCH</text>
+        <text x="18" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">Direct Focused Surface Dispatch</text>
+        <text x="18" y="75" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">wl_keyboard, wl_pointer events sent to active window client</text>
+        <rect x="15" y="90" width="290" height="55" rx="4" fill="#F7F3ED"/>
+        <text x="25" y="112" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#455F3D">Zero Snooping By Default:</text>
+        <text x="25" y="130" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Unfocused windows receive 0 keyboard keystrokes.</text>
+      </g>
+
+      <!-- Bottom Path: gnosix-input-observation -->
+      <g transform="translate(390, 290)">
+        <rect width="320" height="190" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="320" height="32" rx="8" fill="#FFE5D2"/>
+        <text x="18" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400">gnosix-input-observation</text>
+        <text x="18" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">Bounded Passive Observation</text>
+        <text x="18" y="75" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Passive gesture / chord recognition (swipe gestures, hotkeys)</text>
+
+        <rect x="15" y="90" width="290" height="85" rx="4" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="110" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#111418">Recognized Gestures:</text>
+        <text x="25" y="128" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">● 3-Finger Horizontal Swipe -> Workspace Switch Intent</text>
+        <text x="25" y="144" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">● 4-Finger Pinch -> AppStack Overview Intent</text>
+        <text x="25" y="162" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#FF6A00">Emits semantic intent signal only</text>
+      </g>
+
+      <!-- Arrow to Barrier -->
+      <line x1="710" y1="385" x2="770" y2="385" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+      <!-- Right Box: Injection Prohibition Barrier -->
+      <g transform="translate(770, 110)">
+        <rect width="270" height="370" rx="8" fill="#111418"/>
+        <text x="20" y="32" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#FF6A00">SECURITY BARRIER</text>
+        <text x="20" y="52" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">Zero Synthetic Injection</text>
+
+        <rect x="15" y="75" width="240" height="130" rx="6" fill="#20242B"/>
+        <text x="25" y="98" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#FF6A00">ABSOLUTE PROHIBITION:</text>
+        <text x="25" y="120" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#F7F3ED">✗ NO /dev/uinput access</text>
+        <text x="25" y="140" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#F7F3ED">✗ NO synthetic key injection</text>
+        <text x="25" y="160" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#F7F3ED">✗ NO fake pointer clicks</text>
+        <text x="25" y="180" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#F7F3ED">✗ NO accessibility hook replay</text>
+
+        <rect x="15" y="220" width="240" height="135" rx="6" fill="#20242B"/>
+        <text x="25" y="242" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#FFFFFF">WHY IT MATTERS:</text>
+        <text x="25" y="264" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#A1A6AD">A compromised dock or panel</text>
+        <text x="25" y="282" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#A1A6AD">cannot inject keystrokes into a</text>
+        <text x="25" y="300" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#A1A6AD">terminal, password prompt, or</text>
+        <text x="25" y="318" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#A1A6AD">cryptographic authentication modal.</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

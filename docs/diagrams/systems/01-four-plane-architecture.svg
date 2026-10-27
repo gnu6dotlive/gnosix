@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc" id="d-01-four-plane-architecture-root">
+      <title id="dia-title">gnosix · Four-Plane System Architecture</title>
+      <desc id="dia-desc">Decoupling Semantic Observation, Durable State, Native Presentation, and Mutation Authority.</desc>
+      <defs>
+      <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;family=Noto+Serif:ital@0;1&amp;family=Noto+Sans+KR:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400&amp;family=Noto+Sans+TC:wght@400;500;600&amp;family=Noto+Serif+TC:wght@400&amp;display=swap');
+      #d-01-four-plane-architecture-root { --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+      #d-01-four-plane-architecture-root { font-family: var(--font-primary); color: var(--gnx-anthracite); }
+      #d-01-four-plane-architecture-root .subtitle { font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem; }</style>
+        <pattern id="d-01-four-plane-architecture-grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#111418" fill-opacity="0.06"/>
+        </pattern>
+        <marker id="d-01-four-plane-architecture-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="d-01-four-plane-architecture-arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="d-01-four-plane-architecture-arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="d-01-four-plane-architecture-arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#d-01-four-plane-architecture-grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 01/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">Core System Model · Decoupled Responsibilities</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <!-- Plane 1: Semantic Observation -->
+      <g transform="translate(50, 90)">
+        <rect width="230" height="380" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="230" height="40" rx="8" fill="#E8EDFF"/>
+        <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#2446A8">1. SEMANTIC OBSERVATION</text>
+        <text x="18" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">Compositor Facts</text>
+        <text x="18" y="85" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Normalizes runtime reality</text>
+
+        <rect x="15" y="110" width="200" height="60" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="132" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">gnosix-hyprland</text>
+        <text x="25" y="152" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Socket 1 snapshots + Socket 2 wakes</text>
+
+        <rect x="15" y="185" width="200" height="70" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="207" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">gnosix-desktop-model</text>
+        <text x="25" y="227" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Pure deterministic state tree</text>
+        <text x="25" y="243" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#5F7F52">● Monotonic Generation Clock</text>
+
+        <rect x="15" y="275" width="200" height="85" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="295" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">BOUNDS:</text>
+        <text x="25" y="315" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">No durable IDs</text>
+        <text x="25" y="332" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">No process execution</text>
+        <text x="25" y="349" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">No mutation authority</text>
+      </g>
+
+      <!-- Plane 2: Durable State -->
+      <g transform="translate(305, 90)">
+        <rect width="230" height="380" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="230" height="40" rx="8" fill="#E8EFE5"/>
+        <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#455F3D">2. DURABLE STATE</text>
+        <text x="18" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">Identities &amp; Profiles</text>
+        <text x="18" y="85" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Cryptographic CAS storage</text>
+
+        <rect x="15" y="110" width="200" height="60" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="132" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">in-gnu-os-output-identity</text>
+        <text x="25" y="152" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Durable EDID hardware mapping</text>
+
+        <rect x="15" y="185" width="200" height="70" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="207" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">in-gnu-os-desktop-profiles</text>
+        <text x="25" y="227" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">CAS document store &amp; validation</text>
+        <text x="25" y="243" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#5F7F52">● Atomic CAS pointer update</text>
+
+        <rect x="15" y="275" width="200" height="85" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="295" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">BOUNDS:</text>
+        <text x="25" y="315" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">No presentation UI</text>
+        <text x="25" y="332" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">No compositor polling</text>
+        <text x="25" y="349" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Isolated profile CAS writes</text>
+      </g>
+
+      <!-- Plane 3: Native Presentation -->
+      <g transform="translate(560, 90)">
+        <rect width="230" height="380" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="230" height="40" rx="8" fill="#FFE5D2"/>
+        <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#C95400">3. PRESENTATION</text>
+        <text x="18" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">gnos.ux Surface Scene</text>
+        <text x="18" y="85" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Wayland + GPUI product host</text>
+
+        <rect x="15" y="110" width="200" height="60" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="132" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">gnos-ux-scene</text>
+        <text x="25" y="152" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Bar · Dock · AppStack · Envelope</text>
+
+        <rect x="15" y="185" width="200" height="70" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="207" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">gnos-ux-product-intent</text>
+        <text x="25" y="227" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Local interaction intent generation</text>
+        <text x="25" y="243" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#4169E1">● Optimistic 120Hz animations</text>
+
+        <rect x="15" y="275" width="200" height="85" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="295" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">BOUNDS:</text>
+        <text x="25" y="315" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Zero raw disk authority</text>
+        <text x="25" y="332" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Zero raw shell execution</text>
+        <text x="25" y="349" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Crash does not kill apps</text>
+      </g>
+
+      <!-- Plane 4: Mutation Authority -->
+      <g transform="translate(815, 90)">
+        <rect width="235" height="380" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="235" height="40" rx="8" fill="#111418"/>
+        <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">4. MUTATION AUTHORITY</text>
+        <text x="18" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">in.gnu.os Services</text>
+        <text x="18" y="85" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Typed admission &amp; execution</text>
+
+        <rect x="15" y="110" width="205" height="60" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="132" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">in-gnu-os-caller-auth</text>
+        <text x="25" y="152" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">UID · cgroup session qualification</text>
+
+        <rect x="15" y="185" width="205" height="70" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="207" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">in-gnu-os-activation</text>
+        <text x="25" y="227" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Typed targets &amp; freshness checks</text>
+        <text x="25" y="243" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">● systemd user manager launch</text>
+
+        <rect x="15" y="275" width="205" height="85" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="295" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">BOUNDS:</text>
+        <text x="25" y="315" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Rejects shell strings</text>
+        <text x="25" y="332" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Revalidates fresh state</text>
+        <text x="25" y="349" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Fails closed on drift</text>
+      </g>
+
+      <!-- Central Architectural Invariant Banner -->
+      <g transform="translate(50, 490)">
+        <rect width="1000" height="60" rx="8" fill="#111418"/>
+        <rect x="12" y="15" width="12" height="30" rx="3" fill="#FF6A00"/>
+        <text x="36" y="34" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" letter-spacing="0.05em">ARCHITECTURAL INVARIANT:</text>
+        <text x="245" y="34" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="500" fill="#F7F3ED">Passing data between planes does NOT transfer authority between them.</text>
+        <text x="36" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#A1A6AD">Names, package paths, IPC tokens, and process presence do not grant mutation authority.</text>
+      </g>
+
+    </svg>

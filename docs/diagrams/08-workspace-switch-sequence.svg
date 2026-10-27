@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1100 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc" id="d-08-workspace-switch-sequence-root">
+      <title id="dia-title">gnosix · Workspace Switch Sequence</title>
+      <desc id="dia-desc">Workspace activation sequence: from user click to Hyprland dispatch and GPUI scene update.</desc>
+      <defs>
+      <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;family=Noto+Serif:ital@0;1&amp;family=Noto+Sans+KR:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400&amp;family=Noto+Sans+TC:wght@400;500;600&amp;family=Noto+Serif+TC:wght@400&amp;display=swap');
+      #d-08-workspace-switch-sequence-root { --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+      #d-08-workspace-switch-sequence-root { font-family: var(--font-primary); color: var(--gnx-anthracite); }
+      #d-08-workspace-switch-sequence-root .subtitle { font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem; }</style>
+        <pattern id="d-08-workspace-switch-sequence-grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#111418" fill-opacity="0.06"/>
+        </pattern>
+        <marker id="d-08-workspace-switch-sequence-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="d-08-workspace-switch-sequence-arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="d-08-workspace-switch-sequence-arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="d-08-workspace-switch-sequence-arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="600" fill="#F7F3ED"/>
+      <rect width="1100" height="600" fill="url(#d-08-workspace-switch-sequence-grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">WORKSPACE SWITCH SEQUENCE</text>
+
+      <g transform="translate(50, 60)">
+        <g transform="translate(40, 0)">
+          <rect width="120" height="36" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="60" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">User / Seat</text>
+          <line x1="60" y1="36" x2="60" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(200, 0)">
+          <rect width="130" height="36" rx="6" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.5"/>
+          <text x="65" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">gnos-ux-bar</text>
+          <line x1="65" y1="36" x2="65" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(370, 0)">
+          <rect width="150" height="36" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="75" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">in-gnu-os-activation</text>
+          <line x1="75" y1="36" x2="75" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(560, 0)">
+          <rect width="140" height="36" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="70" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">Hyprland IPC</text>
+          <line x1="70" y1="36" x2="70" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(740, 0)">
+          <rect width="130" height="36" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="65" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">Observer Crate</text>
+          <line x1="65" y1="36" x2="65" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(900, 0)">
+          <rect width="120" height="36" rx="6" fill="#FFFFFF" stroke="#4169E1" stroke-width="1.5"/>
+          <text x="60" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#2446A8" text-anchor="middle">gnos-ux-scene</text>
+          <line x1="60" y1="36" x2="60" y2="440" stroke="#D7DADF" stroke-dasharray="4,4"/>
+        </g>
+
+        <g transform="translate(100, 70)">
+          <line x1="0" y1="0" x2="165" y2="0" stroke="#FF6A00" stroke-width="1.6" marker-end="url(#d-08-workspace-switch-sequence-arrow-orange)"/>
+          <text x="80" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#C95400" text-anchor="middle">1. Click Pill "2"</text>
+        </g>
+
+        <g transform="translate(265, 115)">
+          <line x1="0" y1="0" x2="180" y2="0" stroke="#FF6A00" stroke-width="1.6" marker-end="url(#d-08-workspace-switch-sequence-arrow-orange)"/>
+          <text x="90" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#C95400" text-anchor="middle">2. ActivateWorkspace(W2, primary)</text>
+        </g>
+
+        <g transform="translate(445, 150)">
+          <rect x="-10" y="0" width="130" height="32" rx="4" fill="#FFE5D2" stroke="#FF6A00" stroke-width="1"/>
+          <text x="55" y="20" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#111418" text-anchor="middle">Peer Auth (SO_PEERCRED)</text>
+        </g>
+
+        <g transform="translate(445, 210)">
+          <line x1="0" y1="0" x2="185" y2="0" stroke="#111418" stroke-width="1.5" marker-end="url(#d-08-workspace-switch-sequence-arrow)"/>
+          <text x="90" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#111418" text-anchor="middle">3. dispatch workspace 2</text>
+        </g>
+
+        <g transform="translate(630, 255)">
+          <line x1="0" y1="0" x2="175" y2="0" stroke="#667085" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#d-08-workspace-switch-sequence-arrow)"/>
+          <text x="85" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085" text-anchor="middle">4. event: workspacev2 2,DP-1</text>
+        </g>
+
+        <g transform="translate(805, 290)">
+          <line x1="0" y1="0" x2="-175" y2="0" stroke="#667085" stroke-width="1.5" marker-end="url(#d-08-workspace-switch-sequence-arrow)"/>
+          <text x="-85" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085" text-anchor="middle">5. read fresh snapshot</text>
+        </g>
+
+        <g transform="translate(805, 335)">
+          <line x1="0" y1="0" x2="155" y2="0" stroke="#4169E1" stroke-width="1.8" marker-end="url(#d-08-workspace-switch-sequence-arrow-blue)"/>
+          <text x="75" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#2446A8" text-anchor="middle">6. Projection: Active W2</text>
+        </g>
+
+        <g transform="translate(960, 365)">
+          <rect x="-10" y="0" width="130" height="32" rx="4" fill="#E8EDFF" stroke="#4169E1" stroke-width="1"/>
+          <text x="55" y="20" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#2446A8" text-anchor="middle">Repaint (GPUI Slide)</text>
+        </g>
+
+        <g transform="translate(960, 420)">
+          <line x1="0" y1="0" x2="-860" y2="0" stroke="#FF6A00" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#d-08-workspace-switch-sequence-arrow-orange)"/>
+          <text x="-430" y="-8" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#C95400" text-anchor="middle">7. Visual Feedback Complete (W2 Active on Bar &amp; Canvas)</text>
+        </g>
+      </g>
+
+    </svg>

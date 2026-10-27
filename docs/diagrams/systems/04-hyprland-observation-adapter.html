@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Compositor Observation Adapter · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: process · Observation Pipeline</p>
+    <h1>gnosix · Compositor Observation Adapter</h1>
+    <p class="subtitle">Event streams as wake-up triggers versus full socket snapshots as runtime truth.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Compositor Observation Adapter</title>
+      <desc id="dia-desc">Event streams as wake-up triggers versus full socket snapshots as runtime truth.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 04/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">gnosix-hyprland · Event Triggers vs Snapshot Truth</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <!-- Socket 2: Event Stream -->
+      <g transform="translate(60, 110)">
+        <rect width="280" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="280" height="38" rx="8" fill="#E8EDFF"/>
+        <text x="20" y="24" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#2446A8">SOCKET 2 · EVENT STREAM</text>
+        <text x="20" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400">ROLE: Wake-Up Signals Only</text>
+        <text x="20" y="85" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Never treated as complete state truth</text>
+
+        <rect x="15" y="105" width="250" height="150" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="128" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">Incoming Push Events:</text>
+        <text x="25" y="150" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● workspacev2>>3,DP-1</text>
+        <text x="25" y="170" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● activewindow>>code,Visual Studio</text>
+        <text x="25" y="190" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● openwindow>>0x55a1b,firefox</text>
+        <text x="25" y="210" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● closewindow>>0x55a1b</text>
+        <text x="25" y="235" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#2446A8">ACTION: Set Dirty Flag (Debounced)</text>
+
+        <rect x="15" y="270" width="250" height="90" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="292" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">WHY NOT DIRECT STATE?</text>
+        <text x="25" y="312" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Event drops or out-of-order delivery</text>
+        <text x="25" y="330" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">would desynchronize the desktop model.</text>
+      </g>
+
+      <!-- Wake-up Transition Arrow -->
+      <line x1="340" y1="280" x2="430" y2="280" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+      <text x="350" y="270" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">Trigger Query</text>
+
+      <!-- Socket 1: Snapshot Read -->
+      <g transform="translate(440, 110)">
+        <rect width="280" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="280" height="38" rx="8" fill="#E8EFE5"/>
+        <text x="20" y="24" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#455F3D">SOCKET 1 · SNAPSHOT READ</text>
+        <text x="20" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#5F7F52">ROLE: Runtime Truth</text>
+        <text x="20" y="85" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Synchronous, atomic batch query</text>
+
+        <rect x="15" y="105" width="250" height="150" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="128" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">Fresh Batch Pull Commands:</text>
+        <text x="25" y="150" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● j/workspaces (Complete list)</text>
+        <text x="25" y="170" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● j/clients (Full window tree)</text>
+        <text x="25" y="190" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● j/monitors (Active outputs &amp; modes)</text>
+        <text x="25" y="210" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● j/layers (Layer-shell surfaces)</text>
+        <text x="25" y="235" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#455F3D">RESULT: Full Compositor Snapshot</text>
+
+        <rect x="15" y="270" width="250" height="90" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="292" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">ATOMIC FRESHNESS:</text>
+        <text x="25" y="312" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">All collections read in lockstep</text>
+        <text x="25" y="330" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Guarantees zero partial state reads.</text>
+      </g>
+
+      <!-- Adapter Arrow -->
+      <line x1="720" y1="280" x2="810" y2="280" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+      <text x="735" y="270" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">Normalize</text>
+
+      <!-- Normalized Desktop State -->
+      <g transform="translate(820, 110)">
+        <rect width="220" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="220" height="38" rx="8" fill="#111418"/>
+        <text x="20" y="24" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">NORMALIZED OUTPUT</text>
+        <text x="20" y="65" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnosix-desktop-model</text>
+
+        <rect x="15" y="90" width="190" height="130" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="115" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">Emitted Facts:</text>
+        <text x="25" y="138" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">✔ Output Geometries</text>
+        <text x="25" y="158" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">✔ Workspace Bindings</text>
+        <text x="25" y="178" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">✔ Window Coordinates</text>
+        <text x="25" y="198" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#5F7F52">✔ Monotonic Gen Bump</text>
+
+        <rect x="15" y="240" width="190" height="120" rx="6" fill="#FFE5D2"/>
+        <text x="25" y="265" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">AUTHORITY BOUNDARY:</text>
+        <text x="25" y="285" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">gnosix-hyprland is strictly</text>
+        <text x="25" y="302" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">an observer. It has NO shell</text>
+        <text x="25" y="320" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">dispatch or execute authority.</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

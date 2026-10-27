@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Surface Anatomy &amp; Layer Topology · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: exploded · Desktop Presentation</p>
+    <h1>gnosix · Surface Anatomy &amp; Layer Topology</h1>
+    <p class="subtitle">The layered desktop presentation stack: from rear-plane wallpaper to interactive top-shell surfaces.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Surface Anatomy &amp; Layer Topology</title>
+      <desc id="dia-desc">The layered desktop presentation stack: from rear-plane wallpaper to interactive top-shell surfaces.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="45" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">EXPLODED LAYER-SHELL TOPOLOGY</text>
+
+      <g transform="translate(60, 65)">
+        <rect width="660" height="60" rx="6" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.8"/>
+        <rect x="1" y="1" width="658" height="24" rx="5" fill="#FFE5D2"/>
+        <text x="18" y="17" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">LAYER 4 (TOP FOREGROUND) · EXCLUSIVE ZONE: 32px</text>
+        <text x="18" y="44" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">gnos-ux-bar</text>
+        <text x="130" y="44" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Workspace pill switcher, window breadcrumb, system telemetry</text>
+        <rect x="560" y="32" width="85" height="18" rx="9" fill="#FF6A00"/>
+        <text x="575" y="44" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#111418" font-weight="700">ZWLR_TOP</text>
+      </g>
+
+      <line x1="390" y1="125" x2="390" y2="155" stroke="#FF6A00" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g transform="translate(60, 155)">
+        <rect width="660" height="60" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect x="1" y="1" width="658" height="24" rx="5" fill="#F7F3ED"/>
+        <text x="18" y="17" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#667085">LAYER 3 (QUICK ACCESS) · BOTTOM ANCHOR OVERLAY: 56px</text>
+        <text x="18" y="44" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">gnos-ux-dock</text>
+        <text x="140" y="44" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Pinned application launchers, running instance pips, window preview</text>
+        <rect x="545" y="32" width="100" height="18" rx="9" fill="#E6E8EB"/>
+        <text x="555" y="44" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#111418" font-weight="600">ZWLR_BOTTOM</text>
+      </g>
+
+      <line x1="390" y1="215" x2="390" y2="245" stroke="#D7DADF" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g transform="translate(60, 245)">
+        <rect width="660" height="85" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect x="1" y="1" width="658" height="24" rx="5" fill="#F7F3ED"/>
+        <text x="18" y="17" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#667085">LAYER 2 (WINDOW RUNTIME) · CLIENT APPLICATION SURFACES</text>
+        <text x="18" y="48" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">AppStack Geometry</text>
+        <text x="160" y="48" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Tiled windows (columns/rows), floating dialogs, fullscreens</text>
+        <text x="18" y="68" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="600" fill="#C95400">Focus state: Active (keyboard/seat) · Visible (painted) · Background</text>
+      </g>
+
+      <line x1="390" y1="330" x2="390" y2="360" stroke="#D7DADF" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g transform="translate(60, 360)">
+        <rect width="660" height="65" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect x="1" y="1" width="658" height="24" rx="5" fill="#F7F3ED"/>
+        <text x="18" y="17" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#667085">LAYER 1 (SPATIAL CANVAS) · WORKSPACE BOUNDS</text>
+        <text x="18" y="46" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Workspace Envelope</text>
+        <text x="180" y="46" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Virtual desktop canvas, multi-output routing, spatial transitions</text>
+      </g>
+
+      <line x1="390" y1="425" x2="390" y2="455" stroke="#D7DADF" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+      <g transform="translate(60, 455)">
+        <rect width="660" height="65" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <text x="18" y="28" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#A1A6AD">LAYER 0 (BACKGROUND REAR-PLANE)</text>
+        <text x="18" y="50" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">gnoshow · Ambient Wallpaper Substrate</text>
+        <text x="320" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Decoupled rear rendering pipeline, zero impact on UI shell latency</text>
+      </g>
+
+      <g transform="translate(760, 65)">
+        <rect width="290" height="455" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="290" height="38" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="24" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Presentation Invariants</text>
+
+        <g transform="translate(20, 55)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#C95400">Single Geometry Authority</text>
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Paint boundaries and Wayland input</text>
+          <text x="0" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">regions share the exact same model.</text>
+        </g>
+
+        <line x1="20" y1="120" x2="270" y2="120" stroke="#E6E8EB"/>
+
+        <g transform="translate(20, 135)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Zero Ambient Writer Powers</text>
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">The UI scene paints pixels and captures</text>
+          <text x="0" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">intent, but cannot mutate profiles.</text>
+        </g>
+
+        <line x1="20" y1="200" x2="270" y2="200" stroke="#E6E8EB"/>
+
+        <g transform="translate(20, 215)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">GPUI Hardware Acceleration</text>
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Direct GPU surface rendering with</text>
+          <text x="0" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Wayland zero-copy dmabuf buffers.</text>
+        </g>
+
+        <line x1="20" y1="280" x2="270" y2="280" stroke="#E6E8EB"/>
+
+        <g transform="translate(20, 295)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Fail-Closed Boundary</text>
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Stale compositor facts discard pending</text>
+          <text x="0" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">actions instead of guessing state.</text>
+        </g>
+
+        <rect x="20" y="375" width="250" height="60" rx="4" fill="#FFE5D2" stroke="#FF6A00" stroke-width="1"/>
+        <text x="32" y="398" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#111418">HOST RUNTIME VERDICT</text>
+        <text x="32" y="418" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="600" fill="#C95400">gnos-ux-scene · qualified main line</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

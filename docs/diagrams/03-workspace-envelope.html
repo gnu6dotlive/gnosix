@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Workspace Envelope &amp; Multi-Output Routing · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: nested · Multi-Monitor Layout</p>
+    <h1>gnosix · Workspace Envelope &amp; Multi-Output Routing</h1>
+    <p class="subtitle">Spatial mapping of workspaces across physical displays and durable logical identities.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Workspace Envelope &amp; Multi-Output Routing</title>
+      <desc id="dia-desc">Spatial mapping of workspaces across physical displays and durable logical identities.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">MULTI-OUTPUT SPATIAL TOPOLOGY</text>
+
+      <g transform="translate(50, 60)">
+        <rect width="480" height="415" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="480" height="42" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="26" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Display eDP-1 · Laptop Primary (2560×1600)</text>
+        <rect x="340" y="10" width="125" height="22" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="348" y="25" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">output://primary-01</text>
+
+        <g transform="translate(20, 55)">
+          <rect width="440" height="155" rx="6" fill="#F7F3ED" stroke="#FF6A00" stroke-width="1.6"/>
+          <rect width="440" height="26" rx="6" fill="#FFE5D2"/>
+          <text x="15" y="18" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">WORKSPACE 1 · ACTIVE &amp; FOCUSED</text>
+
+          <rect x="15" y="38" width="200" height="100" rx="4" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.2"/>
+          <text x="28" y="60" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Neovim (main.rs)</text>
+          <text x="28" y="76" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">tiled · active seat</text>
+          <text x="28" y="120" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#C95400">focused_surface: true</text>
+
+          <rect x="225" y="38" width="200" height="100" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="238" y="60" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">cargo xtask ci</text>
+          <text x="238" y="76" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">tiled · qualification log</text>
+          <text x="238" y="120" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">visible_surface: true</text>
+        </g>
+
+        <g transform="translate(20, 222)">
+          <rect width="440" height="80" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="15" y="24" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#667085">WORKSPACE 2 · INACTIVE</text>
+          <text x="15" y="45" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418">Documentation: Zotero &amp; Architecture Specs</text>
+          <text x="15" y="62" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#A1A6AD">surfaces: 2 preserved · rendering: suspended</text>
+        </g>
+
+        <g transform="translate(20, 314)">
+          <rect width="440" height="80" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="15" y="24" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#667085">WORKSPACE 3 · INACTIVE</text>
+          <text x="15" y="45" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418">Diagnostics: Systemd journal &amp; btop</text>
+          <text x="15" y="62" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#A1A6AD">surfaces: 1 preserved · rendering: suspended</text>
+        </g>
+      </g>
+
+      <g transform="translate(570, 60)">
+        <rect width="480" height="415" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="480" height="42" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="26" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Display DP-1 · Studio 4K (3840×2160)</text>
+        <rect x="340" y="10" width="125" height="22" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="348" y="25" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#2446A8">output://studio-4k</text>
+
+        <g transform="translate(20, 55)">
+          <rect width="440" height="155" rx="6" fill="#F7F3ED" stroke="#4169E1" stroke-width="1.6"/>
+          <rect width="440" height="26" rx="6" fill="#E8EDFF"/>
+          <text x="15" y="18" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#2446A8">WORKSPACE 4 · ACTIVE ON DISPLAY 2</text>
+
+          <rect x="15" y="38" width="410" height="100" rx="4" fill="#FFFFFF" stroke="#4169E1" stroke-width="1.2"/>
+          <text x="28" y="60" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">BrowserOS neo · Web Research Surface</text>
+          <text x="28" y="78" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">fullscreen-tile · active on studio monitor</text>
+          <text x="28" y="120" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#2446A8">cross-output focus switchable</text>
+        </g>
+
+        <g transform="translate(20, 222)">
+          <rect width="440" height="80" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="15" y="24" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#667085">WORKSPACE 5 · INACTIVE</text>
+          <text x="15" y="45" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418">Communication: Slack &amp; Zulip Client</text>
+          <text x="15" y="62" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#A1A6AD">surfaces: 2 preserved</text>
+        </g>
+
+        <g transform="translate(20, 314)">
+          <rect width="440" height="80" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="15" y="24" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#667085">WORKSPACE 6 · EMPTY ENVELOPE</text>
+          <text x="15" y="45" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#A1A6AD">Unallocated Workspace Slot</text>
+          <text x="15" y="62" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#A1A6AD">ready for on-demand allocation</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 490)">
+        <rect width="1000" height="60" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="25" y="26" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">DURABLE LOGICAL OUTPUT CONTRACT</text>
+        <text x="25" y="45" font-family="'Space Grotesk', sans-serif" font-size="11.5" fill="#111418">Transient Wayland output names (eDP-1, DP-1) map to persistent logical identities via in-gnu-os-output-identity.</text>
+        <text x="730" y="38" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#667085">Hotplug resilience: Qualified</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

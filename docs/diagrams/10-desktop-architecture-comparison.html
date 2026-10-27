@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desktop Architecture · Traditional Shells vs gnosix · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: architecture-delta · Comparative Architecture</p>
+    <h1>Desktop Architecture · Traditional Shells vs gnosix</h1>
+    <p class="subtitle">Contrasting monolithic implicit authority with gnosix's decoupled native planes.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">Desktop Architecture · Traditional Shells vs gnosix</title>
+      <desc id="dia-desc">Contrasting monolithic implicit authority with gnosix's decoupled native planes.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">COMPARATIVE ARCHITECTURE · MONOLITHIC SHELL VS GNOSIX</text>
+
+      <g transform="translate(50, 65)">
+        <rect width="470" height="435" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="470" height="40" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="25" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700" fill="#111418">Traditional Linux Desktop Shell</text>
+        <text x="260" y="25" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#A1A6AD">GNOME / KDE / SWAY</text>
+
+        <g transform="translate(20, 55)">
+          <rect width="430" height="180" rx="6" fill="#F7F3ED" stroke="#D7DADF" stroke-width="1.2"/>
+          <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#667085">MONOLITHIC SINGLE PROCESS MEMORY SPACE</text>
+
+          <rect x="15" y="40" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="61" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">UI Presentation &amp; Panels</text>
+
+          <rect x="220" y="40" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="230" y="61" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">Wayland Compositor Core</text>
+
+          <rect x="15" y="82" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="103" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">JavaScript Extensions</text>
+
+          <rect x="220" y="82" width="190" height="34" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="230" y="103" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">Ambient D-Bus System Mutator</text>
+
+          <rect x="15" y="124" width="395" height="34" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="145" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">Direct Process Spawner (Fork/Exec Parent of All Apps)</text>
+        </g>
+
+        <g transform="translate(20, 255)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#C95400">Architectural Pitfalls:</text>
+          <text x="0" y="36" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">❌ A crash in an extension or UI widget kills the entire session.</text>
+          <text x="0" y="54" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">❌ All launched applications terminate when the shell restarts.</text>
+          <text x="0" y="72" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">❌ Ambient authority: UI widgets have unrestricted root/system writes.</text>
+          <text x="0" y="90" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">❌ Transient output names break workspace multi-monitor layout.</text>
+        </g>
+      </g>
+
+      <g transform="translate(580, 65)">
+        <rect width="470" height="435" rx="8" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.8"/>
+        <rect width="470" height="40" rx="8" fill="#FFE5D2"/>
+        <text x="20" y="25" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700" fill="#111418">gnosix Decoupled Native Architecture</text>
+        <text x="320" y="25" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">LOCAL-FIRST LINUX</text>
+
+        <g transform="translate(20, 55)">
+          <rect width="430" height="45" rx="5" fill="#F7F3ED" stroke="#FF6A00" stroke-width="1.2"/>
+          <text x="16" y="20" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Plane 1 · gnos.ux (GPUI Presentation Host)</text>
+          <text x="16" y="34" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">zero writer powers · layer-shell native rendering</text>
+
+          <rect y="52" width="430" height="45" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="16" y="72" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Plane 2 · gnosix-desktop-model (Pure Semantics)</text>
+          <text x="16" y="86" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">deterministic geometry &amp; focus · zero compositor mutations</text>
+
+          <rect y="104" width="430" height="45" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="16" y="124" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Plane 3 · in.gnu.os (Bounded Mutation Daemons)</text>
+          <text x="16" y="138" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">typed admission · SO_PEERCRED auth · fail-closed CAS</text>
+
+          <rect y="156" width="430" height="45" rx="5" fill="#F7F3ED" stroke="#4169E1" stroke-width="1.2"/>
+          <text x="16" y="176" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Plane 4 · systemd User Manager (Process Lifetimes)</text>
+          <text x="16" y="190" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#2446A8">apps run in independent scopes · immune to UI crashes</text>
+        </g>
+
+        <g transform="translate(20, 268)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#C95400">gnosix Guarantees:</text>
+          <text x="0" y="36" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">✔ Shell UI can restart seamlessly without dropping running apps.</text>
+          <text x="0" y="54" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">✔ Zero ambient authority: all system mutations are strictly authenticated.</text>
+          <text x="0" y="72" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418">✔ Durable logical IDs keep multi-monitor setups stable on hotplug.</text>
+          <text x="0" y="90" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">Verified by: cargo xtask ci qualification ledger</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 515)">
+        <rect width="1000" height="45" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="25" y="28" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">DELTA VERDICT: ARCHITECTURAL INTEGRITY OVER IMPLICIT CONVENIENCE</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

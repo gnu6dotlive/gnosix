@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gnosix · Complete Architecture &amp; UX Diagram Suite</title>
+  <style>
+    :root {
+      --ds-shell-white: #F7F3ED;
+      --ds-pure-white: #FFFFFF;
+      --ds-anthracite: #111418;
+      --ds-hairline: #D7DADF;
+      --ds-quiet-divider: #E6E8EB;
+      --ds-muted: #A1A6AD;
+      --ds-slate: #667085;
+      --ds-signal-orange: #FF6A00;
+      --ds-signal-orange-700: #C95400;
+      --ds-signal-orange-100: #FFE5D2;
+      --ds-beret-green: #5F7F52;
+      --ds-beret-green-100: #E8EFE5;
+      --ds-royal-blue: #4169E1;
+      --ds-royal-blue-100: #E8EDFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ds-shell-white);
+      color: var(--ds-anthracite);
+      font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 3rem 2rem 5rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--ds-hairline);
+    }
+
+    .badge-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-primary {
+      background-color: var(--ds-signal-orange);
+      color: var(--ds-anthracite);
+    }
+
+    .badge-secondary {
+      background-color: var(--ds-hairline);
+      color: var(--ds-anthracite);
+    }
+
+    .badge-system {
+      background-color: var(--ds-anthracite);
+      color: #FFFFFF;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ds-anthracite);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--ds-slate);
+      max-width: 860px;
+    }
+
+    /* Tab Switcher */
+    .tabs-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 2px solid var(--ds-quiet-divider);
+      padding-bottom: 0.25rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 0.625rem 1.25rem;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      color: var(--ds-slate);
+      position: relative;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--ds-anthracite);
+      background: rgba(17, 20, 24, 0.03);
+    }
+
+    .tab-btn.active {
+      color: var(--ds-anthracite);
+      font-weight: 700;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--ds-signal-orange);
+      border-radius: 2px;
+    }
+
+    .tab-count {
+      display: inline-block;
+      margin-left: 0.4rem;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.75rem;
+      border-radius: 10px;
+      background: var(--ds-hairline);
+      color: var(--ds-anthracite);
+    }
+
+    .tab-btn.active .tab-count {
+      background: var(--ds-signal-orange-100);
+      color: var(--ds-signal-orange-700);
+      font-weight: 700;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ds-anthracite);
+    }
+
+    .section-desc {
+      font-size: 0.9375rem;
+      color: var(--ds-slate);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .card {
+      background-color: var(--ds-pure-white);
+      border: 1px solid var(--ds-hairline);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(17, 20, 24, 0.06);
+      border-color: var(--ds-signal-orange);
+    }
+
+    .card-preview {
+      background-color: #FAF8F5;
+      border-bottom: 1px solid var(--ds-quiet-divider);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+    }
+
+    .card-preview img {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.03));
+    }
+
+    .card-body {
+      padding: 1.25rem 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--ds-signal-orange-700);
+      letter-spacing: 0.05em;
+    }
+
+    .card-type {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--ds-slate);
+      text-transform: uppercase;
+      background: var(--ds-shell-white);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid var(--ds-hairline);
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--ds-anthracite);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--ds-slate);
+      line-height: 1.45;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--ds-quiet-divider);
+    }
+
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--ds-anthracite);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background-color: #000000;
+    }
+
+    .btn-secondary {
+      background-color: var(--ds-shell-white);
+      color: var(--ds-anthracite);
+      border: 1px solid var(--ds-hairline);
+    }
+
+    .btn-secondary:hover {
+      background-color: #ECE7DE;
+      border-color: var(--ds-muted);
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--ds-hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--ds-slate);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-spec {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-spec span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--ds-signal-orange);
+      display: inline-block;
+    }
+
+    .dot-green {
+      background-color: var(--ds-beret-green);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge-bar">
+        <span class="badge badge-primary">Gnosix-DS-V3.4.1</span>
+        <span class="badge badge-system">24 Specifications</span>
+        <span class="badge badge-secondary">diagram-design Verified</span>
+      </div>
+      <h1>gnosix Architecture &amp; UX Visual Specifications</h1>
+      <p class="subtitle">
+        Comprehensive two-volume engineering diagram suite for gnosix: native Wayland desktop topology, four-plane authority architecture, pure deterministic state reconciliation, and fail-closed security invariants.
+      </p>
+    </header>
+
+    <!-- Tab Filter -->
+    <div class="tabs-bar">
+      <button class="tab-btn active" onclick="switchTab('vol2', this)">Volume II: Systems &amp; Authority <span class="tab-count">14</span></button>
+      <button class="tab-btn" onclick="switchTab('vol1', this)">Volume I: Desktop &amp; Surface UX <span class="tab-count">10</span></button>
+      <button class="tab-btn" onclick="switchTab('all', this)">All Diagrams <span class="tab-count">24</span></button>
+    </div>
+
+    <!-- VOLUME II SECTION -->
+    <div id="section-vol2">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Volume II · Systems &amp; Authority Architecture</h2>
+          <p class="section-desc">Exhaustive protocol flows, authority boundaries, CAS profiles, input arbitration, and fail-closed invariants.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 01 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/01-four-plane-architecture.svg" alt="Four-Plane System Architecture">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 01/14</span>
+              <span class="card-type">high-level</span>
+            </div>
+            <h3 class="card-title">Four-Plane System Architecture</h3>
+            <p class="card-desc">Decoupling Semantic Observation, Durable State, Native Presentation, and Mutation Authority.</p>
+            <div class="card-actions">
+              <a href="systems/01-four-plane-architecture.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/01-four-plane-architecture.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/02-authority-matrix-ledger.svg" alt="Explicit Authority Ledger">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 02/14</span>
+              <span class="card-type">high-level</span>
+            </div>
+            <h3 class="card-title">Explicit Authority Ledger</h3>
+            <p class="card-desc">Mapping domain ownership vs non-implication invariants across all core subsystems (AUTHORITY.md).</p>
+            <div class="card-actions">
+              <a href="systems/02-authority-matrix-ledger.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/02-authority-matrix-ledger.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/03-desktop-model-reconciliation.svg" alt="Desktop Model State Reconciliation">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 03/14</span>
+              <span class="card-type">data-flow</span>
+            </div>
+            <h3 class="card-title">Desktop Model Reconciliation</h3>
+            <p class="card-desc">Pure deterministic state reconciliation of outputs, workspaces, and window surface topologies.</p>
+            <div class="card-actions">
+              <a href="systems/03-desktop-model-reconciliation.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/03-desktop-model-reconciliation.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/04-hyprland-observation-adapter.svg" alt="Compositor Observation Adapter">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 04/14</span>
+              <span class="card-type">process</span>
+            </div>
+            <h3 class="card-title">Compositor Observation Adapter</h3>
+            <p class="card-desc">Event streams as wake-up triggers versus full socket snapshots as runtime truth (gnosix-hyprland).</p>
+            <div class="card-actions">
+              <a href="systems/04-hyprland-observation-adapter.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/04-hyprland-observation-adapter.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/05-caller-auth-boundary.svg" alt="D-Bus Caller Authentication Boundary">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 05/14</span>
+              <span class="card-type">sequence</span>
+            </div>
+            <h3 class="card-title">Caller Authentication Boundary</h3>
+            <p class="card-desc">Verifying peer UID, systemd session slice, and executable provenance before request admission.</p>
+            <div class="card-actions">
+              <a href="systems/05-caller-auth-boundary.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/05-caller-auth-boundary.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 06 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/06-typed-activation-protocol.svg" alt="Typed Activation Protocol">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 06/14</span>
+              <span class="card-type">flowchart</span>
+            </div>
+            <h3 class="card-title">Typed Activation Protocol</h3>
+            <p class="card-desc">Strict typed payload admission, freshness boundary validation, and bounded compositor dispatch.</p>
+            <div class="card-actions">
+              <a href="systems/06-typed-activation-protocol.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/06-typed-activation-protocol.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/07-app-launch-systemd-lifecycle.svg" alt="Application Launch Lifecycle">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 07/14</span>
+              <span class="card-type">process</span>
+            </div>
+            <h3 class="card-title">App Launch &amp; Process Isolation</h3>
+            <p class="card-desc">Transient systemd user scopes ensuring launched applications outlive presentation crash or restart.</p>
+            <div class="card-actions">
+              <a href="systems/07-app-launch-systemd-lifecycle.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/07-app-launch-systemd-lifecycle.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/08-durable-output-identity.svg" alt="Durable Output Identity Resolution">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 08/14</span>
+              <span class="card-type">data-flow</span>
+            </div>
+            <h3 class="card-title">Durable Output Identity Resolution</h3>
+            <p class="card-desc">Mapping volatile compositor connectors to cryptographic hardware identities with fail-closed resolution.</p>
+            <div class="card-actions">
+              <a href="systems/08-durable-output-identity.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/08-durable-output-identity.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 09 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/09-cas-profile-store.svg" alt="Content-Addressed Profile Store">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 09/14</span>
+              <span class="card-type">process</span>
+            </div>
+            <h3 class="card-title">Content-Addressed Profile Store</h3>
+            <p class="card-desc">Cryptographic CAS revisions, transactional pointer updates, and read-only presentation projection.</p>
+            <div class="card-actions">
+              <a href="systems/09-cas-profile-store.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/09-cas-profile-store.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/10-input-observation-arbitration.svg" alt="Input Observation & Arbitration">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 10/14</span>
+              <span class="card-type">data-flow</span>
+            </div>
+            <h3 class="card-title">Input Observation &amp; Arbitration</h3>
+            <p class="card-desc">Passive evdev tap for gesture recognition without synthetic event injection authority.</p>
+            <div class="card-actions">
+              <a href="systems/10-input-observation-arbitration.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/10-input-observation-arbitration.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 11 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/11-presentation-intent-pipeline.svg" alt="Presentation Intent Pipeline">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 11/14</span>
+              <span class="card-type">flowchart</span>
+            </div>
+            <h3 class="card-title">Presentation Intent Dual Pipeline</h3>
+            <p class="card-desc">Optimistic local spring animations paired with asynchronous typed mutation and authoritative reconciliation.</p>
+            <div class="card-actions">
+              <a href="systems/11-presentation-intent-pipeline.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/11-presentation-intent-pipeline.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 12 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/12-settings-read-mutation-model.svg" alt="Settings Store Architecture">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 12/14</span>
+              <span class="card-type">data-flow</span>
+            </div>
+            <h3 class="card-title">Settings Store: Read vs Mutation</h3>
+            <p class="card-desc">Typed schema contracts, reactive read-model projections, and isolated mutation admission.</p>
+            <div class="card-actions">
+              <a href="systems/12-settings-read-mutation-model.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/12-settings-read-mutation-model.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 13 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/13-rear-plane-gnoshow-isolation.svg" alt="gnoshow Rear-Plane Isolation">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 13/14</span>
+              <span class="card-type">architecture-delta</span>
+            </div>
+            <h3 class="card-title">gnoshow Rear-Plane Isolation</h3>
+            <p class="card-desc">Decoupled wallpaper/substrate rendering independent from desktop semantics and shell state.</p>
+            <div class="card-actions">
+              <a href="systems/13-rear-plane-gnoshow-isolation.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/13-rear-plane-gnoshow-isolation.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 14 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="systems/14-fail-closed-invariants.svg" alt="Architectural Invariants & Fail-Closed Guardrails">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL II · 14/14</span>
+              <span class="card-type">decision-tree</span>
+            </div>
+            <h3 class="card-title">Fail-Closed Safety Invariants</h3>
+            <p class="card-desc">Operational enforcement of the 8 gnosix architectural invariants under adverse runtime conditions.</p>
+            <div class="card-actions">
+              <a href="systems/14-fail-closed-invariants.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="systems/14-fail-closed-invariants.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOLUME I SECTION -->
+    <div id="section-vol1" class="hidden">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Volume I · Desktop &amp; Surface UX</h2>
+          <p class="section-desc">Presentation topology, AppStack window layouts, system bar indicators, dock launch, and input routing.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 01 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="01-platform-vision.svg" alt="Platform Architecture Vision">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 01/10</span>
+              <span class="card-type">high-level</span>
+            </div>
+            <h3 class="card-title">Platform Architecture Vision</h3>
+            <p class="card-desc">End-to-end system taxonomy highlighting native Wayland protocol planes, the gnosix Compositor Core, and IPC boundaries.</p>
+            <div class="card-actions">
+              <a href="01-platform-vision.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="01-platform-vision.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="02-surface-anatomy.svg" alt="Desktop Surface Topology">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 02/10</span>
+              <span class="card-type">exploded</span>
+            </div>
+            <h3 class="card-title">Desktop Surface Topology</h3>
+            <p class="card-desc">Exploded layer stack demonstrating z-index order from background canvas to AppStack surface plane, top bar, and active popups.</p>
+            <div class="card-actions">
+              <a href="02-surface-anatomy.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="02-surface-anatomy.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="03-workspace-envelope.svg" alt="Workspace Envelope & Layout Bounds">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 03/10</span>
+              <span class="card-type">nested</span>
+            </div>
+            <h3 class="card-title">Workspace Envelope &amp; Bounds</h3>
+            <p class="card-desc">Spatial boundaries enclosing usable window geometry, strut exclusions for system bars, and multi-monitor viewport margins.</p>
+            <div class="card-actions">
+              <a href="03-workspace-envelope.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="03-workspace-envelope.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="04-appstack-window-model.svg" alt="AppStack Window Lifecycle">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 04/10</span>
+              <span class="card-type">flowchart</span>
+            </div>
+            <h3 class="card-title">AppStack Window Lifecycle</h3>
+            <p class="card-desc">Lifecycle transitions from process launch to map, workspace layout slotting, minimized state, and termination teardown.</p>
+            <div class="card-actions">
+              <a href="04-appstack-window-model.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="04-appstack-window-model.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="05-dock-launcher-flow.svg" alt="Dock & Application Launcher Flow">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 05/10</span>
+              <span class="card-type">process</span>
+            </div>
+            <h3 class="card-title">Dock &amp; Launcher Flow</h3>
+            <p class="card-desc">Process pipeline detailing input dispatch, fuzzy desktop index querying, permission boundaries, and surface spawning.</p>
+            <div class="card-actions">
+              <a href="05-dock-launcher-flow.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="05-dock-launcher-flow.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 06 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="06-bar-system-indicators.svg" alt="System Bar & Tray Indicators">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 06/10</span>
+              <span class="card-type">high-level</span>
+            </div>
+            <h3 class="card-title">System Bar &amp; Tray Indicators</h3>
+            <p class="card-desc">Modular decomposition of the top status bar: workspace pager, audio/network status blocks, and quick settings toggles.</p>
+            <div class="card-actions">
+              <a href="06-bar-system-indicators.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="06-bar-system-indicators.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="07-input-geometry-interaction.svg" alt="Input Geometry & Focus Routing">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 07/10</span>
+              <span class="card-type">data-flow</span>
+            </div>
+            <h3 class="card-title">Input Geometry &amp; Focus Routing</h3>
+            <p class="card-desc">Data flow from evdev events through libinput, gesture recognition, coordinate mapping, and client surface focus targets.</p>
+            <div class="card-actions">
+              <a href="07-input-geometry-interaction.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="07-input-geometry-interaction.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="08-workspace-switch-sequence.svg" alt="Workspace Switch Sequence">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 08/10</span>
+              <span class="card-type">sequence</span>
+            </div>
+            <h3 class="card-title">Workspace Switch Sequence</h3>
+            <p class="card-desc">Chronological sequence diagram of gesture inputs, animation easing clock dispatch, and buffer commits during transitions.</p>
+            <div class="card-actions">
+              <a href="08-workspace-switch-sequence.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="08-workspace-switch-sequence.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 09 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="09-display-profiles-lifecycle.svg" alt="Display Configuration & Hotplug Lifecycle">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 09/10</span>
+              <span class="card-type">process</span>
+            </div>
+            <h3 class="card-title">Display Hotplug Lifecycle</h3>
+            <p class="card-desc">DRM uevent pipeline handling display connection, EDID negotiation, profile matching, and live surface repositioning.</p>
+            <div class="card-actions">
+              <a href="09-display-profiles-lifecycle.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="09-display-profiles-lifecycle.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10 -->
+        <div class="card">
+          <div class="card-preview">
+            <img src="10-desktop-architecture-comparison.svg" alt="Traditional Shells vs gnosix Architecture">
+          </div>
+          <div class="card-body">
+            <div class="card-header-row">
+              <span class="card-num">VOL I · 10/10</span>
+              <span class="card-type">architecture-delta</span>
+            </div>
+            <h3 class="card-title">Architecture Delta vs Shells</h3>
+            <p class="card-desc">Comparative analysis highlighting monolithic plugin architectures vs gnosix's decoupled, isolated protocol contracts.</p>
+            <div class="card-actions">
+              <a href="10-desktop-architecture-comparison.html" class="btn btn-primary">Open Diagram (HTML)</a>
+              <a href="10-desktop-architecture-comparison.svg" class="btn btn-secondary">Raw SVG</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-spec">
+        <span><span class="dot"></span> Design System: <strong>Gnosix-DS-V3.4.1</strong></span>
+        <span>Typography: <strong>Space Grotesk</strong></span>
+        <span><span class="dot dot-green"></span> Standard: <strong>diagram-design v2.6.73 Verified</strong></span>
+      </div>
+      <div>
+        gnosix Platform Specifications · Complete Two-Volume Systems &amp; UX Collection
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(vol, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const secVol1 = document.getElementById('section-vol1');
+      const secVol2 = document.getElementById('section-vol2');
+
+      if (vol === 'vol1') {
+        secVol1.classList.remove('hidden');
+        secVol2.classList.add('hidden');
+      } else if (vol === 'vol2') {
+        secVol1.classList.add('hidden');
+        secVol2.classList.remove('hidden');
+      } else {
+        secVol1.classList.remove('hidden');
+        secVol2.classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

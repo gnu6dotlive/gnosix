@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Dock &amp; Application Launch Pipeline · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: process · Execution Flow</p>
+    <h1>gnosix · Dock &amp; Application Launch Pipeline</h1>
+    <p class="subtitle">From user click in the Dock to independent systemd user scope execution.</p>
+
+    <svg viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Dock &amp; Application Launch Pipeline</title>
+      <desc id="dia-desc">From user click in the Dock to independent systemd user scope execution.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="560" fill="#F7F3ED"/>
+      <rect width="1100" height="560" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">APPLICATION LAUNCH PIPELINE</text>
+
+      <g transform="translate(50, 70)">
+        <g transform="translate(0, 0)">
+          <rect width="180" height="260" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">01 · USER ACTION</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Dock Interaction</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">User clicks app icon</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">or enters query in</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">launcher prompt.</text>
+
+          <rect x="12" y="145" width="156" height="90" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="165" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">ORIGIN HOST</text>
+          <text x="20" y="183" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">gnos-ux-dock</text>
+          <text x="20" y="200" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">unprivileged UI</text>
+        </g>
+
+        <path d="M 180 130 L 205 130" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(205, 0)">
+          <rect width="180" height="260" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">02 · INTENT FORM</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Typed Launch Intent</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Generates typed</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">contract rather than</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">raw shell strings.</text>
+
+          <rect x="12" y="145" width="156" height="90" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="165" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">PAYLOAD</text>
+          <text x="20" y="183" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">app_id: "terminal"</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">target_ws: 1</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">freshness_ns: u64</text>
+        </g>
+
+        <path d="M 385 130 L 410 130" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(410, 0)">
+          <rect width="180" height="260" rx="6" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.6"/>
+          <rect width="180" height="34" rx="6" fill="#FFE5D2"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">03 · CALLER AUTH</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">in-gnu-os-activation</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Unix domain socket</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">authenticates caller</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">credentials.</text>
+
+          <rect x="12" y="145" width="156" height="90" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="165" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">SECURITY CHECK</text>
+          <text x="20" y="183" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#111418">SO_PEERCRED check</text>
+          <text x="20" y="198" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">session UID verified</text>
+          <text x="20" y="213" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">unit: gnos-ux-scene</text>
+        </g>
+
+        <path d="M 590 130 L 615 130" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(615, 0)">
+          <rect width="180" height="260" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">04 · CATALOGUE CHECK</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Catalog Lookup</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Validates entry against</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">gnosix application</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">trusted catalog.</text>
+
+          <rect x="12" y="145" width="156" height="90" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="165" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">VERIFICATION</text>
+          <text x="20" y="183" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Validated Exec</text>
+          <text x="20" y="200" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">no bash eval / injection</text>
+        </g>
+
+        <path d="M 795 130 L 820 130" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+        <g transform="translate(820, 0)">
+          <rect width="180" height="260" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="180" height="34" rx="6" fill="#F7F3ED"/>
+          <text x="14" y="22" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">05 · DISPATCH SCOPE</text>
+          <text x="14" y="58" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">systemd User Scope</text>
+          <text x="14" y="76" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Launches under</text>
+          <text x="14" y="90" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">user manager with</text>
+          <text x="14" y="104" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">isolated cgroup.</text>
+
+          <rect x="12" y="145" width="156" height="90" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="20" y="165" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#A1A6AD">EXECUTION SCOPE</text>
+          <text x="20" y="183" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#2446A8">app-terminal.scope</text>
+          <text x="20" y="200" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Independent lifetime</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 365)">
+        <rect width="1000" height="150" rx="8" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.5"/>
+        <rect width="1000" height="32" rx="8" fill="#FFE5D2"/>
+        <text x="20" y="21" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#111418">PROCESS LIFETIME ISOLATION CONTRACT</text>
+
+        <g transform="translate(25, 50)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Why This Architecture Matters for Desktop Reliability:</text>
+          <text x="0" y="38" font-family="'Space Grotesk', sans-serif" font-size="11.5" fill="#667085">• In standard shells (GNOME / KDE), launching an app inherits the shell process tree or uses ambient D-Bus daemon forks.</text>
+          <text x="0" y="58" font-family="'Space Grotesk', sans-serif" font-size="11.5" fill="#667085">• If the gnos-ux-scene UI restarts or crashes, your launched terminal, code editor, or browser remains 100% unaffected.</text>
+          <text x="0" y="78" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">Guaranteed by: in-gnu-os-activation → systemd user manager lifecycle qualification</text>
+        </g>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

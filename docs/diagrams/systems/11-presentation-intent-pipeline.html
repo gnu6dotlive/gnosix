@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Dual-Path Presentation Intent Pipeline · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: flowchart · Latency &amp; Authority</p>
+    <h1>gnosix · Dual-Path Presentation Intent Pipeline</h1>
+    <p class="subtitle">Optimistic local spring animations paired with asynchronous typed mutation and authoritative reconciliation.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Dual-Path Presentation Intent Pipeline</title>
+      <desc id="dia-desc">Optimistic local spring animations paired with asynchronous typed mutation and authoritative reconciliation.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 11/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">gnos-ux-product-intent · Zero-Latency Optimism &amp; Mutation Sync</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <!-- User Input Trigger -->
+      <g transform="translate(60, 110)">
+        <rect width="210" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="210" height="36" rx="8" fill="#111418"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">USER INTERACTION</text>
+        <text x="18" y="62" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Dock Click / Gesture</text>
+
+        <rect x="15" y="85" width="180" height="110" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="108" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Trigger Event:</text>
+        <text x="25" y="128" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● Click Workspace '4'</text>
+        <text x="25" y="146" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● Target output: DP-1</text>
+        <text x="25" y="164" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">● Current active: '1'</text>
+        <text x="25" y="185" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#C95400">Emits ProductIntent</text>
+
+        <rect x="15" y="210" width="180" height="145" rx="6" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="232" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">DUAL DISPATCH:</text>
+        <text x="25" y="252" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">gnos.ux splits the intent</text>
+        <text x="25" y="270" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">into an instantaneous local</text>
+        <text x="25" y="288" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">spring animation and an</text>
+        <text x="25" y="306" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">asynchronous typed IPC</text>
+        <text x="25" y="324" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">mutation request.</text>
+      </g>
+
+      <!-- Fork Lines -->
+      <line x1="270" y1="180" x2="350" y2="180" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+      <line x1="270" y1="310" x2="350" y2="310" stroke="#2446A8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+      <!-- Path A: Optimistic Local Presentation -->
+      <g transform="translate(350, 110)">
+        <rect width="360" height="150" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="360" height="32" rx="8" fill="#FFE5D2"/>
+        <text x="18" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400">PATH A · OPTIMISTIC LOCAL PRESENTATION (0ms)</text>
+        <text x="18" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">GPUI Spring Animation Pipeline</text>
+        <text x="18" y="75" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Immediately starts workspace slide curve (60/120 FPS fluid render)</text>
+        <rect x="15" y="90" width="330" height="48" rx="4" fill="#F7F3ED"/>
+        <text x="25" y="110" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="600" fill="#455F3D">✔ Perceived Latency: Absolute Zero (Instant UI response)</text>
+        <text x="25" y="126" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Indicator pill snaps; envelope transition eases</text>
+      </g>
+
+      <!-- Path B: Authoritative Mutation -->
+      <g transform="translate(350, 280)">
+        <rect width="360" height="200" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="360" height="32" rx="8" fill="#E8EDFF"/>
+        <text x="18" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#2446A8">PATH B · AUTHORITATIVE MUTATION (~12ms)</text>
+        <text x="18" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#111418">in-gnu-os-activation Dispatch</text>
+
+        <rect x="15" y="70" width="330" height="70" rx="4" fill="#F7F3ED"/>
+        <text x="25" y="90" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#111418">Execution Flow:</text>
+        <text x="25" y="106" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">1. Peer qualification -> 2. Freshness verify -> 3. Compositor commit</text>
+        <text x="25" y="122" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#455F3D">4. Hyprland updates workspace mapping -> Emits event</text>
+
+        <rect x="15" y="150" width="330" height="38" rx="4" fill="#FAF8F5" stroke="#E6E8EB"/>
+        <text x="25" y="172" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#2446A8">gnosix-hyprland fetches fresh snapshot (Socket 1)</text>
+      </g>
+
+      <!-- Reconcile Line -->
+      <line x1="710" y1="290" x2="790" y2="290" stroke="#FF6A00" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+      <!-- Reconcile / Convergence Box -->
+      <g transform="translate(790, 110)">
+        <rect width="250" height="370" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <rect width="250" height="36" rx="8" fill="#E8EFE5"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#455F3D">RECONCILIATION</text>
+        <text x="18" y="62" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">State Convergence</text>
+
+        <rect x="15" y="85" width="220" height="130" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="108" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#455F3D">Normal Path (Match):</text>
+        <text x="25" y="130" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Fresh compositor state arrives.</text>
+        <text x="25" y="148" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Confirmed workspace == '4'.</text>
+        <text x="25" y="166" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Local animation seamlessly</text>
+        <text x="25" y="184" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">locks to authoritative state.</text>
+
+        <rect x="15" y="225" width="220" height="135" rx="6" fill="#FFE5D2"/>
+        <text x="25" y="248" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">Mismatch (Rollback):</text>
+        <text x="25" y="268" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#111418">If mutation was rejected,</text>
+        <text x="25" y="286" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#111418">gnos.ux smoothly eases the</text>
+        <text x="25" y="304" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#111418">spring animation back to '1'.</text>
+        <text x="25" y="330" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#C95400">Zero Ghost State</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Input Observation &amp; Geometry Reservation · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: data-flow · Spatial Hit-Testing</p>
+    <h1>gnosix · Input Observation &amp; Geometry Reservation</h1>
+    <p class="subtitle">Input region mapping, margin reservations, and safe hit-testing.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Input Observation &amp; Geometry Reservation</title>
+      <desc id="dia-desc">Input region mapping, margin reservations, and safe hit-testing.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">INPUT GEOMETRY &amp; HIT-TESTING PIPELINE</text>
+
+      <g transform="translate(50, 70)">
+        <rect width="240" height="390" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="240" height="38" rx="8" fill="#F7F3ED"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Wayland Seat Input</text>
+
+        <g transform="translate(18, 55)">
+          <rect width="204" height="60" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="12" y="22" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Pointer Events</text>
+          <text x="12" y="38" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">wl_pointer motion &amp; button</text>
+          <text x="12" y="50" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">scroll &amp; hover coordinates</text>
+
+          <rect y="75" width="204" height="60" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="12" y="22" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Keyboard Events</text>
+          <text x="12" y="38" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">wl_keyboard key &amp; modifiers</text>
+          <text x="12" y="50" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">xkb common keymap sync</text>
+
+          <rect y="150" width="204" height="60" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="12" y="22" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Touch &amp; Gestures</text>
+          <text x="12" y="38" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">pinch, swipe, 3-finger drag</text>
+          <text x="12" y="50" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">spatial workspace switch</text>
+
+          <text x="0" y="240" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#A1A6AD">Ingress: Linux evdev → Compositor</text>
+        </g>
+      </g>
+
+      <path d="M 290 260 L 330 260" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+      <g transform="translate(330, 70)">
+        <rect width="440" height="390" rx="8" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.6"/>
+        <rect width="440" height="38" rx="8" fill="#FFE5D2"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">gnosix-input-core · Resolved Geometry</text>
+
+        <g transform="translate(20, 55)">
+          <rect width="400" height="230" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+
+          <rect width="400" height="26" fill="#FFE5D2" stroke="#FF6A00" stroke-width="1"/>
+          <text x="10" y="17" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#111418">EXCLUSIVE ZONE: BAR (32px)</text>
+
+          <rect x="15" y="38" width="370" height="135" rx="4" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="60" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Usable Workspace Canvas (AppStack)</text>
+          <text x="25" y="76" font-family="'Space Grotesk', sans-serif" font-size="9.5" fill="#667085">Window rects clipped exactly to safe margins</text>
+
+          <rect x="25" y="90" width="160" height="70" rx="3" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="35" y="110" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Window A (Active)</text>
+          <text x="35" y="125" font-family="'Space Grotesk', sans-serif" font-size="7.5" font-weight="600" fill="#C95400">receives input</text>
+
+          <rect x="195" y="90" width="185" height="70" rx="3" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="205" y="110" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Window B (Visible)</text>
+          <text x="205" y="125" font-family="'Space Grotesk', sans-serif" font-size="7.5" fill="#667085">passive hit-test</text>
+
+          <rect x="100" y="185" width="200" height="35" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="120" y="206" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#667085">DOCK OVERLAY ZONE</text>
+        </g>
+
+        <g transform="translate(20, 305)">
+          <text x="0" y="15" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#111418">INVARIANT: ACCIDENTAL CLICK PROTECTION</text>
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Layer-shell input regions strictly match visually painted bounds.</text>
+          <text x="0" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Transparent container padding never traps or absorbs clicks.</text>
+        </g>
+      </g>
+
+      <path d="M 770 260 L 810 260" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+      <g transform="translate(810, 70)">
+        <rect width="240" height="390" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="240" height="38" rx="8" fill="#F7F3ED"/>
+        <text x="18" y="24" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Event Dispatch Targets</text>
+
+        <g transform="translate(18, 55)">
+          <rect width="204" height="85" rx="5" fill="#F7F3ED" stroke="#FF6A00" stroke-width="1"/>
+          <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Shell Controls</text>
+          <text x="12" y="42" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Bar pills, Dock icons, menus</text>
+          <text x="12" y="60" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">handled in gnos-ux-scene</text>
+
+          <rect y="105" width="204" height="85" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Client Surfaces</text>
+          <text x="12" y="42" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">Terminal, Browser, Editor</text>
+          <text x="12" y="60" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">forwarded via Wayland wl_seat</text>
+
+          <rect y="210" width="204" height="85" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+          <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Spatial Gestures</text>
+          <text x="12" y="42" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Global swipe between desks</text>
+          <text x="12" y="60" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#2446A8">admitted typed switch</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 480)">
+        <rect width="1000" height="65" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="25" y="26" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">SECURITY CONTRACT: EXPLICIT HIT-TESTING BOUNDARY</text>
+        <text x="25" y="46" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418">Unlike traditional X11/Wayland shells where invisible windows could swallow clicks, gnosix binds input regions strictly to the verified desktop model geometry.</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

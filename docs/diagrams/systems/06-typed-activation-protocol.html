@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Typed Activation &amp; Freshness Protocol · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: flowchart · Admission Protocol</p>
+    <h1>gnosix · Typed Activation &amp; Freshness Protocol</h1>
+    <p class="subtitle">Strict typed payload admission, freshness boundary validation, and bounded compositor dispatch.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Typed Activation &amp; Freshness Protocol</title>
+      <desc id="dia-desc">Strict typed payload admission, freshness boundary validation, and bounded compositor dispatch.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">SYSTEMS &amp; AUTHORITY · VOL II · 06/14</text>
+      <text x="350" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">in-gnu-os-activation · Freshness &amp; Type Safety</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+    
+      <!-- Flowchart Boxes -->
+      <!-- Node 1: Inbound Request -->
+      <g transform="translate(60, 110)">
+        <rect width="210" height="110" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <text x="18" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#2446A8">INBOUND REQUEST</text>
+        <rect x="12" y="40" width="186" height="58" rx="4" fill="#F7F3ED"/>
+        <text x="20" y="58" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">Target::Workspace(3)</text>
+        <text x="20" y="74" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">req_generation: 104828</text>
+        <text x="20" y="88" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">caller_pid: 2841</text>
+      </g>
+
+      <line x1="270" y1="165" x2="330" y2="165" stroke="#111418" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 2: Type Guard -->
+      <g transform="translate(330, 110)">
+        <rect width="210" height="110" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <text x="18" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">GATE 1: TYPE CHECK</text>
+        <rect x="12" y="40" width="186" height="58" rx="4" fill="#E8EFE5"/>
+        <text x="20" y="58" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#455F3D">✔ Strictly Typed Enum</text>
+        <text x="20" y="74" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">WorkspaceId(u32)</text>
+        <text x="20" y="88" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#C95400">✗ Reject shell strings</text>
+      </g>
+
+      <line x1="540" y1="165" x2="600" y2="165" stroke="#111418" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 3: Freshness Guard -->
+      <g transform="translate(600, 110)">
+        <rect width="210" height="110" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <text x="18" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">GATE 2: FRESHNESS</text>
+        <rect x="12" y="40" width="186" height="58" rx="4" fill="#FFE5D2"/>
+        <text x="20" y="58" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">Generation Drift Check</text>
+        <text x="20" y="74" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">req.gen &gt;= cur_gen - 1</text>
+        <text x="20" y="88" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Prevents stale replay</text>
+      </g>
+
+      <line x1="810" y1="165" x2="870" y2="165" stroke="#111418" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Node 4: Semantic Guard -->
+      <g transform="translate(870, 110)">
+        <rect width="180" height="110" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.5"/>
+        <text x="18" y="28" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">GATE 3: SEMANTICS</text>
+        <rect x="12" y="40" width="156" height="58" rx="4" fill="#E8EDFF"/>
+        <text x="18" y="58" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#2446A8">Active Output Map</text>
+        <text x="18" y="74" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#111418">Target is routable</text>
+        <text x="18" y="88" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Output is connected</text>
+      </g>
+
+      <!-- Outcome Branches -->
+      <!-- Success Path Down -->
+      <line x1="960" y1="220" x2="960" y2="290" stroke="#5F7F52" stroke-width="2" marker-end="url(#arrow-green)"/>
+      <g transform="translate(560, 290)">
+        <rect width="490" height="110" rx="8" fill="#E8EFE5" stroke="#5F7F52" stroke-width="1.5"/>
+        <text x="20" y="32" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#455F3D">ADMITTED &amp; BOUNDED EXECUTION</text>
+        <text x="20" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#111418">Dispatches exact protocol call to compositor (zwlr_workspace_v1::activate)</text>
+        <text x="20" y="78" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#455F3D">✔ Returns: ActivationResult::Success (Updates monotonic generation to #104830)</text>
+        <text x="20" y="96" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Audit logged with caller cgroup and execution timestamp</text>
+      </g>
+
+      <!-- Failure Path Down -->
+      <line x1="705" y1="220" x2="705" y2="290" stroke="#C95400" stroke-width="2" marker-end="url(#arrow-orange)"/>
+      <g transform="translate(60, 290)">
+        <rect width="470" height="110" rx="8" fill="#FAF8F5" stroke="#FF6A00" stroke-width="1.5"/>
+        <text x="20" y="32" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#C95400">FAIL-CLOSED REJECTION</text>
+        <text x="20" y="55" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#111418">Target is dropped immediately without performing side-effects.</text>
+        <text x="20" y="78" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="600" fill="#C95400">✗ Returns: ActivationResult::StaleTarget or UnsupportedTarget</text>
+        <text x="20" y="96" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Prevents desktop race conditions during rapid workspace switching</text>
+      </g>
+
+      <!-- Bottom Rule -->
+      <g transform="translate(60, 420)">
+        <rect width="990" height="42" rx="6" fill="#111418"/>
+        <text x="25" y="26" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="700" fill="#FFFFFF">CRITICAL INVARIANT:</text>
+        <text x="180" y="26" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#F7F3ED">Requests that can mutate the desktop carry typed targets and freshness boundaries.</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

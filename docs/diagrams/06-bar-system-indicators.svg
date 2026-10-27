@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc" id="d-06-bar-system-indicators-root">
+      <title id="dia-title">gnosix · The Bar Presentation Architecture</title>
+      <desc id="dia-desc">Output-bound top edge surface: segmented modules, workspace pills, and native telemetry.</desc>
+      <defs>
+      <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;family=Noto+Serif:ital@0;1&amp;family=Noto+Sans+KR:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400&amp;family=Noto+Sans+TC:wght@400;500;600&amp;family=Noto+Serif+TC:wght@400&amp;display=swap');
+      #d-06-bar-system-indicators-root { --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+      #d-06-bar-system-indicators-root { font-family: var(--font-primary); color: var(--gnx-anthracite); }
+      #d-06-bar-system-indicators-root .subtitle { font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem; }</style>
+        <pattern id="d-06-bar-system-indicators-grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#111418" fill-opacity="0.06"/>
+        </pattern>
+        <marker id="d-06-bar-system-indicators-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="d-06-bar-system-indicators-arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="d-06-bar-system-indicators-arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="d-06-bar-system-indicators-arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#d-06-bar-system-indicators-grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">OUTPUT-BOUND BAR SURFACE ANATOMY</text>
+
+      <g transform="translate(50, 65)">
+        <rect width="1000" height="54" rx="27" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.6"/>
+        <rect x="2" y="2" width="996" height="50" rx="25" fill="#F7F3ED"/>
+
+        <g transform="translate(16, 10)">
+          <rect width="48" height="34" rx="17" fill="#FF6A00"/>
+          <text x="24" y="22" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418" text-anchor="middle">1</text>
+
+          <rect x="54" width="34" height="34" rx="17" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="71" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418" text-anchor="middle">2</text>
+
+          <rect x="94" width="34" height="34" rx="17" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="111" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="#111418" text-anchor="middle">3</text>
+
+          <rect x="134" width="34" height="34" rx="17" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="151" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#A1A6AD" text-anchor="middle">4</text>
+        </g>
+
+        <g transform="translate(360, 12)">
+          <rect width="320" height="30" rx="15" fill="#FFFFFF" stroke="#D7DADF"/>
+          <circle cx="20" cy="15" r="5" fill="#FF6A00"/>
+          <text x="35" y="19" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Neovim</text>
+          <text x="88" y="19" font-family="'Space Grotesk', sans-serif" font-size="10" fill="#667085">crates/gnos-ux-bar/src/lib.rs</text>
+        </g>
+
+        <g transform="translate(740, 10)">
+          <rect width="244" height="34" rx="17" fill="#FFFFFF" stroke="#D7DADF"/>
+          <text x="25" y="22" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="500" fill="#667085">WiFi 5G</text>
+          <text x="85" y="22" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="500" fill="#667085">82%</text>
+          <text x="125" y="22" font-family="'Space Grotesk', sans-serif" font-size="10.5" font-weight="500" fill="#667085">BAT 96%</text>
+          <text x="195" y="22" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">10:42</text>
+        </g>
+      </g>
+
+      <g transform="translate(50, 150)">
+        <g transform="translate(0, 0)">
+          <rect width="310" height="320" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="310" height="40" rx="8" fill="#F7F3ED"/>
+          <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Workspace Pill Reactor</text>
+
+          <g transform="translate(18, 55)">
+            <text x="0" y="16" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#C95400">Event-Driven Update Flow</text>
+            <text x="0" y="34" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Pill state updates instantly from</text>
+            <text x="0" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">desktop model generations.</text>
+
+            <rect y="70" width="274" height="65" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+            <text x="12" y="90" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#111418">Active: solid accent fill</text>
+            <text x="12" y="106" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Occupied: outline badge</text>
+            <text x="12" y="122" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#A1A6AD">Urgent: high-contrast pulse</text>
+
+            <text x="0" y="160" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Zero Polling Overhead</text>
+            <text x="0" y="178" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">No 1-second timers; bar only repaints</text>
+            <text x="0" y="193" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">when a workspace transition fires.</text>
+          </g>
+        </g>
+
+        <g transform="translate(345, 0)">
+          <rect width="310" height="320" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="310" height="40" rx="8" fill="#F7F3ED"/>
+          <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Context Breadcrumb Engine</text>
+
+          <g transform="translate(18, 55)">
+            <text x="0" y="16" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#C95400">Focus Projection</text>
+            <text x="0" y="34" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Tracks currently focused surface title</text>
+            <text x="0" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">across all active workspace outputs.</text>
+
+            <rect y="70" width="274" height="65" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+            <text x="12" y="90" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#111418">App ID resolution: Catalog</text>
+            <text x="12" y="106" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Truncation: Smart middle-ellipsis</text>
+            <text x="12" y="122" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#A1A6AD">Media: MPRIS2 stream overlay</text>
+
+            <text x="0" y="160" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Sanitized Titles</text>
+            <text x="0" y="178" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Untrusted window title strings never</text>
+            <text x="0" y="193" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">inject markup or execute shell code.</text>
+          </g>
+        </g>
+
+        <g transform="translate(690, 0)">
+          <rect width="310" height="320" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+          <rect width="310" height="40" rx="8" fill="#F7F3ED"/>
+          <text x="18" y="25" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="700" fill="#111418">Modular Telemetry Observers</text>
+
+          <g transform="translate(18, 55)">
+            <text x="0" y="16" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#C95400">Pure Passive Subscriptions</text>
+            <text x="0" y="34" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">Telemetry observers read hardware facts</text>
+            <text x="0" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#667085">without mutator permissions.</text>
+
+            <rect y="70" width="274" height="65" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+            <text x="12" y="90" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#111418">Audio: Pipewire stream state</text>
+            <text x="12" y="106" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Power: UPower dbus signals</text>
+            <text x="12" y="122" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#A1A6AD">Network: NetworkManager state</text>
+
+            <text x="0" y="160" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="700" fill="#111418">Output Anchoring</text>
+            <text x="0" y="178" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Dedicated Bar instance per screen;</text>
+            <text x="0" y="193" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">geometry adjusts to exact display DPI.</text>
+          </g>
+        </g>
+      </g>
+
+      <g transform="translate(50, 490)">
+        <rect width="1000" height="55" rx="6" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="25" y="24" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">LAYER-SHELL EXCLUSIVE ZONE CONTRACT</text>
+        <text x="25" y="42" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418">The Bar requests an exclusive 32px top margin. Windows cannot overlap or occlude the bar unless explicitly set to Fullscreen.</text>
+      </g>
+
+    </svg>

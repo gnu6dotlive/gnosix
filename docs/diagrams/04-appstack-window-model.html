@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · AppStack Surface &amp; Window Semantics · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: flowchart · Window Lifecycle</p>
+    <h1>gnosix · AppStack Surface &amp; Window Semantics</h1>
+    <p class="subtitle">Deterministic window lifecycle: layout projection, spatial hit-testing, and focus states.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · AppStack Surface &amp; Window Semantics</title>
+      <desc id="dia-desc">Deterministic window lifecycle: layout projection, spatial hit-testing, and focus states.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <text x="50" y="40" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.08em">WINDOW SEMANTICS &amp; RECONCILIATION FLOW</text>
+
+      <g transform="translate(50, 70)">
+        <rect width="180" height="85" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <text x="15" y="28" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="700" fill="#C95400">COMPOSITOR EVENT</text>
+        <text x="15" y="50" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Surface Ingress</text>
+        <text x="15" y="68" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">openwindow / move</text>
+      </g>
+
+      <path d="M 230 112 L 270 112" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <g transform="translate(270, 60)">
+        <polygon points="90 0, 180 50, 90 100, 0 50" fill="#F7F3ED" stroke="#111418" stroke-width="1.2"/>
+        <text x="48" y="48" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Classify Surface</text>
+        <text x="52" y="62" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">Role &amp; Topology</text>
+      </g>
+
+      <path d="M 450 85 L 510 60" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M 450 112 L 510 112" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <path d="M 450 135 L 510 165" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <g transform="translate(510, 35)">
+        <rect width="170" height="45" rx="5" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Tiled Surface</text>
+        <text x="12" y="37" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">Column / Grid Slots</text>
+      </g>
+
+      <g transform="translate(510, 90)">
+        <rect width="170" height="45" rx="5" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Floating Utility</text>
+        <text x="12" y="37" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">Transient dialog / popover</text>
+      </g>
+
+      <g transform="translate(510, 145)">
+        <rect width="170" height="45" rx="5" fill="#FFFFFF" stroke="#D7DADF"/>
+        <text x="12" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">Fullscreen Surface</text>
+        <text x="12" y="37" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">Envelope Override</text>
+      </g>
+
+      <g transform="translate(730, 45)">
+        <rect width="320" height="175" rx="8" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.5"/>
+        <rect width="320" height="28" rx="8" fill="#FFE5D2"/>
+        <text x="16" y="19" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="700" fill="#111418">SURFACE FOCUS &amp; ACTIVITY STATES</text>
+
+        <rect x="15" y="38" width="290" height="38" rx="4" fill="#F7F3ED" stroke="#FF6A00" stroke-width="1"/>
+        <text x="25" y="55" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">1. Focused (Seat Input Target)</text>
+        <text x="25" y="69" font-family="'Space Grotesk', sans-serif" font-size="8" font-weight="600" fill="#C95400">receives keyboard &amp; pointer focus</text>
+
+        <rect x="15" y="82" width="290" height="38" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="99" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">2. Visible (Unfocused Viewport)</text>
+        <text x="25" y="113" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#667085">painted in active workspace</text>
+
+        <rect x="15" y="126" width="290" height="38" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="25" y="143" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#111418">3. Background (Preserved Memory)</text>
+        <text x="25" y="157" font-family="'Space Grotesk', sans-serif" font-size="8" fill="#A1A6AD">on inactive workspace, raster skipped</text>
+      </g>
+
+      <g transform="translate(50, 260)">
+        <rect width="1000" height="270" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+        <rect width="1000" height="36" rx="8" fill="#F7F3ED"/>
+        <text x="20" y="23" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Generation-Based Reconciliation Loop (gnosix-desktop-model)</text>
+
+        <g transform="translate(30, 55)">
+          <circle cx="20" cy="20" r="14" fill="#FF6A00"/>
+          <text x="16" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#111418" font-weight="700">A</text>
+          <text x="45" y="17" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Compositor Wakeup</text>
+          <text x="45" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Hyprland IPC emits event signal;</text>
+          <text x="45" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">adapter fetches atomic fresh snapshot.</text>
+        </g>
+
+        <path d="M 280 95 L 320 95" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g transform="translate(330, 55)">
+          <circle cx="20" cy="20" r="14" fill="#5F7F52"/>
+          <text x="16" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#FFFFFF" font-weight="700">B</text>
+          <text x="45" y="17" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Model Diffing</text>
+          <text x="45" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">Generations compared (gen_N → gen_N+1);</text>
+          <text x="45" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">bounding boxes recalculated.</text>
+        </g>
+
+        <path d="M 590 95 L 630 95" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <g transform="translate(640, 55)">
+          <circle cx="20" cy="20" r="14" fill="#4169E1"/>
+          <text x="16" y="24" font-family="'Space Grotesk', sans-serif" font-size="11" fill="#FFFFFF" font-weight="700">C</text>
+          <text x="45" y="17" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="700" fill="#111418">Presentation Projection</text>
+          <text x="45" y="32" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">gnos-ux-scene schedules repaint;</text>
+          <text x="45" y="47" font-family="'Space Grotesk', sans-serif" font-size="10.5" fill="#667085">surfaces updated in single frame.</text>
+        </g>
+
+        <rect x="30" y="150" width="940" height="95" rx="6" fill="#F7F3ED" stroke="#D7DADF"/>
+        <text x="50" y="175" font-family="'Space Grotesk', sans-serif" font-size="9.5" font-weight="700" fill="#C95400">KEY CONTRACT: OBSERVATION DOES NOT IMPLY MUTATION</text>
+        <text x="50" y="196" font-family="'Space Grotesk', sans-serif" font-size="11.5" fill="#111418">gnosix-desktop-model reads state deterministically. It does not possess any ability to move windows, kill processes, or alter Hyprland configs directly. All actions flow through narrowly-scoped in.gnu.os authorities.</text>
+        <text x="50" y="222" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#A1A6AD">Qualification Proof: xtask qualified under live compositor stream</text>
+      </g>
+
+    </svg>
+  </div>
+</body>
+</html>

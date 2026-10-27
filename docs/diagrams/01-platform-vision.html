@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>gnosix · Platform Architecture Vision · gnosix_DS V3.4.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gnx-shell-white:              #F7F3ED;
+      --gnx-pure-white:               #FFFFFF;
+      --gnx-anthracite:               #111418;
+      --gnx-slate:                    #667085;
+      --gnx-muted:                    #A1A6AD;
+      --gnx-hairline:                 #D7DADF;
+      --gnx-quiet-divider:            #E6E8EB;
+      --gnx-signal-orange:            #FF6A00;
+      --gnx-signal-orange-accessible: #C95400;
+      --gnx-signal-orange-tint:       #FFE5D2;
+      --gnx-beret-green:              #5F7F52;
+      --gnx-beret-green-accessible:   #455F3D;
+      --gnx-beret-green-tint:         #E8EFE5;
+      --gnx-royal-blue:               #4169E1;
+      --gnx-royal-blue-accessible:    #2446A8;
+      --gnx-royal-blue-tint:          #E8EDFF;
+      --font-primary:                 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--gnx-shell-white);
+      color: var(--gnx-anthracite);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .frame {
+      max-width: 1140px;
+      width: 100%;
+      background: var(--gnx-shell-white);
+    }
+
+    .eyebrow {
+      font-family: var(--font-primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gnx-signal-orange-accessible);
+      margin-bottom: 0.4rem;
+    }
+
+    h1 {
+      font-family: var(--font-primary);
+      font-size: clamp(1.75rem, 2.5vw + 0.8rem, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gnx-anthracite);
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-primary);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gnx-slate);
+      margin-bottom: 1.6rem;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--gnx-shell-white);
+      border: 1px solid var(--gnx-hairline);
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(17,20,24,0.04);
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Type: high-level · System Overview</p>
+    <h1>gnosix · Platform Architecture Vision</h1>
+    <p class="subtitle">A local-first Linux computing platform built around native Wayland surfaces, explicit state, and bounded authority.</p>
+
+    <svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dia-title dia-desc">
+      <title id="dia-title">gnosix · Platform Architecture Vision</title>
+      <desc id="dia-desc">A local-first Linux computing platform built around native Wayland surfaces, explicit state, and bounded authority.</desc>
+      <defs>
+        <pattern id="grid-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="rgba(17,20,24,0.06)"/>
+        </pattern>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#667085"/>
+        </marker>
+        <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#FF6A00"/>
+        </marker>
+        <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#5F7F52"/>
+        </marker>
+        <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#4169E1"/>
+        </marker>
+      </defs>
+
+      <rect width="1100" height="580" fill="#F7F3ED"/>
+      <rect width="1100" height="580" fill="url(#grid-dots)"/>
+
+
+      <rect x="50" y="25" width="1000" height="42" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="50" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="700" fill="#C95400" letter-spacing="0.1em">GNOSIX PLATFORM ARCHITECTURE</text>
+      <text x="340" y="50" font-family="'Space Grotesk', sans-serif" font-size="11.5" font-weight="400" fill="#667085">Decoupled Planes: Presentation · Pure Semantics · Bounded Mutation</text>
+      <rect x="910" y="33" width="125" height="26" rx="4" fill="#FFE5D2"/>
+      <text x="922" y="50" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418">gnosix_DS V3.4.1</text>
+
+      <rect x="50" y="90" width="300" height="360" rx="8" fill="#FFFFFF" stroke="#FF6A00" stroke-width="1.8"/>
+      <rect x="50" y="90" width="300" height="44" rx="8" fill="#FFE5D2"/>
+      <text x="70" y="117" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700" fill="#111418">gnos.ux · Presentation</text>
+      <text x="70" y="129" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400" letter-spacing="0.08em">RUST &amp; GPUI LAYER-SHELL HOST</text>
+
+      <rect x="68" y="152" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="82" y="172" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">gnos-ux-bar</text>
+      <text x="82" y="188" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Output-bound status &amp; workspace pills</text>
+
+      <rect x="68" y="210" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="82" y="230" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">gnos-ux-dock</text>
+      <text x="82" y="246" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Running app indicators &amp; quick launcher</text>
+
+      <rect x="68" y="268" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="82" y="288" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">Workspace Envelope</text>
+      <text x="82" y="304" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Multi-output spatial view bounds</text>
+
+      <rect x="68" y="326" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="82" y="346" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">AppStack Surfaces</text>
+      <text x="82" y="362" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Wayland native window geometry projection</text>
+
+      <text x="70" y="420" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="500" fill="#667085">Invariant: Zero implicit mutation powers</text>
+
+      <rect x="400" y="90" width="300" height="360" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+      <rect x="400" y="90" width="300" height="44" rx="8" fill="#E8EFE5"/>
+      <text x="420" y="117" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700" fill="#111418">gnosix-desktop-model</text>
+      <text x="420" y="129" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#455F3D" letter-spacing="0.08em">DETERMINISTIC SEMANTICS</text>
+
+      <rect x="418" y="152" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="432" y="172" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">Topology &amp; Outputs</text>
+      <text x="432" y="188" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Normalized screen geometry &amp; scales</text>
+
+      <rect x="418" y="210" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="432" y="230" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">Workspace State Tree</text>
+      <text x="432" y="246" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Occupancy, active focus, spatial layouts</text>
+
+      <rect x="418" y="268" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="432" y="288" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">Surface Associations</text>
+      <text x="432" y="304" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Active, visible, and background windows</text>
+
+      <rect x="418" y="326" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="432" y="346" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">State Reconciliation</text>
+      <text x="432" y="362" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Generation-based immutable snapshots</text>
+
+      <text x="420" y="420" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="500" fill="#667085">Authority: Read-only model, zero mutations</text>
+
+      <rect x="750" y="90" width="300" height="360" rx="8" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1.2"/>
+      <rect x="750" y="90" width="300" height="44" rx="8" fill="#E8EDFF"/>
+      <text x="770" y="117" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="700" fill="#111418">in.gnu.os · Authorities</text>
+      <text x="770" y="129" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#2446A8" letter-spacing="0.08em">SCOPED MUTATION DAEMONS</text>
+
+      <rect x="768" y="152" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="782" y="172" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">in-gnu-os-activation</text>
+      <text x="782" y="188" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Typed admission, caller auth &amp; dispatch</text>
+
+      <rect x="768" y="210" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="782" y="230" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">in-gnu-os-output-identity</text>
+      <text x="782" y="246" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Durable logical IDs vs transient tokens</text>
+
+      <rect x="768" y="268" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="782" y="288" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">in-gnu-os-desktop-profiles</text>
+      <text x="782" y="304" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Atomic CAS profile store &amp; validation</text>
+
+      <rect x="768" y="326" width="264" height="48" rx="5" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="782" y="346" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="#111418">systemd User Scopes</text>
+      <text x="782" y="362" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#667085">Independent application process lifetime</text>
+
+      <text x="770" y="420" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="500" fill="#667085">Security: Typed targets only, fail-closed</text>
+
+      <path d="M 400 234 L 358 234" fill="none" stroke="#FF6A00" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+      <text x="362" y="222" font-family="'Space Grotesk', sans-serif" font-size="8.5" font-weight="600" fill="#C95400">Projections</text>
+
+      <path d="M 350 334 L 392 334" fill="none" stroke="#667085" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <text x="355" y="350" font-family="'Space Grotesk', sans-serif" font-size="8.5" fill="#667085">Interaction</text>
+
+      <path d="M 350 380 Q 550 420 742 380" fill="none" stroke="#FF6A00" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#arrow-orange)"/>
+      <text x="495" y="415" font-family="'Space Grotesk', sans-serif" font-size="9" font-weight="600" fill="#C95400">Typed Activation Request (SO_PEERCRED)</text>
+
+      <rect x="50" y="475" width="1000" height="75" rx="6" fill="#FFFFFF" stroke="#D7DADF" stroke-width="1"/>
+      <text x="70" y="502" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#111418" letter-spacing="0.08em">RUNTIME HOST &amp; COMPOSITOR REALITY</text>
+      <text x="70" y="525" font-family="'Space Grotesk', sans-serif" font-size="11.5" fill="#667085">Wayland Protocol Surfaces · Hyprland Observer Socket · UWSM Session Scope · Linux cgroups v2</text>
+      <rect x="850" y="492" width="180" height="42" rx="4" fill="#F7F3ED" stroke="#D7DADF"/>
+      <text x="865" y="517" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="700" fill="#C95400">evidence/runs/</text>
+
+    </svg>
+  </div>
+</body>
+</html>
