@@ -1,0 +1,424 @@
+#!/usr/bin/env bash
+# gnosix-sync — local update channel for Gnosix work branches.
+#
+# A work branch pushed to GitHub is the only shared medium: no GitHub Actions,
+# no remote runner. On the operator workstation, one command fetches the exact
+# commit, builds it in an isolated worktree, runs the checks the branch itself
+# declares (tools/gnosix-sync/plan), then — only if everything passed — stops
+# the running build, swaps the binaries and starts the new one. A failed start
+# is rolled back to the previous binaries automatically. Every run leaves a
+# REPORT.md meant to be pasted back to the agent as-is.
+#
+#   gnosix-sync pull <branch> [--expect <sha>] [options]
+#   gnosix-sync report            print (and copy, if wl-copy exists) the last report
+#   gnosix-sync status            installed build, units, last run
+#   gnosix-sync rollback          restore the previous binaries and restart
+#   gnosix-sync install           copy this script to ~/.local/bin/gnosix-sync
+#
+# Signed: Syster Agent.
+
+set -Eeuo pipefail
+
+SELF_VERSION="1"
+PROG=$(basename "$0")
+
+# ---------------------------------------------------------------------------
+# Configuration (overridable in ~/.config/gnosix-sync/config, a bash file).
+# ---------------------------------------------------------------------------
+GNOSIX_SYNC_REPO="${GNOSIX_SYNC_REPO:-$HOME/Projects/gnosix}"
+GNOSIX_SYNC_REMOTE_URL="${GNOSIX_SYNC_REMOTE_URL:-https://github.com/gnu6dotlive/gnosix.git}"
+GNOSIX_SYNC_REMOTE="${GNOSIX_SYNC_REMOTE:-origin}"
+GNOSIX_SYNC_INSTALL_DIR="${GNOSIX_SYNC_INSTALL_DIR:-/usr/libexec/gnosix}"
+GNOSIX_SYNC_STATE="${GNOSIX_SYNC_STATE:-${XDG_STATE_HOME:-$HOME/.local/state}/gnosix-sync}"
+GNOSIX_SYNC_HEALTH_SECONDS="${GNOSIX_SYNC_HEALTH_SECONDS:-6}"
+CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/gnosix-sync/config"
+# shellcheck disable=SC1090
+[[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
+
+WORKTREE="$GNOSIX_SYNC_REPO/.worktrees/gnosix-sync"
+TARGET_DIR="$GNOSIX_SYNC_REPO/target/gnosix-sync"
+RUNS_DIR="$GNOSIX_SYNC_STATE/runs"
+DEPLOYED_FILE="$GNOSIX_SYNC_STATE/deployed"
+
+# Default plan when the branch carries none.
+DEFAULT_CHECKS=("cargo test --locked -p gnos-ux-gpui --lib --features indicator-production-client")
+# Same feature set as xtask's build-gnos-ux-scene (the binary that ships).
+DEFAULT_DEPLOY=("gnos-ux-gpui gnos-ux-scene gnos-ux-scene gnos-ux-scene.service r12-production-client,r13-production-client,indicator-production-client")
+
+# ---------------------------------------------------------------------------
+# Output helpers
+# ---------------------------------------------------------------------------
+if [[ -t 1 ]]; then
+  C_B=$'\e[1m'; C_G=$'\e[32m'; C_R=$'\e[31m'; C_Y=$'\e[33m'; C_0=$'\e[0m'
+else
+  C_B=""; C_G=""; C_R=""; C_Y=""; C_0=""
+fi
+say()  { printf '%s==>%s %s\n' "$C_B" "$C_0" "$*"; }
+ok()   { printf '%s ok%s %s\n' "$C_G" "$C_0" "$*"; }
+warn() { printf '%s !!%s %s\n' "$C_Y" "$C_0" "$*" >&2; }
+die()  { printf '%serror:%s %s\n' "$C_R" "$C_0" "$*" >&2; exit 1; }
+
+usage() { sed -n '2,19p' "$0" | sed 's/^# \{0,1\}//'; }
+
+# Run as root only when the install directory requires it.
+as_installer() {
+  if [[ -w "$GNOSIX_SYNC_INSTALL_DIR" ]]; then "$@"; else sudo "$@"; fi
+}
+
+# ---------------------------------------------------------------------------
+# Run bookkeeping
+# ---------------------------------------------------------------------------
+RUN_DIR=""
+RUN_STATUS="RUNNING"
+RUN_STEP=""
+RUN_FAIL_LOG=""
+BRANCH=""
+SHA=""
+
+report_add() { [[ -n "$RUN_DIR" ]] && printf '%s\n' "$*" >>"$RUN_DIR/REPORT.md"; }
+
+# Extract the lines that matter from a cargo / test log.
+digest_log() {
+  local log=$1
+  {
+    echo '```'
+    grep -nE '^(error|warning: unused|thread .* panicked|test .* FAILED|failures:|---- )|^error\[|panicked at|FAILED|Error:' "$log" | head -60 || true
+    echo '--- tail ---'
+    tail -n 60 "$log"
+    echo '```'
+  }
+}
+
+finish() {
+  local code=$?
+  [[ -z "$RUN_DIR" ]] && return
+  if [[ "$RUN_STATUS" == "RUNNING" ]]; then
+    RUN_STATUS=$([[ $code -eq 0 ]] && echo "OK" || echo "FAILED")
+  fi
+  {
+    echo
+    echo "## Result: $RUN_STATUS"
+    [[ -n "$RUN_STEP" && "$RUN_STATUS" != "OK" ]] && echo "Failed step: \`$RUN_STEP\`"
+    if [[ -n "$RUN_FAIL_LOG" && -f "$RUN_FAIL_LOG" ]]; then
+      echo
+      echo "### $(basename "$RUN_FAIL_LOG")"
+      digest_log "$RUN_FAIL_LOG"
+    fi
+  } >>"$RUN_DIR/REPORT.md"
+  ln -sfn "$RUN_DIR" "$GNOSIX_SYNC_STATE/last"
+  echo
+  if [[ "$RUN_STATUS" == "OK" ]]; then
+    ok "branch $BRANCH @ ${SHA:0:12} built, checked and running"
+  else
+    printf '%s%s%s at step: %s\n' "$C_R" "$RUN_STATUS" "$C_0" "$RUN_STEP" >&2
+    printf 'Send the report to the agent:  %s report\n' "$PROG" >&2
+  fi
+  echo "report: $RUN_DIR/REPORT.md"
+}
+
+# step <name> <logfile> <command...>  — runs with live output, tees to log.
+# The command runs in a pipeline subshell: it reports back through files in
+# $RUN_DIR (status.override, fail-log), never through shell variables.
+step() {
+  local name=$1 log=$2; shift 2
+  RUN_STEP=$name
+  say "$name"
+  report_add "- \`$name\` → $(basename "$log")"
+  local start=$SECONDS rc
+  set +e
+  "$@" 2>&1 | tee "$log"
+  rc=${PIPESTATUS[0]}
+  set -e
+  if [[ -f "$RUN_DIR/status.override" ]]; then RUN_STATUS=$(<"$RUN_DIR/status.override"); fi
+  if [[ $rc -ne 0 ]]; then
+    RUN_FAIL_LOG=$log
+    [[ -f "$RUN_DIR/fail-log" ]] && RUN_FAIL_LOG=$(<"$RUN_DIR/fail-log")
+    report_add "  - **FAILED** (exit $rc, $((SECONDS - start))s)"
+    exit "$rc"
+  fi
+  report_add "  - ok ($((SECONDS - start))s)"
+}
+
+# ---------------------------------------------------------------------------
+# Repository / worktree
+# ---------------------------------------------------------------------------
+ensure_repo() {
+  if [[ ! -d "$GNOSIX_SYNC_REPO/.git" ]]; then
+    say "cloning $GNOSIX_SYNC_REMOTE_URL into $GNOSIX_SYNC_REPO"
+    git clone --quiet "$GNOSIX_SYNC_REMOTE_URL" "$GNOSIX_SYNC_REPO"
+  fi
+}
+
+fetch_branch() {
+  local branch=$1
+  say "fetching $GNOSIX_SYNC_REMOTE/$branch" >&2
+  git -C "$GNOSIX_SYNC_REPO" fetch --quiet "$GNOSIX_SYNC_REMOTE" \
+    "+refs/heads/$branch:refs/remotes/$GNOSIX_SYNC_REMOTE/$branch"
+  git -C "$GNOSIX_SYNC_REPO" rev-parse "refs/remotes/$GNOSIX_SYNC_REMOTE/$branch^{commit}"
+}
+
+# The operator's own checkout is never touched: builds happen in a dedicated,
+# detached worktree under .worktrees/ (already git-ignored).
+prepare_worktree() {
+  local sha=$1
+  if ! git -C "$WORKTREE" rev-parse --git-dir >/dev/null 2>&1; then
+    git -C "$GNOSIX_SYNC_REPO" worktree prune
+    git -C "$GNOSIX_SYNC_REPO" worktree add --detach --force "$WORKTREE" "$sha" >/dev/null
+  fi
+  git -C "$WORKTREE" checkout --quiet --detach --force "$sha"
+  git -C "$WORKTREE" clean -fdq
+}
+
+# If the fetched branch carries a newer gnosix-sync, adopt it and re-run.
+self_update() {
+  local candidate="$WORKTREE/tools/gnosix-sync/gnosix-sync"
+  [[ -f "$candidate" && -z "${GNOSIX_SYNC_REEXEC:-}" ]] || return 0
+  if ! cmp -s "$candidate" "$0"; then
+    warn "the branch carries a different gnosix-sync; adopting it"
+    # install(1) writes a new inode, so the running script is never rewritten
+    # under bash's feet; the lock on fd 9 is inherited by the new process.
+    { if [[ -w "$0" ]]; then install -m 0755 "$candidate" "$0"; fi
+      GNOSIX_SYNC_REEXEC=1 exec bash "$candidate" "${ORIG_ARGS[@]}"; }
+  fi
+}
+
+# ---------------------------------------------------------------------------
+# Plan: tools/gnosix-sync/plan in the branch.
+#   check  <shell command run in the worktree>
+#   deploy <crate> <cargo-bin> <installed-name> <systemd --user unit|-> [features]
+# ---------------------------------------------------------------------------
+CHECKS=()
+DEPLOY=()
+load_plan() {
+  local plan="$WORKTREE/tools/gnosix-sync/plan" kind rest
+  if [[ -f "$plan" ]]; then
+    while IFS= read -r line || [[ -n "$line" ]]; do
+      line="${line%%#*}"; [[ -z "${line// }" ]] && continue
+      kind=${line%% *}; rest=${line#* }
+      case $kind in
+        check)  CHECKS+=("$rest") ;;
+        deploy) DEPLOY+=("$rest") ;;
+        *) die "plan: unknown directive '$kind'" ;;
+      esac
+    done <"$plan"
+  fi
+  [[ ${#CHECKS[@]} -gt 0 || -f "$plan" ]] || CHECKS=("${DEFAULT_CHECKS[@]}")
+  [[ ${#DEPLOY[@]} -gt 0 ]] || DEPLOY=("${DEFAULT_DEPLOY[@]}")
+}
+
+# ---------------------------------------------------------------------------
+# Build / check / deploy
+# ---------------------------------------------------------------------------
+build_all() {
+  local entry crate bin features args
+  for entry in "${DEPLOY[@]}"; do
+    read -r crate bin _ _ features <<<"$entry"
+    args=(--locked --release -p "$crate" --bin "$bin")
+    [[ -n "$features" ]] && args+=(--features "$features")
+    echo "+ cargo build ${args[*]}"
+    (cd "$WORKTREE" && CARGO_TARGET_DIR="$TARGET_DIR" cargo build "${args[@]}") || return 1
+  done
+}
+
+run_check() {
+  echo "+ $1"
+  (cd "$WORKTREE" && CARGO_TARGET_DIR="$TARGET_DIR" bash -c "$1")
+}
+
+units_of_plan() {
+  local entry unit
+  for entry in "${DEPLOY[@]}"; do
+    read -r _ _ _ unit <<<"$entry"
+    [[ "$unit" != "-" ]] && echo "$unit"
+  done | sort -u
+}
+
+unit_restarts() { systemctl --user show -p NRestarts --value "$1" 2>/dev/null || echo 0; }
+
+# Swap binaries atomically per file; keep <name>.prev for rollback.
+swap_binaries() {
+  local entry bin name src
+  as_installer mkdir -p "$GNOSIX_SYNC_INSTALL_DIR"
+  for entry in "${DEPLOY[@]}"; do
+    read -r _ bin name _ <<<"$entry"
+    src="$TARGET_DIR/release/$bin"
+    [[ -x "$src" ]] || die "missing build output $src"
+    as_installer install -m 0755 "$src" "$GNOSIX_SYNC_INSTALL_DIR/.$name.new"
+    if [[ -e "$GNOSIX_SYNC_INSTALL_DIR/$name" ]]; then
+      as_installer cp -p "$GNOSIX_SYNC_INSTALL_DIR/$name" "$GNOSIX_SYNC_INSTALL_DIR/$name.prev"
+    fi
+    as_installer mv -f "$GNOSIX_SYNC_INSTALL_DIR/.$name.new" "$GNOSIX_SYNC_INSTALL_DIR/$name"
+    echo "installed $GNOSIX_SYNC_INSTALL_DIR/$name ($(sha256sum "$src" | cut -c1-16))"
+  done
+}
+
+restore_previous() {
+  local entry name
+  for entry in "${DEPLOY[@]}"; do
+    read -r _ _ name _ <<<"$entry"
+    if [[ -e "$GNOSIX_SYNC_INSTALL_DIR/$name.prev" ]]; then
+      as_installer cp -p "$GNOSIX_SYNC_INSTALL_DIR/$name.prev" "$GNOSIX_SYNC_INSTALL_DIR/$name"
+      echo "restored $name.prev"
+    fi
+  done
+}
+
+deploy() {
+  local units unit since failed=0
+  mapfile -t units < <(units_of_plan)
+  since=$(date '+%Y-%m-%d %H:%M:%S')
+  for unit in "${units[@]}"; do
+    echo "stopping $unit"; systemctl --user stop "$unit" || true
+  done
+  swap_binaries || return 1
+  declare -A before=()
+  for unit in "${units[@]}"; do
+    systemctl --user reset-failed "$unit" 2>/dev/null || true
+    echo "starting $unit"; systemctl --user start "$unit" || failed=1
+    before[$unit]=$(unit_restarts "$unit")
+  done
+  echo "watching for ${GNOSIX_SYNC_HEALTH_SECONDS}s"
+  sleep "$GNOSIX_SYNC_HEALTH_SECONDS"
+  for unit in "${units[@]}"; do
+    if ! systemctl --user is-active --quiet "$unit" \
+       || [[ "$(unit_restarts "$unit")" != "${before[$unit]}" ]]; then
+      echo "UNHEALTHY: $unit"; failed=1
+    else
+      echo "healthy: $unit"
+    fi
+  done
+  for unit in "${units[@]}"; do
+    journalctl --user -u "$unit" --since "$since" --no-pager -o short-monotonic \
+      >"$RUN_DIR/journal-${unit%.service}.log" 2>&1 || true
+  done
+  if [[ $failed -ne 0 ]]; then
+    echo "new build failed to stay up — rolling back"
+    echo "$RUN_DIR/journal-${units[0]%.service}.log" >"$RUN_DIR/fail-log"
+    for unit in "${units[@]}"; do systemctl --user stop "$unit" || true; done
+    restore_previous
+    for unit in "${units[@]}"; do
+      systemctl --user reset-failed "$unit" 2>/dev/null || true
+      systemctl --user start "$unit" || true
+    done
+    echo "ROLLED-BACK" >"$RUN_DIR/status.override"
+    return 1
+  fi
+  printf '%s %s %s\n' "$BRANCH" "$SHA" "$(date -Is)" >"$DEPLOYED_FILE"
+}
+
+# ---------------------------------------------------------------------------
+# Commands
+# ---------------------------------------------------------------------------
+cmd_pull() {
+  local expect="" deploy_enabled=1 run_checks=1 extra_checks=()
+  BRANCH=${1:-}; [[ -n "$BRANCH" && "$BRANCH" != -* ]] || die "usage: $PROG pull <branch> [--expect sha]"
+  shift
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --expect)     expect=${2:?}; shift 2 ;;
+      --check)      extra_checks+=("${2:?}"); shift 2 ;;
+      --no-checks)  run_checks=0; shift ;;
+      --no-deploy)  deploy_enabled=0; shift ;;
+      *) die "unknown option $1" ;;
+    esac
+  done
+
+  ensure_repo
+  mkdir -p "$RUNS_DIR"
+  if [[ -z "${GNOSIX_SYNC_REEXEC:-}" ]]; then
+    exec 9>"$GNOSIX_SYNC_STATE/lock"
+    flock -n 9 || die "another gnosix-sync run is in progress"
+  fi
+
+  SHA=$(fetch_branch "$BRANCH")
+  if [[ -n "$expect" && "$SHA" != "$expect"* ]]; then
+    die "remote $BRANCH is at ${SHA:0:12}, expected ${expect:0:12} — push not visible yet, or the branch moved; re-run in a moment"
+  fi
+  prepare_worktree "$SHA"
+  self_update
+
+  RUN_DIR="$RUNS_DIR/$(date +%Y%m%d-%H%M%S)_${BRANCH//\//_}_${SHA:0:10}"
+  mkdir -p "$RUN_DIR"
+  trap finish EXIT
+  {
+    echo "# gnosix-sync report"
+    echo
+    echo "- branch: \`$BRANCH\`"
+    echo "- commit: \`$SHA\`"
+    echo "- subject: $(git -C "$WORKTREE" log -1 --format=%s)"
+    echo "- host: $(uname -srm), rustc $(cd "$WORKTREE" && rustc --version 2>/dev/null | cut -d' ' -f2 || echo '?')"
+    echo "- date: $(date -Is)"
+    echo
+    echo "## Steps"
+  } >"$RUN_DIR/REPORT.md"
+
+  load_plan
+  CHECKS+=("${extra_checks[@]}")
+
+  step "build" "$RUN_DIR/build.log" build_all
+  if [[ $run_checks -eq 1 ]]; then
+    local i=0 c
+    for c in "${CHECKS[@]}"; do
+      i=$((i + 1))
+      step "check $i: $c" "$RUN_DIR/check-$i.log" run_check "$c"
+    done
+  fi
+  if [[ $deploy_enabled -eq 1 ]]; then
+    step "deploy" "$RUN_DIR/deploy.log" deploy
+  else
+    report_add "- deploy skipped (--no-deploy)"
+  fi
+  RUN_STATUS="OK"
+}
+
+cmd_report() {
+  local r="$GNOSIX_SYNC_STATE/last/REPORT.md"
+  [[ -f "$r" ]] || die "no run yet"
+  cat "$r"
+  if command -v wl-copy >/dev/null && wl-copy <"$r"; then
+    echo "(report copied to the clipboard)" >&2
+  fi
+}
+
+cmd_status() {
+  echo "gnosix-sync v$SELF_VERSION"
+  echo "repo:     $GNOSIX_SYNC_REPO"
+  echo "install:  $GNOSIX_SYNC_INSTALL_DIR"
+  echo "deployed: $(cat "$DEPLOYED_FILE" 2>/dev/null || echo none)"
+  [[ -e "$GNOSIX_SYNC_STATE/last" ]] && echo "last run: $(readlink "$GNOSIX_SYNC_STATE/last")"
+  local u
+  for u in gnos-ux-scene.service in-gnu-os-activation.service in-gnu-os-profiles.service; do
+    printf '  %-32s %s\n' "$u" "$(systemctl --user is-active "$u" 2>/dev/null || true)"
+  done
+}
+
+cmd_rollback() {
+  [[ -d "$WORKTREE" ]] || die "nothing to roll back"
+  load_plan
+  mapfile -t units < <(units_of_plan)
+  for u in "${units[@]}"; do systemctl --user stop "$u" || true; done
+  restore_previous
+  for u in "${units[@]}"; do systemctl --user reset-failed "$u" 2>/dev/null || true; systemctl --user start "$u"; done
+  rm -f "$DEPLOYED_FILE"
+  ok "previous binaries restored"
+}
+
+cmd_install() {
+  local dest="$HOME/.local/bin/gnosix-sync"
+  mkdir -p "$(dirname "$dest")"
+  install -m 0755 "$0" "$dest"
+  ok "installed $dest"
+  case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) warn "add ~/.local/bin to PATH" ;; esac
+}
+
+ORIG_ARGS=("$@")
+mkdir -p "$GNOSIX_SYNC_STATE"
+case "${1:-}" in
+  pull)     shift; cmd_pull "$@" ;;
+  report)   cmd_report ;;
+  status)   cmd_status ;;
+  rollback) cmd_rollback ;;
+  install)  cmd_install ;;
+  -h|--help|help|"") usage ;;
+  *) die "unknown command $1 (see $PROG --help)" ;;
+esac

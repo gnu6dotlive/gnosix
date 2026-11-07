@@ -1,0 +1,22 @@
+# gnosix-sync plan for this branch.
+#
+# The branch declares what the operator workstation must check and deploy when
+# it runs `gnosix-sync pull <branch>`. The agent updates this file on each push
+# so the checks follow the work in progress. `#` starts a comment.
+#
+#   check  <shell command, run at the worktree root, CARGO_TARGET_DIR shared>
+#   deploy <crate> <cargo-bin> <name in /usr/libexec/gnosix> <systemd --user unit | -> [features]
+#
+# Checks run in order after the build; the first failure stops the run and
+# nothing is deployed. Deploy stops the units, swaps the binaries (previous
+# kept as <name>.prev), restarts, and rolls back if a unit does not stay up.
+
+# Handy: the indicator contract and its consumer in the scene.
+check cargo test --locked -p gnos-ux-indicator-client
+check cargo test --locked -p gnos-ux-gpui --lib --features indicator-production-client product_indicator
+# Deck: geometry, stack, wave, drag and the rail topology.
+check cargo test --locked -p gnos-ux-gpui --lib deck
+check cargo test --locked -p gnos-ux-gpui --lib rail_topology
+
+# The shipped scene: same features as xtask's build-gnos-ux-scene.
+deploy gnos-ux-gpui gnos-ux-scene gnos-ux-scene gnos-ux-scene.service r12-production-client,r13-production-client,indicator-production-client
