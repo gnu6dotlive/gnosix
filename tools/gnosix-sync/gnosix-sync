@@ -19,7 +19,7 @@
 
 set -Eeuo pipefail
 
-SELF_VERSION="2"
+SELF_VERSION="3"
 PROG=$(basename "$0")
 
 # ---------------------------------------------------------------------------
@@ -250,20 +250,48 @@ unit_restarts() { systemctl --user show -p NRestarts --value "$1" 2>/dev/null ||
 
 # Swap binaries atomically per file; keep <name>.prev for rollback.
 swap_binaries() {
-  local entry bin name src dest dir
+  local entry bin name src dest dir tmp want got
   for entry in "${DEPLOY[@]}"; do
     read -r _ bin name _ <<<"$entry"
     src="$TARGET_DIR/release/$bin"
-    [[ -x "$src" ]] || die "missing build output $src"
-    dest=$(dest_of "$name"); dir=$(dirname "$dest")
-    as_installer "$dir" mkdir -p "$dir"
-    as_installer "$dir" install -m 0755 "$src" "$dir/.$(basename "$dest").new"
+    [[ -x "$src" ]] || { echo "missing build output $src"; return 1; }
+    dest=$(dest_of "$name"); dir=$(dirname "$dest"); tmp="$dir/.$(basename "$dest").new"
+    # Every command must succeed: a refused sudo used to print "installed"
+    # over an untouched file.
+    as_installer "$dir" mkdir -p "$dir" || { echo "FAILED: mkdir $dir"; return 1; }
+    as_installer "$dir" install -m 0755 "$src" "$tmp" || { echo "FAILED: install $tmp"; return 1; }
     if [[ -e "$dest" ]]; then
-      as_installer "$dir" cp -p "$dest" "$dest.prev"
+      as_installer "$dir" cp -p "$dest" "$dest.prev" || { echo "FAILED: keep $dest.prev"; return 1; }
     fi
-    as_installer "$dir" mv -f "$dir/.$(basename "$dest").new" "$dest"
-    echo "installed $dest ($(sha256sum "$src" | cut -c1-16))"
+    as_installer "$dir" mv -f "$tmp" "$dest" || { echo "FAILED: move into $dest"; return 1; }
+    want=$(sha256sum "$src" | cut -d' ' -f1); got=$(sha256sum "$dest" | cut -d' ' -f1)
+    if [[ "$want" != "$got" ]]; then
+      echo "FAILED: $dest is $got, expected $want"; return 1
+    fi
+    echo "installed $dest (sha256 ${want:0:16}, verified)"
   done
+}
+
+# Before anything is stopped: every destination that needs root must be
+# reachable. sudo asks on a terminal; without one (an agent's shell) the
+# deploy is refused here, with nothing changed, instead of half-done later.
+deploy_preflight() {
+  local entry name dest dir needs=()
+  for entry in "${DEPLOY[@]}"; do
+    read -r _ _ name _ <<<"$entry"
+    dest=$(dest_of "$name"); dir=$(dirname "$dest")
+    if ! { [[ -d "$dir" && -w "$dir" ]] || { [[ ! -e "$dir" ]] && [[ -w "$(dirname "$dir")" ]]; }; }; then
+      needs+=("$dest")
+    fi
+  done
+  [[ ${#needs[@]} -eq 0 ]] && return 0
+  say "root needed for: ${needs[*]}"
+  if sudo -n true 2>/dev/null; then return 0; fi
+  if [[ -t 0 && -r /dev/tty ]]; then
+    sudo -v && return 0
+    die "sudo refused: nothing was stopped or installed"
+  fi
+  die "this deploy needs sudo for ${needs[*]} and there is no terminal to ask on. Nothing was stopped or installed. Run the same command yourself in a terminal."
 }
 
 # restore_previous [unit...] — every entry, or only those of the given units.
@@ -287,7 +315,17 @@ deploy() {
   for unit in "${units[@]}"; do
     echo "stopping $unit"; systemctl --user stop "$unit" || true
   done
-  swap_binaries || return 1
+  if ! swap_binaries; then
+    # Units were stopped: put the previous builds back and restart them.
+    echo "install failed — restoring previous binaries and restarting"
+    restore_previous
+    for unit in "${units[@]}"; do
+      systemctl --user reset-failed "$unit" 2>/dev/null || true
+      systemctl --user start --no-block "$unit" || true
+    done
+    echo "INSTALL-FAILED" >"$RUN_DIR/status.override"
+    return 1
+  fi
   declare -A before=()
   for unit in "${units[@]}"; do
     systemctl --user reset-failed "$unit" 2>/dev/null || true
@@ -388,6 +426,8 @@ cmd_pull() {
     done
   fi
   if [[ $deploy_enabled -eq 1 ]]; then
+    RUN_STEP="deploy preflight"
+    deploy_preflight
     step "deploy" "$RUN_DIR/deploy.log" deploy
   else
     report_add "- deploy skipped (--no-deploy)"
