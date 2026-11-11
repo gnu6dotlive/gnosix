@@ -85,7 +85,10 @@ fn report(readiness: &Readiness) -> Result<(), String> {
 fn verify_session(executor: &mut HyprlandActivationExecutor) -> Result<String, String> {
     let observation = executor
         .observe()
-        .map_err(|_| "Hyprland observation unavailable".to_string())?;
+        .map_err(|_| match executor.last_observation_error() {
+            Some(error) => format!("Hyprland observation unavailable: {error}"),
+            None => "Hyprland observation unavailable".to_string(),
+        })?;
     let session = observation.runtime_session().to_owned();
     if session.is_empty() {
         return Err("empty Hyprland session identity".into());

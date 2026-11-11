@@ -43,6 +43,10 @@ pub struct HyprlandActivationExecutor {
     hyprctl: HyprctlLuaBackend,
     semantic: DesktopSemanticRuntime,
     epoch: ActivationSessionEpoch,
+    /// Why the last observation was refused, kept so the host can say which
+    /// field of Hyprland's reply failed instead of only "unavailable".
+    #[cfg(feature = "r14-production-host")]
+    last_observation_error: Option<SemanticObservationError>,
     #[cfg(feature = "r13-live-qualification")]
     last_receipt: Option<DesktopSemanticReceipt>,
     #[cfg(feature = "r13-live-qualification")]
@@ -64,6 +68,8 @@ impl HyprlandActivationExecutor {
             hyprctl,
             semantic,
             epoch,
+            #[cfg(feature = "r14-production-host")]
+            last_observation_error: None,
             #[cfg(feature = "r13-live-qualification")]
             last_receipt: None,
             #[cfg(feature = "r13-live-qualification")]
@@ -85,6 +91,8 @@ impl HyprlandActivationExecutor {
             hyprctl: HyprctlLuaBackend::for_instance_signature(session_signature)?,
             semantic: DesktopSemanticRuntime::default(),
             epoch,
+            #[cfg(feature = "r14-production-host")]
+            last_observation_error: None,
             #[cfg(feature = "r13-live-qualification")]
             last_receipt: None,
             #[cfg(feature = "r13-live-qualification")]
@@ -94,12 +102,23 @@ impl HyprlandActivationExecutor {
         })
     }
 
+    /// The reason the most recent observation was refused, if it was.
+    #[cfg(feature = "r14-production-host")]
+    pub(crate) fn last_observation_error(&self) -> Option<SemanticObservationError> {
+        self.last_observation_error
+    }
+
     fn observe_paired(
         &mut self,
     ) -> Result<DesktopExecutionBindingSnapshot, SemanticObservationError> {
-        let (receipt, binding) = self
+        let observed = self
             .hyprctl
-            .observe_and_reconcile_desktop_with_execution_bindings(&mut self.semantic)?;
+            .observe_and_reconcile_desktop_with_execution_bindings(&mut self.semantic);
+        #[cfg(feature = "r14-production-host")]
+        {
+            self.last_observation_error = observed.as_ref().err().copied();
+        }
+        let (receipt, binding) = observed?;
         #[cfg(feature = "r13-live-qualification")]
         {
             self.last_receipt = Some(receipt);

@@ -28,14 +28,99 @@ use crate::{HyprctlLuaBackend, HyprlandRuntimeBackend};
 const SEMANTIC_VIEW_VALUE_COUNT: usize = 6;
 const SEMANTIC_VALUE_COUNT: usize = SEMANTIC_VIEW_VALUE_COUNT * 2;
 
+/// Which part of Hyprland's reply an observation error comes from.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ObservedSection {
+    /// The batch as a whole (value count, JSON stream).
+    Batch,
+    Outputs,
+    Workspaces,
+    Clients,
+    ActiveWorkspace,
+    ActiveWindow,
+    Layers,
+    /// Not yet placed by the section parser that reads it.
+    Unplaced,
+}
+
+/// What is wrong with the value found at a site.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum FieldProblem {
+    /// The key is absent.
+    Missing,
+    /// The key is present with another JSON type than the one read.
+    WrongType,
+    /// A string that must carry an identity is empty.
+    Empty,
+    /// The same identity appears twice in one section.
+    Duplicate,
+    /// An identifier that must be hexadecimal is not.
+    NotHex,
+    /// A pair or list has the wrong number of elements.
+    BadLength,
+    /// A number is outside the range the model accepts.
+    OutOfRange,
+    /// A reference (output name or id, workspace id) names nothing observed.
+    UnknownReference,
+}
+
+/// Where Hyprland's reply was refused: section, element index within the
+/// section when it is a list or map, the field (and nested field), and why.
+/// Every observation refusal names its site, so a compositor upgrade that
+/// changes one field shows up as that field, not as "unavailable".
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct FieldSite {
+    pub section: ObservedSection,
+    pub index: Option<usize>,
+    pub field: &'static str,
+    pub nested: Option<&'static str>,
+    pub problem: FieldProblem,
+}
+
+impl FieldSite {
+    const fn new(field: &'static str, problem: FieldProblem) -> Self {
+        Self {
+            section: ObservedSection::Unplaced,
+            index: None,
+            field,
+            nested: None,
+            problem,
+        }
+    }
+
+    const fn nested(field: &'static str, nested: &'static str, problem: FieldProblem) -> Self {
+        Self {
+            section: ObservedSection::Unplaced,
+            index: None,
+            field,
+            nested: Some(nested),
+            problem,
+        }
+    }
+}
+
+impl std::fmt::Display for FieldSite {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self.section)?;
+        if let Some(index) = self.index {
+            write!(f, "[{index}]")?;
+        }
+        write!(f, ".{}", self.field)?;
+        if let Some(nested) = self.nested {
+            write!(f, ".{nested}")?;
+        }
+        write!(f, ": {:?}", self.problem)
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum SemanticObservationError {
     Transport,
-    Parse,
-    NumericRange,
+    Parse(FieldSite),
+    NumericRange(FieldSite),
     UnsupportedTransform,
-    UnknownOutput,
-    UnknownWorkspace,
+    UnknownOutput(FieldSite),
+    UnknownWorkspace(FieldSite),
     FocusedClientMissing,
     SnapshotChanged,
     ExecutionBindingsChanged,
@@ -43,6 +128,71 @@ pub enum SemanticObservationError {
     InvalidCandidate(DesktopContextValidationError),
     GenerationExhausted,
 }
+impl SemanticObservationError {
+    /// The refused site, when the error has one.
+    pub fn site(&self) -> Option<FieldSite> {
+        match self {
+            Self::Parse(site)
+            | Self::NumericRange(site)
+            | Self::UnknownOutput(site)
+            | Self::UnknownWorkspace(site) => Some(*site),
+            _ => None,
+        }
+    }
+
+    /// Place a site that its helper could not place: the section and the
+    /// element index are known only to the section parser. A site already
+    /// placed keeps its placement.
+    fn at(self, section: ObservedSection, index: Option<usize>) -> Self {
+        let place = |mut site: FieldSite| {
+            if site.section == ObservedSection::Unplaced {
+                site.section = section;
+                if site.index.is_none() {
+                    site.index = index;
+                }
+            }
+            site
+        };
+        match self {
+            Self::Parse(site) => Self::Parse(place(site)),
+            Self::NumericRange(site) => Self::NumericRange(place(site)),
+            Self::UnknownOutput(site) => Self::UnknownOutput(place(site)),
+            Self::UnknownWorkspace(site) => Self::UnknownWorkspace(place(site)),
+            other => other,
+        }
+    }
+}
+
+impl std::fmt::Display for SemanticObservationError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Parse(site) => write!(f, "parse refused at {site}"),
+            Self::NumericRange(site) => write!(f, "numeric range refused at {site}"),
+            Self::UnknownOutput(site) => write!(f, "unknown output at {site}"),
+            Self::UnknownWorkspace(site) => write!(f, "unknown workspace at {site}"),
+            other => write!(f, "{other:?}"),
+        }
+    }
+}
+
+impl std::error::Error for SemanticObservationError {}
+
+const fn parse_error(field: &'static str, problem: FieldProblem) -> SemanticObservationError {
+    SemanticObservationError::Parse(FieldSite::new(field, problem))
+}
+
+const fn range_error(field: &'static str) -> SemanticObservationError {
+    SemanticObservationError::NumericRange(FieldSite::new(field, FieldProblem::OutOfRange))
+}
+
+/// The JSON type problem of `value.get(key)`: absent or of another type.
+fn missing_or_wrong(value: &Value, key: &str) -> FieldProblem {
+    match value.get(key) {
+        None => FieldProblem::Missing,
+        Some(_) => FieldProblem::WrongType,
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DesktopSemanticReceipt {
     pub generation: u64,
@@ -435,9 +585,12 @@ impl HyprctlLuaBackend {
         let values = Deserializer::from_slice(&output)
             .into_iter::<Value>()
             .collect::<Result<Vec<_>, _>>()
-            .map_err(|_| SemanticObservationError::Parse)?;
+            .map_err(|_| {
+                parse_error("json", FieldProblem::WrongType).at(ObservedSection::Batch, None)
+            })?;
         if values.len() != SEMANTIC_VALUE_COUNT {
-            return Err(SemanticObservationError::Parse);
+            return Err(parse_error("values", FieldProblem::BadLength)
+                .at(ObservedSection::Batch, Some(values.len())));
         }
 
         let first = build_candidate_with_execution_bindings(
@@ -515,12 +668,14 @@ fn build_candidate_with_execution_bindings(
     layers: &Value,
 ) -> Result<BuiltSemanticCandidate, SemanticObservationError> {
     if session.trim().is_empty() {
-        return Err(SemanticObservationError::Parse);
+        return Err(parse_error("session", FieldProblem::Empty).at(ObservedSection::Batch, None));
     }
 
     let (outputs, output_by_runtime_id, output_by_name, visible_workspace_ids, focused_monitor_id) =
         parse_outputs(session, monitors)?;
-    let focused_workspace_id = optional_object_i64(active_workspace, "id")?.filter(|id| *id != 0);
+    let focused_workspace_id = optional_object_i64(active_workspace, "id")
+        .map_err(|error| error.at(ObservedSection::ActiveWorkspace, None))?
+        .filter(|id| *id != 0);
     let (workspaces, workspace_ids) = parse_workspaces(
         session,
         workspaces,
@@ -541,13 +696,22 @@ fn build_candidate_with_execution_bindings(
     if visible_workspace_ids
         .iter()
         .any(|workspace_id| !workspace_ids.contains_key(workspace_id))
-        || focused_workspace_id
-            .is_some_and(|workspace_id| !workspace_ids.contains_key(&workspace_id))
     {
-        return Err(SemanticObservationError::UnknownWorkspace);
+        return Err(unknown_visible_workspace(monitors, &workspace_ids));
     }
-    let active_window_address = optional_object_string(active_window, "address")?;
-    let active_window_identity = optional_object_string(active_window, "stableId")?
+    if focused_workspace_id.is_some_and(|workspace_id| !workspace_ids.contains_key(&workspace_id)) {
+        return Err(SemanticObservationError::UnknownWorkspace(FieldSite {
+            section: ObservedSection::ActiveWorkspace,
+            index: None,
+            field: "id",
+            nested: None,
+            problem: FieldProblem::UnknownReference,
+        }));
+    }
+    let active_window_address = optional_object_string(active_window, "address")
+        .map_err(|error| error.at(ObservedSection::ActiveWindow, None))?;
+    let active_window_identity = optional_object_string(active_window, "stableId")
+        .map_err(|error| error.at(ObservedSection::ActiveWindow, None))?
         .or_else(|| active_window_address.clone());
     let (mut surfaces, application_stable_ids) = parse_clients(
         session,
@@ -577,6 +741,38 @@ fn build_candidate_with_execution_bindings(
         application_stable_ids,
     })
 }
+/// Name the output and the field (`activeWorkspace` or `specialWorkspace`)
+/// whose workspace id names no observed workspace.
+fn unknown_visible_workspace(
+    monitors: &Value,
+    workspace_ids: &HashMap<i64, WorkspaceId>,
+) -> SemanticObservationError {
+    for (index, monitor) in monitors.as_array().into_iter().flatten().enumerate() {
+        for field in ["activeWorkspace", "specialWorkspace"] {
+            let id = monitor
+                .get(field)
+                .and_then(|workspace| workspace.get("id"))
+                .and_then(Value::as_i64)
+                .unwrap_or(0);
+            if id != 0 && !workspace_ids.contains_key(&id) {
+                return SemanticObservationError::UnknownWorkspace(FieldSite {
+                    section: ObservedSection::Outputs,
+                    index: Some(index),
+                    field,
+                    nested: Some("id"),
+                    problem: FieldProblem::UnknownReference,
+                });
+            }
+        }
+    }
+    SemanticObservationError::UnknownWorkspace(FieldSite {
+        section: ObservedSection::Outputs,
+        index: None,
+        field: "activeWorkspace",
+        nested: Some("id"),
+        problem: FieldProblem::UnknownReference,
+    })
+}
 type OutputParse = (
     Vec<OutputState>,
     HashMap<i64, OutputHubId>,
@@ -586,96 +782,104 @@ type OutputParse = (
 );
 
 fn parse_outputs(session: &str, value: &Value) -> Result<OutputParse, SemanticObservationError> {
-    let monitors = value.as_array().ok_or(SemanticObservationError::Parse)?;
+    let monitors = value
+        .as_array()
+        .ok_or(parse_error("(root)", FieldProblem::WrongType).at(ObservedSection::Outputs, None))?;
     let mut outputs = Vec::with_capacity(monitors.len());
     let mut by_runtime_id = HashMap::with_capacity(monitors.len());
     let mut by_name = HashMap::with_capacity(monitors.len());
     let mut visible_workspace_ids = HashSet::new();
     let mut focused_monitor_id = None;
 
-    for monitor in monitors {
-        let runtime_id = required_i64(monitor, "id")?;
-        let name = required_string(monitor, "name")?;
-        if name.trim().is_empty() {
-            return Err(SemanticObservationError::Parse);
-        }
-        if by_runtime_id.contains_key(&runtime_id) || by_name.contains_key(name) {
-            return Err(SemanticObservationError::Parse);
-        }
-        let width = positive_u32(monitor, "width")?;
-        let height = positive_u32(monitor, "height")?;
-        let x = i32_value(monitor, "x")?;
-        let y = i32_value(monitor, "y")?;
-        let scale = required_f64(monitor, "scale")?;
-        if !scale.is_finite() || scale <= 0.0 {
-            return Err(SemanticObservationError::NumericRange);
-        }
-        let scale_milli_f = (scale * 1000.0).round();
-        if !(1.0..=u32::MAX as f64).contains(&scale_milli_f) {
-            return Err(SemanticObservationError::NumericRange);
-        }
-        let scale_milli = scale_milli_f as u32;
-        let transform_raw = required_i64(monitor, "transform")?;
-        let transform = output_transform(transform_raw)?;
+    for (index, monitor) in monitors.iter().enumerate() {
+        let mut element = || -> Result<(), SemanticObservationError> {
+            let runtime_id = required_i64(monitor, "id")?;
+            let name = required_string(monitor, "name")?;
+            if name.trim().is_empty() {
+                return Err(parse_error("name", FieldProblem::Empty));
+            }
+            if by_runtime_id.contains_key(&runtime_id) {
+                return Err(parse_error("id", FieldProblem::Duplicate));
+            }
+            if by_name.contains_key(name) {
+                return Err(parse_error("name", FieldProblem::Duplicate));
+            }
+            let width = positive_u32(monitor, "width")?;
+            let height = positive_u32(monitor, "height")?;
+            let x = i32_value(monitor, "x")?;
+            let y = i32_value(monitor, "y")?;
+            let scale = required_f64(monitor, "scale")?;
+            if !scale.is_finite() || scale <= 0.0 {
+                return Err(range_error("scale"));
+            }
+            let scale_milli_f = (scale * 1000.0).round();
+            if !(1.0..=u32::MAX as f64).contains(&scale_milli_f) {
+                return Err(range_error("scale"));
+            }
+            let scale_milli = scale_milli_f as u32;
+            let transform_raw = required_i64(monitor, "transform")?;
+            let transform = output_transform(transform_raw)?;
 
-        let mut logical_width = ((width as f64) / scale).round();
-        let mut logical_height = ((height as f64) / scale).round();
-        if !logical_width.is_finite()
-            || !logical_height.is_finite()
-            || logical_width < 1.0
-            || logical_height < 1.0
-            || logical_width > u32::MAX as f64
-            || logical_height > u32::MAX as f64
-        {
-            return Err(SemanticObservationError::NumericRange);
-        }
-        if matches!(
-            transform,
-            OutputTransform::Rotate90
-                | OutputTransform::Rotate270
-                | OutputTransform::Flipped90
-                | OutputTransform::Flipped270
-        ) {
-            std::mem::swap(&mut logical_width, &mut logical_height);
-        }
+            let mut logical_width = ((width as f64) / scale).round();
+            let mut logical_height = ((height as f64) / scale).round();
+            if !logical_width.is_finite()
+                || !logical_height.is_finite()
+                || logical_width < 1.0
+                || logical_height < 1.0
+                || logical_width > u32::MAX as f64
+                || logical_height > u32::MAX as f64
+            {
+                return Err(range_error("width/height/scale"));
+            }
+            if matches!(
+                transform,
+                OutputTransform::Rotate90
+                    | OutputTransform::Rotate270
+                    | OutputTransform::Flipped90
+                    | OutputTransform::Flipped270
+            ) {
+                std::mem::swap(&mut logical_width, &mut logical_height);
+            }
 
-        let hub_id = output_hub_id(session, runtime_id, name);
-        by_runtime_id.insert(runtime_id, hub_id);
-        by_name.insert(name.to_owned(), hub_id);
+            let hub_id = output_hub_id(session, runtime_id, name);
+            by_runtime_id.insert(runtime_id, hub_id);
+            by_name.insert(name.to_owned(), hub_id);
 
-        let active_id = nested_i64(monitor, "activeWorkspace", "id")?;
-        if active_id != 0 {
-            visible_workspace_ids.insert(active_id);
-        }
-        let special_id = nested_i64(monitor, "specialWorkspace", "id")?;
-        if special_id != 0 {
-            visible_workspace_ids.insert(special_id);
-        }
-        if optional_bool(monitor, "focused")?.unwrap_or(false)
-            && focused_monitor_id.replace(runtime_id).is_some()
-        {
-            return Err(SemanticObservationError::Parse);
-        }
+            let active_id = nested_i64(monitor, "activeWorkspace", "id")?;
+            if active_id != 0 {
+                visible_workspace_ids.insert(active_id);
+            }
+            let special_id = nested_i64(monitor, "specialWorkspace", "id")?;
+            if special_id != 0 {
+                visible_workspace_ids.insert(special_id);
+            }
+            if optional_bool(monitor, "focused")?.unwrap_or(false)
+                && focused_monitor_id.replace(runtime_id).is_some()
+            {
+                return Err(parse_error("focused", FieldProblem::Duplicate));
+            }
 
-        outputs.push(OutputState {
-            output_hub_id: hub_id,
-            connector: ConnectorName::new(name.to_owned())
-                .map_err(|_| SemanticObservationError::Parse)?,
-            active_workspace_id: (active_id != 0).then(|| workspace_id(session, active_id)),
-            descriptors: PhysicalOutputDescriptors {
-                make: optional_string(monitor, "make")?,
-                model: optional_string(monitor, "model")?,
-                serial: optional_string(monitor, "serial")?,
-            },
-            physical_size: PhysicalPixelSize::new(width, height)
-                .ok_or(SemanticObservationError::NumericRange)?,
-            logical_position: LogicalPoint::new(x, y),
-            logical_size: LogicalSize::new(logical_width as u32, logical_height as u32)
-                .ok_or(SemanticObservationError::NumericRange)?,
-            scale: ScaleMilli::from_milli(scale_milli)
-                .map_err(|_| SemanticObservationError::NumericRange)?,
-            transform,
-        });
+            outputs.push(OutputState {
+                output_hub_id: hub_id,
+                connector: ConnectorName::new(name.to_owned())
+                    .map_err(|_| parse_error("name", FieldProblem::OutOfRange))?,
+                active_workspace_id: (active_id != 0).then(|| workspace_id(session, active_id)),
+                descriptors: PhysicalOutputDescriptors {
+                    make: optional_string(monitor, "make")?,
+                    model: optional_string(monitor, "model")?,
+                    serial: optional_string(monitor, "serial")?,
+                },
+                physical_size: PhysicalPixelSize::new(width, height)
+                    .ok_or(range_error("width/height"))?,
+                logical_position: LogicalPoint::new(x, y),
+                logical_size: LogicalSize::new(logical_width as u32, logical_height as u32)
+                    .ok_or(range_error("width/height/scale"))?,
+                scale: ScaleMilli::from_milli(scale_milli).map_err(|_| range_error("scale"))?,
+                transform,
+            });
+            Ok(())
+        };
+        element().map_err(|error| error.at(ObservedSection::Outputs, Some(index)))?;
     }
 
     Ok((
@@ -694,52 +898,64 @@ fn parse_workspaces(
     focused_workspace_id: Option<i64>,
     focused_monitor_id: Option<i64>,
 ) -> Result<(Vec<WorkspaceState>, HashMap<i64, WorkspaceId>), SemanticObservationError> {
-    let items = value.as_array().ok_or(SemanticObservationError::Parse)?;
+    let items = value.as_array().ok_or(
+        parse_error("(root)", FieldProblem::WrongType).at(ObservedSection::Workspaces, None),
+    )?;
     let mut workspace_ids = HashMap::with_capacity(items.len());
-    for workspace in items {
-        let runtime_id = required_i64(workspace, "id")?;
-        if workspace_ids
-            .insert(runtime_id, workspace_id(session, runtime_id))
-            .is_some()
-        {
-            return Err(SemanticObservationError::Parse);
-        }
+    for (index, workspace) in items.iter().enumerate() {
+        let mut element = || -> Result<(), SemanticObservationError> {
+            let runtime_id = required_i64(workspace, "id")?;
+            if workspace_ids
+                .insert(runtime_id, workspace_id(session, runtime_id))
+                .is_some()
+            {
+                return Err(parse_error("id", FieldProblem::Duplicate));
+            }
+            Ok(())
+        };
+        element().map_err(|error| error.at(ObservedSection::Workspaces, Some(index)))?;
     }
 
     let mut result = Vec::with_capacity(items.len());
-    for workspace in items {
-        let runtime_id = required_i64(workspace, "id")?;
-        let monitor_id = required_i64(workspace, "monitorID")?;
-        let output_hub_id = if monitor_id < 0 {
-            None
-        } else {
-            Some(
-                *outputs
-                    .get(&monitor_id)
-                    .ok_or(SemanticObservationError::UnknownOutput)?,
-            )
-        };
-        let focus = if focused_workspace_id == Some(runtime_id)
-            && focused_monitor_id.is_some_and(|monitor| monitor == monitor_id)
-        {
-            WorkspaceFocus::Focused
-        } else {
-            WorkspaceFocus::Unfocused
-        };
-        result.push(WorkspaceState {
-            workspace_id: *workspace_ids
-                .get(&runtime_id)
-                .ok_or(SemanticObservationError::Parse)?,
-            name: WorkspaceName::new(required_string(workspace, "name")?.to_owned())
-                .map_err(|_| SemanticObservationError::Parse)?,
-            output_hub_id,
-            visibility: if visible_workspace_ids.contains(&runtime_id) {
-                WorkspaceVisibility::Visible
+    for (index, workspace) in items.iter().enumerate() {
+        let mut element = || -> Result<(), SemanticObservationError> {
+            let runtime_id = required_i64(workspace, "id")?;
+            let monitor_id = required_i64(workspace, "monitorID")?;
+            let output_hub_id =
+                if monitor_id < 0 {
+                    None
+                } else {
+                    Some(*outputs.get(&monitor_id).ok_or(
+                        SemanticObservationError::UnknownOutput(FieldSite::new(
+                            "monitorID",
+                            FieldProblem::UnknownReference,
+                        )),
+                    )?)
+                };
+            let focus = if focused_workspace_id == Some(runtime_id)
+                && focused_monitor_id.is_some_and(|monitor| monitor == monitor_id)
+            {
+                WorkspaceFocus::Focused
             } else {
-                WorkspaceVisibility::Hidden
-            },
-            focus,
-        });
+                WorkspaceFocus::Unfocused
+            };
+            result.push(WorkspaceState {
+                workspace_id: *workspace_ids
+                    .get(&runtime_id)
+                    .ok_or(parse_error("id", FieldProblem::UnknownReference))?,
+                name: WorkspaceName::new(required_string(workspace, "name")?.to_owned())
+                    .map_err(|_| parse_error("name", FieldProblem::OutOfRange))?,
+                output_hub_id,
+                visibility: if visible_workspace_ids.contains(&runtime_id) {
+                    WorkspaceVisibility::Visible
+                } else {
+                    WorkspaceVisibility::Hidden
+                },
+                focus,
+            });
+            Ok(())
+        };
+        element().map_err(|error| error.at(ObservedSection::Workspaces, Some(index)))?;
     }
 
     Ok((result, workspace_ids))
@@ -752,97 +968,110 @@ fn parse_clients(
     workspaces: &HashMap<i64, WorkspaceId>,
     active_window_identity: Option<&str>,
 ) -> Result<(Vec<SurfaceState>, HashMap<SurfaceId, String>), SemanticObservationError> {
-    let clients = value.as_array().ok_or(SemanticObservationError::Parse)?;
+    let clients = value
+        .as_array()
+        .ok_or(parse_error("(root)", FieldProblem::WrongType).at(ObservedSection::Clients, None))?;
     let mut result = Vec::with_capacity(clients.len());
     let mut application_stable_ids = HashMap::with_capacity(clients.len());
     let mut seen_stable_ids = HashSet::with_capacity(clients.len());
 
-    for client in clients {
-        let address = required_string(client, "address")?;
-        if address.trim().is_empty() {
-            return Err(SemanticObservationError::Parse);
-        }
-        let monitor_id = required_i64(client, "monitor")?;
-        let output_hub_id = if monitor_id < 0 {
-            None
-        } else {
-            Some(
-                *outputs
-                    .get(&monitor_id)
-                    .ok_or(SemanticObservationError::UnknownOutput)?,
-            )
-        };
-        let workspace_runtime_id = nested_i64(client, "workspace", "id")?;
-        let workspace_id = if workspace_runtime_id == 0 {
-            None
-        } else {
-            Some(
-                *workspaces
-                    .get(&workspace_runtime_id)
-                    .ok_or(SemanticObservationError::UnknownWorkspace)?,
-            )
-        };
-        let at = required_i64_pair(client, "at")?;
-        let size = required_i64_pair(client, "size")?;
-        let width = positive_i64_to_u32(size[0])?;
-        let height = positive_i64_to_u32(size[1])?;
-        let mapped = required_bool(client, "mapped")?;
-        let hidden = required_bool(client, "hidden")?;
-        let visible = required_bool(client, "visible")?;
-
-        let stable_id = optional_string(client, "stableId")?;
-        if let Some(stable_id) = stable_id.as_ref() {
-            if stable_id.is_empty() || !stable_id.bytes().all(|byte| byte.is_ascii_hexdigit()) {
-                return Err(SemanticObservationError::Parse);
+    for (index, client) in clients.iter().enumerate() {
+        let mut element = || -> Result<(), SemanticObservationError> {
+            let address = required_string(client, "address")?;
+            if address.trim().is_empty() {
+                return Err(parse_error("address", FieldProblem::Empty));
             }
-            if !seen_stable_ids.insert(stable_id.clone()) {
+            let monitor_id = required_i64(client, "monitor")?;
+            let output_hub_id =
+                if monitor_id < 0 {
+                    None
+                } else {
+                    Some(*outputs.get(&monitor_id).ok_or(
+                        SemanticObservationError::UnknownOutput(FieldSite::new(
+                            "monitor",
+                            FieldProblem::UnknownReference,
+                        )),
+                    )?)
+                };
+            let workspace_runtime_id = nested_i64(client, "workspace", "id")?;
+            let workspace_id = if workspace_runtime_id == 0 {
+                None
+            } else {
+                Some(*workspaces.get(&workspace_runtime_id).ok_or(
+                    SemanticObservationError::UnknownWorkspace(FieldSite::nested(
+                        "workspace",
+                        "id",
+                        FieldProblem::UnknownReference,
+                    )),
+                )?)
+            };
+            let at = required_i64_pair(client, "at")?;
+            let size = required_i64_pair(client, "size")?;
+            let width = positive_i64_to_u32(size[0], "size")?;
+            let height = positive_i64_to_u32(size[1], "size")?;
+            let mapped = required_bool(client, "mapped")?;
+            let hidden = required_bool(client, "hidden")?;
+            let visible = required_bool(client, "visible")?;
+
+            let stable_id = optional_string(client, "stableId")?;
+            if let Some(stable_id) = stable_id.as_ref() {
+                if stable_id.is_empty() {
+                    return Err(parse_error("stableId", FieldProblem::Empty));
+                }
+                if !stable_id.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+                    return Err(parse_error("stableId", FieldProblem::NotHex));
+                }
+                if !seen_stable_ids.insert(stable_id.clone()) {
+                    return Err(SemanticObservationError::DuplicateExecutionBinding);
+                }
+            }
+            // Hyprland's per-window stableId is monotone within the compositor
+            // session. Prefer it for semantic identity so a recycled pointer
+            // address cannot make a newly created window inherit an old
+            // SurfaceId. Older/incomplete observations retain their existing
+            // address-derived semantic identity but receive no execution binding.
+            let id = surface_id(session, "client", stable_id.as_deref().unwrap_or(address));
+            if let Some(stable_id) = stable_id.as_ref()
+                && application_stable_ids
+                    .insert(id, stable_id.clone())
+                    .is_some()
+            {
                 return Err(SemanticObservationError::DuplicateExecutionBinding);
             }
-        }
-        // Hyprland's per-window stableId is monotone within the compositor
-        // session. Prefer it for semantic identity so a recycled pointer
-        // address cannot make a newly created window inherit an old
-        // SurfaceId. Older/incomplete observations retain their existing
-        // address-derived semantic identity but receive no execution binding.
-        let id = surface_id(session, "client", stable_id.as_deref().unwrap_or(address));
-        if let Some(stable_id) = stable_id.as_ref()
-            && application_stable_ids
-                .insert(id, stable_id.clone())
-                .is_some()
-        {
-            return Err(SemanticObservationError::DuplicateExecutionBinding);
-        }
-        result.push(SurfaceState {
-            surface_id: id,
-            role: DesktopSurfaceRole::Application,
-            output_hub_id,
-            workspace_id,
-            bounds: LogicalRect::new(
-                LogicalPoint::new(i64_to_i32(at[0])?, i64_to_i32(at[1])?),
-                LogicalSize::new(width, height).ok_or(SemanticObservationError::NumericRange)?,
-            ),
-            application: Some(ApplicationSurfaceDescriptors {
-                class: required_string(client, "class")?.to_owned(),
-                initial_class: required_string(client, "initialClass")?.to_owned(),
-                title: required_string(client, "title")?.to_owned(),
-                initial_title: required_string(client, "initialTitle")?.to_owned(),
-                tags: optional_string_list(client, "tags")?,
-                process_id: nonnegative_i64_to_u32(required_i64(client, "pid")?)?,
-                xwayland: required_bool(client, "xwayland")?,
-            }),
-            visibility: if !mapped {
-                SurfaceVisibility::Unmapped
-            } else if visible && !hidden {
-                SurfaceVisibility::Visible
-            } else {
-                SurfaceVisibility::Hidden
-            },
-            focus: if active_window_identity == Some(stable_id.as_deref().unwrap_or(address)) {
-                SurfaceFocus::Focused
-            } else {
-                SurfaceFocus::Unfocused
-            },
-        });
+            result.push(SurfaceState {
+                surface_id: id,
+                role: DesktopSurfaceRole::Application,
+                output_hub_id,
+                workspace_id,
+                bounds: LogicalRect::new(
+                    LogicalPoint::new(i64_to_i32(at[0], "at")?, i64_to_i32(at[1], "at")?),
+                    LogicalSize::new(width, height).ok_or(range_error("size"))?,
+                ),
+                application: Some(ApplicationSurfaceDescriptors {
+                    class: required_string(client, "class")?.to_owned(),
+                    initial_class: required_string(client, "initialClass")?.to_owned(),
+                    title: required_string(client, "title")?.to_owned(),
+                    initial_title: required_string(client, "initialTitle")?.to_owned(),
+                    tags: optional_string_list(client, "tags")?,
+                    process_id: nonnegative_i64_to_u32(required_i64(client, "pid")?, "pid")?,
+                    xwayland: required_bool(client, "xwayland")?,
+                }),
+                visibility: if !mapped {
+                    SurfaceVisibility::Unmapped
+                } else if visible && !hidden {
+                    SurfaceVisibility::Visible
+                } else {
+                    SurfaceVisibility::Hidden
+                },
+                focus: if active_window_identity == Some(stable_id.as_deref().unwrap_or(address)) {
+                    SurfaceFocus::Focused
+                } else {
+                    SurfaceFocus::Unfocused
+                },
+            });
+            Ok(())
+        };
+        element().map_err(|error| error.at(ObservedSection::Clients, Some(index)))?;
     }
 
     Ok((result, application_stable_ids))
@@ -852,51 +1081,62 @@ fn parse_layers(
     value: &Value,
     outputs: &HashMap<String, OutputHubId>,
 ) -> Result<Vec<SurfaceState>, SemanticObservationError> {
-    let monitors = value.as_object().ok_or(SemanticObservationError::Parse)?;
+    let monitors = value
+        .as_object()
+        .ok_or(parse_error("(root)", FieldProblem::WrongType).at(ObservedSection::Layers, None))?;
     let mut result = Vec::new();
 
-    for (output_name, monitor) in monitors {
-        let output_hub_id = *outputs
-            .get(output_name)
-            .ok_or(SemanticObservationError::UnknownOutput)?;
-        let levels = monitor
-            .get("levels")
-            .and_then(Value::as_object)
-            .ok_or(SemanticObservationError::Parse)?;
-        for (level, surfaces) in levels {
-            let level = level
-                .parse::<u8>()
-                .map_err(|_| SemanticObservationError::Parse)?;
-            let role = match level {
-                0 => DesktopSurfaceRole::RearPlane,
-                1 | 2 => DesktopSurfaceRole::Shell,
-                3 => DesktopSurfaceRole::Overlay,
-                _ => DesktopSurfaceRole::Unclassified,
-            };
-            let surfaces = surfaces.as_array().ok_or(SemanticObservationError::Parse)?;
-            for surface in surfaces {
-                let address = required_string(surface, "address")?;
-                if address.trim().is_empty() {
-                    return Err(SemanticObservationError::Parse);
+    for (output_index, (output_name, monitor)) in monitors.iter().enumerate() {
+        let mut element = || -> Result<(), SemanticObservationError> {
+            let output_hub_id =
+                *outputs
+                    .get(output_name)
+                    .ok_or(SemanticObservationError::UnknownOutput(FieldSite::new(
+                        "(output name)",
+                        FieldProblem::UnknownReference,
+                    )))?;
+            let levels = monitor
+                .get("levels")
+                .and_then(Value::as_object)
+                .ok_or_else(|| parse_error("levels", missing_or_wrong(monitor, "levels")))?;
+            for (level, surfaces) in levels {
+                let level = level
+                    .parse::<u8>()
+                    .map_err(|_| parse_error("levels", FieldProblem::OutOfRange))?;
+                let role = match level {
+                    0 => DesktopSurfaceRole::RearPlane,
+                    1 | 2 => DesktopSurfaceRole::Shell,
+                    3 => DesktopSurfaceRole::Overlay,
+                    _ => DesktopSurfaceRole::Unclassified,
+                };
+                let surfaces = surfaces.as_array().ok_or(SemanticObservationError::Parse(
+                    FieldSite::nested("levels", "(level)", FieldProblem::WrongType),
+                ))?;
+                for surface in surfaces {
+                    let address = required_string(surface, "address")?;
+                    if address.trim().is_empty() {
+                        return Err(parse_error("address", FieldProblem::Empty));
+                    }
+                    let width = positive_u32(surface, "w")?;
+                    let height = positive_u32(surface, "h")?;
+                    result.push(SurfaceState {
+                        surface_id: surface_id(session, "layer", address),
+                        role,
+                        output_hub_id: Some(output_hub_id),
+                        workspace_id: None,
+                        bounds: LogicalRect::new(
+                            LogicalPoint::new(i32_value(surface, "x")?, i32_value(surface, "y")?),
+                            LogicalSize::new(width, height).ok_or(range_error("w/h"))?,
+                        ),
+                        application: None,
+                        visibility: SurfaceVisibility::Visible,
+                        focus: SurfaceFocus::Unknown,
+                    });
                 }
-                let width = positive_u32(surface, "w")?;
-                let height = positive_u32(surface, "h")?;
-                result.push(SurfaceState {
-                    surface_id: surface_id(session, "layer", address),
-                    role,
-                    output_hub_id: Some(output_hub_id),
-                    workspace_id: None,
-                    bounds: LogicalRect::new(
-                        LogicalPoint::new(i32_value(surface, "x")?, i32_value(surface, "y")?),
-                        LogicalSize::new(width, height)
-                            .ok_or(SemanticObservationError::NumericRange)?,
-                    ),
-                    application: None,
-                    visibility: SurfaceVisibility::Visible,
-                    focus: SurfaceFocus::Unknown,
-                });
             }
-        }
+            Ok(())
+        };
+        element().map_err(|error| error.at(ObservedSection::Layers, Some(output_index)))?;
     }
 
     Ok(result)
@@ -937,8 +1177,9 @@ pub fn client_window_addresses(
         crate::observation_transport::ReadQuery::Clients,
     )
     .map_err(|_| SemanticObservationError::Transport)?;
-    let value: Value =
-        serde_json::from_slice(&output).map_err(|_| SemanticObservationError::Parse)?;
+    let value: Value = serde_json::from_slice(&output).map_err(|_| {
+        parse_error("json", FieldProblem::WrongType).at(ObservedSection::Clients, None)
+    })?;
     window_addresses(instance, &value)
 }
 
@@ -946,15 +1187,22 @@ fn window_addresses(
     session: &str,
     clients: &Value,
 ) -> Result<Vec<(SurfaceId, u64)>, SemanticObservationError> {
-    let clients = clients.as_array().ok_or(SemanticObservationError::Parse)?;
+    let clients = clients
+        .as_array()
+        .ok_or(parse_error("(root)", FieldProblem::WrongType).at(ObservedSection::Clients, None))?;
     let mut out = Vec::with_capacity(clients.len());
-    for client in clients {
-        let address = required_string(client, "address")?;
+    for (index, client) in clients.iter().enumerate() {
+        let place =
+            |error: SemanticObservationError| error.at(ObservedSection::Clients, Some(index));
+        let address = required_string(client, "address").map_err(place)?;
         let hex = address
             .strip_prefix("0x")
-            .ok_or(SemanticObservationError::Parse)?;
-        let native = u64::from_str_radix(hex, 16).map_err(|_| SemanticObservationError::Parse)?;
-        let stable_id = optional_string(client, "stableId")?;
+            .ok_or(parse_error("address", FieldProblem::NotHex))
+            .map_err(place)?;
+        let native = u64::from_str_radix(hex, 16)
+            .map_err(|_| parse_error("address", FieldProblem::NotHex))
+            .map_err(place)?;
+        let stable_id = optional_string(client, "stableId").map_err(place)?;
         let id = surface_id(session, "client", stable_id.as_deref().unwrap_or(address));
         out.push((id, native));
     }
@@ -974,24 +1222,33 @@ fn output_transform(value: i64) -> Result<OutputTransform, SemanticObservationEr
     }
 }
 
-fn required_string<'a>(value: &'a Value, key: &str) -> Result<&'a str, SemanticObservationError> {
+fn required_string<'a>(
+    value: &'a Value,
+    key: &'static str,
+) -> Result<&'a str, SemanticObservationError> {
     value
         .get(key)
         .and_then(Value::as_str)
-        .ok_or(SemanticObservationError::Parse)
+        .ok_or_else(|| parse_error(key, missing_or_wrong(value, key)))
 }
 
-fn optional_string(value: &Value, key: &str) -> Result<Option<String>, SemanticObservationError> {
+fn optional_string(
+    value: &Value,
+    key: &'static str,
+) -> Result<Option<String>, SemanticObservationError> {
     match value.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(value) => value
             .as_str()
             .map(|value| Some(value.to_owned()))
-            .ok_or(SemanticObservationError::Parse),
+            .ok_or(parse_error(key, FieldProblem::WrongType)),
     }
 }
 
-fn optional_string_list(value: &Value, key: &str) -> Result<Vec<String>, SemanticObservationError> {
+fn optional_string_list(
+    value: &Value,
+    key: &'static str,
+) -> Result<Vec<String>, SemanticObservationError> {
     match value.get(key) {
         None | Some(Value::Null) => Ok(Vec::new()),
         Some(Value::Array(values)) => values
@@ -1000,19 +1257,19 @@ fn optional_string_list(value: &Value, key: &str) -> Result<Vec<String>, Semanti
                 value
                     .as_str()
                     .map(ToOwned::to_owned)
-                    .ok_or(SemanticObservationError::Parse)
+                    .ok_or(parse_error(key, FieldProblem::WrongType))
             })
             .collect(),
-        Some(_) => Err(SemanticObservationError::Parse),
+        Some(_) => Err(parse_error(key, FieldProblem::WrongType)),
     }
 }
 
 fn optional_object_string(
     value: &Value,
-    key: &str,
+    key: &'static str,
 ) -> Result<Option<String>, SemanticObservationError> {
     let Some(object) = value.as_object() else {
-        return Err(SemanticObservationError::Parse);
+        return Err(parse_error("(root)", FieldProblem::WrongType));
     };
     match object.get(key) {
         None | Some(Value::Null) => Ok(None),
@@ -1025,116 +1282,144 @@ fn optional_object_string(
                     Some(value.to_owned())
                 }
             })
-            .ok_or(SemanticObservationError::Parse),
+            .ok_or(parse_error(key, FieldProblem::WrongType)),
     }
 }
 
-fn required_i64(value: &Value, key: &str) -> Result<i64, SemanticObservationError> {
+fn required_i64(value: &Value, key: &'static str) -> Result<i64, SemanticObservationError> {
     value
         .get(key)
         .and_then(Value::as_i64)
-        .ok_or(SemanticObservationError::Parse)
+        .ok_or_else(|| parse_error(key, missing_or_wrong(value, key)))
 }
 
-fn required_f64(value: &Value, key: &str) -> Result<f64, SemanticObservationError> {
+fn required_f64(value: &Value, key: &'static str) -> Result<f64, SemanticObservationError> {
     value
         .get(key)
         .and_then(Value::as_f64)
-        .ok_or(SemanticObservationError::Parse)
+        .ok_or_else(|| parse_error(key, missing_or_wrong(value, key)))
 }
 
-fn required_bool(value: &Value, key: &str) -> Result<bool, SemanticObservationError> {
+fn required_bool(value: &Value, key: &'static str) -> Result<bool, SemanticObservationError> {
     value
         .get(key)
         .and_then(Value::as_bool)
-        .ok_or(SemanticObservationError::Parse)
+        .ok_or_else(|| parse_error(key, missing_or_wrong(value, key)))
 }
 
-fn optional_bool(value: &Value, key: &str) -> Result<Option<bool>, SemanticObservationError> {
+fn optional_bool(
+    value: &Value,
+    key: &'static str,
+) -> Result<Option<bool>, SemanticObservationError> {
     match value.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(value) => value
             .as_bool()
             .map(Some)
-            .ok_or(SemanticObservationError::Parse),
+            .ok_or(parse_error(key, FieldProblem::WrongType)),
     }
 }
-fn optional_object_i64(value: &Value, key: &str) -> Result<Option<i64>, SemanticObservationError> {
+fn optional_object_i64(
+    value: &Value,
+    key: &'static str,
+) -> Result<Option<i64>, SemanticObservationError> {
     let Some(object) = value.as_object() else {
-        return Err(SemanticObservationError::Parse);
+        return Err(parse_error("(root)", FieldProblem::WrongType));
     };
     match object.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(value) => value
             .as_i64()
             .map(Some)
-            .ok_or(SemanticObservationError::Parse),
+            .ok_or(parse_error(key, FieldProblem::WrongType)),
     }
 }
 
 fn optional_nested_i64(
     value: &Value,
-    object: &str,
-    key: &str,
+    object: &'static str,
+    key: &'static str,
 ) -> Result<Option<i64>, SemanticObservationError> {
     let Some(root) = value.as_object() else {
-        return Err(SemanticObservationError::Parse);
+        return Err(parse_error("(root)", FieldProblem::WrongType));
     };
     let Some(nested) = root.get(object) else {
         return Ok(None);
     };
-    let nested = nested.as_object().ok_or(SemanticObservationError::Parse)?;
+    let nested = nested
+        .as_object()
+        .ok_or(parse_error(object, FieldProblem::WrongType))?;
     match nested.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(value) => value
             .as_i64()
             .map(Some)
-            .ok_or(SemanticObservationError::Parse),
+            .ok_or(SemanticObservationError::Parse(FieldSite::nested(
+                object,
+                key,
+                FieldProblem::WrongType,
+            ))),
     }
 }
 
-fn nested_i64(value: &Value, object: &str, key: &str) -> Result<i64, SemanticObservationError> {
-    optional_nested_i64(value, object, key)?.ok_or(SemanticObservationError::Parse)
+fn nested_i64(
+    value: &Value,
+    object: &'static str,
+    key: &'static str,
+) -> Result<i64, SemanticObservationError> {
+    optional_nested_i64(value, object, key)?.ok_or(SemanticObservationError::Parse(
+        FieldSite::nested(object, key, FieldProblem::Missing),
+    ))
 }
 
-fn required_i64_pair(value: &Value, key: &str) -> Result<[i64; 2], SemanticObservationError> {
+fn required_i64_pair(
+    value: &Value,
+    key: &'static str,
+) -> Result<[i64; 2], SemanticObservationError> {
     let pair = value
         .get(key)
         .and_then(Value::as_array)
-        .ok_or(SemanticObservationError::Parse)?;
+        .ok_or_else(|| parse_error(key, missing_or_wrong(value, key)))?;
     if pair.len() != 2 {
-        return Err(SemanticObservationError::Parse);
+        return Err(parse_error(key, FieldProblem::BadLength));
     }
     Ok([
-        pair[0].as_i64().ok_or(SemanticObservationError::Parse)?,
-        pair[1].as_i64().ok_or(SemanticObservationError::Parse)?,
+        pair[0]
+            .as_i64()
+            .ok_or(parse_error(key, FieldProblem::WrongType))?,
+        pair[1]
+            .as_i64()
+            .ok_or(parse_error(key, FieldProblem::WrongType))?,
     ])
 }
 
-fn i64_to_i32(value: i64) -> Result<i32, SemanticObservationError> {
-    i32::try_from(value).map_err(|_| SemanticObservationError::NumericRange)
+fn i64_to_i32(value: i64, field: &'static str) -> Result<i32, SemanticObservationError> {
+    i32::try_from(value).map_err(|_| range_error(field))
 }
 
-fn i32_value(value: &Value, key: &str) -> Result<i32, SemanticObservationError> {
-    i64_to_i32(required_i64(value, key)?)
+fn i32_value(value: &Value, key: &'static str) -> Result<i32, SemanticObservationError> {
+    i64_to_i32(required_i64(value, key)?, key)
 }
 
-fn nonnegative_i64_to_u32(value: i64) -> Result<u32, SemanticObservationError> {
+fn nonnegative_i64_to_u32(
+    value: i64,
+    field: &'static str,
+) -> Result<u32, SemanticObservationError> {
     if value < 0 {
-        return Err(SemanticObservationError::NumericRange);
+        return Err(range_error(field));
     }
-    u32::try_from(value).map_err(|_| SemanticObservationError::NumericRange)
+    u32::try_from(value).map_err(|_| range_error(field))
 }
 
-fn positive_i64_to_u32(value: i64) -> Result<u32, SemanticObservationError> {
+fn positive_i64_to_u32(value: i64, field: &'static str) -> Result<u32, SemanticObservationError> {
     if value <= 0 {
-        return Err(SemanticObservationError::NumericRange);
+        return Err(range_error(field));
     }
-    u32::try_from(value).map_err(|_| SemanticObservationError::NumericRange)
+    u32::try_from(value).map_err(|_| range_error(field))
 }
 
-fn positive_u32(value: &Value, key: &str) -> Result<u32, SemanticObservationError> {
-    positive_i64_to_u32(required_i64(value, key)?)
+fn positive_u32(value: &Value, key: &'static str) -> Result<u32, SemanticObservationError> {
+    positive_i64_to_u32(required_i64(value, key)?, key)
 }
 #[cfg(test)]
 mod tests {
@@ -1590,7 +1875,13 @@ mod tests {
                 &active_missing[4],
                 &active_missing[5],
             ),
-            Err(SemanticObservationError::UnknownWorkspace)
+            Err(SemanticObservationError::UnknownWorkspace(FieldSite {
+                section: ObservedSection::Outputs,
+                index: Some(0),
+                field: "activeWorkspace",
+                nested: Some("id"),
+                problem: FieldProblem::UnknownReference,
+            }))
         ));
 
         let mut special_missing = fixture();
@@ -1605,8 +1896,133 @@ mod tests {
                 &special_missing[4],
                 &special_missing[5],
             ),
-            Err(SemanticObservationError::UnknownWorkspace)
+            Err(SemanticObservationError::UnknownWorkspace(FieldSite {
+                section: ObservedSection::Outputs,
+                index: Some(0),
+                field: "specialWorkspace",
+                nested: Some("id"),
+                problem: FieldProblem::UnknownReference,
+            }))
         ));
+    }
+
+    fn candidate_error(values: &[Value; 6]) -> SemanticObservationError {
+        match build_candidate(
+            "session-a",
+            &values[0],
+            &values[1],
+            &values[2],
+            &values[3],
+            &values[4],
+            &values[5],
+        ) {
+            Ok(_) => panic!("the candidate was expected to be refused"),
+            Err(error) => error,
+        }
+    }
+
+    #[test]
+    fn refusals_name_section_element_and_field() {
+        // Second client's stableId not hexadecimal.
+        let mut values = fixture();
+        values[2][1]["stableId"] = json!("0x18000002");
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::Parse(FieldSite {
+                section: ObservedSection::Clients,
+                index: Some(1),
+                field: "stableId",
+                nested: None,
+                problem: FieldProblem::NotHex,
+            })
+        );
+
+        // A client with no size (unmapped window reported as 0x0).
+        let mut values = fixture();
+        values[2][0]["size"] = json!([0, 0]);
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::NumericRange(FieldSite {
+                section: ObservedSection::Clients,
+                index: Some(0),
+                field: "size",
+                nested: None,
+                problem: FieldProblem::OutOfRange,
+            })
+        );
+
+        // A field changing JSON type, e.g. pid as a string.
+        let mut values = fixture();
+        values[2][1]["pid"] = json!("202");
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::Parse(FieldSite {
+                section: ObservedSection::Clients,
+                index: Some(1),
+                field: "pid",
+                nested: None,
+                problem: FieldProblem::WrongType,
+            })
+        );
+
+        // A missing output field.
+        let mut values = fixture();
+        values[0][0].as_object_mut().unwrap().remove("transform");
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::Parse(FieldSite {
+                section: ObservedSection::Outputs,
+                index: Some(0),
+                field: "transform",
+                nested: None,
+                problem: FieldProblem::Missing,
+            })
+        );
+
+        // A zero-height layer surface: placed by output, not by surface.
+        let mut values = fixture();
+        values[5]["DP-1"]["levels"]["2"][0]["h"] = json!(0);
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::NumericRange(FieldSite {
+                section: ObservedSection::Layers,
+                index: Some(0),
+                field: "h",
+                nested: None,
+                problem: FieldProblem::OutOfRange,
+            })
+        );
+
+        // A workspace whose monitorID names no output.
+        let mut values = fixture();
+        values[1][0]["monitorID"] = json!(7);
+        assert_eq!(
+            candidate_error(&values),
+            SemanticObservationError::UnknownOutput(FieldSite {
+                section: ObservedSection::Workspaces,
+                index: Some(0),
+                field: "monitorID",
+                nested: None,
+                problem: FieldProblem::UnknownReference,
+            })
+        );
+    }
+
+    #[test]
+    fn refusal_sites_read_as_text() {
+        let error = SemanticObservationError::Parse(FieldSite {
+            section: ObservedSection::Clients,
+            index: Some(2),
+            field: "workspace",
+            nested: Some("id"),
+            problem: FieldProblem::WrongType,
+        });
+        assert_eq!(
+            error.to_string(),
+            "parse refused at Clients[2].workspace.id: WrongType"
+        );
+        assert_eq!(error.site().map(|site| site.field), Some("workspace"));
+        assert_eq!(SemanticObservationError::Transport.site(), None);
     }
 
     #[test]
@@ -1623,7 +2039,13 @@ mod tests {
                 &values[4],
                 &values[5],
             ),
-            Err(SemanticObservationError::UnknownOutput)
+            Err(SemanticObservationError::UnknownOutput(FieldSite {
+                section: ObservedSection::Clients,
+                index: Some(0),
+                field: "monitor",
+                nested: None,
+                problem: FieldProblem::UnknownReference,
+            }))
         ));
     }
 
