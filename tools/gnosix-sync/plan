@@ -17,12 +17,18 @@ check cargo test --locked -p gnosix-hyprland --lib
 check cargo test --locked -p gnos-ux-indicator-client
 check cargo test --locked -p gnos-ux-gpui --lib --features indicator-production-client product_indicator
 # Deck: geometry, stack, wave, drag and the rail topology.
-check cargo test --locked -p gnos-ux-gpui --lib deck
-check cargo test --locked -p gnos-ux-gpui --lib rail_topology
+check cargo test --locked -p gnos-ux-gpui --lib --features component-lab deck
+check cargo test --locked -p gnos-ux-gpui --lib --features component-lab rail_topology
 
-# The shipped scene: same features as xtask's build-gnos-ux-scene.
-deploy gnos-ux-gpui gnos-ux-scene gnos-ux-scene gnos-ux-scene.service r12-production-client,r13-production-client,indicator-production-client
-# The activation authority with the admitted-version fix. Installed beside the
-# scene but no unit is touched: in-gnu-os-activation.service still runs
-# /usr/libexec/gnosix/in-gnu-os-activationd until the operator decides (Q6).
-deploy gnosix-hyprland in-gnu-os-activationd in-gnu-os-activationd - r13-production-dbus
+# The scene the operator runs. Its unit override passes --review-native-rail
+# and --notification-service, which only exist with component-lab: the Deck
+# (deck_dock needs component-lab + r13-production-client), the native rail,
+# the notification service and the desktop layer. xtask's build-gnos-ux-scene
+# (r12,r13,indicator) without component-lab would drop all of them while the
+# unit stays up, so the health watch could not catch it.
+deploy gnos-ux-gpui gnos-ux-scene gnos-ux-scene gnos-ux-scene.service component-lab,r12-production-client,r13-production-client,indicator-production-client
+# The activation authority with the admitted-version fix, as a system binary
+# (operator decision Q6, 2026-11-11): installed where its unit runs it, with
+# sudo. Its digest will differ from tools/r13-authority.sha256 until the new
+# authority is qualified and the pin re-ratified.
+deploy gnosix-hyprland in-gnu-os-activationd /usr/libexec/gnosix/in-gnu-os-activationd in-gnu-os-activation.service r13-production-dbus

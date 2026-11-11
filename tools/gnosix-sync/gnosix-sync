@@ -19,7 +19,7 @@
 
 set -Eeuo pipefail
 
-SELF_VERSION="1"
+SELF_VERSION="2"
 PROG=$(basename "$0")
 
 # ---------------------------------------------------------------------------
@@ -60,9 +60,22 @@ die()  { printf '%serror:%s %s\n' "$C_R" "$C_0" "$*" >&2; exit 1; }
 
 usage() { sed -n '2,19p' "$0" | sed 's/^# \{0,1\}//'; }
 
-# Run as root only when the install directory requires it.
+# Where an installed name goes: an absolute path is taken as is (system
+# binaries such as /usr/libexec/gnosix/in-gnu-os-activationd); a bare name
+# goes into GNOSIX_SYNC_INSTALL_DIR.
+dest_of() {
+  if [[ $1 == /* ]]; then echo "$1"; else echo "$GNOSIX_SYNC_INSTALL_DIR/$1"; fi
+}
+
+# Run as root only when the destination directory requires it.
+# as_installer <directory> <command...>
 as_installer() {
-  if [[ -w "$GNOSIX_SYNC_INSTALL_DIR" ]]; then "$@"; else sudo "$@"; fi
+  local dir=$1; shift
+  if [[ -d "$dir" && -w "$dir" ]] || { [[ ! -e "$dir" ]] && [[ -w "$(dirname "$dir")" ]]; }; then
+    "$@"
+  else
+    sudo "$@"
+  fi
 }
 
 # ---------------------------------------------------------------------------
@@ -185,7 +198,7 @@ self_update() {
 # ---------------------------------------------------------------------------
 # Plan: tools/gnosix-sync/plan in the branch.
 #   check  <shell command run in the worktree>
-#   deploy <crate> <cargo-bin> <installed-name> <systemd --user unit|-> [features]
+#   deploy <crate> <cargo-bin> <installed-name|/absolute/path> <systemd --user unit|-> [features]
 # ---------------------------------------------------------------------------
 CHECKS=()
 DEPLOY=()
@@ -228,7 +241,7 @@ run_check() {
 units_of_plan() {
   local entry unit
   for entry in "${DEPLOY[@]}"; do
-    read -r _ _ _ unit <<<"$entry"
+    read -r _ _ _ unit _ <<<"$entry"
     [[ "$unit" != "-" ]] && echo "$unit"
   done | sort -u
 }
@@ -237,34 +250,38 @@ unit_restarts() { systemctl --user show -p NRestarts --value "$1" 2>/dev/null ||
 
 # Swap binaries atomically per file; keep <name>.prev for rollback.
 swap_binaries() {
-  local entry bin name src
-  as_installer mkdir -p "$GNOSIX_SYNC_INSTALL_DIR"
+  local entry bin name src dest dir
   for entry in "${DEPLOY[@]}"; do
     read -r _ bin name _ <<<"$entry"
     src="$TARGET_DIR/release/$bin"
     [[ -x "$src" ]] || die "missing build output $src"
-    as_installer install -m 0755 "$src" "$GNOSIX_SYNC_INSTALL_DIR/.$name.new"
-    if [[ -e "$GNOSIX_SYNC_INSTALL_DIR/$name" ]]; then
-      as_installer cp -p "$GNOSIX_SYNC_INSTALL_DIR/$name" "$GNOSIX_SYNC_INSTALL_DIR/$name.prev"
+    dest=$(dest_of "$name"); dir=$(dirname "$dest")
+    as_installer "$dir" mkdir -p "$dir"
+    as_installer "$dir" install -m 0755 "$src" "$dir/.$(basename "$dest").new"
+    if [[ -e "$dest" ]]; then
+      as_installer "$dir" cp -p "$dest" "$dest.prev"
     fi
-    as_installer mv -f "$GNOSIX_SYNC_INSTALL_DIR/.$name.new" "$GNOSIX_SYNC_INSTALL_DIR/$name"
-    echo "installed $GNOSIX_SYNC_INSTALL_DIR/$name ($(sha256sum "$src" | cut -c1-16))"
+    as_installer "$dir" mv -f "$dir/.$(basename "$dest").new" "$dest"
+    echo "installed $dest ($(sha256sum "$src" | cut -c1-16))"
   done
 }
 
+# restore_previous [unit...] — every entry, or only those of the given units.
 restore_previous() {
-  local entry name
+  local entry name unit dest
   for entry in "${DEPLOY[@]}"; do
-    read -r _ _ name _ <<<"$entry"
-    if [[ -e "$GNOSIX_SYNC_INSTALL_DIR/$name.prev" ]]; then
-      as_installer cp -p "$GNOSIX_SYNC_INSTALL_DIR/$name.prev" "$GNOSIX_SYNC_INSTALL_DIR/$name"
-      echo "restored $name.prev"
+    read -r _ _ name unit _ <<<"$entry"
+    if [[ $# -gt 0 ]] && [[ " $* " != *" $unit "* ]]; then continue; fi
+    dest=$(dest_of "$name")
+    if [[ -e "$dest.prev" ]]; then
+      as_installer "$(dirname "$dest")" cp -p "$dest.prev" "$dest"
+      echo "restored $dest.prev"
     fi
   done
 }
 
 deploy() {
-  local units unit since failed=0
+  local units unit since state failed=0
   mapfile -t units < <(units_of_plan)
   since=$(date '+%Y-%m-%d %H:%M:%S')
   for unit in "${units[@]}"; do
@@ -274,15 +291,20 @@ deploy() {
   declare -A before=()
   for unit in "${units[@]}"; do
     systemctl --user reset-failed "$unit" 2>/dev/null || true
-    echo "starting $unit"; systemctl --user start "$unit" || failed=1
+    # --no-block: a Type=notify unit (the activation authority waits for
+    # Hyprland with TimeoutStartSec=infinity) would otherwise hang the run;
+    # readiness is judged below, after the watch.
+    echo "starting $unit"; systemctl --user start --no-block "$unit" || failed=1
     before[$unit]=$(unit_restarts "$unit")
   done
   echo "watching for ${GNOSIX_SYNC_HEALTH_SECONDS}s"
   sleep "$GNOSIX_SYNC_HEALTH_SECONDS"
+  local bad=()
   for unit in "${units[@]}"; do
-    if ! systemctl --user is-active --quiet "$unit" \
+    state=$(systemctl --user is-active "$unit" 2>/dev/null || true)
+    if [[ "$state" != "active" ]] \
        || [[ "$(unit_restarts "$unit")" != "${before[$unit]}" ]]; then
-      echo "UNHEALTHY: $unit"; failed=1
+      echo "UNHEALTHY: $unit (state=$state)"; bad+=("$unit")
     else
       echo "healthy: $unit"
     fi
@@ -291,16 +313,18 @@ deploy() {
     journalctl --user -u "$unit" --since "$since" --no-pager -o short-monotonic \
       >"$RUN_DIR/journal-${unit%.service}.log" 2>&1 || true
   done
-  if [[ $failed -ne 0 ]]; then
-    echo "new build failed to stay up — rolling back"
-    echo "$RUN_DIR/journal-${units[0]%.service}.log" >"$RUN_DIR/fail-log"
-    for unit in "${units[@]}"; do systemctl --user stop "$unit" || true; done
-    restore_previous
-    for unit in "${units[@]}"; do
+  if [[ $failed -ne 0 && ${#bad[@]} -eq 0 ]]; then bad=("${units[@]}"); fi
+  if [[ ${#bad[@]} -gt 0 ]]; then
+    # Only what failed goes back; a healthy unit keeps its new build.
+    echo "rolling back: ${bad[*]}"
+    echo "$RUN_DIR/journal-${bad[0]%.service}.log" >"$RUN_DIR/fail-log"
+    for unit in "${bad[@]}"; do systemctl --user stop "$unit" || true; done
+    restore_previous "${bad[@]}"
+    for unit in "${bad[@]}"; do
       systemctl --user reset-failed "$unit" 2>/dev/null || true
-      systemctl --user start "$unit" || true
+      systemctl --user start --no-block "$unit" || true
     done
-    echo "ROLLED-BACK" >"$RUN_DIR/status.override"
+    echo "ROLLED-BACK: ${bad[*]}" >"$RUN_DIR/status.override"
     return 1
   fi
   printf '%s %s %s\n' "$BRANCH" "$SHA" "$(date -Is)" >"$DEPLOYED_FILE"
@@ -383,7 +407,7 @@ cmd_report() {
 cmd_status() {
   echo "gnosix-sync v$SELF_VERSION"
   echo "repo:     $GNOSIX_SYNC_REPO"
-  echo "install:  $GNOSIX_SYNC_INSTALL_DIR"
+  echo "install:  $GNOSIX_SYNC_INSTALL_DIR (bare names; absolute names as given)"
   echo "deployed: $(cat "$DEPLOYED_FILE" 2>/dev/null || echo none)"
   [[ -e "$GNOSIX_SYNC_STATE/last" ]] && echo "last run: $(readlink "$GNOSIX_SYNC_STATE/last")"
   local u
@@ -398,7 +422,7 @@ cmd_rollback() {
   mapfile -t units < <(units_of_plan)
   for u in "${units[@]}"; do systemctl --user stop "$u" || true; done
   restore_previous
-  for u in "${units[@]}"; do systemctl --user reset-failed "$u" 2>/dev/null || true; systemctl --user start "$u"; done
+  for u in "${units[@]}"; do systemctl --user reset-failed "$u" 2>/dev/null || true; systemctl --user start --no-block "$u"; done
   rm -f "$DEPLOYED_FILE"
   ok "previous binaries restored"
 }
