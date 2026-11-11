@@ -24,7 +24,34 @@ use gnos_ux_surface::{
     scene::{MonitorSceneId, SceneEpoch},
 };
 
+/// The Hyprland release the R13/R14 contracts were qualified on.
 pub const SUPPORTED_HYPRLAND_VERSION: &str = "0.56.2";
+
+/// Every Hyprland release this crate's Lua/IPC contract is admitted on.
+///
+/// An exact list, never a range: a release is added only once its behaviour
+/// has been observed. 0.57.1 is the operator workstation's release after the
+/// 2026-11 upgrade, which left the activation authority in start-limit-hit
+/// on the former single-version equality ("waiting for Hyprland
+/// observation"). It is admitted as a candidate; its qualification is the
+/// terrain run, not this list.
+pub const SUPPORTED_HYPRLAND_VERSIONS: &[&str] = &[SUPPORTED_HYPRLAND_VERSION, "0.57.1"];
+
+/// Whether `version`, as `hl.version()` returns it, is admitted.
+pub fn is_supported_hyprland_version(version: &str) -> bool {
+    let version = version.trim().trim_start_matches('v');
+    SUPPORTED_HYPRLAND_VERSIONS.contains(&version)
+}
+
+/// Whether the text of `hyprctl version` names an admitted release.
+///
+/// Matches whole whitespace-separated tokens, so `0.56.20` never passes for
+/// `0.56.2` the way a substring test would let it.
+pub fn hyprctl_version_text_is_supported(text: &str) -> bool {
+    text.split_whitespace()
+        .map(|token| token.trim_matches(|c: char| !c.is_ascii_alphanumeric() && c != '.'))
+        .any(is_supported_hyprland_version)
+}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum ProjectionSlot {
@@ -266,7 +293,7 @@ impl ProjectionBoundary {
         }
 
         match backend.version() {
-            Ok(version) if version == SUPPORTED_HYPRLAND_VERSION => {}
+            Ok(version) if is_supported_hyprland_version(&version) => {}
             Ok(_) => {
                 return receipt(backend, intent, None, ApplicationOutcome::Unsupported, None);
             }
@@ -364,7 +391,7 @@ impl ProjectionBoundary {
         receipt: &mut ProjectionReceipt,
     ) {
         match backend.version() {
-            Ok(version) if version == SUPPORTED_HYPRLAND_VERSION => {}
+            Ok(version) if is_supported_hyprland_version(&version) => {}
             Ok(_) => {
                 receipt.rollback_outcome = Some(RollbackOutcome::Unsupported);
                 return;
@@ -772,6 +799,44 @@ mod tests {
 
         assert_eq!(receipt.rollback_outcome, Some(RollbackOutcome::Restored));
         assert_eq!(receipt.observed_final, Some(4));
+    }
+
+    #[test]
+    fn admitted_versions_are_an_exact_list() {
+        assert!(is_supported_hyprland_version("0.56.2"));
+        assert!(is_supported_hyprland_version("0.57.1"));
+        assert!(is_supported_hyprland_version(" v0.57.1\n"));
+        assert!(!is_supported_hyprland_version("0.57.0"));
+        assert!(!is_supported_hyprland_version("0.56.20"));
+        assert!(!is_supported_hyprland_version(""));
+    }
+
+    #[test]
+    fn hyprctl_version_text_is_matched_by_whole_token() {
+        assert!(hyprctl_version_text_is_supported(
+            "Hyprland 0.57.1 built from branch  at commit acc1aa0 (version: bump to 0.57.1)."
+        ));
+        assert!(hyprctl_version_text_is_supported(
+            "Hyprland v0.56.2 built from branch main"
+        ));
+        assert!(!hyprctl_version_text_is_supported(
+            "Hyprland 0.56.20 built from branch main"
+        ));
+        assert!(!hyprctl_version_text_is_supported(
+            "Hyprland 0.58.0 built from branch main"
+        ));
+    }
+
+    #[test]
+    fn candidate_version_is_applied() {
+        let backend = FakeBackend {
+            target: "session-a",
+            version: "0.57.1",
+            value: Cell::new(4),
+        };
+        let mut boundary = ProjectionBoundary::default();
+        let receipt = boundary.apply_global(&backend, global(1, 5, Some(4)));
+        assert_ne!(receipt.application_outcome, ApplicationOutcome::Unsupported);
     }
 
     #[test]

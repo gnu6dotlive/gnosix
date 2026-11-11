@@ -11,6 +11,8 @@
 # nothing is deployed. Deploy stops the units, swaps the binaries (previous
 # kept as <name>.prev), restarts, and rolls back if a unit does not stay up.
 
+# Hyprland: admitted versions (0.57.1 candidate) and the activation contract.
+check cargo test --locked -p gnosix-hyprland --lib
 # Handy: the indicator contract and its consumer in the scene.
 check cargo test --locked -p gnos-ux-indicator-client
 check cargo test --locked -p gnos-ux-gpui --lib --features indicator-production-client product_indicator
@@ -20,3 +22,7 @@ check cargo test --locked -p gnos-ux-gpui --lib rail_topology
 
 # The shipped scene: same features as xtask's build-gnos-ux-scene.
 deploy gnos-ux-gpui gnos-ux-scene gnos-ux-scene gnos-ux-scene.service r12-production-client,r13-production-client,indicator-production-client
+# The activation authority with the admitted-version fix. Installed beside the
+# scene but no unit is touched: in-gnu-os-activation.service still runs
+# /usr/libexec/gnosix/in-gnu-os-activationd until the operator decides (Q6).
+deploy gnosix-hyprland in-gnu-os-activationd in-gnu-os-activationd - r13-production-dbus

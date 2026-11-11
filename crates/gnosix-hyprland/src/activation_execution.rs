@@ -18,7 +18,7 @@ use crate::BackendError;
 #[cfg(feature = "r13-live-qualification")]
 use crate::semantic::DesktopSemanticReceipt;
 use crate::{
-    HyprctlLuaBackend, HyprlandRuntimeBackend, SUPPORTED_HYPRLAND_VERSION,
+    HyprctlLuaBackend, HyprlandRuntimeBackend, is_supported_hyprland_version,
     semantic::{DesktopExecutionBindingSnapshot, DesktopSemanticRuntime, SemanticObservationError},
 };
 #[cfg(feature = "r13-live-qualification")]
@@ -232,7 +232,7 @@ impl ActivationExecutionBackend for HyprlandActivationExecutor {
     fn attempt(&mut self, target: &CurrentExecutionTarget) -> Result<(), BackendAttemptError> {
         let lua = native_lua(target)?;
         match self.hyprctl.version() {
-            Ok(version) if version == SUPPORTED_HYPRLAND_VERSION => {}
+            Ok(version) if is_supported_hyprland_version(&version) => {}
             Ok(_) => return Err(BackendAttemptError::Rejected),
             Err(_) => return Err(BackendAttemptError::Transport),
         }

@@ -28,7 +28,7 @@ use signal_hook::{
 };
 use uuid::Uuid;
 
-use crate::{SUPPORTED_HYPRLAND_VERSION, activation_execution::HyprlandActivationExecutor};
+use crate::{activation_execution::HyprlandActivationExecutor, hyprctl_version_text_is_supported};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Readiness {
@@ -95,7 +95,7 @@ fn verify_session(executor: &mut HyprlandActivationExecutor) -> Result<String, S
         .output()
         .map_err(|error| format!("Hyprland version query failed: {error}"))?;
     let version_text = String::from_utf8_lossy(&version.stdout);
-    if !version.status.success() || !version_text.contains(SUPPORTED_HYPRLAND_VERSION) {
+    if !version.status.success() || !hyprctl_version_text_is_supported(&version_text) {
         return Err("unsupported or unavailable Hyprland version".into());
     }
     Ok(session)
