@@ -25,15 +25,38 @@ import sys
 import threading
 import time
 
+# Each step: (preparation, done before Enter and outside the measured
+# window; the gesture, measured; the way back to the starting state).
+# A tiled desktop has no empty background: reaching one means switching to an
+# empty workspace, which emits its own events and changes the state the next
+# steps start from. The switch is therefore preparation, never measurement,
+# and every step says how to return. Any step can be skipped ("s").
+START = "workspace 1 sur le LG, workspace 11 sur l'Acer, aucun menu du Bar ouvert"
 STEPS = [
-    "clic dans la fenêtre DÉJÀ focalisée (écran LG)",
-    "clic dans une AUTRE fenêtre du même écran (LG)",
-    "clic sur le fond vide, sans fenêtre (LG)",
-    "clic dans une fenêtre de l'écran Acer (DP-2)",
-    "clic sur le fond vide (Acer)",
-    "clic sur une zone VIDE du Bar (pas un bouton)",
-    "clic sur une zone VIDE du Deck (pas une carte)",
-    "contrôle : NE PAS cliquer, ne rien toucher",
+    ("aucune — état de départ",
+     "clic dans la fenêtre DÉJÀ focalisée (LG)",
+     "rien"),
+    ("aucune",
+     "clic dans une AUTRE fenêtre du LG (le focus change)",
+     "rien"),
+    ("aller sur un workspace VIDE du LG (ex. Super+2), attendre 2 s, souris sur le fond",
+     "clic sur le fond vide (LG)",
+     "revenir au workspace 1 (Super+1), attendre 2 s"),
+    ("aucune",
+     "clic dans une fenêtre de l'Acer (le focus passe sur l'Acer)",
+     "rien"),
+    ("aller sur un workspace VIDE de l'Acer si tu en as un, sinon taper s",
+     "clic sur le fond vide (Acer)",
+     "revenir au workspace 11, attendre 2 s"),
+    ("souris au-dessus d'une zone du Bar sans bouton (s'il n'y en a pas : s)",
+     "clic sur cette zone vide du Bar",
+     "rien"),
+    ("souris au-dessus d'une zone du Deck sans carte (s'il n'y en a pas : s)",
+     "clic sur cette zone vide du Deck",
+     "rien"),
+    ("aucune",
+     "CONTRÔLE : ne rien toucher pendant la fenêtre",
+     "rien"),
 ]
 
 NOISY = (
@@ -135,13 +158,25 @@ def main() -> None:
         for t in threads:
             t.start()
         time.sleep(1.0)
-        for n, step in enumerate(STEPS, 1):
-            print(f"\n[{n}/{len(STEPS)}] {step}")
-            input("    Place la souris, puis appuie sur Entrée et fais le geste "
-                  f"dans les {args.window:.0f} s. Ne bouge plus ensuite. ")
-            emit(out, "MARK", f"### {n} DÉBUT — {step}")
+        print(f"\nÉtat de départ attendu : {START}")
+        input("Mets le poste dans cet état, puis appuie sur Entrée. ")
+        emit(out, "MARK", f"### 0 ÉTAT DE DÉPART confirmé — {START}")
+        for n, (prep, gesture, back) in enumerate(STEPS, 1):
+            print(f"\n[{n}/{len(STEPS)}] {gesture}")
+            print(f"    Préparation (non mesurée) : {prep}")
+            answer = input("    Quand c'est prêt : Entrée, puis le geste dans les "
+                           f"{args.window:.0f} s, puis ne bouge plus. "
+                           "(s + Entrée = étape impossible, sautée) ")
+            if answer.strip().lower() == "s":
+                emit(out, "MARK", f"### {n} SAUTÉE — {gesture}")
+                continue
+            emit(out, "MARK", f"### {n} DÉBUT — {gesture}")
             time.sleep(args.window)
             emit(out, "MARK", f"### {n} FIN")
+            if back != "rien":
+                print(f"    Retour (non mesuré) : {back}")
+                input("    Quand c'est fait, appuie sur Entrée. ")
+                emit(out, "MARK", f"### {n} RETOUR fait — {back}")
         emit(out, "probe", "fin")
         stop.set()
     print(f"\njournal : {args.out}")
