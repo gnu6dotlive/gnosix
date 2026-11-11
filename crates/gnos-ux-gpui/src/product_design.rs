@@ -404,6 +404,33 @@ pub fn button(
     control_accessibility(control, accessibility_label.into(), state, focus)
 }
 
+/// DECK-AS-01 (operator decision, 2026-11-11): on the native rail the
+/// AppStack control is a magnifier alone, in the same pill and surface as
+/// the search field it turns into (DECK-01C), so opening the AppStack does
+/// not swap one visual object for another. No text label: the name stays in
+/// the accessibility label.
+pub fn search_affordance(
+    id: impl Into<ElementId>,
+    accessibility_label: impl Into<SharedString>,
+    surface: u32,
+    surface_hover: u32,
+    glyph: u32,
+    state: ProductControlState,
+    focus: &ProductControlFocus<'_>,
+) -> Stateful<Div> {
+    let control = div()
+        .id(id)
+        .size_full()
+        .rounded_full()
+        .bg(rgba(surface))
+        .hover(move |style| style.bg(rgba(surface_hover)))
+        .flex()
+        .items_center()
+        .justify_center()
+        .child(crate::icons::icon("search", 18.0, glyph));
+    control_accessibility(control, accessibility_label.into(), state, focus)
+}
+
 pub fn icon_button(
     id: impl Into<ElementId>,
     glyph: impl Into<SharedString>,

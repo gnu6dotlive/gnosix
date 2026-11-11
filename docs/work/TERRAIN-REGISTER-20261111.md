@@ -10,6 +10,12 @@ Machine de référence : Hyprland 0.57.1 (Nix, `acc1aa0`) ; HDMI-A-1 = LG QHD
 1920×1080@164.92, portrait (transform 1). Build en service : `~/.local/lib/gnosix/gnos-ux-scene`
 du 2026-10-31, sans les features `r12/r13/indicator-production-client`.
 
+> **Mise à jour du soir** — décisions de l'opérateur (Q1–Q6) intégrées, voir
+> « Décisions de l'opérateur » en fin de document. Correctif critique : le plan
+> de déploiement de `079b167` omettait `component-lab` (Deck, rail natif,
+> notifications) et passait les features à `systemctl` ; **ne pas lancer**
+> la commande de `079b167`. Audit des dépendances : `DEPS-UPDATES-20261111.md`.
+
 Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidien ;
 **P2** refonte ou nouvelle fonction.
 
@@ -30,10 +36,18 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
   correspondance par jeton entier ; 0.57.1 admise comme **candidate** (sa
   qualification est le passage terrain). Tests : 60/60 `gnosix-hyprland`,
   clippy propre avec `r13-production-dbus`.
-- **Reste.** Le service d'activation lance `/usr/libexec/gnosix/in-gnu-os-activationd`
-  (pas de surcharge utilisateur). `gnosix-sync` installe le nouveau binaire dans
-  `~/.local/lib/gnosix/` sans toucher au service : décision opérateur (Q6).
-  Note : ce binaire différera du digest figé `tools/r13-authority.sha256`.
+- **Déploiement (Q6 tranchée).** Binaire système : `gnosix-sync` l'installe à
+  `/usr/libexec/gnosix/in-gnu-os-activationd` (avec `sudo`) et redémarre
+  `in-gnu-os-activation.service`. Son digest différera de
+  `tools/r13-authority.sha256` : `cargo xtask verify` le signalera jusqu'à la
+  requalification R13 et la mise à jour du digest, avec preuve terrain.
+- **Déjà dépassé.** Hyprland **0.57.2** est sorti le 2026-11-09 (audit des
+  dépendances) : la liste exacte la refusera à la prochaine mise à jour Nix.
+  Aucune modification de `hyprctl`/IPC/Lua entre 0.57.1 et 0.57.2, mais quatre
+  comportements touchent Gnosix (focus pointeur au map d'une layer, layers
+  sous plein écran, jetons xdg-activation, seat grab et verrouillage). La
+  vraie réponse est H2 (compatibilité par capacité) ; d'ici là, 0.57.2 sera
+  ajoutée après observation terrain.
 
 ### H2 · Stratégie d'intégration Hyprland — P1
 
@@ -55,11 +69,11 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
   3. Fixtures capturées par l'agent de terrain pour chaque version (sorties
      `-j monitors`, `layers`, `devices`, réponses Lua) et tests de contrat dessus.
 
-### H3 · `gnusnip` cassé — P1 · données manquantes
+### H3 · `gnusnip` cassé — P2 · hors priorité (opérateur)
 
 - **Faits.** `gnusnip` n'est pas dans ce dépôt ; seule sa liaison clavier
   (`~/.config/hypr/gnusnip.lua`) est lue par `xtask/src/keybindings.rs`.
-- **Manque.** Où est son code, quel symptôme exact, quel message d'erreur (Q5).
+- **Décision.** Code dans un dépôt privé GitHub ; pas une priorité.
 
 ### H4 · Curseur dédoublé dans le tiers droit du LG — P0 · cause établie
 
@@ -84,6 +98,12 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
   par défaut sûres, jamais celles de l'appareil précédent sur ce port. Côté
   Hyprland, les règles d'écran utilisent `desc:` plutôt que le connecteur.
   Gnosix ne doit plus supposer une résolution fixe.
+- **Rappel de doctrine (opérateur, Q4).** Déjà décrit dans
+  `docs/diagrams/09-display-profiles-lifecycle` : branchement → empreinte EDID
+  → identité logique → profil (CAS) → la scène s'adapte. **Chaque moniteur est
+  sous la responsabilité de son propre gestionnaire de scène** ; ce qui s'y
+  affiche (Bar, Deck…) relève des réglages de l'utilisateur pour cet appareil.
+  Pas de « dupliquer ou étendre » décidé par Gnosix.
 
 ---
 
@@ -104,8 +124,11 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
 
 - **Faits (opérateur).** Le bouton est primitif ; au clic, la barre de
   recherche apparaît dans un autre style. La barre elle-même est correcte.
-- **Direction.** Un seul objet qui se transforme (le bouton *devient* le
-  champ). Il faut une référence visuelle de l'opérateur (Q3).
+- **Fait (DECK-AS-01).** Sur le rail natif, le contrôle AppStack est une
+  loupe seule (icône Tabler `search`), dans la pastille et la surface du
+  champ de recherche qu'il devient. Le nom reste dans le libellé
+  d'accessibilité. Vérifié ici : `cargo check` et clippy de la scène complète
+  (features de l'opérateur) ; rendu à valider par l'opérateur.
 
 ### D3 · Curseur de saisie décoratif — P1 · cause établie
 
@@ -132,15 +155,27 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
 
 ## B — Bar
 
-### B1 · Ouvrir « Session » prend le focus — P1 · design à préciser
+### B1 · Ouvrir « Session » prend le focus — P1 · décision prise, mécanisme à prouver
 
 - **Faits (opérateur).** Avec le menu Session ouvert sur un écran, cet écran
   perd la réaction au survol (forme du curseur), l'autre la garde. Clic
   ailleurs = fermeture, ce qui est voulu.
-- **Source.** La scène est en `KeyboardInteractivity::OnDemand` : un clic sur
-  la couche lui donne le focus clavier.
-- **Direction.** L'ouverture est une **bascule**, pas une prise de focus ;
-  même comportement sur tous les écrans. Le détail dépend de Q1.
+- **Cause établie (source).** Quand Session, Utilities, « … », un menu de la
+  zone de notification ou le dashboard épinglé est ouvert, la scène étend sa
+  région d'entrée à **tout l'écran** pour attraper le clic extérieur
+  (`scene_runtime.rs`, SURF-01B/02B, BAR-02A, RAIL-01, SURF-03B). Sur cet
+  écran, plus aucune fenêtre ne reçoit le pointeur (pas de forme de curseur),
+  et la couche `OnDemand` prend le focus clavier au clic. L'autre écran n'a
+  pas cette région : d'où l'incohérence.
+- **Décision (opérateur, Q1).** Un menu ouvert **ne change rien** pour
+  Hyprland : ni focus, ni réaction des fenêtres. La souris qui quitte le menu
+  retrouve le survol normal. Le clic ailleurs ferme toujours le menu.
+- **Direction.** La région d'entrée se limite à ce qui est visible. La
+  fermeture au clic extérieur ne peut plus venir d'un attrape-clic : il faut
+  un signal du compositeur. Candidats : événements `socket2` déjà lus par la
+  scène (`activewindowv2`, `focusedmon`, `workspace`), ou un événement de
+  bouton dans l'API Lua de Hyprland 0.57. **À prouver par l'agent de
+  terrain** avant d'écrire le code (sondage dans le prompt de terrain).
 
 ### B2 · Tiroir pour les icônes de la zone de notification — P2
 
@@ -156,8 +191,11 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
   par icône existent déjà (réseau, Bluetooth, batterie) mais ne sont pas
   routés par le clic.
 - **Direction.** Chaque icône ouvre et ferme **son** panneau (volume : sortie,
-  périphérique, niveau ; réseau ; Bluetooth). Quick Toggles est démonté et
-  ses bascules réparties. Spécification UX à écrire et valider avant le code (Q2).
+  périphérique, niveau ; réseau ; Bluetooth). Quick Toggles est démonté.
+- **Décision (opérateur, Q2).** Les bascules système (ne pas déranger, rester
+  éveillé, micro) vont dans un petit panneau **système**, avec l'énergie et
+  le profil énergétique (le popout batterie/profil existe :
+  `InfoPopout::battery`, `PowerProfile`). Spécification UX à écrire avant le code.
 
 ---
 
@@ -183,7 +221,18 @@ Priorités : **P0** débloque le poste ; **P1** comportement attendu au quotidie
    rester debout, seules les activations échouent. **Hypothèse à vérifier**
    dans le journal après déploiement. La cause du `start-limit-hit` est H1.
 
-## Questions ouvertes pour l'opérateur
+## Décisions de l'opérateur (2026-11-11, soir)
+
+| Q | Décision |
+| --- | --- |
+| Q1 | Menu du Bar ouvert : aucun effet sur le focus ni la réaction des fenêtres Hyprland ; pas de vol de focus ; clic ailleurs ferme. |
+| Q2 | Bascules système → petit panneau système, avec énergie / profil énergétique. |
+| Q3 | Pas de référence visuelle ; style Gnosix ; loupe seule pour l'instant (fait, DECK-AS-01). |
+| Q4 | Un gestionnaire de scène par moniteur ; affichage selon les réglages de l'utilisateur (doctrine déjà écrite). |
+| Q5 | `gnusnip` vit dans un dépôt privé ; pas prioritaire. |
+| Q6 | Démon d'activation = binaire système (`/usr/libexec/gnosix`), pas un profil local. |
+
+## Questions posées le 2026-11-11 (matin, archivées)
 
 - **Q1 (B1).** Menu du Bar ouvert : les fenêtres de **tous** les écrans
   arrêtent-elles de réagir à la souris (un clic ailleurs ne fait que fermer

@@ -4328,7 +4328,19 @@ impl Render for SceneHost {
                         Some((handle, index)) => ProductControlFocus::new(handle, index as isize),
                         None => ProductControlFocus::inert(),
                     };
-                    Some(
+                    // DECK-AS-01: on the native rail, the magnifier in the
+                    // search field's own pill; elsewhere the labelled button.
+                    let control = if self.review_native_rail {
+                        crate::product_design::search_affordance(
+                            "product-appstack-affordance",
+                            label,
+                            crate::reference_bar::COLOR_SURFACE_CONTAINER,
+                            crate::reference_bar::COLOR_SURFACE_CONTAINER_HIGHEST,
+                            crate::reference_bar::COLOR_ON_SURFACE_VARIANT,
+                            ProductControlState::Default,
+                            &product_focus,
+                        )
+                    } else {
                         button(
                             "product-appstack-affordance",
                             APPSTACK_AFFORDANCE_LABEL,
@@ -4337,22 +4349,22 @@ impl Render for SceneHost {
                             design,
                             &product_focus,
                         )
-                        .on_click(cx.listener(|this, _, window, cx| {
-                            if this.product_click_blocked() {
-                                return;
-                            }
-                            // DECK-01C: on the native rail the AppStack
-                            // control opens the AppStack in the Deck (D03).
-                            #[cfg(feature = "component-lab")]
-                            if this.review_native_rail {
-                                let outcome = this.stack.toggle();
-                                this.apply_stack_outcome(outcome, window, cx);
-                                return;
-                            }
-                            let _ = &window;
-                            this.toggle_appstack_panel(cx);
-                        })),
-                    )
+                    };
+                    Some(control.on_click(cx.listener(|this, _, window, cx| {
+                        if this.product_click_blocked() {
+                            return;
+                        }
+                        // DECK-01C: on the native rail the AppStack
+                        // control opens the AppStack in the Deck (D03).
+                        #[cfg(feature = "component-lab")]
+                        if this.review_native_rail {
+                            let outcome = this.stack.toggle();
+                            this.apply_stack_outcome(outcome, window, cx);
+                            return;
+                        }
+                        let _ = &window;
+                        this.toggle_appstack_panel(cx);
+                    })))
                 } else {
                     None
                 };
